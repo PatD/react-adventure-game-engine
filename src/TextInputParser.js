@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-// const menuActive = false;
-
+// On click clear default value
+// On enter, save input text
 
 const textParser = (
     <React.Fragment>

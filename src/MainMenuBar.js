@@ -14,13 +14,6 @@ const menuActive = false;
 
 // }
 
-// Default state is to show Score and Sound status
-const menuBarContent = (
-  <React.Fragment>
-    <MainMenuScore/>
-    <MainMenuSound />
-  </React.Fragment>
-)
 
 // User has clicked on menu or pressed 'Escape' key
 const menuBarOpen =(
@@ -32,7 +25,11 @@ const menuBarOpen =(
 class MainMenuBar extends Component {
   render() {
     if(menuActive === false){
-      return menuBarContent
+      return ( 
+      <React.Fragment>
+        <MainMenuScore/>
+        <MainMenuSound/>
+      </React.Fragment>)
     } else {
       return menuBarOpen
     }
