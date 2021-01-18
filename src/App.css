@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'retrofont_fontregular';
+  src: url('fonts/retrofont.woff2') format('woff2'),
+       url('fonts/retrofont.woff') format('woff'),
+       url('fonts/retrofont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+* {
+  font-family: 'retrofont_fontregular';
+}
