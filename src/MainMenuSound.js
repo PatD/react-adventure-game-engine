@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-const soundOnOff = "On"
+const soundOnOff = "on"
 const soundStatus = (
-<span>Sound: {soundOnOff}</span>
+<span className="soundStatus">Sound:{soundOnOff}</span>
 )
 
 class MainMenuSound extends Component {

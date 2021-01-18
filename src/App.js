@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import Screen from './Screen';
+import Debug from './Debug'
+import InventoryScreen from './InventoryScreen'
+import Modal from './Modal'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-
-
-        <Screen/>
-
-
-        
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <React.Fragment>
+        <section id="gameUI">
+          <Screen/>
+        </section>
+        <InventoryScreen/>
+        <Modal/>
+        <Debug/>
+      </React.Fragment>
     );
   }
 }

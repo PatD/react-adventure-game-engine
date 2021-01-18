@@ -1,5 +1,107 @@
+*{
+  box-sizing: border-box;
+
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+
+/* Retro gaming font */
+@font-face {
+  font-family: 'retrofont_fontregular';
+  src: url('fonts/retrofont.woff2') format('woff2'),
+       url('fonts/retrofont.woff') format('woff'),
+       url('fonts/retrofont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+
+}
+* {
+  font-family: 'retrofont_fontregular';
+}
+
+
+/* Dialog box */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+  position:fixed;
+  background: white;
+  width: 80%;
+  height: auto;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
+
+
+
+
+/* Layout */
+body{
+  background: #444;
+}
+#gameUI{
+  background: #cccccc;
+  display:grid;
+  grid-template-rows: 30px 500px 1fr;
+  /* grid-template-columns: ; */
+  max-width: 60vw;
+  margin:0 auto;
+  border:2em solid #000
+}
+
+#gameUI header{
+  background: #fff;
+  border-bottom:1px solid #444;
+}
+
+#gameUI header span{
+  display: inline-block;
+  padding:4px 12px;
+}
+
+#gameUI .soundStatus{
+  float: right;
+}
+
+
+#gameUI footer{
+  background: #000;
+  padding:2% 0;
+}
+
+#gameUI footer input{
+  color:#fff;
+  background:#000;
+  border:0;
+  font-size:15px;
+}
+
+#gameUI footer::before{
+  content:">";
+  color:#fff;
+}
+
+
+#gameUI footer input:focus{
+  outline:#000;
 }
