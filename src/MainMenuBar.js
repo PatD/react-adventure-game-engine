@@ -1,8 +1,23 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
+import React from 'react';
 import MainMenuSound from './MainMenuSound.js'
 import MainMenuScore from './MainMenuScore.js'
 
-const menuActive = false;
+
+
+export default function MainMenuBar({soundState}){
+  
+  // return <span className='soundStatus'>Sound:{props.soundState}</span>
+  return (
+    <React.Fragment>
+      <MainMenuScore/>
+      <MainMenuSound soundState={soundState} />
+    </React.Fragment>)
+
+}
+
+
+
 
 // const menuDropDowns = {
 
@@ -15,25 +30,28 @@ const menuActive = false;
 // }
 
 
-// User has clicked on menu or pressed 'Escape' key
-const menuBarOpen =(
-  <nav>
-   
-  </nav>
-)
 
-class MainMenuBar extends Component {
-  render() {
-    if(menuActive === false){
-      return ( 
-      <React.Fragment>
-        <MainMenuScore/>
-        <MainMenuSound/>
-      </React.Fragment>)
-    } else {
-      return menuBarOpen
-    }
-  }
-}
+// class MainMenuBar extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {soundState: "Off"};
+  //   this.setSoundState = this.setSoundState.bind(this);
 
-export default MainMenuBar;
+  // }
+
+
+  // setSoundState(){
+  //   console.log(this)
+  // }
+
+//   render() {
+
+//       return (
+//       <React.Fragment>
+//         <MainMenuScore/>
+//         <MainMenuSound />
+//       </React.Fragment>)
+//   }
+// }
+
+// export default MainMenuBar;

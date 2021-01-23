@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
+export default function MainMenuSound(props){
+  return <span className='soundStatus'>Sound:{props.soundState}</span>
+}
 
+/*
 export default class MainMenuSound extends Component {
   constructor(props) {
     super(props);
@@ -24,3 +28,4 @@ export default class MainMenuSound extends Component {
     )
   }
 }
+*/

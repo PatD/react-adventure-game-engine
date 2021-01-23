@@ -53,11 +53,17 @@ body{
   padding:2% 0;
 }
 
+#gameUI footer form{
+  display: inline-block;
+  width:90%
+}
+
 #gameUI footer input{
   color:#fff;
   background:#000;
   border:0;
   font-size:15px;
+  width:100%
 }
 
 #gameUI footer::before{
