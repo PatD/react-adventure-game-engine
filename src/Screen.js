@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MainMenuBar from './MainMenuBar'
 import TextInputParse from './TextInputParser'
 
+
 const gameUI = (
   <React.Fragment> 
     <header>
@@ -11,7 +12,6 @@ const gameUI = (
     <footer>
       <TextInputParse/>
     </footer>
-
   </React.Fragment>
 )
 

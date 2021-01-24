@@ -16,7 +16,13 @@
   user-select: none;
 }
 
-
+#debugger{
+  position: absolute;
+  top:5px;
+  left:5px;
+  opacity: 0.5;
+  min-height: 200px;
+}
 
 
 /* Layout */
