@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-// User has clicked on menu or pressed 'Escape' key
-const modalDialogMarkup =(
-  <nav>
-   
-  </nav>
-)
 
-class Modal extends Component {
-  render() {
-      return modalDialogMarkup
-  }
-}
+const Modal = ({ handleClose, show, children }) => {
+  const showHideClassName = show ? "modal display-block" : "modal display-none";
 
-export default Modal;
+  return (
+    <div className={showHideClassName}>
+      <section className="modal-main">
+        {children}
+        <button type="button" onClick={handleClose}>
+          Close
+        </button>
+      </section>
+    </div>
+  );
+};
+
+export default Modal

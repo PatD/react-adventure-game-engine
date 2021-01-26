@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Screen from './Screen';
 import Debug from './Debug'
 import InventoryScreen from './InventoryScreen'
-import Modal from './Modal'
+
 // import HandleKeyPresses from './HandleKeyPresses'
 
 
@@ -16,12 +16,11 @@ class App extends Component {
     };
 
   }
-
   
-  updateDebugger(){
+  updateDebugger(keyCaptured){
     console.log(this.state)
     console.log("hi")
-    this.setState({ debuggerValue: this.state.debuggerValue + "more text" })
+    this.setState({ debuggerValue: "\n " + "Player pressed: " + keyCaptured + "\n " +  this.state.debuggerValue  })
   }
 
 
@@ -35,6 +34,7 @@ class App extends Component {
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault()
         console.info("Direction Arrow:" + event.key)
+        self.updateDebugger(event.key);
       } else {
         console.info(event.key)
         // Set focus on parser
@@ -45,14 +45,13 @@ class App extends Component {
     }, false);
   }
 
-  render() {
+  render() { 
     return (
       <React.Fragment>
         <section id="gameUI">
           <Screen />
         </section>
         <InventoryScreen />
-        <Modal />
         <Debug debugText={this.state.debuggerValue}  />
       </React.Fragment>
     );
