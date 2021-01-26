@@ -4,9 +4,7 @@ import TextInputParse from './TextInputParser'
 import Modal from './Modal'
 
 
-
-
-class Screen extends Component {
+export default class Screen extends Component {
   constructor() {
     super();
     this.state = {
@@ -26,11 +24,11 @@ class Screen extends Component {
   };
 
 
-  render() {
+  render(props) {
     return (  
     <React.Fragment> 
       <header>
-        <MainMenuBar menuActive={true} playerScore={0} soundState="On" />
+        <MainMenuBar menuActive={true} playerScore={0} soundStatus={this.props.soundStatus} />
       </header>
       <main>This is the main UI screen!</main>
       <footer>
@@ -44,5 +42,3 @@ class Screen extends Component {
     </React.Fragment>)
   }
 }
-
-export default Screen;

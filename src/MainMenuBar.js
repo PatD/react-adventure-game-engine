@@ -1,19 +1,21 @@
-// import React, { Component } from 'react';
-import React from 'react';
+import React, { Component } from 'react';
+// import React from 'react';
 import MainMenuSound from './MainMenuSound.js'
 import MainMenuScore from './MainMenuScore.js'
+// import { render } from 'react-dom';
 
 
 
-export default function MainMenuBar({soundState}){
+export default class MainMenuBar extends Component {
   
   // return <span className='soundStatus'>Sound:{props.soundState}</span>
+  render(){
   return (
     <React.Fragment>
       <MainMenuScore/>
-      <MainMenuSound soundState={soundState} />
+      <MainMenuSound soundStatus={this.props.soundStatus} />
     </React.Fragment>)
-
+}
 }
 
 

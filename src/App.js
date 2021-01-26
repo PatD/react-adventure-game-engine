@@ -12,6 +12,7 @@ class App extends Component {
     super();
 
     this.state = {
+      soundStatus: "On",
       debuggerValue: "This is the debugger window"
     };
 
@@ -49,7 +50,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <section id="gameUI">
-          <Screen />
+          <Screen soundStatus={this.state.soundStatus} />
         </section>
         <InventoryScreen />
         <Debug debugText={this.state.debuggerValue}  />

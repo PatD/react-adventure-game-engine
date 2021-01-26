@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
+// import { render } from 'react-dom';
 
-export default function MainMenuSound(props){
-  return <span className='soundStatus'>Sound:{props.soundState}</span>
+export default class MainMenuSound extends Component {
+  render(){
+    return(
+<span className='soundStatus'>Sound:{this.props.soundStatus}</span>
+    )
+  } 
 }
 
 /*
