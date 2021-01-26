@@ -10,30 +10,25 @@ class Screen extends Component {
   constructor() {
     super();
     this.state = {
-      show: false
+      modalStatus: "modal display-none",
+      modalText: "Modal content is here!"
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
   }
 
   showModal = () => {
-    this.setState({ show: true });
+    this.setState({ modalStatus: "modal display-block" })
   };
 
   hideModal = () => {
-    this.setState({ show: false });
+    this.setState({ modalStatus: "modal display-none" });
   };
 
 
   render() {
     return (  
     <React.Fragment> 
-       <button type="button" onClick={this.showModal}>
-          Open
-        </button>
-        <Modal show={this.state.show} handleClose={this.hideModal}>
-          <p>Modal content is here!</p>
-        </Modal>
       <header>
         <MainMenuBar menuActive={true} playerScore={0} soundState="On" />
       </header>
@@ -41,7 +36,11 @@ class Screen extends Component {
       <footer>
         <TextInputParse/>
       </footer>
-      <Modal/>
+
+      <Modal show={this.state.modalStatus} handleClose={this.hideModal} modalText={this.state.modalText}/>
+      <button type="button" onClick={this.showModal}>
+          Open
+        </button>
     </React.Fragment>)
   }
 }

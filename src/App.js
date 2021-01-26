@@ -20,7 +20,7 @@ class App extends Component {
   updateDebugger(keyCaptured){
     console.log(this.state)
     console.log("hi")
-    this.setState({ debuggerValue: "\n " + "Player pressed: " + keyCaptured + "\n " +  this.state.debuggerValue  })
+    this.setState({ debuggerValue: "\n Player pressed: " + keyCaptured + "\n " +  this.state.debuggerValue  })
   }
 
 
