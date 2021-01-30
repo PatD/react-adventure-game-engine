@@ -9,11 +9,11 @@ import MainMenuScore from './MainMenuScore.js'
 export default class MainMenuBar extends Component {
   
   // return <span className='soundStatus'>Sound:{props.soundState}</span>
-  render(){
+  render(props){
   return (
     <React.Fragment>
       <MainMenuScore/>
-      <MainMenuSound soundStatus={this.props.soundStatus} />
+      <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} />
     </React.Fragment>)
 }
 }

@@ -24,15 +24,30 @@ export default class Screen extends Component {
   };
 
 
+
+
+
+
   render(props) {
     return (  
     <React.Fragment> 
       <header>
-        <MainMenuBar menuActive={true} playerScore={0} soundStatus={this.props.soundStatus} />
+        <MainMenuBar 
+          menuActive={true} 
+          playerScore={0} 
+          toggleSound={this.props.toggleSound} 
+          soundStatus={this.props.soundStatus} />
       </header>
       <main>This is the main UI screen!</main>
       <footer>
-        <TextInputParse/>
+        <form onSubmit={this.props.submitTextParser}>
+        <TextInputParse 
+          // clearInputFieldWhenClicked={this.props.clearInputFieldWhenClicked}
+          textParser={this.props.textParser} 
+          // updateInputTextValue={this.props.updateInputTextValue}
+          // submitTextParser={this.props.submitTextParser}
+          />
+          </form>
       </footer>
 
       <Modal show={this.state.modalStatus} handleClose={this.hideModal} modalText={this.state.modalText}/>

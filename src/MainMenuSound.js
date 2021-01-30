@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 // import { render } from 'react-dom';
 
 export default class MainMenuSound extends Component {
-  render(){
+  render(props){
     return(
-<span className='soundStatus'>Sound:{this.props.soundStatus}</span>
+      <span onClick={this.props.toggleSound} className='soundStatus'>Sound:{this.props.soundStatus}</span>
     )
   } 
 }

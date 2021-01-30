@@ -21,18 +21,18 @@ class TextInputParser extends Component {
   // }
 
 
-  getDefaultCursor(){
-    return "_"
-  }
+  // getDefaultCursor(){
+  //   return "_"
+  // }
   
-  // When user hits enter in the parser
-  getInputValueText = event => {
-    event.preventDefault();
-    console.log(this.inputTextValue.current.value);
-    alert("You just typed: " + this.inputTextValue.current.value)
-    this.inputTextValue.current.value = this.getDefaultCursor()
-    this.inputTextValue.current.blur()
-  }
+  // // When user hits enter in the parser
+  // getInputValueText = event => {
+  //   event.preventDefault();
+  //   console.log(this.inputTextValue.current.value);
+  //   alert("You just typed: " + this.inputTextValue.current.value)
+  //   this.inputTextValue.current.value = this.getDefaultCursor()
+  //   this.inputTextValue.current.blur()
+  // }
 
   // User clicks into the input field
   clearInputField = event => {
@@ -45,14 +45,15 @@ class TextInputParser extends Component {
 
 
 
-  render() {
-    return (<form onSubmit={this.getInputValueText}>
-                <input 
-                  onClick={this.clearInputField}
-                  type="text"
-                  ref={this.inputTextValue} 
-                  defaultValue={this.getDefaultCursor()} />
-              </form>);
+  render(props) {
+    return (<input 
+                onClick={this.clearInputField}
+                type="text"
+                ref={this.inputTextValue} 
+                defaultValue={this.props.textParser}
+                // value={this.props.textParser} 
+                />
+          );
   }
 }
 
