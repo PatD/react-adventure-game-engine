@@ -7,19 +7,23 @@ import React, { Component } from 'react';
 
 class TextInputParser extends Component {
 
-  inputTextValue = React.createRef();
+  // inputTextValue = React.createRef();
 
-  // componentDidMount(){
-  //   console.log('mounted')
+  componentDidMount(){
+   
+    console.log('mounted')
+    // this.inputTextValue.current.value ="_"
 
-  //   window.onkeydown = function(event){ 
-  //     console.log(this.inputTextValue)
-  //     this.inputTextValue.focus();
 
-  //   }
+    // window.onkeydown = function(event){ 
+    //   console.log(this.inputTextValue)
+    //   this.inputTextValue.focus();
 
-  // }
+    // }
 
+  }
+
+  
 
   // getDefaultCursor(){
   //   return "_"
@@ -35,22 +39,46 @@ class TextInputParser extends Component {
   // }
 
   // User clicks into the input field
-  clearInputField = event => {
-    event.preventDefault();
-    console.log("clicked")
-    this.inputTextValue.current.value = ""
-  }
+  // clearInputField = event => {
+  //   event.preventDefault();
+  //   console.log("User has clicked input field")
+  //   this.inputTextValue.current.value =""
+  // }
 
 
+  componentDidUpdate(prevProps) {
+  //  console.log(prevProps)
+  //  console.log(this.inputTextValue)
 
+  //  if(this.inputTextValue.current.value !== '_'){
+  //   this.inputTextValue.current.value = '_'
+  //  }
+  } 
+
+
+  // blurTextParser = event => {
+  //   console.log("User has tabbed/clicked away from input field")
+  //   this.inputTextValue.current.value = "_"
+  // }
 
 
   render(props) {
-    return (<input 
-                onClick={this.clearInputField}
+    return (<input
+                // autoFocus
+                onFocus={this.props.textParserFocus}
+                onBlur={this.props.textParserBlur}
+                spellCheck={false}
+                autoComplete="false"
+                // onFocus="this.value='_'"
+                // onSubmit={this.formSubmit}
+                // onFocus={this.clearInputField}
+                onChange={this.props.textParserChange}
+                // onInputCapture={this.clearInputField}
                 type="text"
-                ref={this.inputTextValue} 
-                defaultValue={this.props.textParser}
+                placeholder="_"
+                // ref={this.inputTextValue} 
+                // defaultValue={this.props.textParser}
+                // value={this.props.textParserValue}
                 // value={this.props.textParser} 
                 />
           );

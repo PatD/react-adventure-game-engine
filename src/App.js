@@ -14,12 +14,14 @@ class App extends Component {
     this.state = {
       soundStatus: "On",
       debuggerValue: "This is the debugger window",
-      textParser:"_",
+      textParserValue:"",
       submittedText:""
     };
 
     this.toggleSound = this.toggleSound.bind(this);
-    this.submitTextParser = this.submitTextParser.bind(this);
+    // this.textParserBlur = this.textParserBlur.bind(this);
+    // this.textParserChange = this.textParserChange.bind(this);
+   // this.submitTextParser = this.submitTextParser.bind(this);
 
   }
   
@@ -40,13 +42,34 @@ class App extends Component {
   }
 
   
-  submitTextParser(event){
+  submitTextParser = event => {
     event.preventDefault();
-    console.log("enter key ")
+    console.log("enter key pressed:")
     console.log(event.target.elements[0].value)
     this.setState({ submittedText: event.target.elements[0].value  })
     this.setState({ debuggerValue: "\n Player submitted some text"  })
   }
+
+  // Text parser
+  textParserBlur = event => {
+    event.preventDefault();
+    console.log("parser window blurred")
+    // console.log(event)
+    this.setState({textParserValue:"_"})
+  }
+
+  textParserChange = event => {
+    event.preventDefault();
+    console.log("parser window changed")
+    // console.log(event)
+  }
+  textParserFocus = event =>{
+    event.preventDefault();
+
+    console.log("Focused")
+    this.setState({textParserValue:""})
+  }
+  
 
   //  // // User clicks into the input field
   // clearInputFieldWhenClicked(event){
@@ -91,9 +114,14 @@ class App extends Component {
     return (
       <React.Fragment>
         <section id="gameUI">
-          <Screen submitTextParser={this.submitTextParser}
+          <Screen 
+            submitTextParser={this.submitTextParser}
             // clearInputFieldWhenClicked={this.state.clearInputFieldWhenClicked}
-            textParser={this.state.textParser}
+            // textParser={this.state.textParser}
+            textParserValue={this.state.textParserValue}
+            textParserBlur={this.textParserBlur}
+            textParserChange={this.textParserChange}
+            textParserFocus={this.textParserFocus}
             // submitTextParser={this.state.submitTextParser}
             // updateInputTextValue={this.updateInputTextValue}
             toggleSound={this.toggleSound} 

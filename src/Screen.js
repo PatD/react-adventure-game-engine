@@ -43,7 +43,11 @@ export default class Screen extends Component {
         <form onSubmit={this.props.submitTextParser}>
         <TextInputParse 
           // clearInputFieldWhenClicked={this.props.clearInputFieldWhenClicked}
-          textParser={this.props.textParser} 
+          // textParser={this.props.textParser} 
+          textParserBlur={this.props.textParserBlur}
+          textParserChange={this.props.textParserChange}
+          textParserFocus={this.props.textParserFocus}
+          textParserValue={this.props.textParserValue}
           // updateInputTextValue={this.props.updateInputTextValue}
           // submitTextParser={this.props.submitTextParser}
           />

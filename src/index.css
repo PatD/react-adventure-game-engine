@@ -64,6 +64,19 @@ body{
   width:90%
 }
 
+#gameUI footer input::placeholder {
+  color:#fff;
+  font-family: 'retrofont_fontregular';
+}
+
+#gameUI footer input::placeholder {
+  color:#fff;
+}
+#gameUI footer input:focus::placeholder {
+  color:transparent;
+}
+
+
 #gameUI footer input{
   color:#fff;
   background:#000;
