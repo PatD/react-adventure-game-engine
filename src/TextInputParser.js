@@ -64,22 +64,21 @@ class TextInputParser extends Component {
 
   render(props) {
     return (<input
-                // autoFocus
                 onFocus={this.props.textParserFocus}
                 onBlur={this.props.textParserBlur}
-                spellCheck={false}
+                spellCheck="false"
                 autoComplete="false"
                 // onFocus="this.value='_'"
                 // onSubmit={this.formSubmit}
                 // onFocus={this.clearInputField}
-                onChange={this.props.textParserChange}
                 // onInputCapture={this.clearInputField}
                 type="text"
                 placeholder="_"
                 // ref={this.inputTextValue} 
                 // defaultValue={this.props.textParser}
                 // value={this.props.textParserValue}
-                // value={this.props.textParser} 
+                onChange={this.props.textParserChange}
+                value={this.props.textParserValue} 
                 />
           );
   }

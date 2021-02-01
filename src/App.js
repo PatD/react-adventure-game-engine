@@ -46,47 +46,34 @@ class App extends Component {
     event.preventDefault();
     console.log("enter key pressed:")
     console.log(event.target.elements[0].value)
+
+    // Populates the Submitted Text state for processing
     this.setState({ submittedText: event.target.elements[0].value  })
+
+    // Updates debugger
     this.setState({ debuggerValue: "\n Player submitted some text"  })
+
+    // Clears input field
+    this.setState({ textParserValue: ""  })
   }
 
   // Text parser
   textParserBlur = event => {
-    event.preventDefault();
-    console.log("parser window blurred")
-    // console.log(event)
-    this.setState({textParserValue:"_"})
+    console.log("parser blurred")
   }
 
   textParserChange = event => {
-    event.preventDefault();
-    console.log("parser window changed")
-    // console.log(event)
+    console.log("parser changed")
+
+    this.setState({
+      textParserValue: event.target.value
+    });
+
   }
   textParserFocus = event =>{
-    event.preventDefault();
-
-    console.log("Focused")
-    this.setState({textParserValue:""})
+    console.log("parser focused")
   }
-  
 
-  //  // // User clicks into the input field
-  // clearInputFieldWhenClicked(event){
-  //   event.preventDefault();
-  //   console.log("clicked")
-  //   this.setState({textParser:""})
-  // }
-
-
-  // updateInputTextValue(passedText){
-  //   if(passedText.current){
-  //     console.log(passedText.current.value)
-  //     console.log('new text' + passedText.current.value)
-  //   }
-   
-    
-  // }
   
 
   componentDidMount() {
