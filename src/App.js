@@ -59,11 +59,11 @@ class App extends Component {
 
   // Text parser
   textParserBlur = event => {
-    console.log("parser blurred")
+ //   console.log("parser blurred")
   }
 
   textParserChange = event => {
-    console.log("parser changed")
+   // console.log("parser changed")
 
     this.setState({
       textParserValue: event.target.value
@@ -71,7 +71,7 @@ class App extends Component {
 
   }
   textParserFocus = event =>{
-    console.log("parser focused")
+ //   console.log("parser focused")
   }
 
   
@@ -86,11 +86,10 @@ class App extends Component {
      //   console.info("Direction Arrow:" + event.key)
         self.updateDebugger(event.key);
       } else {
-        console.info(event.key)
+      //  console.info(event.key)
         // Set focus on parser
        // console.log(self.state)
         self.updateDebugger("User types text text\n");
-        
 
       }
 
@@ -102,6 +101,7 @@ class App extends Component {
       <React.Fragment>
         <section id="gameUI">
           <Screen 
+            submittedText={this.state.submittedText}
             submitTextParser={this.submitTextParser}
             // clearInputFieldWhenClicked={this.state.clearInputFieldWhenClicked}
             // textParser={this.state.textParser}

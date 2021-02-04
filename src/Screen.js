@@ -23,10 +23,21 @@ export default class Screen extends Component {
     this.setState({ modalStatus: "modal display-none" });
   };
 
+  // User has entered text, show a modal
+  respondUserText = () =>{
+    this.setState({ modalText: "The hero typed " + this.props.submittedText + "." })
+    this.setState({ modalStatus: "modal display-block" })
+  }
 
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.submittedText !== this.props.submittedText) {
+      console.log("new input!")
+      this.respondUserText()
+    }
+  }
 
-
+ 
 
   render(props) {
     return (  
@@ -55,9 +66,9 @@ export default class Screen extends Component {
       </footer>
 
       <Modal show={this.state.modalStatus} handleClose={this.hideModal} modalText={this.state.modalText}/>
-      <button type="button" onClick={this.showModal}>
+      {/* <button type="button" onClick={this.showModal}>
           Open
-        </button>
+        </button> */}
     </React.Fragment>)
   }
 }

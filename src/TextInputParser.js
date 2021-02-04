@@ -46,7 +46,8 @@ class TextInputParser extends Component {
   // }
 
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
+    this.searchInput.focus();
   //  console.log(prevProps)
   //  console.log(this.inputTextValue)
 
@@ -74,7 +75,7 @@ class TextInputParser extends Component {
                 // onInputCapture={this.clearInputField}
                 type="text"
                 placeholder="_"
-                // ref={this.inputTextValue} 
+                ref={inputEl => (this.searchInput = inputEl)} 
                 // defaultValue={this.props.textParser}
                 // value={this.props.textParserValue}
                 onChange={this.props.textParserChange}
