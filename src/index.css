@@ -25,6 +25,29 @@
 }
 
 
+/* Inventory */
+aside {
+  width: 100%;
+  height: 100%;
+  max-width: 60vw;
+  max-height: 80vh;
+  margin: 0 auto;
+  z-index: 100;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background:#fcfcfc
+}
+
+aside fieldset{
+  min-height: 95%;
+  margin: 10px;
+  padding:10px;
+}
+
+
+
+
 /* Layout */
 body{
   background: #444;
@@ -147,4 +170,15 @@ body{
 
 .display-none {
   display: none;
+}
+
+
+main{position: relative;}
+
+#hero{background-image: url('/herosprite.png');
+  position: absolute;
+  top:50px;
+  left:50px;
+  height: 68px;
+  width: 35px;
 }

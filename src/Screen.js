@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MainMenuBar from './MainMenuBar'
 import TextInputParse from './TextInputParser'
 import Modal from './Modal'
+import Hero from './Hero'
 
 
 export default class Screen extends Component {
@@ -25,6 +26,7 @@ export default class Screen extends Component {
 
   // User has entered text, show a modal
   respondUserText = () =>{
+    // this.props.setModalKeyboardListeners();
     this.setState({ modalText: "The hero typed " + this.props.submittedText + "." })
     this.setState({ modalStatus: "modal display-block" })
   }
@@ -49,7 +51,9 @@ export default class Screen extends Component {
           toggleSound={this.props.toggleSound} 
           soundStatus={this.props.soundStatus} />
       </header>
-      <main>This is the main UI screen!</main>
+      <main>
+        <Hero />
+      </main>
       <footer>
         <form onSubmit={this.props.submitTextParser}>
         <TextInputParse 

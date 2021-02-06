@@ -3,6 +3,7 @@ import Screen from './Screen';
 import Debug from './Debug'
 import InventoryScreen from './InventoryScreen'
 
+
 // import HandleKeyPresses from './HandleKeyPresses'
 
 
@@ -15,14 +16,13 @@ class App extends Component {
       soundStatus: "On",
       debuggerValue: "This is the debugger window",
       textParserValue:"",
-      submittedText:""
+      submittedText:"",
+      inventoryVisable:"display-none"
     };
 
     this.toggleSound = this.toggleSound.bind(this);
-    // this.textParserBlur = this.textParserBlur.bind(this);
-    // this.textParserChange = this.textParserChange.bind(this);
-   // this.submitTextParser = this.submitTextParser.bind(this);
-
+    // this.setdefaultKeyboardListners = this.setdefaultKeyboardListners.bind(this)
+    // this.setModalKeyboardListeners = this.setModalKeyboardListeners.bind(this)
   }
   
 
@@ -36,12 +36,10 @@ class App extends Component {
   }
 
   updateDebugger(keyCaptured){
-    // console.log(this.state)
-    // console.log("hi")
     this.setState({ debuggerValue: "\n Player pressed: " + keyCaptured + "\n " +  this.state.debuggerValue  })
   }
 
-  
+  // Text parser
   submitTextParser = event => {
     event.preventDefault();
     console.log("enter key pressed:")
@@ -56,12 +54,10 @@ class App extends Component {
     // Clears input field
     this.setState({ textParserValue: ""  })
   }
-
-  // Text parser
+  
   textParserBlur = event => {
  //   console.log("parser blurred")
   }
-
   textParserChange = event => {
    // console.log("parser changed")
 
@@ -74,47 +70,65 @@ class App extends Component {
  //   console.log("parser focused")
   }
 
+  toggleInventoryScreen = event => {
+    if (this.state.inventoryVisable === "display-none") {
+      this.setState({ inventoryVisable: "display-block" })
+    } else {
+      this.setState({ inventoryVisable: "display-none" })
+      // this.setdefaultKeyboardListners();
+    }
+  }
   
 
-  componentDidMount() {
+  // Default keyboard configuration for gameplay
+  // In normal game mode, arrow keys move the hero
+  // tab key opens inventory, escape opens menu, and 
+  // alpha keys get typed into text parser.
+  setdefaultKeyboardListners(){
 
     const self = this;
     document.addEventListener('keydown', function (event) {
 
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        // Hanlde arrow keys for movement
         event.preventDefault()
-     //   console.info("Direction Arrow:" + event.key)
         self.updateDebugger(event.key);
-      } else {
-      //  console.info(event.key)
-        // Set focus on parser
-       // console.log(self.state)
+
+      } else if(event.key === 'Tab'){
+        // Handle tab key for movement
+        event.preventDefault()
+        self.updateDebugger(event.key);
+        self.toggleInventoryScreen();
+
+      } else 
+      
         self.updateDebugger("User types text text\n");
 
-      }
-
     }, false);
+  }
+
+
+
+  componentDidMount() {
+    this.setdefaultKeyboardListners();
   }
 
   render() { 
     return (
       <React.Fragment>
+        <InventoryScreen inventoryVisable={this.state.inventoryVisable} /> 
         <section id="gameUI">
           <Screen 
             submittedText={this.state.submittedText}
+            setdefaultKeyboardListners={this.setdefaultKeyboardListners}
             submitTextParser={this.submitTextParser}
-            // clearInputFieldWhenClicked={this.state.clearInputFieldWhenClicked}
-            // textParser={this.state.textParser}
             textParserValue={this.state.textParserValue}
             textParserBlur={this.textParserBlur}
             textParserChange={this.textParserChange}
             textParserFocus={this.textParserFocus}
-            // submitTextParser={this.state.submitTextParser}
-            // updateInputTextValue={this.updateInputTextValue}
             toggleSound={this.toggleSound} 
             soundStatus={this.state.soundStatus} />
         </section>
-        <InventoryScreen />
         <Debug debugText={this.state.debuggerValue}  />
       </React.Fragment>
     );
