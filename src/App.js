@@ -17,7 +17,8 @@ class App extends Component {
       debuggerValue: "This is the debugger window",
       textParserValue:"",
       submittedText:"",
-      inventoryVisable:"display-none"
+      inventoryVisable:"display-none",
+      heroDirection:"right"
     };
 
     this.toggleSound = this.toggleSound.bind(this);
@@ -78,6 +79,8 @@ class App extends Component {
       // this.setdefaultKeyboardListners();
     }
   }
+
+
   
 
   // Default keyboard configuration for gameplay
@@ -93,6 +96,7 @@ class App extends Component {
         // Hanlde arrow keys for movement
         event.preventDefault()
         self.updateDebugger(event.key);
+        self.setState({heroDirection: event.key})
 
       } else if(event.key === 'Tab'){
         // Handle tab key for movement
@@ -119,6 +123,7 @@ class App extends Component {
         <InventoryScreen inventoryVisable={this.state.inventoryVisable} /> 
         <section id="gameUI">
           <Screen 
+            heroDirection={this.state.heroDirection}
             submittedText={this.state.submittedText}
             setdefaultKeyboardListners={this.setdefaultKeyboardListners}
             submitTextParser={this.submitTextParser}
