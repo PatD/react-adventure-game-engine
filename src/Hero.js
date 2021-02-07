@@ -12,7 +12,7 @@ class Hero extends Component {
 
   componentWillReceiveProps(nextProps) {
     
-  
+   
   
   }
 
