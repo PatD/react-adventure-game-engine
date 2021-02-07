@@ -10,6 +10,12 @@ class Hero extends Component {
   }
 
 
+  componentWillReceiveProps(nextProps) {
+    
+  
+  
+  }
+
   setHeroMoveState(prevProps){
     if (prevProps.heroDirection !== this.props.heroDirection) {
       console.log('component diff')
@@ -35,7 +41,7 @@ class Hero extends Component {
 
   componentDidUpdate(prevProps) {
     // update component
-    this.setHeroMoveState(prevProps)
+    // this.setHeroMoveState(prevProps)
     //           // // Move or not
     //           // if(this.state.heroMoving === "stopped"){
     //           //   this.setState({heroMoving:"moving"})
