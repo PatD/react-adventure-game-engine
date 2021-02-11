@@ -7,7 +7,6 @@ import InventoryScreen from './InventoryScreen'
 // import HandleKeyPresses from './HandleKeyPresses'
 
 
-
 class App extends Component {
   constructor() {
     super();
