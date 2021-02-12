@@ -18,7 +18,11 @@ class App extends Component {
       submittedText:"",
       inventoryVisable:"display-none",
       heroDirection:"ArrowRight",
-      heroMoving:"stopped"
+      heroMoving:"stopped",
+      heroPositionX:100,
+      heroPositionY:100,
+      playfieldX:0,
+      playfieldY:0
     };
 
     this.toggleSound = this.toggleSound.bind(this);
@@ -26,15 +30,6 @@ class App extends Component {
     // this.setModalKeyboardListeners = this.setModalKeyboardListeners.bind(this)
   }
   
-  handleHeroStopStart(event){
-
-    if(this.state.heroMoving === "stopped"){
-      this.setState({heroMoving:"moving"})
-    } else{
-      this.setState({heroMoving:"stopped"})
-    }
-
-  }
 
   toggleSound(){
 
@@ -64,7 +59,6 @@ class App extends Component {
     // Clears input field
     this.setState({ textParserValue: ""  })
   }
-  
   textParserBlur = event => {
  //   console.log("parser blurred")
   }
@@ -79,7 +73,8 @@ class App extends Component {
   textParserFocus = event =>{
  //   console.log("parser focused")
   }
-  toggleInventoryScreen = event => {
+  toggleInventoryScreen(key){
+    this.updateDebugger(key);
     if (this.state.inventoryVisable === "display-none") {
       this.setState({ inventoryVisable: "display-block" })
       this.updateDebugger("User activates inventory screen\n");
@@ -91,10 +86,63 @@ class App extends Component {
   }
 
 
+
+  handleHeroPositioning(change){
+    if(change !== "stop"){
+      this.movementInterval = setInterval(() => {
+        if(change === "ArrowRight"){
+          this.setState({heroPositionY:this.state.heroPositionY + 5})
+        } else if(change === "ArrowLeft"){
+          this.setState({heroPositionY:this.state.heroPositionY - 5})
+        } else if(change === "ArrowUp"){
+          this.setState({heroPositionX:this.state.heroPositionX - 5})
+        } else if(change === "ArrowDown"){
+          this.setState({heroPositionX:this.state.heroPositionX + 5})
+        }
+        console.log(this.state.heroPositionX, this.state.heroPositionY)
+      },300)
+    } else{
+      clearInterval(this.movementInterval)
+    }
+
+    console.log(change);
+    
+  };
+
+
+
+  handleHeroMovement(keypress){
+    this.updateDebugger(keypress);
+    
+    // If hero is moving and a different movement direction is picked
+    if(this.state.heroMoving === "moving" && this.state.heroDirection !== keypress){
+      // Change hero direction and keep hero moving
+      this.setState({
+        heroDirection:keypress,
+        heroMoving:"moving"
+      });
+      this.handleHeroPositioning("stop") // stop first
+      this.handleHeroPositioning(keypress) // then go
+    }
+    // If they're moving and they hit the same direciton key, stop them
+    else if(this.state.heroMoving === "moving" && this.state.heroDirection === keypress) {
+      this.setState({heroMoving:"stopped"})
+      this.handleHeroPositioning("stop")
+    } 
+    // Otherwise, send them on thier way
+    else {
+      this.setState({
+        heroDirection:keypress,
+        heroMoving:"moving"
+      });
+
+      this.handleHeroPositioning(keypress)
+    }
+  };
   
 
-  // Default keyboard configuration for gameplay
-  // In normal game mode, arrow keys move the hero
+  // Default keyboard configuration for gameplay.
+  // Arrow keys move the hero
   // tab key opens inventory, escape opens menu, and 
   // alpha keys get typed into text parser.
   setdefaultKeyboardListners(){
@@ -105,16 +153,12 @@ class App extends Component {
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         // Hanlde arrow keys for movement
         event.preventDefault()
-        self.updateDebugger(event.key);
-        self.setState({heroDirection: event.key})
-        self.handleHeroStopStart(event.key);
+        self.handleHeroMovement(event.key);
 
       } else if(event.key === 'Tab'){
         // Handle tab key for movement
         event.preventDefault()
-        self.updateDebugger(event.key);
-        self.toggleInventoryScreen();
-
+        self.toggleInventoryScreen(event.key);
       } else 
       
         self.updateDebugger("User types text text\n");
@@ -124,7 +168,15 @@ class App extends Component {
 
 
 
+
   componentDidMount() {
+    // set dimensions for play field
+    const playfield = document.querySelector('main')
+    this.setState({
+      playfieldX: playfield.clientHeight, 
+      playfieldY: playfield.clientWidth
+    }) 
+ 
     this.setdefaultKeyboardListners();
   }
 
@@ -136,6 +188,8 @@ class App extends Component {
           <Screen 
             heroDirection={this.state.heroDirection}
             heroMoving={this.state.heroMoving}
+            heroPositionX={this.state.heroPositionX}
+            heroPositionY={this.state.heroPositionY}
             submittedText={this.state.submittedText}
             setdefaultKeyboardListners={this.setdefaultKeyboardListners}
             submitTextParser={this.submitTextParser}
