@@ -175,10 +175,60 @@ body{
 
 main{position: relative;}
 
+
+
+
 #hero{background-image: url('/herosprite.png');
   position: absolute;
   top:50px;
   left:50px;
   height: 68px;
-  width: 35px;
+  width: 32px;
+  background-position-x: left;
 }
+
+.ArrowRight.stopped{
+  background-position-y: top;
+}
+
+.ArrowUp.stopped{
+  background-position-y: bottom;
+}
+
+.ArrowLeft.stopped{
+  background-position-y: 204px;
+}
+
+.ArrowDown.stopped{
+  background-position-y: 136px;
+}
+
+.ArrowRight.moving{
+  animation: movingLR 1.5s steps(8) infinite;
+}
+
+.ArrowLeft.moving{
+  background-position-y: 204px;
+  animation: movingLR 1.5s steps(8) infinite;
+}
+
+.ArrowUp.moving{
+  background-position-y: bottom;
+  animation: movingUD 1.5s steps(7) infinite;
+}
+
+.ArrowDown.moving{
+  background-position-y: 136px;
+  animation: movingUD 1.5s steps(7) infinite;
+}
+
+@keyframes movingLR{
+  from{background-position-x:0px;}
+  to{background-position-x:-256px;}
+}
+
+@keyframes movingUD{
+  from{background-position-x:0px;}
+  to{background-position-x:-224px;}
+}
+

@@ -52,7 +52,7 @@ export default class Screen extends Component {
           soundStatus={this.props.soundStatus} />
       </header>
       <main>
-        <Hero heroDirection={this.props.heroDirection} />
+        <Hero heroDirection={this.props.heroDirection} heroMoving={this.props.heroMoving} />
       </main>
       <footer>
         <form onSubmit={this.props.submitTextParser}>

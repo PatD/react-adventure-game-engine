@@ -17,7 +17,8 @@ class App extends Component {
       textParserValue:"",
       submittedText:"",
       inventoryVisable:"display-none",
-      heroDirection:"right"
+      heroDirection:"ArrowRight",
+      heroMoving:"stopped"
     };
 
     this.toggleSound = this.toggleSound.bind(this);
@@ -25,6 +26,15 @@ class App extends Component {
     // this.setModalKeyboardListeners = this.setModalKeyboardListeners.bind(this)
   }
   
+  handleHeroStopStart(event){
+
+    if(this.state.heroMoving === "stopped"){
+      this.setState({heroMoving:"moving"})
+    } else{
+      this.setState({heroMoving:"stopped"})
+    }
+
+  }
 
   toggleSound(){
 
@@ -69,12 +79,13 @@ class App extends Component {
   textParserFocus = event =>{
  //   console.log("parser focused")
   }
-
   toggleInventoryScreen = event => {
     if (this.state.inventoryVisable === "display-none") {
       this.setState({ inventoryVisable: "display-block" })
+      this.updateDebugger("User activates inventory screen\n");
     } else {
       this.setState({ inventoryVisable: "display-none" })
+      this.updateDebugger("User deactivates inventory screen\n");
       // this.setdefaultKeyboardListners();
     }
   }
@@ -96,6 +107,7 @@ class App extends Component {
         event.preventDefault()
         self.updateDebugger(event.key);
         self.setState({heroDirection: event.key})
+        self.handleHeroStopStart(event.key);
 
       } else if(event.key === 'Tab'){
         // Handle tab key for movement
@@ -123,6 +135,7 @@ class App extends Component {
         <section id="gameUI">
           <Screen 
             heroDirection={this.state.heroDirection}
+            heroMoving={this.state.heroMoving}
             submittedText={this.state.submittedText}
             setdefaultKeyboardListners={this.setdefaultKeyboardListners}
             submitTextParser={this.submitTextParser}
