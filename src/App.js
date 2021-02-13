@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Screen from './Screen';
 import Debug from './Debug'
 import InventoryScreen from './InventoryScreen'
-
-
+import GameSelector from './GameSelector'
 // import HandleKeyPresses from './HandleKeyPresses'
 
 
@@ -203,9 +202,7 @@ class App extends Component {
       heroWidth: hero.clientWidth
     })
     
-    
-    
- 
+
     this.setdefaultKeyboardListners();
   }
 
@@ -230,6 +227,7 @@ class App extends Component {
             soundStatus={this.state.soundStatus} />
         </section>
         <Debug debugText={this.state.debuggerValue}  />
+        <GameSelector />
       </React.Fragment>
     );
   }

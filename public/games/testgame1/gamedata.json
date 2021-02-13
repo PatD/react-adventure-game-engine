@@ -1,0 +1,12 @@
+{
+    "title":"Test Quest 1",
+    "subTitle": "For developing a React.js Game Engine",
+    "description":"A test game for development",
+    "copyright":"2021",
+    "rooms":{
+        "LoadingScreen":1,
+        "StartRoom":2,
+        "LeftRoom":3,
+        "TopRoom":4
+    }
+}
