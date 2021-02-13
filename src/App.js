@@ -23,6 +23,8 @@ class App extends Component {
       heroPositionY:150,
       heroMovementDisance:5,
       heroMovementUpdateSpeed:125,
+      heroHeight:0,
+      heroWidth:0,
       playfieldX:0,
       playfieldY:0
     };
@@ -87,54 +89,52 @@ class App extends Component {
     }
   }
 
-
-  // Allow hero to walk freely right up to the edge of the screen, then stop
-  handleHeroWalls(){
-    const hero = document.getElementById('hero');
-   
-    console.log(hero.offsetLeft + " " + this.state.playfieldY);
-
-
-
-    // if(hero.offsetLeft <= 0 ){
-    //   this.handleHeroPositioning("stop")
-    //   this.setState({heroMoving:"stopped"})
-    // }
-  
-      // if(hero.offsetLeft <= 0 || hero.offsetLeft === 0 || hero.offsetTop === 5 || hero.offsetLeft >= this.state.playfieldY){
-      //   this.handleHeroPositioning("stop");
-      //   this.setState({heroMoving:"stopped"})
-      // }
-    
-  //  console.log("L: " + hero.offsetLeft + " T: " + hero.offsetTop)
+  haltHero(){
+    this.handleHeroPositioning("stop")
+    this.setState({heroMoving:"stopped"})    
   }
 
 
-
-  // Based on keyboard controls, move hero around the screen
+  // Taking input from keyboard controls, 
+  // move hero around the screen and
+  // stop hero if they bash into walls.
   handleHeroPositioning(change){
     if(change !== "stop"){
       this.movementInterval = setInterval(() => {
+  
+      // Handle if they're already on the wall
+        if(change === "ArrowRight" && this.state.heroPositionY > this.state.playfieldY - this.state.heroWidth){ 
+          return this.haltHero();
+        } 
+        else if(change === "ArrowLeft" && this.state.heroPositionY <= 0){
+          return this.haltHero();
+        } 
+        else if(change === "ArrowUp" && this.state.heroPositionX <= 0){
+          return this.haltHero();
+        } 
+        else if(change === "ArrowDown" && this.state.heroPositionX >= this.state.playfieldX - this.state.heroHeight){
+          return this.haltHero();
+        } 
 
-        // add condition for stopping hero from walking against wall
-        if(change === "ArrowRight" && this.state.heroPositionY <= this.state.playfieldY){ // Needs to account for hero width
-          this.setState({heroPositionY:this.state.heroPositionY + this.state.heroMovementDisance})
+      // Handle walking
+        if(change === "ArrowRight" && this.state.heroPositionY <= this.state.playfieldY - this.state.heroWidth){ // Needs to account for hero width
+          return this.setState({heroPositionY:this.state.heroPositionY + this.state.heroMovementDisance})
         } 
         else if(change === "ArrowLeft" && this.state.heroPositionY >= 0){
-          this.setState({heroPositionY:this.state.heroPositionY - this.state.heroMovementDisance})
+          return this.setState({heroPositionY:this.state.heroPositionY - this.state.heroMovementDisance})
         } 
         else if(change === "ArrowUp" && this.state.heroPositionX >= 0){
-          this.setState({heroPositionX:this.state.heroPositionX - this.state.heroMovementDisance})
+          return this.setState({heroPositionX:this.state.heroPositionX - this.state.heroMovementDisance})
         } 
-        else if(change === "ArrowDown" && this.state.heroPositionX <= this.state.playfieldX){ // Needs to account for hero height
-          this.setState({heroPositionX:this.state.heroPositionX + this.state.heroMovementDisance})
+        else if(change === "ArrowDown" && this.state.heroPositionX <= this.state.playfieldX - this.state.heroHeight){ // Needs to account for hero height
+          return this.setState({heroPositionX:this.state.heroPositionX + this.state.heroMovementDisance})
         } 
         else {
-          clearInterval(this.movementInterval)    
+          return clearInterval(this.movementInterval)    
         }
       },this.state.heroMovementUpdateSpeed)
     } else{
-      clearInterval(this.movementInterval)
+      return clearInterval(this.movementInterval)
     }    
   };
 
@@ -152,10 +152,9 @@ class App extends Component {
     }
     // If they're moving and they hit the same direciton key, stop them
     else if(this.state.heroMoving === "moving" && this.state.heroDirection === keypress) {
-      this.handleHeroPositioning("stop")
-      this.setState({heroMoving:"stopped"})      
+      this.haltHero();     
     } 
-    // Otherwise, send them on their way
+    // Otherwise, let the hero walk
     else {
       this.handleHeroPositioning(keypress)
       this.setState({heroDirection:keypress,heroMoving:"moving"});
@@ -194,10 +193,18 @@ class App extends Component {
   componentDidMount() {
     // set dimensions for play field
     const playfield = document.querySelector('main')
+    // get character dimensions
+    const hero = document.getElementById('hero')
+    
     this.setState({
       playfieldX: playfield.clientHeight, 
-      playfieldY: playfield.clientWidth
-    }) 
+      playfieldY: playfield.clientWidth,
+      heroHeight: hero.clientHeight,
+      heroWidth: hero.clientWidth
+    })
+    
+    
+    
  
     this.setdefaultKeyboardListners();
   }
