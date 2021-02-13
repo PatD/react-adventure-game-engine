@@ -50,16 +50,16 @@ aside fieldset{
 
 /* Layout */
 body{
-  background: #444;
+  background: #000;
 }
 #gameUI{
   background: #cccccc;
   display:grid;
   grid-template-rows: 30px 500px 1fr;
   /* grid-template-columns: ; */
-  max-width: 60vw;
+  max-width: 50vw;
   margin:0 auto;
-  border:2em solid #000
+  /* border:2em solid #000 */
 }
 
 #gameUI header{

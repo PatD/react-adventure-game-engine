@@ -19,8 +19,10 @@ class App extends Component {
       inventoryVisable:"display-none",
       heroDirection:"ArrowRight",
       heroMoving:"stopped",
-      heroPositionX:100,
-      heroPositionY:100,
+      heroPositionX:150,
+      heroPositionY:150,
+      heroMovementDisance:5,
+      heroMovementUpdateSpeed:125,
       playfieldX:0,
       playfieldY:0
     };
@@ -86,27 +88,54 @@ class App extends Component {
   }
 
 
+  // Allow hero to walk freely right up to the edge of the screen, then stop
+  handleHeroWalls(){
+    const hero = document.getElementById('hero');
+   
+    console.log(hero.offsetLeft + " " + this.state.playfieldY);
 
+
+
+    // if(hero.offsetLeft <= 0 ){
+    //   this.handleHeroPositioning("stop")
+    //   this.setState({heroMoving:"stopped"})
+    // }
+  
+      // if(hero.offsetLeft <= 0 || hero.offsetLeft === 0 || hero.offsetTop === 5 || hero.offsetLeft >= this.state.playfieldY){
+      //   this.handleHeroPositioning("stop");
+      //   this.setState({heroMoving:"stopped"})
+      // }
+    
+  //  console.log("L: " + hero.offsetLeft + " T: " + hero.offsetTop)
+  }
+
+
+
+  // Based on keyboard controls, move hero around the screen
   handleHeroPositioning(change){
     if(change !== "stop"){
       this.movementInterval = setInterval(() => {
-        if(change === "ArrowRight"){
-          this.setState({heroPositionY:this.state.heroPositionY + 5})
-        } else if(change === "ArrowLeft"){
-          this.setState({heroPositionY:this.state.heroPositionY - 5})
-        } else if(change === "ArrowUp"){
-          this.setState({heroPositionX:this.state.heroPositionX - 5})
-        } else if(change === "ArrowDown"){
-          this.setState({heroPositionX:this.state.heroPositionX + 5})
+
+        // add condition for stopping hero from walking against wall
+        if(change === "ArrowRight" && this.state.heroPositionY <= this.state.playfieldY){ // Needs to account for hero width
+          this.setState({heroPositionY:this.state.heroPositionY + this.state.heroMovementDisance})
+        } 
+        else if(change === "ArrowLeft" && this.state.heroPositionY >= 0){
+          this.setState({heroPositionY:this.state.heroPositionY - this.state.heroMovementDisance})
+        } 
+        else if(change === "ArrowUp" && this.state.heroPositionX >= 0){
+          this.setState({heroPositionX:this.state.heroPositionX - this.state.heroMovementDisance})
+        } 
+        else if(change === "ArrowDown" && this.state.heroPositionX <= this.state.playfieldX){ // Needs to account for hero height
+          this.setState({heroPositionX:this.state.heroPositionX + this.state.heroMovementDisance})
+        } 
+        else {
+          clearInterval(this.movementInterval)    
         }
-        console.log(this.state.heroPositionX, this.state.heroPositionY)
-      },300)
+      },this.state.heroMovementUpdateSpeed)
     } else{
       clearInterval(this.movementInterval)
-    }
-
-    console.log(change);
-    
+    }    
   };
 
 
@@ -117,26 +146,19 @@ class App extends Component {
     // If hero is moving and a different movement direction is picked
     if(this.state.heroMoving === "moving" && this.state.heroDirection !== keypress){
       // Change hero direction and keep hero moving
-      this.setState({
-        heroDirection:keypress,
-        heroMoving:"moving"
-      });
+      this.setState({heroDirection:keypress,heroMoving:"moving"});
       this.handleHeroPositioning("stop") // stop first
       this.handleHeroPositioning(keypress) // then go
     }
     // If they're moving and they hit the same direciton key, stop them
     else if(this.state.heroMoving === "moving" && this.state.heroDirection === keypress) {
-      this.setState({heroMoving:"stopped"})
       this.handleHeroPositioning("stop")
+      this.setState({heroMoving:"stopped"})      
     } 
-    // Otherwise, send them on thier way
+    // Otherwise, send them on their way
     else {
-      this.setState({
-        heroDirection:keypress,
-        heroMoving:"moving"
-      });
-
       this.handleHeroPositioning(keypress)
+      this.setState({heroDirection:keypress,heroMoving:"moving"});
     }
   };
   
