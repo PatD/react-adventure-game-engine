@@ -3,7 +3,12 @@ import React, { Component } from 'react';
 class GameSelector extends Component {
     constructor(props) {
       super(props);
-      this.state = {value: 'coconut'};
+      this.state = {
+          gamesAreLoaded:false,
+          selectedGame:"",
+          games: [],
+          error:""
+        };
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,7 +36,7 @@ class GameSelector extends Component {
                 gamesAreLoaded: true,
                 games: result
               });
-              console.log("Loaded " + JSON.stringify(result) + " games.")
+            //   console.log("Loaded " + JSON.stringify(result) + " games.")
             },
             // Note: it's important to handle errors here
             // instead of a catch() block so that we don't swallow
@@ -39,24 +44,23 @@ class GameSelector extends Component {
             (error) => {
               this.setState({
                 isLogamesAreLoadedaded: false,
+                selectedGame:"",
                 error
               });
             }
           )
       }
-  
+
     render() {
-      return (
-          
+
+    return (
         <form onSubmit={this.handleSubmit}>
-          <hr/>
           <label>
             Select a game:
-            <select value={this.state.value} onChange={this.handleChange}>
-              <option value="grapefruit">Grapefruit</option>
-              <option value="lime">Lime</option>
-              <option value="coconut">Coconut</option>
-              <option value="mango">Mango</option>
+            <select value={this.state.selectedGame} onChange={this.handleChange}>
+                { this.state.games.map((game) => 
+                    <option key={game.Title} value={game.Path}>{game.Title}</option>
+                )}
             </select>
           </label>
           <input type="submit" value="Load" />

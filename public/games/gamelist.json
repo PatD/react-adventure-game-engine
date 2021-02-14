@@ -1,4 +1,4 @@
-{
-    "Test Game 1" : "/testgame1/index.js",
-    "Test Game 2" : "/testgame2/index.js"
-}
+[
+    {"Title":"Test Game 1", "Path":"/testgame1/index.js"},
+    {"Title":"Test Game 2", "Path":"/testgame2/index.js"}
+]
