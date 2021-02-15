@@ -3,6 +3,12 @@
     "subTitle": "For developing a React.js Game Engine",
     "description":"A test game for development",
     "copyright":"2021",
+    "heroPositionX":150,
+    "heroPositionY":150,
+    "heroMovementDisance":5,
+    "heroMovementUpdateSpeed":125,
+    "heroHeight":0,
+    "heroWidth":0,
     "rooms":{
         "LoadingScreen":1,
         "StartRoom":2,

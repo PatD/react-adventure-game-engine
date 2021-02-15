@@ -93,7 +93,6 @@ class App extends Component {
     this.setState({heroMoving:"stopped"})    
   }
 
-
   // Taking input from keyboard controls, 
   // move hero around the screen and
   // stop hero if they bash into walls.
@@ -187,7 +186,9 @@ class App extends Component {
   }
 
 
-
+  loadGameFile(game){
+    console.log("App component loads " + game)
+  }
 
   componentDidMount() {
     // set dimensions for play field
@@ -205,6 +206,9 @@ class App extends Component {
 
     this.setdefaultKeyboardListners();
   }
+
+
+
 
   render() { 
     return (
@@ -227,7 +231,7 @@ class App extends Component {
             soundStatus={this.state.soundStatus} />
         </section>
         <Debug debugText={this.state.debuggerValue}  />
-        <GameSelector />
+        <GameSelector loadGameFile={this.loadGameFile} />
       </React.Fragment>
     );
   }
