@@ -186,8 +186,11 @@ class App extends Component {
   }
 
 
-  loadGameFile(game){
-    console.log("App component loads " + game)
+  // When a game is loaded, update React State with game data
+  loadGameFile =(game) =>{
+    console.log("App component loads " + game.title)
+    const gameLoadedState = {...this.state,...game}   
+    this.setState(gameLoadedState)
   }
 
   componentDidMount() {
@@ -199,8 +202,6 @@ class App extends Component {
     this.setState({
       playfieldX: playfield.clientHeight, 
       playfieldY: playfield.clientWidth,
-      heroHeight: hero.clientHeight,
-      heroWidth: hero.clientWidth
     })
     
 
@@ -216,19 +217,19 @@ class App extends Component {
         <InventoryScreen inventoryVisable={this.state.inventoryVisable} /> 
         <section id="gameUI">
           <Screen 
+            soundStatus={this.state.soundStatus}
             heroDirection={this.state.heroDirection}
             heroMoving={this.state.heroMoving}
             heroPositionX={this.state.heroPositionX}
             heroPositionY={this.state.heroPositionY}
             submittedText={this.state.submittedText}
+            textParserValue={this.state.textParserValue}
             setdefaultKeyboardListners={this.setdefaultKeyboardListners}
             submitTextParser={this.submitTextParser}
-            textParserValue={this.state.textParserValue}
             textParserBlur={this.textParserBlur}
             textParserChange={this.textParserChange}
             textParserFocus={this.textParserFocus}
-            toggleSound={this.toggleSound} 
-            soundStatus={this.state.soundStatus} />
+            toggleSound={this.toggleSound} />
         </section>
         <Debug debugText={this.state.debuggerValue}  />
         <GameSelector loadGameFile={this.loadGameFile} />

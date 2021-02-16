@@ -70,9 +70,6 @@ export default class Screen extends Component {
       </footer>
 
       <Modal show={this.state.modalStatus} handleClose={this.hideModal} modalText={this.state.modalText}/>
-      {/* <button type="button" onClick={this.showModal}>
-          Open
-        </button> */}
     </React.Fragment>)
   }
 }
