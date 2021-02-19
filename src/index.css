@@ -58,13 +58,17 @@ body{
   grid-template-rows: 30px 500px 1fr;
   /* grid-template-columns: ; */
   max-width: 50vw;
-  margin:0 auto;
+  margin:5vh auto;
   /* border:2em solid #000 */
 }
 
 #gameUI header{
   background: #fff;
   border-bottom:1px solid #444;
+  position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 #gameUI header span{
@@ -75,6 +79,44 @@ body{
 #gameUI .soundStatus{
   float: right;
 }
+
+/* File menu hide */
+#gameUI header #menuHoverDisplay{
+  display: none;
+}
+
+/* Score and name bar content */
+#gameUI header #menuDefaultDisplay{
+  display: block;
+}
+
+/* Open state */
+#gameUI header #menu.menuOpen #menuHoverDisplay{
+  display: block;
+}
+
+#gameUI header #menu.menuOpen #menuDefaultDisplay{
+  display: none;
+}
+
+
+
+/* #gameUI header  #menuHoverDisplay.menuClosed{
+  display: none;
+}
+
+#gameUI header .menuOpen #menuHoverDisplay.menuOpen{
+  display: block;
+}
+*/
+
+#gameUI header #menuHoverDisplay nav li{
+  display: inline-block;
+  padding:4px;
+} 
+
+
+
 
 
 #gameUI footer{

@@ -7,13 +7,43 @@ import MainMenuScore from './MainMenuScore.js'
 
 
 export default class MainMenuBar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      menuVisibility: "menuClosed",
+    };
+  }
+  openMenu = () =>{
+    if(this.state.menuVisibility === "menuClosed"){
+      this.setState({menuVisibility:"menuOpen"})
+    } else {
+      this.setState({menuVisibility:"menuClosed"})
+    }
+  }
   
   // return <span className='soundStatus'>Sound:{props.soundState}</span>
   render(props){
   return (
     <React.Fragment>
-      <MainMenuScore/>
-      <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} />
+      <div id="menu" onClick={this.openMenu} className={this.state.menuVisibility} >
+        
+        {/* Hover state */}
+        <div id="menuHoverDisplay">
+          <nav>
+            <ul>
+              <li>File</li>
+              <li>Sound</li>
+              <li>Special</li>
+            </ul>
+          </nav>
+        </div>
+        {/* The default state, things are shown */}
+        <div id="menuDefaultDisplay">
+          <MainMenuScore/>
+          <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} />
+        </div>
+      </div>
+      <div id="hoverblock" className={this.state.menuVisibility}></div>
     </React.Fragment>)
 }
 }

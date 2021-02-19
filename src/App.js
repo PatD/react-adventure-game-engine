@@ -196,8 +196,6 @@ class App extends Component {
   componentDidMount() {
     // set dimensions for play field
     const playfield = document.querySelector('main')
-    // get character dimensions
-    const hero = document.getElementById('hero')
     
     this.setState({
       playfieldX: playfield.clientHeight, 
