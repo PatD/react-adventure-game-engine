@@ -80,25 +80,73 @@ body{
   float: right;
 }
 
+
+
+/* Main Nav before anyone clicks */
+#gameUI #menuBarDefaultDisplay.active{
+  color:green
+}
+#gameUI #menuBarDefaultDisplay.inactive{
+  color:red
+}
+
+/* Main nav bar menu items visible */
+#gameUI #menuBarNavBarActive.active{
+  color:green
+}
+#gameUI #menuBarNavBarActive.inactive{
+  color:red
+}
+
+/* Sub menu items visible */
+#gameUI .subMenu.active{
+  color:green
+}
+#gameUI .subMenu.inactive{
+  color:red
+}
+
+
+#gameUI #menuBarNavBarActive li{
+  display: inline-block;
+}
+
+
+
+
+
 /* File menu hide */
 #gameUI header #menuHoverDisplay{
-  display: none;
+  /* display: none; */
+/* visibility: hidden;
+z-index: -100; */
 }
 
 /* Score and name bar content */
-#gameUI header #menuDefaultDisplay{
+/* #gameUI header #menuDefaultDisplay{
   display: block;
-}
+} */
 
 /* Open state */
-#gameUI header #menu.menuOpen #menuHoverDisplay{
-  display: block;
+/* #gameUI header #menu.menuOpen #menuHoverDisplay{
+  visibility: visible;
+  z-index: 100;
 }
 
 #gameUI header #menu.menuOpen #menuDefaultDisplay{
   display: none;
-}
+} */
 
+/* #gameUI header #hoverblock.menuOpen{
+    background: green;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 80vh;
+    top: 0;
+    left: 0;
+    opacity: 0;
+} */
 
 
 /* #gameUI header  #menuHoverDisplay.menuClosed{
@@ -110,10 +158,39 @@ body{
 }
 */
 
-#gameUI header #menuHoverDisplay nav li{
+/* #gameUI header #menuHoverDisplay nav li{
   display: inline-block;
-  padding:4px;
+  padding:6px 10px 0px 10px
+}  */
+
+
+/* #gameUI header .subMenu {
+  padding: 1em;
+  background: #fff;
+  border: 2px solid #444;
+  outline: 10px solid #fff;
+  margin-bottom: 1em;
+  z-index:100;
+  position: relative;
 } 
+
+#gameUI header .subMenu li{
+  list-style: none;
+    margin: 0;
+    padding: 0 0 5px 0;
+    display: block;
+} */
+
+
+/* dropdown box css
+#gameUI header .menuClosed.subMenu{
+  display: none;
+}
+#gameUI header .menuOpen.subMenu{
+  display: block;
+} */
+
+
 
 
 

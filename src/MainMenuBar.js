@@ -1,51 +1,102 @@
 import React, { Component } from 'react';
-// import React from 'react';
 import MainMenuSound from './MainMenuSound.js'
 import MainMenuScore from './MainMenuScore.js'
-// import { render } from 'react-dom';
-
+import NavGame from './navs/Game.js'
+// import NavFile from './navs/File.js'
+// import NavSound from './navs/Sound.js'
+// import NavSpecial from './navs/Special.js'
 
 
 export default class MainMenuBar extends Component {
   constructor() {
     super();
     this.state = {
-      menuVisibility: "menuClosed",
+      mainNavBar: "active",  // or 'active'
+      mainNavMenuVisibility: "inactive", // or 'active'
+      mainNavGameMenu: "inactive" // or 'active'
     };
   }
-  openMenu = () =>{
-    if(this.state.menuVisibility === "menuClosed"){
-      this.setState({menuVisibility:"menuOpen"})
+  toggleMainMenu = (event) =>{ 
+
+    event.preventDefault();
+    if(this.state.mainNavBar === "active"){
+      this.setState({
+        mainNavBar:"inactive",
+        mainNavMenuVisibility: "active"
+      })
+
+
     } else {
-      this.setState({menuVisibility:"menuClosed"})
+     // this.setState({menuVisibility:"menuClosed"})
     }
   }
+
+  // toggleMenuGame = (event) =>{ 
+  //   console.log(event)
+  //   event.preventDefault();
+  //   if(this.state.menuVisibilityGame === "menuClosed subMenu"){
+  //     this.setState({menuVisibilityGame:"menuOpen subMenu"})
+  //   } else {
+  //     this.setState({menuVisibilityGame:"menuClosed subMenu"})
+  //   }
+  // }
   
   // return <span className='soundStatus'>Sound:{props.soundState}</span>
   render(props){
   return (
     <React.Fragment>
-      <div id="menu" onClick={this.openMenu} className={this.state.menuVisibility} >
-        
-        {/* Hover state */}
-        <div id="menuHoverDisplay">
-          <nav>
-            <ul>
-              <li>File</li>
-              <li>Sound</li>
-              <li>Special</li>
-            </ul>
-          </nav>
-        </div>
-        {/* The default state, things are shown */}
-        <div id="menuDefaultDisplay">
+       
+        {/* 
+            Default state for the main nav inactive state 
+            It is "visible" by default, and "hidden" when the submenu is "active".
+        */}
+        <div id="menuBarDefaultDisplay" className={this.state.mainNavBar} onClick={this.toggleMainMenu}>
           <MainMenuScore/>
           <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} />
         </div>
+
+        {/*
+          This is the main nav bar.  
+          It is "invisible" when inactive, and "visible" when active
+        */}
+        <div id="menuBarNavBarActive" className={this.state.mainNavMenuVisibility}>
+          <nav>
+            <ul>
+              <li onClick={this.toggleMenuGame}>Game</li>                
+              <li>File</li>
+              <li>Special</li>
+              <li>Sound</li>
+            </ul>
+          </nav>
+        </div>
+
+        {/* These are the submenu dropdowns. 
+            They are "invisible" when the main nav bar is displayed
+            They are "invisible" but ready for clickhandlers when the
+        */}
+
+      <NavGame mainNavGameMenu={this.state.mainNavGameMenu} />
+
+
+      {/* <NavFile/>
+      <NavSpecial/>
+      <NavSound/> */}
+
+
+      <div id="menu" className={this.state.menuVisibility} >
+        
+
+        
+        {/* The default state, things are shown */}
+
       </div>
-      <div id="hoverblock" className={this.state.menuVisibility}></div>
-    </React.Fragment>)
-}
+      
+
+      
+      <div id="hoverblock" onClick={this.toggleMainMenu}  className={this.state.menuVisibility}></div>
+
+    </React.Fragment>
+  )}
 }
 
 
@@ -60,30 +111,3 @@ export default class MainMenuBar extends Component {
 
 
 // }
-
-
-
-// class MainMenuBar extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {soundState: "Off"};
-  //   this.setSoundState = this.setSoundState.bind(this);
-
-  // }
-
-
-  // setSoundState(){
-  //   console.log(this)
-  // }
-
-//   render() {
-
-//       return (
-//       <React.Fragment>
-//         <MainMenuScore/>
-//         <MainMenuSound />
-//       </React.Fragment>)
-//   }
-// }
-
-// export default MainMenuBar;
