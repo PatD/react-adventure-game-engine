@@ -87,7 +87,6 @@ class App extends Component {
       // this.setdefaultKeyboardListners();
     }
   }
-
   haltHero(){
     this.handleHeroPositioning("stop")
     this.setState({heroMoving:"stopped"})    
@@ -213,7 +212,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <InventoryScreen inventoryVisable={this.state.inventoryVisable} /> 
-        <section id="gameUI">
+        
           <Screen 
             soundStatus={this.state.soundStatus}
             heroDirection={this.state.heroDirection}
@@ -228,7 +227,7 @@ class App extends Component {
             textParserChange={this.textParserChange}
             textParserFocus={this.textParserFocus}
             toggleSound={this.toggleSound} />
-        </section>
+        
         <Debug debugText={this.state.debuggerValue}  />
         <GameSelector loadGameFile={this.loadGameFile} />
       </React.Fragment>

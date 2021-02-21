@@ -17,6 +17,7 @@
 }
 
 #debugger{
+  display: none;
   position: absolute;
   top:5px;
   left:5px;
@@ -53,74 +54,105 @@ body{
   background: #000;
 }
 #gameUI{
+  position: relative;
   background: #cccccc;
-  display:grid;
-  grid-template-rows: 30px 500px 1fr;
+  /* display:grid; */
+  /* grid-template-rows: 500px 1fr; */
   /* grid-template-columns: ; */
+  min-height:80vh;
   max-width: 50vw;
-  margin:5vh auto;
+  margin: auto;
   /* border:2em solid #000 */
 }
 
-#gameUI header{
+
+
+header{
+  max-width: 50vw;
+  margin:0 auto;
   background: #fff;
   border-bottom:1px solid #444;
-  position: relative;
-    top: 0;
-    left: 0;
-    z-index: 1;
 }
 
-#gameUI header span{
+header span{
   display: inline-block;
   padding:4px 12px;
 }
 
-#gameUI .soundStatus{
+header .soundStatus{
   float: right;
 }
 
 
 
 /* Main Nav before anyone clicks */
-#gameUI #menuBarDefaultDisplay.active{
-  color:green
+header #menuBarDefaultDisplay{
+  height: 100%;
+  padding-top: 2px;
 }
-#gameUI #menuBarDefaultDisplay.inactive{
-  color:red
+
+header #menuBarDefaultDisplay.active{
+  color:green;
+  display:block;
+}
+header #menuBarDefaultDisplay.inactive{
+  display:none;
 }
 
 /* Main nav bar menu items visible */
-#gameUI #menuBarNavBarActive.active{
-  color:green
+header #menuBarNavBarActive.active{
+  color:green;
 }
-#gameUI #menuBarNavBarActive.inactive{
-  color:red
+header #menuBarNavBarActive.inactive{
+  color:red;
+  display:none;
 }
 
 /* Sub menu items visible */
-#gameUI .subMenu.active{
-  color:green
+header .subMenu.inactive{
+  display:none;
 }
-#gameUI .subMenu.inactive{
+#gameUI .subMenu.active{
+  display:block;
+}
+
+
+header .subMenu.active li{
+  color:blue;
+}
+header .subMenu.inactive li{
   color:red
 }
 
-
-#gameUI #menuBarNavBarActive li{
+header #menuBarNavBarActive li{
   display: inline-block;
 }
 
 
 
+/* Invisible click-off-menu-zone */
+header #hoverblock.active{
+  display: none;
+}
+
+header #hoverblock.inactive{
+    background: green;
+    /* position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 80vh;
+    top: 200px;
+    left: 0; */
+    opacity: 0.2;
+}
 
 
 /* File menu hide */
-#gameUI header #menuHoverDisplay{
+/* #gameUI header #menuHoverDisplay{ */
   /* display: none; */
 /* visibility: hidden;
 z-index: -100; */
-}
+/* } */
 
 /* Score and name bar content */
 /* #gameUI header #menuDefaultDisplay{
@@ -137,16 +169,7 @@ z-index: -100; */
   display: none;
 } */
 
-/* #gameUI header #hoverblock.menuOpen{
-    background: green;
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    height: 80vh;
-    top: 0;
-    left: 0;
-    opacity: 0;
-} */
+
 
 
 /* #gameUI header  #menuHoverDisplay.menuClosed{
@@ -198,7 +221,11 @@ z-index: -100; */
 
 #gameUI footer{
   background: #000;
-  padding:2% 0;
+    padding: 2% 0;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
 }
 
 #gameUI footer form{
@@ -292,7 +319,7 @@ z-index: -100; */
 }
 
 
-main{position: relative;}
+main{position: absolute; min-width: 100%; min-height: 100%;}
 
 
 

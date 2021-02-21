@@ -51,6 +51,7 @@ export default class Screen extends Component {
           toggleSound={this.props.toggleSound} 
           soundStatus={this.props.soundStatus} />
       </header>
+      <section id="gameUI">
       <main>
         <Hero 
           heroPositionX={this.props.heroPositionX}
@@ -68,7 +69,7 @@ export default class Screen extends Component {
           />
           </form>
       </footer>
-
+      </section>
       <Modal show={this.state.modalStatus} handleClose={this.hideModal} modalText={this.state.modalText}/>
     </React.Fragment>)
   }

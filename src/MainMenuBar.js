@@ -11,35 +11,42 @@ export default class MainMenuBar extends Component {
   constructor() {
     super();
     this.state = {
-      mainNavBar: "active",  // or 'active'
-      mainNavMenuVisibility: "inactive", // or 'active'
-      mainNavGameMenu: "inactive" // or 'active'
+      mainNavBar: "active",  
+      mainNavMenuVisibility: "inactive", 
+      mainNavGameMenu: "inactive subMenu" 
     };
   }
-  toggleMainMenu = (event) =>{ 
-
+  activateMainMenu = (event) =>{ 
     event.preventDefault();
     if(this.state.mainNavBar === "active"){
       this.setState({
         mainNavBar:"inactive",
         mainNavMenuVisibility: "active"
       })
-
-
     } else {
      // this.setState({menuVisibility:"menuClosed"})
     }
   }
 
-  // toggleMenuGame = (event) =>{ 
-  //   console.log(event)
-  //   event.preventDefault();
-  //   if(this.state.menuVisibilityGame === "menuClosed subMenu"){
-  //     this.setState({menuVisibilityGame:"menuOpen subMenu"})
-  //   } else {
-  //     this.setState({menuVisibilityGame:"menuClosed subMenu"})
-  //   }
-  // }
+
+  toggleMenuGame = (event) =>{
+    event.preventDefault();
+    this.setState({
+      mainNavGameMenu: "active subMenu"
+    })
+  }
+
+  // Fires when a menu item is chosen
+  resetMenu = (event) =>{
+    this.setState({
+      mainNavBar: "active",  
+      mainNavMenuVisibility: "inactive", 
+      mainNavGameMenu: "inactive subMenu" 
+    })
+  }
+
+
+
   
   // return <span className='soundStatus'>Sound:{props.soundState}</span>
   render(props){
@@ -50,7 +57,7 @@ export default class MainMenuBar extends Component {
             Default state for the main nav inactive state 
             It is "visible" by default, and "hidden" when the submenu is "active".
         */}
-        <div id="menuBarDefaultDisplay" className={this.state.mainNavBar} onClick={this.toggleMainMenu}>
+        <div id="menuBarDefaultDisplay" className={this.state.mainNavBar} onClick={this.activateMainMenu}>
           <MainMenuScore/>
           <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} />
         </div>
@@ -75,7 +82,7 @@ export default class MainMenuBar extends Component {
             They are "invisible" but ready for clickhandlers when the
         */}
 
-      <NavGame mainNavGameMenu={this.state.mainNavGameMenu} />
+      <NavGame resetMenu={this.resetMenu} mainNavGameMenu={this.state.mainNavGameMenu} />
 
 
       {/* <NavFile/>
@@ -83,17 +90,10 @@ export default class MainMenuBar extends Component {
       <NavSound/> */}
 
 
-      <div id="menu" className={this.state.menuVisibility} >
-        
-
-        
-        {/* The default state, things are shown */}
-
-      </div>
       
 
       
-      <div id="hoverblock" onClick={this.toggleMainMenu}  className={this.state.menuVisibility}></div>
+      {/* <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div> */}
 
     </React.Fragment>
   )}
