@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import MainMenuSound from './MainMenuSound.js'
 import MainMenuScore from './MainMenuScore.js'
 import NavGame from './navs/Game.js'
-// import NavFile from './navs/File.js'
-// import NavSound from './navs/Sound.js'
-// import NavSpecial from './navs/Special.js'
+import NavFile from './navs/File.js'
+import NavSound from './navs/Sound.js'
+import NavSpecial from './navs/Special.js'
 
 
 export default class MainMenuBar extends Component {
@@ -13,7 +13,10 @@ export default class MainMenuBar extends Component {
     this.state = {
       mainNavBar: "active",  
       mainNavMenuVisibility: "inactive", 
-      mainNavGameMenu: "inactive subMenu" 
+      mainNavGameMenu: "inactive subMenu",
+      mainNavFileMenu: "inactive subMenu",
+      mainNavSoundMenu: "inactive subMenu",
+      mainNavSpecialMenu: "inactive subMenu",
     };
   }
   activateMainMenu = (event) =>{ 
@@ -23,17 +26,26 @@ export default class MainMenuBar extends Component {
         mainNavBar:"inactive",
         mainNavMenuVisibility: "active"
       })
-    } else {
-     // this.setState({menuVisibility:"menuClosed"})
     }
   }
 
 
-  toggleMenuGame = (event) =>{
+  toggleMenuDropdown = (event) =>{
     event.preventDefault();
+    
+    // Close menus
     this.setState({
-      mainNavGameMenu: "active subMenu"
+      mainNavGameMenu: "inactive subMenu",
+      mainNavFileMenu: "inactive subMenu",
+      mainNavSoundMenu: "inactive subMenu",
+      mainNavSpecialMenu: "inactive subMenu",
     })
+
+    // Open selected menu
+    const selectedMenuForSetState = {}
+    selectedMenuForSetState["mainNav" + event.target.innerText + "Menu"] = "active subMenu"
+
+    this.setState(selectedMenuForSetState)
   }
 
   // Fires when a menu item is chosen
@@ -69,43 +81,23 @@ export default class MainMenuBar extends Component {
         <div id="menuBarNavBarActive" className={this.state.mainNavMenuVisibility}>
           <nav>
             <ul>
-              <li onClick={this.toggleMenuGame}>Game</li>                
-              <li>File</li>
-              <li>Special</li>
-              <li>Sound</li>
+              <li onClick={this.toggleMenuDropdown}>Game</li>                
+              <li onClick={this.toggleMenuDropdown}>File</li>
+              <li onClick={this.toggleMenuDropdown}>Special</li>
+              <li onClick={this.toggleMenuDropdown}>Sound</li>
             </ul>
           </nav>
         </div>
 
-        {/* These are the submenu dropdowns. 
-            They are "invisible" when the main nav bar is displayed
-            They are "invisible" but ready for clickhandlers when the
-        */}
-
-      <NavGame resetMenu={this.resetMenu} mainNavGameMenu={this.state.mainNavGameMenu} />
-
-
-      {/* <NavFile/>
-      <NavSpecial/>
-      <NavSound/> */}
+   
+      <NavGame    resetMenu={this.resetMenu} mainNavGameMenu={this.state.mainNavGameMenu} />
+      <NavFile    resetMenu={this.resetMenu} mainNavFileMenu={this.state.mainNavFileMenu} />
+      <NavSpecial resetMenu={this.resetMenu} mainNavSpecialMenu={this.state.mainNavSpecialMenu} />
+      <NavSound   resetMenu={this.resetMenu} mainNavSoundMenu={this.state.mainNavSoundMenu} />
 
 
-      
-    <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div>
-
+      {/* clicking off the menu closes it */}
+      <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div>
     </React.Fragment>
   )}
 }
-
-
-
-
-// const menuDropDowns = {
-
-//   "File":["About this game","Help"],
-//   "Action":["New Game","Save Game","Restore Game","Quit"],
-//   "Special":["Do a thing"],
-//   "Speed":["Slow","Normal","Fast"]
-
-
-// }

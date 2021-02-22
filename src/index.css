@@ -68,10 +68,12 @@ body{
 
 
 header{
+  position: static;
   max-width: 50vw;
   margin:0 auto;
   background: #fff;
   border-bottom:1px solid #444;
+  
 }
 
 header span{
@@ -81,6 +83,10 @@ header span{
 
 header .soundStatus{
   float: right;
+}
+
+header{
+  cursor: url('/hand.png'),pointer;
 }
 
 
@@ -113,27 +119,31 @@ header #menuBarNavBarActive li{
 
 /* Sub menu items visible */
 header .subMenu.inactive{
-  display:none;
-}
-#gameUI .subMenu.active{
+  z-index: -1;
   display:block;
+  position: absolute;
+}
+header .active.subMenu {
+  display:block;
+  position: absolute;
+  z-index: 2;
+  outline: 2px solid #444;
+  background: #fff;
+  padding: 15px 30px;
+  outline-offset: -10px;
 }
 
 
 header .subMenu.active li{
-  color:blue;
+  list-style-type: none;
+  padding:5px 0 5px 0;
 }
-header .subMenu.inactive li{
-  color:red
-}
-
-
 
 
 
 /* Invisible click-off-menu-zone */
 header #hoverblock.active{
-  display: none;
+  z-index: -1;
 }
 
 header #hoverblock.inactive{

@@ -16,9 +16,8 @@ export default class navGame extends Component{
     return (
       <React.Fragment>
           <ul className={this.props.mainNavGameMenu}>
-          <li onClick={this.handleHelpClick}>Help</li>
-              <li onClick={this.handleAboutClick}>About</li>
-              
+            <li onClick={this.handleHelpClick}>Help</li>
+            <li onClick={this.handleAboutClick}>About</li>  
           </ul>
       </React.Fragment>
     );
