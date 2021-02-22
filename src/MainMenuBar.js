@@ -91,9 +91,7 @@ export default class MainMenuBar extends Component {
 
 
       
-
-      
-      {/* <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div> */}
+    <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div>
 
     </React.Fragment>
   )}

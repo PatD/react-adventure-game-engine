@@ -90,9 +90,7 @@ header #menuBarDefaultDisplay{
   height: 100%;
   padding-top: 2px;
 }
-
 header #menuBarDefaultDisplay.active{
-  color:green;
   display:block;
 }
 header #menuBarDefaultDisplay.inactive{
@@ -101,12 +99,17 @@ header #menuBarDefaultDisplay.inactive{
 
 /* Main nav bar menu items visible */
 header #menuBarNavBarActive.active{
-  color:green;
+  padding:5px;
 }
 header #menuBarNavBarActive.inactive{
-  color:red;
   display:none;
 }
+
+header #menuBarNavBarActive li{
+  display: inline-block;
+  padding:0 20px 0 4px;
+}
+
 
 /* Sub menu items visible */
 header .subMenu.inactive{
@@ -124,9 +127,7 @@ header .subMenu.inactive li{
   color:red
 }
 
-header #menuBarNavBarActive li{
-  display: inline-block;
-}
+
 
 
 
@@ -136,14 +137,13 @@ header #hoverblock.active{
 }
 
 header #hoverblock.inactive{
-    background: green;
-    /* position: absolute;
-    z-index: 0;
-    width: 100%;
-    height: 80vh;
-    top: 200px;
-    left: 0; */
-    opacity: 0.2;
+  opacity: 0;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 
@@ -319,7 +319,10 @@ z-index: -100; */
 }
 
 
-main{position: absolute; min-width: 100%; min-height: 100%;}
+main{
+  position: absolute; 
+  min-width: 100%; 
+  min-height: 100%;}
 
 
 
