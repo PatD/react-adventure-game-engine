@@ -78,10 +78,10 @@ header{
 
 header span{
   display: inline-block;
-  padding:4px 12px;
+  padding:6px 12px;
 }
 
-header .soundStatus{
+header #gameTitle{
   float: right;
 }
 
@@ -116,6 +116,24 @@ header #menuBarNavBarActive li{
   padding:0 20px 0 4px;
 }
 
+header #menuBarNavBarActive li.subMenu.inactive{
+  position: static;
+  padding:2px 10px;
+}
+
+
+header #menuBarNavBarActive li.subMenu.active{
+  position: static;
+  outline:none;
+  background:#222;
+  color:#fff;
+  padding:2px 10px;
+}
+
+
+
+
+
 
 /* Sub menu items visible */
 header .subMenu.inactive{
@@ -133,10 +151,27 @@ header .active.subMenu {
   outline-offset: -10px;
 }
 
-
 header .subMenu.active li{
   list-style-type: none;
   padding:5px 0 5px 0;
+}
+
+
+/* Submenu positioning */
+header ul.subMenu.active {
+  margin-left:0px;
+}
+header ul:nth-of-type(2).subMenu.active {
+  margin-left:80px;
+}
+header ul:nth-of-type(3).subMenu.active {
+  margin-left:170px;
+}
+header ul:nth-of-type(4).subMenu.active {
+  margin-left:305px;
+}
+header ul:nth-of-type(5).subMenu.active {
+  margin-left:365px;
 }
 
 
@@ -157,71 +192,17 @@ header #hoverblock.inactive{
 }
 
 
-/* File menu hide */
-/* #gameUI header #menuHoverDisplay{ */
-  /* display: none; */
-/* visibility: hidden;
-z-index: -100; */
-/* } */
-
-/* Score and name bar content */
-/* #gameUI header #menuDefaultDisplay{
-  display: block;
-} */
-
-/* Open state */
-/* #gameUI header #menu.menuOpen #menuHoverDisplay{
-  visibility: visible;
-  z-index: 100;
-}
-
-#gameUI header #menu.menuOpen #menuDefaultDisplay{
-  display: none;
-} */
 
 
 
 
-/* #gameUI header  #menuHoverDisplay.menuClosed{
-  display: none;
-}
-
-#gameUI header .menuOpen #menuHoverDisplay.menuOpen{
-  display: block;
-}
-*/
-
-/* #gameUI header #menuHoverDisplay nav li{
-  display: inline-block;
-  padding:6px 10px 0px 10px
-}  */
 
 
-/* #gameUI header .subMenu {
-  padding: 1em;
-  background: #fff;
-  border: 2px solid #444;
-  outline: 10px solid #fff;
-  margin-bottom: 1em;
-  z-index:100;
-  position: relative;
-} 
-
-#gameUI header .subMenu li{
-  list-style: none;
-    margin: 0;
-    padding: 0 0 5px 0;
-    display: block;
-} */
 
 
-/* dropdown box css
-#gameUI header .menuClosed.subMenu{
-  display: none;
-}
-#gameUI header .menuOpen.subMenu{
-  display: block;
-} */
+
+
+
 
 
 
@@ -255,7 +236,6 @@ z-index: -100; */
   color:transparent;
 }
 
-
 #gameUI footer input{
   color:#fff;
   background:#000;
@@ -268,7 +248,6 @@ z-index: -100; */
   content:">";
   color:#fff;
 }
-
 
 #gameUI footer input:focus{
   outline:#000;

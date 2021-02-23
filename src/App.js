@@ -3,7 +3,7 @@ import Screen from './Screen';
 import Debug from './Debug'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
-// import HandleKeyPresses from './HandleKeyPresses'
+import MainMenuBar from './MainMenuBar'
 
 
 class App extends Component {
@@ -29,8 +29,6 @@ class App extends Component {
     };
 
     this.toggleSound = this.toggleSound.bind(this);
-    // this.setdefaultKeyboardListners = this.setdefaultKeyboardListners.bind(this)
-    // this.setModalKeyboardListeners = this.setModalKeyboardListeners.bind(this)
   }
   
 
@@ -205,14 +203,23 @@ class App extends Component {
     this.setdefaultKeyboardListners();
   }
 
-
+  // Accepts input from main menu
+  handleDropDownMenuClick = (event) =>{
+    console.log(event.target.innerText)
+  }
 
 
   render() { 
     return (
       <React.Fragment>
         <InventoryScreen inventoryVisable={this.state.inventoryVisable} /> 
-        
+        <header>
+        <MainMenuBar 
+            gameTitle={this.state.title}
+            handleDropDownMenuClick={this.handleDropDownMenuClick}
+            menuActive={true} 
+            playerScore={0}  />
+        </header>
           <Screen 
             soundStatus={this.state.soundStatus}
             heroDirection={this.state.heroDirection}

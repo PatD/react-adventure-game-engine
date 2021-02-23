@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MainMenuBar from './MainMenuBar'
 import TextInputParse from './TextInputParser'
 import Modal from './Modal'
 import Hero from './Hero'
@@ -44,13 +43,7 @@ export default class Screen extends Component {
   render(props) {
     return (  
     <React.Fragment> 
-      <header>
-        <MainMenuBar 
-          menuActive={true} 
-          playerScore={0} 
-          toggleSound={this.props.toggleSound} 
-          soundStatus={this.props.soundStatus} />
-      </header>
+
       <section id="gameUI">
       <main>
         <Hero 
