@@ -11,6 +11,7 @@ class App extends Component {
     super();
 
     this.state = {
+      pausedgame:false,
       soundStatus: "On",
       debuggerValue: "This is the debugger window",
       textParserValue:"",
@@ -31,6 +32,14 @@ class App extends Component {
     this.toggleSound = this.toggleSound.bind(this);
   }
   
+  togglePause(){
+    if(this.state.pausedgame === false){
+      this.setState({ pausedgame: true});
+      this.haltHero();
+    } else{
+      this.setState({ pausedgame: false});
+    }
+  }
 
   toggleSound(){
 
@@ -77,12 +86,18 @@ class App extends Component {
   toggleInventoryScreen(key){
     this.updateDebugger(key);
     if (this.state.inventoryVisable === "display-none") {
-      this.setState({ inventoryVisable: "display-block" })
+      this.setState({ 
+        inventoryVisable: "display-block",
+        pausedgame: true
+      });
+      this.haltHero();
       this.updateDebugger("User activates inventory screen\n");
     } else {
-      this.setState({ inventoryVisable: "display-none" })
+      this.setState({ 
+        inventoryVisable: "display-none",
+        pausedgame: false
+      });
       this.updateDebugger("User deactivates inventory screen\n");
-      // this.setdefaultKeyboardListners();
     }
   }
   haltHero(){
@@ -136,23 +151,27 @@ class App extends Component {
 
 
   handleHeroMovement(keypress){
-    this.updateDebugger(keypress);
     
-    // If hero is moving and a different movement direction is picked
-    if(this.state.heroMoving === "moving" && this.state.heroDirection !== keypress){
-      // Change hero direction and keep hero moving
-      this.setState({heroDirection:keypress,heroMoving:"moving"});
-      this.handleHeroPositioning("stop") // stop first
-      this.handleHeroPositioning(keypress) // then go
-    }
-    // If they're moving and they hit the same direciton key, stop them
-    else if(this.state.heroMoving === "moving" && this.state.heroDirection === keypress) {
-      this.haltHero();     
-    } 
-    // Otherwise, let the hero walk
-    else {
-      this.handleHeroPositioning(keypress)
-      this.setState({heroDirection:keypress,heroMoving:"moving"});
+    // Don't move the hero if the game is paused
+    if(this.state.pausedgame === false){  
+      this.updateDebugger(keypress);
+
+      // If hero is moving and a different movement direction is picked
+      if(this.state.heroMoving === "moving" && this.state.heroDirection !== keypress){
+        // Change hero direction and keep hero moving
+        this.setState({heroDirection:keypress,heroMoving:"moving"});
+        this.handleHeroPositioning("stop") // stop first
+        this.handleHeroPositioning(keypress) // then go
+      }
+      // If they're moving and they hit the same direciton key, stop them
+      else if(this.state.heroMoving === "moving" && this.state.heroDirection === keypress) {
+        this.haltHero();     
+      } 
+      // Otherwise, let the hero walk
+      else {
+        this.handleHeroPositioning(keypress)
+        this.setState({heroDirection:keypress,heroMoving:"moving"});
+      }
     }
   };
   
@@ -212,7 +231,8 @@ class App extends Component {
   render() { 
     return (
       <React.Fragment>
-        <InventoryScreen inventoryVisable={this.state.inventoryVisable} /> 
+        <InventoryScreen 
+          inventoryVisable={this.state.inventoryVisable} /> 
         <header>
         <MainMenuBar 
             gameTitle={this.state.title}
