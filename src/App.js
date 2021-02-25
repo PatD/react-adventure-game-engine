@@ -69,20 +69,18 @@ class App extends Component {
     // Clears input field
     this.setState({ textParserValue: ""  })
   }
-  textParserBlur = event => {
- //   console.log("parser blurred")
-  }
-  textParserChange = event => {
+//   textParserBlur = event => {
+//  //   console.log("parser blurred")
+//   }
+  textParserChange = (event) => {
    // console.log("parser changed")
-
     this.setState({
       textParserValue: event.target.value
     });
-
   }
-  textParserFocus = event =>{
- //   console.log("parser focused")
-  }
+//   textParserFocus = event =>{
+//  //   console.log("parser focused")
+//   }
   toggleInventoryScreen(key){
     this.updateDebugger(key);
     if (this.state.inventoryVisable === "display-none") {
@@ -250,9 +248,9 @@ class App extends Component {
             textParserValue={this.state.textParserValue}
             setdefaultKeyboardListners={this.setdefaultKeyboardListners}
             submitTextParser={this.submitTextParser}
-            textParserBlur={this.textParserBlur}
+            // textParserBlur={this.textParserBlur}
             textParserChange={this.textParserChange}
-            textParserFocus={this.textParserFocus}
+            // textParserFocus={this.textParserFocus}
             toggleSound={this.toggleSound} />
         
         <Debug debugText={this.state.debuggerValue}  />

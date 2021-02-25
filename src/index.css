@@ -16,6 +16,12 @@
   user-select: none;
 }
 
+/* Safari is weird about input fields */
+input{
+  user-select: text;
+}
+
+
 #debugger{
   display: none;
   position: absolute;
@@ -173,7 +179,6 @@ header ul:nth-of-type(4).subMenu.active {
 header ul:nth-of-type(5).subMenu.active {
   margin-left:365px;
 }
-
 
 
 /* Invisible click-off-menu-zone */
