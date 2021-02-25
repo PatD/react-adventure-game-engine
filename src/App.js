@@ -6,7 +6,7 @@ import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
 
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
 
@@ -32,7 +32,7 @@ class App extends Component {
     this.toggleSound = this.toggleSound.bind(this);
   }
   
-  togglePause(){
+  togglePause = () =>{
     if(this.state.pausedgame === false){
       this.setState({ pausedgame: true});
       this.haltHero();
@@ -63,24 +63,21 @@ class App extends Component {
     // Populates the Submitted Text state for processing
     this.setState({ submittedText: event.target.elements[0].value  })
 
-    // Updates debugger
-    this.setState({ debuggerValue: "\n Player submitted some text"  })
+    // // Updates debugger
+    // this.setState({ debuggerValue: "\n Player submitted some text"  })
 
     // Clears input field
     this.setState({ textParserValue: ""  })
   }
-//   textParserBlur = event => {
-//  //   console.log("parser blurred")
-//   }
+
+
   textParserChange = (event) => {
    // console.log("parser changed")
     this.setState({
       textParserValue: event.target.value
     });
   }
-//   textParserFocus = event =>{
-//  //   console.log("parser focused")
-//   }
+
   toggleInventoryScreen(key){
     this.updateDebugger(key);
     if (this.state.inventoryVisable === "display-none") {
@@ -98,6 +95,7 @@ class App extends Component {
       this.updateDebugger("User deactivates inventory screen\n");
     }
   }
+
   haltHero(){
     this.handleHeroPositioning("stop")
     this.setState({heroMoving:"stopped"})    
@@ -251,6 +249,7 @@ class App extends Component {
             // textParserBlur={this.textParserBlur}
             textParserChange={this.textParserChange}
             // textParserFocus={this.textParserFocus}
+            togglePause={this.togglePause}
             toggleSound={this.toggleSound} />
         
         <Debug debugText={this.state.debuggerValue}  />
@@ -259,5 +258,4 @@ class App extends Component {
     );
   }
 }
-
-export default App;
+ 

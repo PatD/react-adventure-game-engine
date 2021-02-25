@@ -21,13 +21,14 @@ export default class Screen extends Component {
 
   hideModal = () => {
     this.setState({ modalStatus: "modal display-none" });
+    this.props.togglePause();
   };
 
   // User has entered text, show a modal
-  respondUserText = () =>{
-    // this.props.setModalKeyboardListeners();
-    this.setState({ modalText: "The hero typed " + this.props.submittedText + "." })
-    this.setState({ modalStatus: "modal display-block" })
+  respondUserText = () => {
+    this.props.togglePause();
+    this.setState({ modalText: "The hero typed " + this.props.submittedText + ".",
+                    modalStatus: "modal display-block" })
   }
 
 
@@ -38,32 +39,38 @@ export default class Screen extends Component {
     }
   }
 
- 
+
 
   render(props) {
-    return (  
-    <React.Fragment> 
+    return (
+      <React.Fragment>
 
-      <section id="gameUI">
-      <main>
-        <Hero 
-          heroPositionX={this.props.heroPositionX}
-          heroPositionY={this.props.heroPositionY}
-          heroDirection={this.props.heroDirection} 
-          heroMoving={this.props.heroMoving} />
-      </main>
-      <footer>
-        <form onSubmit={this.props.submitTextParser}>
-        <TextInputParse 
-          textParserBlur={this.props.textParserBlur}
-          textParserChange={this.props.textParserChange}
-          textParserFocus={this.props.textParserFocus}
-          textParserValue={this.props.textParserValue}
-          />
-          </form>
-      </footer>
-      </section>
-      <Modal show={this.state.modalStatus} handleClose={this.hideModal} modalText={this.state.modalText}/>
-    </React.Fragment>)
+        <section id="gameUI">
+          <main>
+            <Hero
+              heroPositionX={this.props.heroPositionX}
+              heroPositionY={this.props.heroPositionY}
+              heroDirection={this.props.heroDirection}
+              heroMoving={this.props.heroMoving} />
+          </main>
+          <footer>
+            <form onSubmit={this.props.submitTextParser}>
+              <TextInputParse
+                textParserBlur={this.props.textParserBlur}
+                textParserChange={this.props.textParserChange}
+                textParserFocus={this.props.textParserFocus}
+                textParserValue={this.props.textParserValue}
+              />
+            </form>
+          </footer>
+        </section>
+
+        <Modal 
+          togglePause={this.props.togglePause}
+          show={this.state.modalStatus}
+          handleClose={this.hideModal}
+          modalText={this.state.modalText} />
+
+      </React.Fragment>)
   }
 }
