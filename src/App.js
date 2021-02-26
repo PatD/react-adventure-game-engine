@@ -11,6 +11,8 @@ export default class App extends Component {
     super();
 
     this.state = {
+      modalStatus: "modal display-none", 
+      modalText: "Modal content is here!",
       pausedgame:false,
       soundStatus: "On",
       debuggerValue: "This is the debugger window",
@@ -32,11 +34,16 @@ export default class App extends Component {
     this.toggleSound = this.toggleSound.bind(this);
   }
   
+  hideModal = () => {
+    this.setState({ modalStatus: "modal display-none" });
+    this.togglePause();
+  };
+
   togglePause = () =>{
     if(this.state.pausedgame === false){
       this.setState({ pausedgame: true});
       this.haltHero();
-    } else{
+    } else {
       this.setState({ pausedgame: false});
     }
   }
@@ -54,29 +61,54 @@ export default class App extends Component {
     this.setState({ debuggerValue: "\n Player pressed: " + keyCaptured + "\n " +  this.state.debuggerValue  })
   }
 
-  // Text parser
+ 
+
+  // Fires when user hits enter on text field
   submitTextParser = event => {
     event.preventDefault();
-    console.log("enter key pressed:")
-    console.log(event.target.elements[0].value)
 
-    // Populates the Submitted Text state for processing
-    this.setState({ submittedText: event.target.elements[0].value  })
-
-    // // Updates debugger
-    // this.setState({ debuggerValue: "\n Player submitted some text"  })
-
-    // Clears input field
-    this.setState({ textParserValue: ""  })
+    if(this.state.pausedgame === false){
+      
+      console.log("Enter key: " + event.target.elements[0].value)
+  
+      // Populates the Submitted Text state for processing
+      // then clears input field
+      this.setState({ 
+        submittedText: event.target.elements[0].value,
+        textParserValue: ""
+      })
+  
+      // Every text entry prompts a modal opening:
+      this.togglePause();
+      this.handleSubmittedTextModal(event.target.elements[0].value)
+    }
+    else{
+      // If the enter key is pressed, while the modal is open, close the mdoal
+      this.hideModal()
+    }
   }
 
 
+  // Update state as letters are typed into input field
   textParserChange = (event) => {
-   // console.log("parser changed")
-    this.setState({
-      textParserValue: event.target.value
-    });
+    if(this.state.pausedgame === false){
+      this.setState({
+        textParserValue: event.target.value
+      });
+    }
   }
+
+
+  handleSubmittedTextModal = (text) =>{
+    this.setState({ 
+      modalText: "The hero typed " + text + ".",
+      modalStatus: "modal display-block" 
+    })
+  }
+
+
+
+
 
   toggleInventoryScreen(key){
     this.updateDebugger(key);
@@ -186,7 +218,13 @@ export default class App extends Component {
         event.preventDefault()
         self.handleHeroMovement(event.key);
 
-      } else if(event.key === 'Tab'){
+      } else if(event.key === 'Enter'){
+        // Handle tab key for movement
+        // event.preventDefault()
+        // console.log("!ENTER KEY!")
+
+      }
+        else if(event.key === 'Tab'){
         // Handle tab key for movement
         event.preventDefault()
         self.toggleInventoryScreen(event.key);
@@ -218,6 +256,10 @@ export default class App extends Component {
     this.setdefaultKeyboardListners();
   }
 
+
+
+
+
   // Accepts input from main menu
   handleDropDownMenuClick = (event) =>{
     console.log(event.target.innerText)
@@ -236,7 +278,13 @@ export default class App extends Component {
             menuActive={true} 
             playerScore={0}  />
         </header>
-          <Screen 
+          <Screen
+            // Modal
+            hideModal={this.hideModal}
+            modalStatus={this.state.modalStatus}
+            modalText={this.state.modalText}
+            // handleSubmittedText={this.handleSubmittedText}
+
             soundStatus={this.state.soundStatus}
             heroDirection={this.state.heroDirection}
             heroMoving={this.state.heroMoving}

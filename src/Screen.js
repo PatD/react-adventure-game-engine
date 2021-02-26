@@ -11,32 +11,26 @@ export default class Screen extends Component {
       modalStatus: "modal display-none",
       modalText: "Modal content is here!"
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
+    // this.showModal = this.showModal.bind(this);
+    // this.hideModal = this.hideModal.bind(this);
   }
 
-  showModal = () => {
-    this.setState({ modalStatus: "modal display-block" })
-  };
 
-  hideModal = () => {
-    this.setState({ modalStatus: "modal display-none" });
-    this.props.togglePause();
-  };
 
   // User has entered text, show a modal
-  respondUserText = () => {
-    this.props.togglePause();
-    this.setState({ modalText: "The hero typed " + this.props.submittedText + ".",
-                    modalStatus: "modal display-block" })
-  }
+  // respondUserText = () => {
+  //   this.props.togglePause();
+  //   this.setState({ modalText: "The hero typed " + this.props.submittedText + ".",
+  //                   modalStatus: "modal display-block" })
+  // }
 
 
   componentDidUpdate(prevProps) {
-    if (prevProps.submittedText !== this.props.submittedText) {
-      console.log("new input!")
-      this.respondUserText()
-    }
+    
+    // Anytime the component re-renders, update the text
+    // if (prevProps.submittedText !== this.props.submittedText) {
+    //   this.respondUserText()
+    // }
   }
 
 
@@ -67,10 +61,10 @@ export default class Screen extends Component {
 
         <Modal 
           togglePause={this.props.togglePause}
-          show={this.state.modalStatus}
-          handleClose={this.hideModal}
-          modalText={this.state.modalText} />
-
+          hideModal={this.props.hideModal}
+          modalStatus={this.props.modalStatus}
+          modalText={this.props.modalText}
+          />
       </React.Fragment>)
   }
 }

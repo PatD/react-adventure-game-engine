@@ -217,9 +217,9 @@ header #hoverblock.inactive{
 
 #gameUI footer{
   background: #000;
-    padding: 2% 0;
+    padding: 12px 0;
     position: absolute;
-    bottom: 0px;
+    bottom: -40px;
     left: 0px;
     width: 100%;
 }
