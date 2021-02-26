@@ -46,10 +46,19 @@ export default class MainMenuBar extends Component {
     const selectedMenuForSetState = {}
     selectedMenuForSetState["mainNav" + event.target.innerText + "Menu"] = "active subMenu";
     this.setState(selectedMenuForSetState)
+
+    // Pause the game
+    this.props.togglePause()
   }
+
+
 
   // Fires when a menu item is chosen
   resetMenu = (event) =>{
+    // unpause game
+    this.props.togglePause()
+
+    // Put the menu back together
     this.setState({
       mainNavBar: "active",  
       mainNavMenuVisibility: "inactive", 
@@ -73,8 +82,9 @@ export default class MainMenuBar extends Component {
           <MainMenuScore/>
           {/* <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} /> */}
           <span id="gameTitle">{this.props.gameTitle}</span>
-
         </div>
+
+
 
         {/*
           This is the main nav bar.  

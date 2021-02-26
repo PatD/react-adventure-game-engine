@@ -4,6 +4,7 @@ import Debug from './Debug'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
+import mainNavFunctions from './MainMenuHelpers';
 
 
 export default class App extends Component {
@@ -263,6 +264,7 @@ export default class App extends Component {
   // Accepts input from main menu
   handleDropDownMenuClick = (event) =>{
     console.log(event.target.innerText)
+    mainNavFunctions.about(this)
   }
 
 
@@ -273,6 +275,7 @@ export default class App extends Component {
           inventoryVisable={this.state.inventoryVisable} /> 
         <header>
         <MainMenuBar 
+            togglePause={this.togglePause}
             gameTitle={this.state.title}
             handleDropDownMenuClick={this.handleDropDownMenuClick}
             menuActive={true} 
