@@ -42,11 +42,18 @@ export default class MainMenuBar extends Component {
       mainNavSpecialMenu: "inactive subMenu",
     })
 
-    // Open selected menu
-    const selectedMenuForSetState = {}
-    selectedMenuForSetState["mainNav" + event.target.innerText + "Menu"] = "active subMenu";
-    this.setState(selectedMenuForSetState)
-
+    // Toggling with a mouse click
+    if(event.target.innerText){
+      // Open selected menu
+      const selectedMenuForSetState = {}
+      selectedMenuForSetState["mainNav" + event.target.innerText + "Menu"] = "active subMenu";
+      this.setState(selectedMenuForSetState)
+    } 
+    // Open the first dropdown when user hits escape key
+    else{
+      this.setState({mainNavGameMenu:"active subMenu"})
+    }
+   
     // Pause the game
     this.props.togglePause()
   }
@@ -56,7 +63,7 @@ export default class MainMenuBar extends Component {
   // Fires when a menu item is chosen
   resetMenu = (event) =>{
     // unpause game
-    this.props.togglePause()
+    // this.props.togglePause()
 
     // Put the menu back together
     this.setState({
@@ -83,7 +90,6 @@ export default class MainMenuBar extends Component {
           {/* <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} /> */}
           <span id="gameTitle">{this.props.gameTitle}</span>
         </div>
-
 
 
         {/*

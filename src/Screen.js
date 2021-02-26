@@ -64,6 +64,9 @@ export default class Screen extends Component {
           hideModal={this.props.hideModal}
           modalStatus={this.props.modalStatus}
           modalText={this.props.modalText}
+          modalTextSlot2={this.props.modalTextSlot2}
+          modalTextSlot3={this.props.modalTextSlot3}
+          modalTextSlot4={this.props.modalTextSlot4}
           />
       </React.Fragment>)
   }

@@ -1,19 +1,37 @@
-// If the man nav does a thing, it happens here
+// Handles Main Navigation menu item clicks.
 
 const mainNavFunctions = {
-    about: function(passedThis){
-        console.log(passedThis)
-        passedThis.setState({pausedgame:true})
-       return passedThis.setState({
-            modalStatus: "modal display-block", 
-            modalText: "Modal content is here!"})
-    },
-    helper2: function(param1){
+
+    // Takes passed menu item name and routes it to the right function
+    route: function (passedThis, passedMenuItem) {
+
+        if (passedMenuItem === 'About') {
+            this.about(passedThis);
+        }
+        else {
+            // Game is currently paused, so on error unpause the game:
+            passedThis.setState({ pausedgame: false })
+        }
 
     },
-    helper3: function(param1, param2){
 
-    }
+
+
+    // Shows the "About this game" modal dialog box.
+    // This should come from the game's own gamedata.json file
+    about: function (passedThis) {
+        return passedThis.setState({
+            modalStatus: "modal display-block",
+            modalText: passedThis.state.title,
+            modalTextSlot2: passedThis.state.subTitle,
+            modalTextSlot3: passedThis.state.description,
+            modalTextSlot4: "Released in " + passedThis.state.copyright + ".",
+        })
+    },
+
+
+
+
 }
 
 export default mainNavFunctions;

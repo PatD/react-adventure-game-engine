@@ -1,7 +1,7 @@
 {
     "title":"Test Quest ][",
-    "subTitle": "For developing a React.js Game Engine",
-    "description":"A test game for development",
+    "subTitle": "The quest to develop a React.js Game Engine!",
+    "description":"This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
     "copyright":"2021",
     "heroPositionX":250,
     "heroPositionY":250,
