@@ -8,6 +8,13 @@ const mainNavFunctions = {
         if (passedMenuItem === 'About') {
             this.about(passedThis);
         }
+        else if (passedMenuItem === 'Help') {
+            this.help(passedThis);
+        }
+
+        else if (passedMenuItem === 'Restart') {
+            this.restart(passedThis);
+        }
         else {
             // Game is currently paused, so on error unpause the game:
             passedThis.setState({ pausedgame: false })
@@ -29,9 +36,23 @@ const mainNavFunctions = {
         })
     },
 
+    help: function(passedThis){
+        return passedThis.setState({
+            modalStatus: "modal display-block",
+            modalText: "Use the arrow keys to move your hero around the screen.",
+            modalTextSlot2: "Use the Tab key to open your inventory.",
+            modalTextSlot3: "Explore and type commands like 'look room' or 'get taco' or 'talk to dragon' to advance the game!",
+        })
+    },
 
-
-
+    restart: function(passedThis){
+        passedThis.setState({
+            modalStatus: "modal display-block",
+            modalText: "Restart the game? All unsaved progress will be lost forever.",
+            modalButtonText1:"Restart",
+            modalButtonText2:"Cancel"
+        })
+    }
 }
 
 export default mainNavFunctions;

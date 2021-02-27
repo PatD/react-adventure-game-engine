@@ -18,20 +18,26 @@ export default class App extends Component {
       modalTextSlot2: "",
       modalTextSlot3: "",
       modalTextSlot4: "",
+      modalButtonText1:"",
+      modalButtonText2:"",
+
       pausedgame: false,
       soundStatus: "On",
       debuggerValue: "This is the debugger window",
       textParserValue: "",
       submittedText: "",
       inventoryVisable: "display-none",
+
+      heroAlive:true,
       heroDirection: "ArrowRight",
       heroMoving: "stopped",
-      heroPositionX: 150,
-      heroPositionY: 150,
+      heroPositionX: 75,
+      heroPositionY: 75,
       heroMovementDisance: 5,
       heroMovementUpdateSpeed: 125,
       heroHeight: 0,
       heroWidth: 0,
+      
       playfieldX: 0,
       playfieldY: 0
     };

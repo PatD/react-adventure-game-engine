@@ -14,8 +14,9 @@ export default class navFile extends Component{
     return (
       <React.Fragment>
           <ul className={this.props.mainNavFileMenu}>
-              <li onClick={this.handleMenuClick}>New Game</li>
+              <li onClick={this.handleMenuClick}>Save Game</li>
               <li onClick={this.handleMenuClick}>Load Game</li>
+              <li onClick={this.handleMenuClick}>Restart</li>
           </ul>
       </React.Fragment>
     );

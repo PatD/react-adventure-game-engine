@@ -305,6 +305,19 @@ header #hoverblock.inactive{
   line-height: 20px;
 }
 
+.modal-main #buttonWrap{
+  margin: 0 auto;
+  text-align: center;
+}
+.modal-main button{
+  background: none;
+  padding: 9px 12px;
+  margin: 20px 30px 5px 0px;
+  border: 4px solid #333;
+  outline: none;
+  cursor: url(/hand.png),pointer;
+}
+
 .display-block {
   display: block;
 }
