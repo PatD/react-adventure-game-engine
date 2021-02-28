@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import mainNavFunctions from './MainMenuHelpers';
 import Screen from './Screen';
 import Debug from './Debug'
+import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
-
 
 
 export default class App extends Component {
@@ -77,6 +77,11 @@ export default class App extends Component {
     this.setState({ debuggerValue: "\n Player pressed: " + keyCaptured + "\n " + this.state.debuggerValue })
   }
 
+  modalButtonClick1 = (event) =>{
+    if(this.state.modalButtonText1 === "Restart"){
+      alert("GAME RESTART")
+    }
+  }
 
 
   // Fires when user hits enter on text field
@@ -296,16 +301,22 @@ export default class App extends Component {
             menuActive={true}
             playerScore={0} />
         </header>
-        <Screen
 
-          // Modal
+        <Modal 
           hideModal={this.hideModal}
           modalStatus={this.state.modalStatus}
           modalText={this.state.modalText}
           modalTextSlot2={this.state.modalTextSlot2}
           modalTextSlot3={this.state.modalTextSlot3}
           modalTextSlot4={this.state.modalTextSlot4}
+          modalButtonText1={this.state.modalButtonText1}
+          modalButtonText2={this.state.modalButtonText2}
+          modalButtonClick1={this.modalButtonClick1}
+          modalButtonClick2={this.modalButtonClick2}
+          />
 
+
+        <Screen
           // handleSubmittedText={this.handleSubmittedText}
 
           soundStatus={this.state.soundStatus}
@@ -329,4 +340,3 @@ export default class App extends Component {
     );
   }
 }
-

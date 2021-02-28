@@ -11,7 +11,6 @@ const mainNavFunctions = {
         else if (passedMenuItem === 'Help') {
             this.help(passedThis);
         }
-
         else if (passedMenuItem === 'Restart') {
             this.restart(passedThis);
         }

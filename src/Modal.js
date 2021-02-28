@@ -12,10 +12,9 @@ export default class Modal extends Component{
           <p className={this.props.modalTextSlot4 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot4}</p>
 
           <div id="buttonWrap">
-            <button>Restart</button>
-            <button>Cancel</button>
+            <button onClick={this.props.modalButtonClick1} className={this.props.modalButtonText1 ==="" ? "display-none" : "display-inlineblock"}>{this.props.modalButtonText1}</button>
+            <button onClick={this.props.modalButtonClick2} className={this.props.modalButtonText2 ==="" ? "display-none" : "display-inlineblock"}>{this.props.modalButtonText2}</button>
           </div>
-
         </section>
       </div>
     );

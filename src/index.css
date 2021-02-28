@@ -318,6 +318,10 @@ header #hoverblock.inactive{
   cursor: url(/hand.png),pointer;
 }
 
+.display-inlineblock {
+  display: inline-block;
+}
+
 .display-block {
   display: block;
 }

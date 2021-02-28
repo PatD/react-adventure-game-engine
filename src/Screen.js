@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TextInputParse from './TextInputParser'
-import Modal from './Modal'
+// import Modal from './Modal'
 import Hero from './Hero'
 
 
@@ -34,7 +34,6 @@ export default class Screen extends Component {
   }
 
 
-
   render(props) {
     return (
       <React.Fragment>
@@ -58,16 +57,6 @@ export default class Screen extends Component {
             </form>
           </footer>
         </section>
-
-        <Modal 
-          togglePause={this.props.togglePause}
-          hideModal={this.props.hideModal}
-          modalStatus={this.props.modalStatus}
-          modalText={this.props.modalText}
-          modalTextSlot2={this.props.modalTextSlot2}
-          modalTextSlot3={this.props.modalTextSlot3}
-          modalTextSlot4={this.props.modalTextSlot4}
-          />
       </React.Fragment>)
   }
 }
