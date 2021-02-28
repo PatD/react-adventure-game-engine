@@ -9,7 +9,6 @@ export default class navFile extends Component{
     this.props.resetMenu();
   }
   
-
   render(props){
     return (
       <React.Fragment>
@@ -17,6 +16,8 @@ export default class navFile extends Component{
               <li onClick={this.handleMenuClick}>Save Game</li>
               <li onClick={this.handleMenuClick}>Load Game</li>
               <li onClick={this.handleMenuClick}>Restart</li>
+              <li> ----------- </li>
+              <li onClick={this.handleMenuClick}>Swap Game</li>
           </ul>
       </React.Fragment>
     );

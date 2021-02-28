@@ -13,6 +13,9 @@ export default class App extends Component {
     super();
 
     this.state = {
+
+      // Modal
+      modalClickToClose:true,
       modalStatus: "modal display-none",
       modalText: "Modal content is here!",
       modalTextSlot2: "",
@@ -21,13 +24,7 @@ export default class App extends Component {
       modalButtonText1:"",
       modalButtonText2:"",
 
-      pausedgame: false,
-      soundStatus: "On",
-      debuggerValue: "This is the debugger window",
-      textParserValue: "",
-      submittedText: "",
-      inventoryVisable: "display-none",
-
+      // Hero stuff
       heroAlive:true,
       heroDirection: "ArrowRight",
       heroMoving: "stopped",
@@ -38,20 +35,36 @@ export default class App extends Component {
       heroHeight: 0,
       heroWidth: 0,
       
+      // Game state stuff
       playfieldX: 0,
-      playfieldY: 0
+      playfieldY: 0,
+      pausedgame: false,
+      soundStatus: "On",
+      debuggerValue: "This is the debugger window",
+      textParserValue: "",
+      submittedText: "",
+      inventoryVisable: "display-none",
+
     };
 
     this.toggleSound = this.toggleSound.bind(this);
   }
 
   hideModal = () => {
-    this.setState({
-      modalStatus: "modal display-none",
-      modalTextSlot2: "",
-      modalTextSlot3: "",
-      modalTextSlot4: "",
-    });
+    if(this.state.modalClickToClose === true){
+      this.setState({
+        modalClickToClose:true,
+        modalStatus: "modal display-none",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+      });
+    } else{
+      console.log('Clicking the modal does nothing here')
+    }
+
+
+    
     this.togglePause();
   };
 
@@ -82,6 +95,13 @@ export default class App extends Component {
       alert("GAME RESTART")
     }
   }
+
+  modalButtonClick2 = (event) =>{
+    if(this.state.modalButtonText1 === "Restart"){
+     // alert('CANCEL')
+    }
+  }
+
 
 
   // Fires when user hits enter on text field
@@ -122,6 +142,7 @@ export default class App extends Component {
 
   handleSubmittedTextModal = (text) => {
     this.setState({
+      modalClickToClose:true,
       modalText: "The hero typed " + text + ".",
       modalStatus: "modal display-block"
     })
@@ -193,8 +214,6 @@ export default class App extends Component {
       return clearInterval(this.movementInterval)
     }
   };
-
-
 
   handleHeroMovement(keypress) {
 
@@ -304,6 +323,7 @@ export default class App extends Component {
 
         <Modal 
           hideModal={this.hideModal}
+          modalClickToClose={this.state.modalClickToClose}
           modalStatus={this.state.modalStatus}
           modalText={this.state.modalText}
           modalTextSlot2={this.state.modalTextSlot2}
@@ -335,6 +355,7 @@ export default class App extends Component {
           toggleSound={this.toggleSound} />
 
         <Debug debugText={this.state.debuggerValue} />
+        
         <GameSelector loadGameFile={this.loadGameFile} />
       </React.Fragment>
     );

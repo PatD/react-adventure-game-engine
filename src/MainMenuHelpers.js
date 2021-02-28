@@ -14,6 +14,9 @@ const mainNavFunctions = {
         else if (passedMenuItem === 'Restart') {
             this.restart(passedThis);
         }
+        else if (passedMenuItem === 'Swap Game') {
+            this.swapGame(passedThis);
+        }
         else {
             // Game is currently paused, so on error unpause the game:
             passedThis.setState({ pausedgame: false })
@@ -49,6 +52,17 @@ const mainNavFunctions = {
             modalStatus: "modal display-block",
             modalText: "Restart the game? All unsaved progress will be lost forever.",
             modalButtonText1:"Restart",
+            modalButtonText2:"Cancel"
+        })
+    },
+
+    swapGame: function(passedThis){
+        passedThis.setState({
+            modalClickToClose:false,
+            modalStatus: "modal display-block",
+            modalText: "Select from any of these games in your /games directory. Any unsaved progress in this current game will be lost.",
+            modalTextSlot2: "Remember that the game must have a valid gamedata.json file, and be listed in the gamelist.json listing.",
+            modalButtonText1:"Load",
             modalButtonText2:"Cancel"
         })
     }
