@@ -31,6 +31,35 @@ export default class Screen extends Component {
     // if (prevProps.submittedText !== this.props.submittedText) {
     //   this.respondUserText()
     // }
+    const rockObjectElement = document.getElementById('rock')
+
+    let heroCollide = {
+      x:this.props.heroPositionX,
+      y:this.props.heroPositionY,
+      width:this.props.heroWidth,
+      height:this.props.heroHeight
+    }
+
+    let rockObject = {
+      width:rockObjectElement.clientWidth,
+      height:rockObjectElement.clientHeight,
+      x:rockObjectElement.offsetTop,
+      y:rockObjectElement.offsetLeft
+    }
+
+    // console.log(heroCollide)
+    // console.log(rockObject)
+
+
+    if (heroCollide.x < rockObject.x + rockObject.width &&
+      heroCollide.x + heroCollide.width > rockObject.x &&
+      heroCollide.y < rockObject.y + rockObject.height &&
+      heroCollide.y + heroCollide.height > rockObject.y) {
+       // collision detected!
+       console.log("DETECT")
+      //  this.props.haltHero()
+   }
+
   }
 
 
@@ -40,6 +69,7 @@ export default class Screen extends Component {
 
         <section id="gameUI">
           <main>
+            <div id="rock"></div>
             <Hero
               heroPositionX={this.props.heroPositionX}
               heroPositionY={this.props.heroPositionY}

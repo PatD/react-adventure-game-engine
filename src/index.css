@@ -393,3 +393,13 @@ main{
   to{background-position-x:-224px;}
 }
 
+
+
+#rock{
+  position: absolute;
+  top:100px;
+  left:200px;
+  width:80px;
+  height:90px;
+  background-color: brown;
+}

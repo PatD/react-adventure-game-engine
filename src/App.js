@@ -167,7 +167,7 @@ export default class App extends Component {
     }
   }
 
-  haltHero() {
+  haltHero = () => {
     this.handleHeroPositioning("stop")
     this.setState({ heroMoving: "stopped" })
   }
@@ -338,12 +338,14 @@ export default class App extends Component {
 
         <Screen
           // handleSubmittedText={this.handleSubmittedText}
-
+          haltHero={this.haltHero}
           soundStatus={this.state.soundStatus}
           heroDirection={this.state.heroDirection}
           heroMoving={this.state.heroMoving}
           heroPositionX={this.state.heroPositionX}
           heroPositionY={this.state.heroPositionY}
+          heroHeight={this.state.heroHeight}
+          heroWidth={this.state.heroWidth}
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           setdefaultKeyboardListners={this.setdefaultKeyboardListners}
