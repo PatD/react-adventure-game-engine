@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import mainNavFunctions from './MainMenuHelpers';
+import heroMovement from './HeroMovementHelpers'
 import Screen from './Screen';
 import Debug from './Debug'
 import Modal from './Modal'
@@ -172,10 +173,12 @@ export default class App extends Component {
     this.setState({ heroMoving: "stopped" })
   }
 
+
+
   // Taking input from keyboard controls, 
   // move hero around the screen and
   // stop hero if they bash into walls.
-  handleHeroPositioning(change) {
+  handleHeroPositioning = (change) => {
     if (change !== "stop") {
       this.movementInterval = setInterval(() => {
 
@@ -219,7 +222,7 @@ export default class App extends Component {
 
     // Don't move the hero if the game is paused
     if (this.state.pausedgame === false) {
-      this.updateDebugger(keypress);
+      // this.updateDebugger(keypress);
 
       // If hero is moving and a different movement direction is picked
       if (this.state.heroMoving === "moving" && this.state.heroDirection !== keypress) {
@@ -245,7 +248,7 @@ export default class App extends Component {
   // Arrow keys move the hero
   // tab key opens inventory, escape opens menu, and 
   // alpha keys get typed into text parser.
-  setdefaultKeyboardListners() {
+  setdefaultKeyboardListners = () => {
 
     const self = this;
     document.addEventListener('keydown', function (event) {
@@ -281,7 +284,10 @@ export default class App extends Component {
     this.setState(gameLoadedState)
   }
 
+
   componentDidMount() {
+    heroMovement.welcome(this)
+
     // set dimensions for play field
     const playfield = document.querySelector('main')
 
@@ -339,6 +345,7 @@ export default class App extends Component {
         <Screen
           // handleSubmittedText={this.handleSubmittedText}
           haltHero={this.haltHero}
+          handleHeroPositioning={this.handleHeroPositioning}
           soundStatus={this.state.soundStatus}
           heroDirection={this.state.heroDirection}
           heroMoving={this.state.heroMoving}

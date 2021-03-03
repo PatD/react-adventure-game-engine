@@ -25,6 +25,7 @@ export default class Screen extends Component {
   // }
 
 
+
   componentDidUpdate(prevProps) {
     
     // Anytime the component re-renders, update the text
@@ -47,19 +48,17 @@ export default class Screen extends Component {
       y:rockObjectElement.offsetLeft
     }
 
-    // console.log(heroCollide)
-    // console.log(rockObject)
-
 
     if (heroCollide.x < rockObject.x + rockObject.width &&
       heroCollide.x + heroCollide.width > rockObject.x &&
       heroCollide.y < rockObject.y + rockObject.height &&
       heroCollide.y + heroCollide.height > rockObject.y) {
        // collision detected!
-       console.log("DETECT")
-      //  this.props.haltHero()
+      console.log("DETECT")
    }
 
+
+   
   }
 
 
