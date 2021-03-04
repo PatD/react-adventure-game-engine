@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import mainNavFunctions from './MainMenuHelpers';
-import heroMovement from './HeroMovementHelpers'
 import Screen from './Screen';
 import Debug from './Debug'
 import Modal from './Modal'
@@ -36,6 +35,8 @@ export default class App extends Component {
       heroHeight: 0,
       heroWidth: 0,
       
+
+
       // Game state stuff
       playfieldX: 0,
       playfieldY: 0,
@@ -285,8 +286,7 @@ export default class App extends Component {
   }
 
 
-  componentDidMount() {
-    heroMovement.welcome(this)
+  componentDidMount() { 
 
     // set dimensions for play field
     const playfield = document.querySelector('main')
@@ -294,6 +294,8 @@ export default class App extends Component {
     this.setState({
       playfieldX: playfield.clientHeight,
       playfieldY: playfield.clientWidth,
+      playfieldGridx: playfield.clientHeight / 18,
+      playfieldGridy: playfield.clientWidth / 24
     })
 
 

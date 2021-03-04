@@ -1,10 +1,31 @@
 // Handles Main Navigation menu item clicks.
 
 const heroMovement = {
+
+    handleHeroMovement:function(keypress, passedThis) {
+
+        // Don't move the hero if the game is paused
+        if (passedThis.state.pausedgame === false) {
+          // this.updateDebugger(keypress);
     
-    welcome: function(passedThis){
-        console.log(passedThis.state)
-    }
+          // If hero is moving and a different movement direction is picked
+          if (passedThis.state.heroMoving === "moving" && passedThis.state.heroDirection !== keypress) {
+            // Change hero direction and keep hero moving
+            passedThis.setState({ heroDirection: keypress, heroMoving: "moving" });
+            passedThis.handleHeroPositioning("stop") // stop first
+            passedThis.handleHeroPositioning(keypress) // then go
+          }
+          // If they're moving and they hit the same direciton key, stop them
+          else if (passedThis.state.heroMoving === "moving" && passedThis.state.heroDirection === keypress) {
+            passedThis.haltHero();
+          }
+          // Otherwise, let the hero walk
+          else {
+            passedThis.handleHeroPositioning(keypress)
+            passedThis.setState({ heroDirection: keypress, heroMoving: "moving" });
+          }
+        }
+      },
 //     // Takes passed menu item name and routes it to the right function
 //     route: function (passedThis, passedMenuItem) {
 

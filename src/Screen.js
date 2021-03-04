@@ -28,34 +28,37 @@ export default class Screen extends Component {
 
   componentDidUpdate(prevProps) {
     
-    // Anytime the component re-renders, update the text
-    // if (prevProps.submittedText !== this.props.submittedText) {
-    //   this.respondUserText()
-    // }
-    const rockObjectElement = document.getElementById('rock')
+  //   // Anytime the component re-renders, update the text
+  //   // if (prevProps.submittedText !== this.props.submittedText) {
+  //   //   this.respondUserText()
+  //   // }
+  //   const rockObjectElement = document.getElementById('rock')
+  //   const heroDiv = document.getElementById('hero')
 
-    let heroCollide = {
-      x:this.props.heroPositionX,
-      y:this.props.heroPositionY,
-      width:this.props.heroWidth,
-      height:this.props.heroHeight
-    }
+  //   let heroCollide = {
+  //     // x:this.props.heroPositionX,
+  //     // y:this.props.heroPositionY,
+  //     x:heroDiv.offsetTop,
+  //     y:heroDiv.offsetLeft,
+  //     width:this.props.heroWidth,
+  //     height:this.props.heroHeight
+  //   }
 
-    let rockObject = {
-      width:rockObjectElement.clientWidth,
-      height:rockObjectElement.clientHeight,
-      x:rockObjectElement.offsetTop,
-      y:rockObjectElement.offsetLeft
-    }
+  //   let rockObject = {
+  //     width:rockObjectElement.clientWidth,
+  //     height:rockObjectElement.clientHeight,
+  //     x:rockObjectElement.offsetTop,
+  //     y:rockObjectElement.offsetLeft
+  //   }
 
 
-    if (heroCollide.x < rockObject.x + rockObject.width &&
-      heroCollide.x + heroCollide.width > rockObject.x &&
-      heroCollide.y < rockObject.y + rockObject.height &&
-      heroCollide.y + heroCollide.height > rockObject.y) {
-       // collision detected!
-      console.log("DETECT")
-   }
+  //   if (heroCollide.x < rockObject.x + rockObject.width &&
+  //     heroCollide.x + heroCollide.width > rockObject.x &&
+  //     heroCollide.y < rockObject.y + rockObject.height &&
+  //     heroCollide.y + heroCollide.height > rockObject.y) {
+  //      // collision detected!
+  //     console.log("DETECT")
+  //  }
 
 
    
@@ -65,10 +68,8 @@ export default class Screen extends Component {
   render(props) {
     return (
       <React.Fragment>
-
         <section id="gameUI">
           <main>
-            <div id="rock"></div>
             <Hero
               heroPositionX={this.props.heroPositionX}
               heroPositionY={this.props.heroPositionY}
