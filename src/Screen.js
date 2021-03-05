@@ -70,6 +70,13 @@ export default class Screen extends Component {
       <React.Fragment>
         <section id="gameUI">
           <main>
+          <div id="rock" 
+              style={{
+              'position':'absolute','zIndex':10, 
+              'left':this.props.rockPositionX, 
+              'top':this.props.rockPositionY, 
+              'width':this.props.rockWidth, 
+              'height':this.props.rockHeight}}></div>
             <Hero
               heroPositionX={this.props.heroPositionX}
               heroPositionY={this.props.heroPositionY}

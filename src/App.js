@@ -30,11 +30,19 @@ export default class App extends Component {
       heroMoving: "stopped",
       heroPositionX: 75,
       heroPositionY: 75,
+      heroPositionCollided:false,
       heroMovementDisance: 5,
       heroMovementUpdateSpeed: 125,
       heroHeight: 0,
       heroWidth: 0,
       
+      
+      // Rock stuff
+      rockPositionX: 100,
+      rockPositionY: 80,
+      rockWidth: 100,
+      rockHeight: 150,
+
 
 
       // Game state stuff
@@ -183,6 +191,17 @@ export default class App extends Component {
     if (change !== "stop") {
       this.movementInterval = setInterval(() => {
 
+        if (this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
+          this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX &&
+          this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight &&
+          this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY) {
+          // collision detected!
+          console.log('bump')
+          // return this.haltHero()
+          this.setState({heroPositionCollided:true})
+        }
+  
+
         // Handle if they're already on the wall
         if (change === "ArrowRight" && this.state.heroPositionY > this.state.playfieldY - this.state.heroWidth) {
           return this.haltHero();
@@ -294,8 +313,8 @@ export default class App extends Component {
     this.setState({
       playfieldX: playfield.clientHeight,
       playfieldY: playfield.clientWidth,
-      playfieldGridx: playfield.clientHeight / 18,
-      playfieldGridy: playfield.clientWidth / 24
+      playfieldGridx: playfield.clientHeight / 48,
+      playfieldGridy: playfield.clientWidth / 64
     })
 
 
@@ -311,6 +330,32 @@ export default class App extends Component {
   // MainMenuHelpers.js for processing
   handleDropDownMenuClick = (event) => {
     mainNavFunctions.route(this, event.target.innerText)
+  }
+
+
+  checkForCollisions() {
+
+    // if (this.state.heroMoving === "moving") {
+    //   // console.log(this.state.heroPositionX + "," + this.state.heroPositionY)
+
+    //   if (this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
+    //     this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX &&
+    //     this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight &&
+    //     this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY) {
+    //     // collision detected!
+
+    //     console.log('bump')
+
+    //   }
+
+    // }
+
+  }
+
+
+
+  componentDidUpdate(prevProps) {
+   this.checkForCollisions()
   }
 
 
@@ -343,8 +388,15 @@ export default class App extends Component {
           modalButtonClick2={this.modalButtonClick2}
           />
 
+        
 
         <Screen
+
+            rockPositionX={this.state.rockPositionX}
+            rockPositionY={this.state.rockPositionY}
+            rockWidth={this.state.rockWidth}
+            rockHeight={this.state.rockPositionY}
+
           // handleSubmittedText={this.handleSubmittedText}
           haltHero={this.haltHero}
           handleHeroPositioning={this.handleHeroPositioning}
