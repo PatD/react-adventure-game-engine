@@ -191,16 +191,21 @@ export default class App extends Component {
     if (change !== "stop") {
       this.movementInterval = setInterval(() => {
 
-        if (this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
+        // Handle object collision.  Refactor into passable objects
+        if (this.state.heroPositionCollided === false && this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
           this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX &&
           this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight &&
           this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY) {
           // collision detected!
           console.log('bump')
           // return this.haltHero()
-          this.setState({heroPositionCollided:true})
+          this.haltHero();
+          return this.setState({heroPositionCollided:true})
+        } else{
+          this.setState({heroPositionCollided:false})
         }
-  
+        // allow for movement for any key but currently facing like arrowup
+        
 
         // Handle if they're already on the wall
         if (change === "ArrowRight" && this.state.heroPositionY > this.state.playfieldY - this.state.heroWidth) {
