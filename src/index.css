@@ -339,7 +339,8 @@ main{
 
 
 
-#hero{background-image: url('/herosprite.png');
+#hero{
+  background-image: url('/herosprite.png');
   position: absolute;
   top:50px;
   left:50px;
@@ -402,7 +403,8 @@ main{
   width:80px;
   height:90px; */
   /* z-index: 10; */
-  background: linear-gradient(
+  background:red;
+  /* background: linear-gradient(
         90deg,
         rgba(255, 0, 0, 1) 0%,
         rgba(255, 154, 0, 1) 10%,
@@ -415,5 +417,5 @@ main{
         rgba(186, 12, 248, 1) 80%,
         rgba(251, 7, 217, 1) 90%,
         rgba(255, 0, 0, 1) 100%
-    );
+    ); */
 }

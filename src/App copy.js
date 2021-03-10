@@ -184,20 +184,10 @@ export default class App extends Component {
 
   hasCollided = () => {
      // Handle object collision.  Refactor into passable objects
-
-        let heroRect = document.getElementById('hero')
-
-        // let heroBlock = {
-        //   "X":heroRect.offsetLeft,
-        //   "Y":heroRect.offsetTop,
-        //   "Height":this.state.heroHeight,
-        //   "Width":this.state.heroWidth,
-        // }
-
-      if (heroRect.offsetLeft < this.state.rockPositionX + this.state.rockWidth &&
-        heroRect.offsetLeft + this.state.heroWidth > this.state.rockPositionX &&
-        heroRect.offsetTop < this.state.rockPositionY + this.state.rockHeight &&
-        heroRect.offsetTop + this.state.heroHeight > this.state.rockPositionY) {
+      if (this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
+      this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX &&
+      this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight &&
+      this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY) {
       // collision detected!
       // console.log('bump')
       // return this.haltHero()
@@ -218,15 +208,14 @@ export default class App extends Component {
 
     if (change !== "stop") {
       this.movementInterval = setInterval(() => {
-        console.log(this.hasCollided())
 
-        // // Once an interval, check for a wall, and stop if there is one
-        // if(this.hasCollided() === true && this.state.heroMoving !== "stopped" && this.state.heroPositionCollided === false){
-        //   this.haltHero()
-        //   return this.setState({heroPositionCollided:true})
-        // }  else {
-        //    this.setState({heroPositionCollided:false})
-        // }
+        // Once an interval, check for a wall, and stop if there is one
+        if(this.hasCollided() === true && this.state.heroMoving !== "stopped" && this.state.heroPositionCollided === false){
+          this.haltHero()
+          return this.setState({heroPositionCollided:true})
+        }  else {
+           this.setState({heroPositionCollided:false})
+        }
 
     
 
