@@ -183,42 +183,18 @@ export default class App extends Component {
   }
 
   hasCollided = () => {
-     // Handle object collision.  Refactor into passable objects
+    // Handle object collision.  Refactor into passable objects
 
-        let heroRect = document.getElementById('hero')
-        let rock = document.getElementById('rock')
+    let heroRect = document.getElementById('hero')
+    let rock = document.getElementById('rock')
 
-        // let heroBlock = {
-        //   "X":heroRect.offsetLeft,
-        //   "Y":heroRect.offsetTop,
-        //   "Height":this.state.heroHeight,
-        //   "Width":this.state.heroWidth,
-        // }
-
-
-      //   if (rect1.x < rect2.x + rect2.width &&
-      //     rect1.x + rect1.width > rect2.x &&
-      //     rect1.y < rect2.y + rect2.height &&
-      //     rect1.y + rect1.height > rect2.y) {
-      //      // collision detected!
-      //  }
-
-
-
-
-
-      if (heroRect.offsetLeft < rock.offsetLeft + rock.clientWidth &&
-        heroRect.offsetLeft + heroRect.clientWidth > rock.offsetLeft &&
-        heroRect.offsetTop < rock.offsetTop + rock.clientHeight &&
-        heroRect.offsetTop + heroRect.clientHeight > rock.offsetTop) {
-      // collision detected!
-      // console.log('bump')
-      // return this.haltHero()
-      //this.haltHero();
+    if (heroRect.offsetLeft < rock.offsetLeft + rock.clientWidth &&
+      heroRect.offsetLeft + heroRect.clientWidth > rock.offsetLeft &&
+      heroRect.offsetTop < rock.offsetTop + rock.clientHeight &&
+      heroRect.offsetTop + heroRect.clientHeight > rock.offsetTop) {
       return true
-    } 
-    else{
-      // console.log('no harm')
+    }
+    else {
       return false
     }
   }
@@ -231,96 +207,35 @@ export default class App extends Component {
 
     if (change !== "stop") {
       this.movementInterval = setInterval(() => {
-        console.log(this.hasCollided())
 
-  
+        // Handle collision while moving
+        if (this.state.heroPositionCollided === false && this.hasCollided() === true) {
+          this.setState({heroPositionCollided:true})
+          this.haltHero()
+          return console.log(' got stopped');
+        }
 
-        // // Once an interval, check for a wall, and stop if there is one
-        // if(this.hasCollided() === true && this.state.heroMoving !== "stopped" && this.state.heroPositionCollided === false){
-        //   this.haltHero()
-        //   return this.setState({heroPositionCollided:true})
-        // }  else {
-        //    this.setState({heroPositionCollided:false})
-        // }
-
-    
-
-
-        // User hits arrow key wehn they're stopped on an object
-        // if(this.hasCollided() === true && this.state.heroMoving === "stopped" && this.state.heroPositionCollided === true){
-        //   console.log("stuck in mud")
-        //   this.setState({heroPositionCollided:false })          
-        // } 
-        
-
-
-        // const heroRect = document.getElementById('hero')
-        // const rainbowRect = document.getElementById('rock')
-
-        // var heroBlock = {
-        //   "X":this.state.heroPositionX,
-        //   "Y":this.state.heroPositionY,
-        //   "Height":this.state.heroHeight,
-        //   "Width":this.state.heroWidth,
-        //   "fromLeft":heroRect.offsetLeft,
-        //   "fromTop":heroRect.offsetTop
-        // }
-
-        // var rockBlock = {
-        //   "X":this.state.rockPositionX,
-        //   "Y":this.state.rockPositionY,
-        //   "Height":this.state.rockHeight,
-        //   "Width":this.state.rockWidth,
-        //   "fromLeft":rainbowRect.offsetLeft,
-        //   "fromTop":rainbowRect.offsetTop
-        // }
-
-        // console.log(rockBlock)
-        // // console.log(heroBlock)
-  
-        
-        // // Handle object collision.  Refactor into passable objects
-        // if (this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
-        //   this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX &&
-        //   this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight &&
-        //   this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY) {
-        //   // collision detected!
-        //   console.log('bump')
-        //   // return this.haltHero()
-        //   //this.haltHero();
-        //  //  return this.setState({heroPositionCollided:true})
-        // } 
-        // else{
-        //   console.log('no harm')
-        //  // return this.setState({heroPositionCollided:false})
-        // }
-
-
-        // if (this.state.heroPositionCollided === true && this.state.heroMoving === "stopped"){
-        //   console.log('We are stuck')
-        // }
+        // Handle collision while stopped
+        if (change === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+          console.log('hit right stopped, tried to move');
+          return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
+        }
+        else if (change === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+          console.log('hit left stopped, tried to move');
+          return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
+        }
+        else if (change === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+          console.log('hit up stopped, tried to move');
+          return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance })
+        }
+        else if (change === "ArrowDown" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+          console.log('hit down stopped, tried to move');
+          return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
+        }
 
 
 
 
-
-        
-        // allow for movement for any key but currently facing like arrowup
-        
-
-          // if(this.state.heroPositionCollided === false && this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX && this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth && this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY && this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight) {
-          //   console.log('hit')
-          // } 
-          // else {
-          //  console.log('not')
-          // }
-
-
-        // var rows = 128;
-        // var cols = 256;
-
-
-        // console.log(this.hasCollided())
 
 
         // Handle if they're already on the wall
