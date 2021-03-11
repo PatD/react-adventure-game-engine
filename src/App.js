@@ -186,6 +186,7 @@ export default class App extends Component {
      // Handle object collision.  Refactor into passable objects
 
         let heroRect = document.getElementById('hero')
+        let rock = document.getElementById('rock')
 
         // let heroBlock = {
         //   "X":heroRect.offsetLeft,
@@ -194,10 +195,22 @@ export default class App extends Component {
         //   "Width":this.state.heroWidth,
         // }
 
-      if (heroRect.offsetLeft < this.state.rockPositionX + this.state.rockWidth &&
-        heroRect.offsetLeft + this.state.heroWidth > this.state.rockPositionX &&
-        heroRect.offsetTop < this.state.rockPositionY + this.state.rockHeight &&
-        heroRect.offsetTop + this.state.heroHeight > this.state.rockPositionY) {
+
+      //   if (rect1.x < rect2.x + rect2.width &&
+      //     rect1.x + rect1.width > rect2.x &&
+      //     rect1.y < rect2.y + rect2.height &&
+      //     rect1.y + rect1.height > rect2.y) {
+      //      // collision detected!
+      //  }
+
+
+
+
+
+      if (heroRect.offsetLeft < rock.offsetLeft + rock.clientWidth &&
+        heroRect.offsetLeft + heroRect.clientWidth > rock.offsetLeft &&
+        heroRect.offsetTop < rock.offsetTop + rock.clientHeight &&
+        heroRect.offsetTop + heroRect.clientHeight > rock.offsetTop) {
       // collision detected!
       // console.log('bump')
       // return this.haltHero()
@@ -219,6 +232,8 @@ export default class App extends Component {
     if (change !== "stop") {
       this.movementInterval = setInterval(() => {
         console.log(this.hasCollided())
+
+  
 
         // // Once an interval, check for a wall, and stop if there is one
         // if(this.hasCollided() === true && this.state.heroMoving !== "stopped" && this.state.heroPositionCollided === false){
