@@ -210,11 +210,26 @@ export default class App extends Component {
       this.movementInterval = setInterval(() => {
 
         // Handle collision while moving
-        if (this.state.heroPositionCollided === false && this.hasCollided() === true) {
+        if (this.state.heroPositionCollided === false && this.hasCollided() === true && this.state.heroMoving !== "stopped") {
           this.setState({heroPositionCollided:true})
-          this.haltHero()
-          return console.log('🛑 got stopped');
+          // this.haltHero()
+          console.log('🛑 Hero Collided w/object. They were walking ' + this.state.heroDirection + " and before that " + this.state.heroLastDirection);
+          
+          return this.haltHero()
         }
+
+
+        // handle trying to mvoe after object collision
+
+          // getting close here.  Add this for each direction
+        if (this.state.heroPositionCollided === true && this.hasCollided() === true ) {
+          console.log("trying to move after object collision")
+          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
+        }
+
+
+
+
 
         // // Handle trying to walk through an object when you're already stopped
         // if(change === "ArrowRight" && this.state.heroDirection === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true){
@@ -236,26 +251,23 @@ export default class App extends Component {
 
 
 
-        // Handle collision while stopped
-        if (change === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-          console.log('hit right stopped, tried to move');
-          return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
-        }
-        else if (change === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-          console.log('hit left stopped, tried to move');
-          return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
-        }
-        else if (change === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-          console.log('hit up stopped, tried to move');
-          return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance })
-        }
-        else if (change === "ArrowDown" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-          console.log('hit down stopped, tried to move');
-          return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
-        }
-
-
-
+        // Handle collision while already stopped
+        // if (change === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('hit right stopped, tried to move');
+        //   return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
+        // }
+        // else if (change === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('hit left stopped, tried to move');
+        //   return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
+        // }
+        // else if (change === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('hit up stopped, tried to move');
+        //   return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance })
+        // }
+        // else if (change === "ArrowDown" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('hit down stopped, tried to move');
+        //   return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
+        // }
 
 
 
@@ -274,16 +286,16 @@ export default class App extends Component {
         }
 
         // Handle walking
-        if (change === "ArrowRight" && this.state.heroPositionY <= this.state.playfieldY - this.state.heroWidth) { // Needs to account for hero width
+        if (change === "ArrowRight" && this.state.heroPositionCollided === false && this.state.heroPositionY <= this.state.playfieldY - this.state.heroWidth) { // Needs to account for hero width
           return this.setState({ heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
         }
-        else if (change === "ArrowLeft" && this.state.heroPositionY >= 0) {
+        else if (change === "ArrowLeft" && this.state.heroPositionCollided === false && this.state.heroPositionY >= 0) {
           return this.setState({ heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
         }
-        else if (change === "ArrowUp" && this.state.heroPositionX >= 0) {
+        else if (change === "ArrowUp" && this.state.heroPositionCollided === false && this.state.heroPositionX >= 0) {
           return this.setState({ heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance })
         }
-        else if (change === "ArrowDown" && this.state.heroPositionX <= this.state.playfieldX - this.state.heroHeight) { // Needs to account for hero height
+        else if (change === "ArrowDown" && this.state.heroPositionCollided === false && this.state.heroPositionX <= this.state.playfieldX - this.state.heroHeight) { // Needs to account for hero height
           return this.setState({ heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
         }
         else {
@@ -291,7 +303,8 @@ export default class App extends Component {
         }
       }, this.state.heroMovementUpdateSpeed)
     } else {
-
+      
+      // This else is actually what stops the character.
       return clearInterval(this.movementInterval)
     }
   };
