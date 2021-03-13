@@ -26,6 +26,7 @@ export default class App extends Component {
 
       // Hero stuff
       heroAlive:true,
+      heroLastDirection:"",
       heroDirection: "ArrowRight",
       heroMoving: "stopped",
       heroPositionX: 75,
@@ -212,8 +213,28 @@ export default class App extends Component {
         if (this.state.heroPositionCollided === false && this.hasCollided() === true) {
           this.setState({heroPositionCollided:true})
           this.haltHero()
-          return console.log(' got stopped');
+          return console.log('🛑 got stopped');
         }
+
+        // // Handle trying to walk through an object when you're already stopped
+        // if(change === "ArrowRight" && this.state.heroDirection === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true){
+        //   console.log('trying to move right when we are already right')
+        //   return this.haltHero()
+        // }       
+        // else if (change === "ArrowLeft" && this.state.heroDirection === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('trying to move left when we are already left')
+        //   return this.haltHero()
+        // }
+        // else if (change === "ArrowUp" && this.state.heroDirection === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('trying to move up when we are already up')
+        //   return this.haltHero()      
+        // }
+        // else if (change === "ArrowDown" && this.state.heroDirection === "ArrowDown"  && this.state.heroPositionCollided === true && this.hasCollided() === true) {
+        //   console.log('trying to move down when we are already down')
+        //   return this.haltHero()     
+        // }
+
+
 
         // Handle collision while stopped
         if (change === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
@@ -284,7 +305,7 @@ export default class App extends Component {
       // If hero is moving and a different movement direction is picked
       if (this.state.heroMoving === "moving" && this.state.heroDirection !== keypress) {
         // Change hero direction and keep hero moving
-        this.setState({ heroDirection: keypress, heroMoving: "moving" });
+        this.setState({heroLastDirection:this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
         this.handleHeroPositioning("stop") // stop first
         this.handleHeroPositioning(keypress) // then go
       }
@@ -295,7 +316,7 @@ export default class App extends Component {
       // Otherwise, let the hero walk
       else {
         this.handleHeroPositioning(keypress)
-        this.setState({ heroDirection: keypress, heroMoving: "moving" });
+        this.setState({ heroLastDirection:this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
       }
     }
   };

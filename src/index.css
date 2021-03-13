@@ -342,8 +342,8 @@ main{
 #hero{
   background-image: url('/herosprite.png');
   position: absolute;
-  top:50px;
-  left:50px;
+  /* top:50px;
+  left:50px; */
   height: 68px;
   width: 32px;
   background-position-x: left;
