@@ -212,63 +212,27 @@ export default class App extends Component {
         // Handle collision while moving
         if (this.state.heroPositionCollided === false && this.hasCollided() === true && this.state.heroMoving !== "stopped") {
           this.setState({heroPositionCollided:true})
-          // this.haltHero()
           console.log('🛑 Hero Collided w/object. They were walking ' + this.state.heroDirection + " and before that " + this.state.heroLastDirection);
-          
           return this.haltHero()
         }
 
 
-        // handle trying to mvoe after object collision
-
-          // getting close here.  Add this for each direction
-        if (this.state.heroPositionCollided === true && this.hasCollided() === true ) {
-          console.log("trying to move after object collision")
+        // handle movement after object collision
+        if (this.state.heroLastDirection === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
           return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
         }
 
+        else if (this.state.heroLastDirection === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
+          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
+        }
 
+        else if (this.state.heroLastDirection === "ArrowDown" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
+          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance  })
+        }
 
-
-
-        // // Handle trying to walk through an object when you're already stopped
-        // if(change === "ArrowRight" && this.state.heroDirection === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true){
-        //   console.log('trying to move right when we are already right')
-        //   return this.haltHero()
-        // }       
-        // else if (change === "ArrowLeft" && this.state.heroDirection === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('trying to move left when we are already left')
-        //   return this.haltHero()
-        // }
-        // else if (change === "ArrowUp" && this.state.heroDirection === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('trying to move up when we are already up')
-        //   return this.haltHero()      
-        // }
-        // else if (change === "ArrowDown" && this.state.heroDirection === "ArrowDown"  && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('trying to move down when we are already down')
-        //   return this.haltHero()     
-        // }
-
-
-
-        // Handle collision while already stopped
-        // if (change === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('hit right stopped, tried to move');
-        //   return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
-        // }
-        // else if (change === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('hit left stopped, tried to move');
-        //   return this.setState({ heroPositionCollided: false, heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
-        // }
-        // else if (change === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('hit up stopped, tried to move');
-        //   return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance })
-        // }
-        // else if (change === "ArrowDown" && this.state.heroPositionCollided === true && this.hasCollided() === true) {
-        //   console.log('hit down stopped, tried to move');
-        //   return this.setState({ heroPositionCollided: false, heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
-        // }
-
+        else if (this.state.heroLastDirection === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
+          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance  })
+        }
 
 
         // Handle if they're already on the wall
