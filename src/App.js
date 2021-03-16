@@ -37,7 +37,13 @@ export default class App extends Component {
       heroHeight: 0,
       heroWidth: 0,
       
-      
+
+      // Room stuff
+      roomCurrent:"",
+      roomPrevious:"",
+      roomCurrentObjects:"",
+
+
       // Rock stuff
       rockPositionX: 100,
       rockPositionY: 80,
@@ -183,16 +189,14 @@ export default class App extends Component {
     this.setState({ heroMoving: "stopped" })
   }
 
+  // Handle object collision
   hasCollided = () => {
-    // Handle object collision.  Refactor into passable objects
-
-    let heroRect = document.getElementById('hero')
     let rock = document.getElementById('rock')
 
-    if (heroRect.offsetLeft < rock.offsetLeft + rock.clientWidth &&
-      heroRect.offsetLeft + heroRect.clientWidth > rock.offsetLeft &&
-      heroRect.offsetTop < rock.offsetTop + rock.clientHeight &&
-      heroRect.offsetTop + heroRect.clientHeight > rock.offsetTop) {
+    if (this.state.heroPositionY < rock.offsetLeft + rock.clientWidth &&
+      this.state.heroPositionY + this.state.heroWidth > rock.offsetLeft &&
+      this.state.heroPositionX < rock.offsetTop + rock.clientHeight &&
+      this.state.heroPositionX + this.state.heroHeight > rock.offsetTop) {
       return true
     }
     else {
@@ -203,7 +207,7 @@ export default class App extends Component {
 
   // Taking input from keyboard controls, 
   // move hero around the screen and
-  // stop hero if they bash into walls.
+  // stop hero if they bash into walls and objects
   handleHeroPositioning = (change) => {
 
     if (change !== "stop") {
@@ -216,27 +220,22 @@ export default class App extends Component {
           return this.haltHero()
         }
 
-
         // handle movement after object collision
-        if (this.state.heroLastDirection === "ArrowLeft" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
+        else if (this.state.heroLastDirection === "ArrowLeft" && this.state.heroPositionCollided === true ) {
           return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
         }
-
-        else if (this.state.heroLastDirection === "ArrowRight" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
+        else if (this.state.heroLastDirection === "ArrowRight" && this.state.heroPositionCollided === true ) {
           return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionY: this.state.heroPositionY - this.state.heroMovementDisance })
         }
-
-        else if (this.state.heroLastDirection === "ArrowDown" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
-          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance  })
+        else if (this.state.heroLastDirection === "ArrowDown" && this.state.heroPositionCollided === true ) {
+          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionX: this.state.heroPositionX - this.state.heroMovementDisance })
         }
-
-        else if (this.state.heroLastDirection === "ArrowUp" && this.state.heroPositionCollided === true && this.hasCollided() === true ) {
-          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance  })
+        else if (this.state.heroLastDirection === "ArrowUp" && this.state.heroPositionCollided === true ) {
+          return this.setState({ heroPositionCollided: false, heroMoving: "moving", heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
         }
-
 
         // Handle if they're already on the wall
-        if (change === "ArrowRight" && this.state.heroPositionY > this.state.playfieldY - this.state.heroWidth) {
+        else if (change === "ArrowRight" && this.state.heroPositionY > this.state.playfieldY - this.state.heroWidth) {
           return this.haltHero();
         }
         else if (change === "ArrowLeft" && this.state.heroPositionY <= 0) {
@@ -250,7 +249,7 @@ export default class App extends Component {
         }
 
         // Handle walking
-        if (change === "ArrowRight" && this.state.heroPositionCollided === false && this.state.heroPositionY <= this.state.playfieldY - this.state.heroWidth) { // Needs to account for hero width
+        else if (change === "ArrowRight" && this.state.heroPositionCollided === false && this.state.heroPositionY <= this.state.playfieldY - this.state.heroWidth) { // Needs to account for hero width
           return this.setState({ heroPositionY: this.state.heroPositionY + this.state.heroMovementDisance })
         }
         else if (change === "ArrowLeft" && this.state.heroPositionCollided === false && this.state.heroPositionY >= 0) {
@@ -262,6 +261,7 @@ export default class App extends Component {
         else if (change === "ArrowDown" && this.state.heroPositionCollided === false && this.state.heroPositionX <= this.state.playfieldX - this.state.heroHeight) { // Needs to account for hero height
           return this.setState({ heroPositionX: this.state.heroPositionX + this.state.heroMovementDisance })
         }
+
         else {
           return clearInterval(this.movementInterval)
         }
@@ -332,15 +332,54 @@ export default class App extends Component {
   }
 
 
-  // When a game is loaded, update React State with game data
-  loadGameFile = (game) => {
-    console.log("App component loads " + game.title)
-    const gameLoadedState = { ...this.state, ...game }
-    this.setState(gameLoadedState)
+
+  // Loads a room onto the screen
+  loadRoom = (roomToLoad) => {
+    console.log("Currently in room " + roomToLoad)
+    
+    function isRoom(r) {
+      return r.Room === roomToLoad;
+    }
+    
+    var currentRoom = this.state.rooms.find(isRoom);
+
+    this.setState({
+      roomCurrent:currentRoom.Room, 
+      roomCurrentObjects:currentRoom.Objects, 
+      roomCurrentName:currentRoom.Name
+    })
+
   }
 
 
+
+
+
+
+
+
+
+  // When a game is loaded, update React State with game data
+  loadGameFile = (game) => {
+    console.info("App component loads " + game.title)
+
+    const gameLoadedState = { ...this.state, ...game }
+
+    this.setState(gameLoadedState)
+    this.loadRoom(2); // change this to be dynamic
+
+  }
+
+
+
+
+
+
+
+
+
   componentDidMount() { 
+
 
     // set dimensions for play field
     const playfield = document.querySelector('main')
@@ -348,12 +387,13 @@ export default class App extends Component {
     this.setState({
       playfieldX: playfield.clientHeight,
       playfieldY: playfield.clientWidth,
-      playfieldGridx: playfield.clientHeight / 48,
-      playfieldGridy: playfield.clientWidth / 64
+      // playfieldGridx: playfield.clientHeight / 48,
+      // playfieldGridy: playfield.clientWidth / 64
     })
 
 
     this.setdefaultKeyboardListners();
+
   }
 
 
@@ -368,30 +408,13 @@ export default class App extends Component {
   }
 
 
-  checkForCollisions() {
-
-    // if (this.state.heroMoving === "moving") {
-    //   // console.log(this.state.heroPositionX + "," + this.state.heroPositionY)
-
-    //   if (this.state.heroPositionX < this.state.rockPositionX + this.state.rockWidth &&
-    //     this.state.heroPositionX + this.state.heroWidth > this.state.rockPositionX &&
-    //     this.state.heroPositionY < this.state.rockPositionY + this.state.rockHeight &&
-    //     this.state.heroPositionY + this.state.heroHeight > this.state.rockPositionY) {
-    //     // collision detected!
-
-    //     console.log('bump')
-
-    //   }
-
-    // }
-
-  }
 
 
 
-  componentDidUpdate(prevProps) {
-   this.checkForCollisions()
-  }
+
+  // componentDidUpdate(prevProps) {
+  //  console.log('updated')
+  // }
 
 
   render() {
@@ -431,6 +454,13 @@ export default class App extends Component {
             rockPositionY={this.state.rockPositionY}
             rockWidth={this.state.rockWidth}
             rockHeight={this.state.rockPositionY}
+
+
+          // Room details
+            roomCurrent={this.state.roomCurrent}
+            roomCurrentName={this.state.roomCurrentName}
+            roomCurrentObjects={this.state.roomCurrentObjects}
+
 
           // handleSubmittedText={this.handleSubmittedText}
           haltHero={this.haltHero}

@@ -3,16 +3,20 @@
     "subTitle": "The quest to develop a React.js Game Engine!",
     "description":"This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
     "copyright":"2021",
-    "heroPositionX":250,
+    "heroPositionX":225,
     "heroPositionY":250,
     "heroMovementDisance":5,
-    "heroMovementUpdateSpeed":125,
+    "heroMovementUpdateSpeed":105,
     "heroHeight":68,
     "heroWidth":32,
-    "rooms":{
-        "LoadingScreen":1,
-        "StartRoom":2,
-        "LeftRoom":3,
-        "TopRoom":4
-    }
+    "rooms":[
+        {"Name":"Loading","Room":1},
+        {"Name":"Start", "Room":2,
+             "Objects":[
+                 ["redRock",100,150,100,80,0,"background:red;"],
+                 ["greenAligator",300,450,140,30,1,"background:green"]
+             ]
+        
+        }
+    ]
 }

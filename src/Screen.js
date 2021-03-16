@@ -2,6 +2,34 @@ import React, { Component } from 'react';
 import TextInputParse from './TextInputParser'
 // import Modal from './Modal'
 import Hero from './Hero'
+import DisplayObjects from './DisplayObjects'
+
+
+
+
+// function GameSetPieces(pieces) {
+//   console.log(pieces.setPiece)
+
+//   if(typeof pieces.setPiece === 'object'){
+//   //   console.log(pieces.setPiece)
+//   //   let piece = pieces.setPiece
+//   //  console.log(piece.map())
+
+//    for (const [key, value] of Object.entries(pieces.setPiece)) {
+//     console.log(`${key}: ${value}`);
+//   }
+
+
+//   }
+
+
+  
+//   return (
+//     <React.Fragment>
+//       {/* <div className={pieces.setPiece}>{pieces.setPiece}</div> */}
+//     </React.Fragment>
+//   );
+// }
 
 
 export default class Screen extends Component {
@@ -11,65 +39,35 @@ export default class Screen extends Component {
       modalStatus: "modal display-none",
       modalText: "Modal content is here!"
     };
-    // this.showModal = this.showModal.bind(this);
-    // this.hideModal = this.hideModal.bind(this);
+
+    // this.GameSetPieces = this.GameSetPieces.bind(this);
   }
+  
+
+ 
 
 
-
-  // User has entered text, show a modal
-  // respondUserText = () => {
-  //   this.props.togglePause();
-  //   this.setState({ modalText: "The hero typed " + this.props.submittedText + ".",
-  //                   modalStatus: "modal display-block" })
-  // }
-
+  A
 
 
   componentDidUpdate(prevProps) {
-    
-  //   // Anytime the component re-renders, update the text
-  //   // if (prevProps.submittedText !== this.props.submittedText) {
-  //   //   this.respondUserText()
-  //   // }
-  //   const rockObjectElement = document.getElementById('rock')
-  //   const heroDiv = document.getElementById('hero')
+    // if the room objects have changed, re-render:
+    if(prevProps.roomCurrentObjects !== this.props.roomCurrentObjects){
+      // this.AddRoomObjects()
 
-  //   let heroCollide = {
-  //     // x:this.props.heroPositionX,
-  //     // y:this.props.heroPositionY,
-  //     x:heroDiv.offsetTop,
-  //     y:heroDiv.offsetLeft,
-  //     width:this.props.heroWidth,
-  //     height:this.props.heroHeight
-  //   }
-
-  //   let rockObject = {
-  //     width:rockObjectElement.clientWidth,
-  //     height:rockObjectElement.clientHeight,
-  //     x:rockObjectElement.offsetTop,
-  //     y:rockObjectElement.offsetLeft
-  //   }
-
-
-  //   if (heroCollide.x < rockObject.x + rockObject.width &&
-  //     heroCollide.x + heroCollide.width > rockObject.x &&
-  //     heroCollide.y < rockObject.y + rockObject.height &&
-  //     heroCollide.y + heroCollide.height > rockObject.y) {
-  //      // collision detected!
-  //     console.log("DETECT")
-  //  }
-
-
-   
+    }
   }
+
 
 
   render(props) {
     return (
       <React.Fragment>
         <section id="gameUI">
-          <main>
+          <main className={this.props.roomCurrentName}>
+
+            <DisplayObjects roomCurrentObjects={this.props.roomCurrentObjects} />
+
           <div id="rock" 
               style={{
               'position':'absolute','zIndex':10, 
