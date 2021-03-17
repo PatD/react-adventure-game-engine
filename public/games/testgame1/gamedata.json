@@ -13,8 +13,9 @@
         {"Name":"Loading","Room":1},
         {"Name":"Start", "Room":2,
              "Objects":[
-                 ["redRock",100,150,100,80,0,"background:red;"],
-                 ["greenAligator",300,450,140,30,1,"background:green"]
+                 ["redRock",100,150,100,80,0,"#FF0000"],
+                 ["whiteBlock",300,150,140,30,1,"#EFEFEF"],
+                 ["greenBlock",300,150,40,430,0,"green"]
              ]
         
         }

@@ -66,7 +66,9 @@ export default class Screen extends Component {
         <section id="gameUI">
           <main className={this.props.roomCurrentName}>
 
-            <DisplayObjects roomCurrentObjects={this.props.roomCurrentObjects} />
+            <DisplayObjects 
+              roomCurrentName={this.props.roomCurrentName}
+              roomCurrentObjects={this.props.roomCurrentObjects} />
 
           <div id="rock" 
               style={{
