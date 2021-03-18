@@ -334,7 +334,9 @@ header #hoverblock.inactive{
 main{
   position: absolute; 
   min-width: 100%; 
-  min-height: 100%;}
+  min-height: 100%;
+  overflow: hidden;
+}
 
 
 
@@ -342,10 +344,11 @@ main{
 #hero{
   background-image: url('/herosprite.png');
   position: absolute;
+  z-index: 0;
   /* top:50px;
   left:50px; */
-  height: 68px;
-  width: 32px;
+  /* height: 68px;
+  width: 32px; */
   background-position-x: left;
 }
 

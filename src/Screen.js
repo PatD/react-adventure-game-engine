@@ -1,35 +1,7 @@
 import React, { Component } from 'react';
 import TextInputParse from './TextInputParser'
-// import Modal from './Modal'
 import Hero from './Hero'
 import DisplayObjects from './DisplayObjects'
-
-
-
-
-// function GameSetPieces(pieces) {
-//   console.log(pieces.setPiece)
-
-//   if(typeof pieces.setPiece === 'object'){
-//   //   console.log(pieces.setPiece)
-//   //   let piece = pieces.setPiece
-//   //  console.log(piece.map())
-
-//    for (const [key, value] of Object.entries(pieces.setPiece)) {
-//     console.log(`${key}: ${value}`);
-//   }
-
-
-//   }
-
-
-  
-//   return (
-//     <React.Fragment>
-//       {/* <div className={pieces.setPiece}>{pieces.setPiece}</div> */}
-//     </React.Fragment>
-//   );
-// }
 
 
 export default class Screen extends Component {
@@ -39,15 +11,9 @@ export default class Screen extends Component {
       modalStatus: "modal display-none",
       modalText: "Modal content is here!"
     };
-
-    // this.GameSetPieces = this.GameSetPieces.bind(this);
   }
   
 
- 
-
-
-  A
 
 
   componentDidUpdate(prevProps) {
@@ -77,11 +43,15 @@ export default class Screen extends Component {
               'top':this.props.rockPositionY, 
               'width':this.props.rockWidth, 
               'height':this.props.rockHeight}}></div>
+
             <Hero
+              heroHeight={this.props.heroHeight}
+              heroWidth={this.props.heroWidth}
               heroPositionX={this.props.heroPositionX}
               heroPositionY={this.props.heroPositionY}
               heroDirection={this.props.heroDirection}
               heroMoving={this.props.heroMoving} />
+              
           </main>
           <footer>
             <form onSubmit={this.props.submitTextParser}>

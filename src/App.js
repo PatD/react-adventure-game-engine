@@ -420,8 +420,11 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
+        
         <InventoryScreen
-          inventoryVisable={this.state.inventoryVisable} />
+          inventoryVisable={this.state.inventoryVisable}
+          inventory={this.state.inventory} />
+
         <header>
           <MainMenuBar
             ref="mainMenuRef"
@@ -443,13 +446,11 @@ export default class App extends Component {
           modalButtonText1={this.state.modalButtonText1}
           modalButtonText2={this.state.modalButtonText2}
           modalButtonClick1={this.modalButtonClick1}
-          modalButtonClick2={this.modalButtonClick2}
-          />
+          modalButtonClick2={this.modalButtonClick2} />
 
         
 
         <Screen
-
             rockPositionX={this.state.rockPositionX}
             rockPositionY={this.state.rockPositionY}
             rockWidth={this.state.rockWidth}

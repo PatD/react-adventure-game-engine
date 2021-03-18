@@ -6,7 +6,11 @@ class Hero extends Component {
     return (
     <React.Fragment>
       <div 
-        style={{top:this.props.heroPositionX, left:this.props.heroPositionY}}
+        style={{
+          top:this.props.heroPositionX, 
+          left:this.props.heroPositionY, 
+          width:this.props.heroWidth, 
+          height:this.props.heroHeight }}
         className={this.props.heroDirection + " " + this.props.heroMoving}
         id="hero"></div>
     </React.Fragment>)
