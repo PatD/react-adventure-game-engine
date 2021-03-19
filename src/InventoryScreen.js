@@ -13,12 +13,12 @@ export default class InventoryScreen extends Component {
        // Only display items hero actually has
        inventoryListing = this.props.inventory.map(function isOwned(item,index) {
           if(item.owned === true){
-            return <li key={index} title={item.Description}>{item.Name}</li>
+            return <li key={index}>{item.Name}</li>
           }
           return true
         })
     } else {
-
+      // Empty handed
       inventoryListing = <li>Nothing</li>
     }
 
@@ -30,7 +30,7 @@ export default class InventoryScreen extends Component {
               <h4>You are carrying:</h4>
               <ul>{inventoryListing}</ul>
             </div>
-            <h5>Press ENTER to select, ESC to cancel</h5>
+            <h5>Press any key to continue</h5>
           </fieldset>
         </aside>
       </React.Fragment>

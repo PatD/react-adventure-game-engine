@@ -4,7 +4,7 @@ export default class Modal extends Component{
   // Support for four seprate line-broken slots in the dialog box  
   render(props){
     return (
-      <div className={this.props.modalStatus} onClick={this.props.hideModal}>
+      <div onClick={this.props.hideModal} className={this.props.modalStatus ? "modal display-block": "modal display-none"}>
         <section className="modal-main">
           <p>{this.props.modalText}</p>
           <p className={this.props.modalTextSlot2 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot2}</p>

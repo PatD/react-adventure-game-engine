@@ -20,7 +20,8 @@
         
         }
     ],
-    "inventory":[
+    "inventory":
+        [
         {"Name":"Taco","owned":false,"Description":"A taco"},
         {"Name":"Suitecase","owned":true,"Description":"Some text"},
         {"Name":"Bubblegum","owned":false,"Description":"Some text"},

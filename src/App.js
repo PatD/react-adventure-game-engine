@@ -16,7 +16,8 @@ export default class App extends Component {
 
       // Modal
       modalClickToClose:true,
-      modalStatus: "modal display-none",
+      //modalStatus: "modal display-none",
+      modalStatus: false,
       modalText: "Modal content is here!",
       modalTextSlot2: "",
       modalTextSlot3: "",
@@ -73,7 +74,7 @@ export default class App extends Component {
     if(this.state.modalClickToClose === true){
       this.setState({
         modalClickToClose:true,
-        modalStatus: "modal display-none",
+        modalStatus: false,
         modalTextSlot2: "",
         modalTextSlot3: "",
         modalTextSlot4: "",
@@ -169,22 +170,21 @@ export default class App extends Component {
 
 
   toggleInventoryScreen(key) {
-    this.updateDebugger(key);
     if (this.state.inventoryVisable === false) {
       this.setState({
         inventoryVisable: true,
         pausedgame: true
       });
       this.haltHero();
-      this.updateDebugger("User activates inventory screen\n");
     } else {
       this.setState({
         inventoryVisable: false,
         pausedgame: false
       });
-      this.updateDebugger("User deactivates inventory screen\n");
     }
   }
+
+
 
   haltHero = () => {
     this.handleHeroPositioning("stop")
@@ -310,26 +310,34 @@ export default class App extends Component {
     const self = this;
     document.addEventListener('keydown', function (event) {
 
-      if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-        // Handle arrow keys for movement
+
+      // Since "any key" can close the inventory screen, we start with that
+      if(self.state.inventoryVisable === true){
         event.preventDefault()
-        self.handleHeroMovement(event.key);
+        self.toggleInventoryScreen(event.key);
+      } 
+      // This opens the inventory screen
+      else if(self.state.inventoryVisable === false && event.key === 'Tab'){
+        event.preventDefault()
+        self.toggleInventoryScreen(event.key);
       }
 
-      else if (event.key === "Escape") {
-        // Open main menu when user clicks escape
+      // Handle Escape key to toggle menu
+      else if (event.key === "Escape" && self.state.inventoryVisable === false) {
         self.refs.mainMenuRef.activateMainMenu(event)
         self.refs.mainMenuRef.toggleMenuDropdown(event)
       }
 
-
-      else if (event.key === 'Tab') {
-        // Handle tab key for movement
+      // Handle arrow keys for movement
+      else if (
+        (self.state.inventoryVisable === false && self.state.pausedgame === false) && 
+        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {        
         event.preventDefault()
-        self.toggleInventoryScreen(event.key);
-      } else
+        self.handleHeroMovement(event.key);
+      }
+       else
 
-        self.updateDebugger("User types text text\n");
+        console.log("User types text");
 
     }, false);
   }

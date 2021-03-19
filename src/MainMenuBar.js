@@ -20,13 +20,23 @@ export default class MainMenuBar extends Component {
       mainNavSpecialMenu: "inactive subMenu",
     };
   }
+
+
+
   activateMainMenu = (event) =>{ 
     event.preventDefault();
     if(this.state.mainNavBar === "active"){
       this.setState({
         mainNavBar:"inactive",
-        mainNavMenuVisibility: "active"
+        mainNavMenuVisibility: "active",
+        mainNavGameMenu: "active subMenu",
       })
+    } 
+    else{
+      console.log('closing time')
+
+      this.resetMenu()
+
     }
   }
 
@@ -51,7 +61,7 @@ export default class MainMenuBar extends Component {
     } 
     // Open the first dropdown when user hits escape key
     else{
-      this.setState({mainNavGameMenu:"active subMenu"})
+    //  this.setState({mainNavGameMenu:"active subMenu"})
     }
    
     // Pause the game
@@ -62,9 +72,6 @@ export default class MainMenuBar extends Component {
 
   // Fires when a menu item is chosen
   resetMenu = (event) =>{
-    // unpause game
-    // this.props.togglePause()
-
     // Put the menu back together
     this.setState({
       mainNavBar: "active",  
