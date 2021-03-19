@@ -13,8 +13,8 @@
         {"Name":"Loading","Room":1},
         {"Name":"Start", "Room":2,
              "Objects":[
-                 ["redRock",100,150,100,80,4,"#FF0000"],
-                 ["whiteBlock",300,150,140,30,2,"#EFEFEF"],
+                 ["redRock",100,150,100,80,1,"#FF0000"],
+                 ["whiteBlock",100,150,140,30,2,"#EFEFEF"],
                  ["greenBlock",300,150,40,430,1,"green"]
              ]
         

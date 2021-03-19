@@ -17,15 +17,19 @@ export default class InventoryScreen extends Component {
           }
           return true
         })
+    } else {
+
+      inventoryListing = <li>Nothing</li>
     }
 
     return (
       <React.Fragment>
-        <aside className={this.props.inventoryVisable}>
+        <aside className={this.props.inventoryVisable ? "display-block": "display-none"}>
           <fieldset>
-            <h4>You are carrying:</h4>
-            <ul>{inventoryListing}</ul>
-            <br/>
+            <div>
+              <h4>You are carrying:</h4>
+              <ul>{inventoryListing}</ul>
+            </div>
             <h5>Press ENTER to select, ESC to cancel</h5>
           </fieldset>
         </aside>

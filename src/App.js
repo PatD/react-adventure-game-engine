@@ -60,7 +60,9 @@ export default class App extends Component {
       debuggerValue: "This is the debugger window",
       textParserValue: "",
       submittedText: "",
-      inventoryVisable: "display-none",
+
+      inventoryVisable: false,
+      
 
     };
 
@@ -125,7 +127,7 @@ export default class App extends Component {
   submitTextParser = event => {
     event.preventDefault();
 
-    if (this.state.pausedgame === false) {
+    if (this.state.pausedgame === false && this.state.inventoryVisable === false) {
 
       console.log("Enter key: " + event.target.elements[0].value)
 
@@ -149,7 +151,7 @@ export default class App extends Component {
 
   // Update state as letters are typed into input field
   textParserChange = (event) => {
-    if (this.state.pausedgame === false) {
+    if (this.state.pausedgame === false && this.state.inventoryVisable === false) {
       this.setState({
         textParserValue: event.target.value
       });
@@ -168,16 +170,16 @@ export default class App extends Component {
 
   toggleInventoryScreen(key) {
     this.updateDebugger(key);
-    if (this.state.inventoryVisable === "display-none") {
+    if (this.state.inventoryVisable === false) {
       this.setState({
-        inventoryVisable: "display-block",
+        inventoryVisable: true,
         pausedgame: true
       });
       this.haltHero();
       this.updateDebugger("User activates inventory screen\n");
     } else {
       this.setState({
-        inventoryVisable: "display-none",
+        inventoryVisable: false,
         pausedgame: false
       });
       this.updateDebugger("User deactivates inventory screen\n");
@@ -313,6 +315,7 @@ export default class App extends Component {
         event.preventDefault()
         self.handleHeroMovement(event.key);
       }
+
       else if (event.key === "Escape") {
         // Open main menu when user clicks escape
         self.refs.mainMenuRef.activateMainMenu(event)
