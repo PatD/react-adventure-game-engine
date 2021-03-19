@@ -21,13 +21,12 @@
         }
     ],
     "inventory":[
-        {
-        "Taco":false,
-        "Suitecase":true,
-        "Bubblegum":false,
-        "Hat":true,
-        "Keycard":false,
-        "Phone":false,
-        "Wallet":true
-        }]
+        {"Name":"Taco","owned":false,"Description":"A taco"},
+        {"Name":"Suitecase","owned":true,"Description":"Some text"},
+        {"Name":"Bubblegum","owned":false,"Description":"Some text"},
+        {"Name":"Hat","owned":true,"Description":"Some text"},
+        {"Name":"Keycard","owned":true,"Description":"Some text"},
+        {"Name":"Phone","owned":false,"Description":"Some text"},
+        {"Name":"Wallet","owned":true,"Description":"Some text"}   
+        ]
 }
