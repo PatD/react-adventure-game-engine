@@ -193,18 +193,43 @@ export default class App extends Component {
 
   // Handle object collision
   hasCollided = () => {
-    // let rock = document.getElementById('rock')
+    
+    // Loop through display objects 
+    // We only care about the ones where colide is true.
+    // Some display objects will be for/background ones
 
-    console.log(typeof this.state.roomCurrentObjects)
-
-    // Change Display Object in gamedate.json to actual objects
-
-
-    for (const property in this.state.roomCurrentObjects) {
-      console.log(`${property}: ${this.state.roomCurrentObjects[property]}`);
-
+    let checkForCollision = (dispObj) =>{
+ 
+      if (this.state.heroPositionY < dispObj.y + dispObj.width &&
+        this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
+        this.state.heroPositionX < dispObj.x + dispObj.height &&
+        this.state.heroPositionX + this.state.heroHeight > dispObj.x) {
+        return true
+      }
+      else {
+        return false
+      }
     }
 
+
+
+    for (const [key, dispObj] of Object.entries(this.state.roomCurrentObjects)) {
+
+      console.log(key)
+        if(checkForCollision(dispObj) === true && dispObj.colide === true){
+          console.log('hit')
+          return true
+        }
+        else{
+          console.log('nope')
+         // return false  // stops here after 1
+        }
+
+
+
+
+      
+    }
 
 
     // loop through any object
@@ -226,6 +251,8 @@ export default class App extends Component {
     }
     */
   }
+
+
 
 
   // Taking input from keyboard controls, 
