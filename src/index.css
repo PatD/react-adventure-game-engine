@@ -174,7 +174,7 @@ header .subMenu.inactive{
 header .active.subMenu {
   display:block;
   position: absolute;
-  z-index: 2;
+  z-index: 99;
   outline: 2px solid #444;
   background: #fff;
   padding: 15px 30px;

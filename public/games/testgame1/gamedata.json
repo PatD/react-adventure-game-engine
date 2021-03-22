@@ -1,33 +1,120 @@
 {
-    "title":"Test Quest ][",
+    "title": "Test Quest ][",
     "subTitle": "The quest to develop a React.js Game Engine!",
-    "description":"This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
-    "copyright":"2021",
-    "heroPositionX":225,
-    "heroPositionY":250,
-    "heroMovementDisance":5,
-    "heroMovementUpdateSpeed":105,
-    "heroHeight":68,
-    "heroWidth":32,
-    "rooms":[
-        {"Name":"Loading","Room":1},
-        {"Name":"Start", "Room":2,
-             "Objects":[
-                 ["redRock",100,150,100,80,1,"#FF0000"],
-                 ["whiteBlock",100,150,140,30,2,"#EFEFEF"],
-                 ["greenBlock",300,150,40,430,1,"green"]
-             ]
-        
+    "description": "This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
+    "copyright": "2021",
+    "heroPositionX": 225,
+    "heroPositionY": 250,
+    "heroMovementDisance": 5,
+    "heroMovementUpdateSpeed": 105,
+    "heroHeight": 68,
+    "heroWidth": 32,
+    "rooms": [
+        {
+            "Name": "Loading",
+            "Room": 1
+        },
+        {
+            "Name": "Start",
+            "Room": 2,
+            "oldObjects": [
+                [
+                    "redRock",
+                    100,
+                    150,
+                    100,
+                    80,
+                    1,
+                    "#FF0000"
+                ],
+                [
+                    "whiteBlock",
+                    100,
+                    150,
+                    140,
+                    30,
+                    2,
+                    "#EFEFEF"
+                ],
+                [
+                    "greenBlock",
+                    300,
+                    150,
+                    40,
+                    430,
+                    1,
+                    "green"
+                ]
+            ],
+            "displayObjects": [
+                {
+                    "id": "redRock",
+                    "colide":true,
+                    "width": 100,
+                    "height": 150,
+                    "x": 100,
+                    "y": 80,
+                    "zIndex": 1,
+                    "bgcolor": "#FF0000"
+                },
+                {
+                    "id": "whiteBlock",
+                    "colide":true,
+                    "width": 100,
+                    "height": 125,
+                    "x": 140,
+                    "y": 30,
+                    "zIndex": 2,
+                    "bgcolor": "#EFEFEF"
+                },
+                {
+                    "id": "greenBlock",
+                    "colide":false,
+                    "width": 80,
+                    "height": 75,
+                    "x": 40,
+                    "y": 430,
+                    "zIndex": 0,
+                    "bgcolor": "green"
+                }
+            ]
         }
     ],
-    "inventory":
-        [
-        {"Name":"Taco","owned":false,"Description":"A taco"},
-        {"Name":"Suitecase","owned":true,"Description":"Some text"},
-        {"Name":"Bubblegum","owned":false,"Description":"Some text"},
-        {"Name":"Hat","owned":true,"Description":"Some text"},
-        {"Name":"Keycard","owned":true,"Description":"Some text"},
-        {"Name":"Phone","owned":false,"Description":"Some text"},
-        {"Name":"Wallet","owned":true,"Description":"Some text"}   
-        ]
+    "inventory": [
+        {
+            "Name": "Taco",
+            "owned": false,
+            "Description": "A taco"
+        },
+        {
+            "Name": "Suitecase",
+            "owned": true,
+            "Description": "Some text"
+        },
+        {
+            "Name": "Bubblegum",
+            "owned": false,
+            "Description": "Some text"
+        },
+        {
+            "Name": "Hat",
+            "owned": true,
+            "Description": "Some text"
+        },
+        {
+            "Name": "Keycard",
+            "owned": true,
+            "Description": "Some text"
+        },
+        {
+            "Name": "Phone",
+            "owned": false,
+            "Description": "Some text"
+        },
+        {
+            "Name": "Wallet",
+            "owned": true,
+            "Description": "Some text"
+        }
+    ]
 }

@@ -65,7 +65,7 @@ export default class MainMenuBar extends Component {
     }
    
     // Pause the game
-    this.props.togglePause()
+    // this.props.togglePause()
   }
 
 

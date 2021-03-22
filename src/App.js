@@ -16,7 +16,6 @@ export default class App extends Component {
 
       // Modal
       modalClickToClose:true,
-      //modalStatus: "modal display-none",
       modalStatus: false,
       modalText: "Modal content is here!",
       modalTextSlot2: "",
@@ -82,10 +81,7 @@ export default class App extends Component {
     } else{
       console.log('Clicking the modal does nothing here')
     }
-
-
-    
-    this.togglePause();
+    this.setState({ pausedgame: false });
   };
 
   togglePause = () => {
@@ -191,19 +187,44 @@ export default class App extends Component {
     this.setState({ heroMoving: "stopped" })
   }
 
+
+
+
+
   // Handle object collision
   hasCollided = () => {
-    let rock = document.getElementById('rock')
+    // let rock = document.getElementById('rock')
 
+    console.log(typeof this.state.roomCurrentObjects)
+
+    // Change Display Object in gamedate.json to actual objects
+
+
+    for (const property in this.state.roomCurrentObjects) {
+      console.log(`${property}: ${this.state.roomCurrentObjects[property]}`);
+
+    }
+
+
+
+    // loop through any object
+
+    // pass it through the collision
+
+    // return true if there's a collision
+
+/*
     if (this.state.heroPositionY < rock.offsetLeft + rock.clientWidth &&
       this.state.heroPositionY + this.state.heroWidth > rock.offsetLeft &&
       this.state.heroPositionX < rock.offsetTop + rock.clientHeight &&
       this.state.heroPositionX + this.state.heroHeight > rock.offsetTop) {
       return true
     }
+    
     else {
       return false
     }
+    */
   }
 
 
@@ -356,7 +377,7 @@ export default class App extends Component {
 
     this.setState({
       roomCurrent:currentRoom.Room, 
-      roomCurrentObjects:currentRoom.Objects, 
+      roomCurrentObjects:currentRoom.displayObjects, 
       roomCurrentName:currentRoom.Name
     })
 
@@ -387,10 +408,7 @@ export default class App extends Component {
 
 
 
-
-
   componentDidMount() { 
-
 
     // set dimensions for play field
     const playfield = document.querySelector('main')
@@ -402,9 +420,7 @@ export default class App extends Component {
       // playfieldGridy: playfield.clientWidth / 64
     })
 
-
     this.setdefaultKeyboardListners();
-
   }
 
 
@@ -417,10 +433,6 @@ export default class App extends Component {
   handleDropDownMenuClick = (event) => {
     mainNavFunctions.route(this, event.target.innerText)
   }
-
-
-
-
 
 
   // componentDidUpdate(prevProps) {
