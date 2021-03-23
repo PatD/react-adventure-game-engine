@@ -212,44 +212,12 @@ export default class App extends Component {
     }
 
 
-
     for (const [key, dispObj] of Object.entries(this.state.roomCurrentObjects)) {
-
-      console.log(key)
-        if(checkForCollision(dispObj) === true && dispObj.colide === true){
-          console.log('hit')
+        if(checkForCollision(dispObj) === true && dispObj.colide === true && key){
           return true
         }
-        else{
-          console.log('nope')
-         // return false  // stops here after 1
-        }
 
-
-
-
-      
     }
-
-
-    // loop through any object
-
-    // pass it through the collision
-
-    // return true if there's a collision
-
-/*
-    if (this.state.heroPositionY < rock.offsetLeft + rock.clientWidth &&
-      this.state.heroPositionY + this.state.heroWidth > rock.offsetLeft &&
-      this.state.heroPositionX < rock.offsetTop + rock.clientHeight &&
-      this.state.heroPositionX + this.state.heroHeight > rock.offsetTop) {
-      return true
-    }
-    
-    else {
-      return false
-    }
-    */
   }
 
 
@@ -374,6 +342,9 @@ export default class App extends Component {
       else if (event.key === "Escape" && self.state.inventoryVisable === false) {
         self.refs.mainMenuRef.activateMainMenu(event)
         self.refs.mainMenuRef.toggleMenuDropdown(event)
+
+
+
       }
 
       // Handle arrow keys for movement
@@ -460,11 +431,6 @@ export default class App extends Component {
   handleDropDownMenuClick = (event) => {
     mainNavFunctions.route(this, event.target.innerText)
   }
-
-
-  // componentDidUpdate(prevProps) {
-  //  console.log('updated')
-  // }
 
 
   render() {
