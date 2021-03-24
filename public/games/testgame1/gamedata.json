@@ -17,14 +17,31 @@
         {
             "Name": "Start",
             "Room": 2,
+            "roomExits":[
+                {
+                    "exit":"left",
+                    "goto":3,
+                    "width":5,
+                    "height":300,
+                    "x":100,
+                    "y":0
+                },
+                {
+                    "exit":"top",
+                    "goto":4,
+                    "width":300,
+                    "height":5,
+                    "x":0,
+                    "y":100
+                }],
             "displayObjects": [
                 {
                     "id": "whiteBlock",
                     "colide":true,
                     "width": 100,
                     "height": 125,
-                    "x": 140,
-                    "y": 30,
+                    "x": -20,
+                    "y": -30,
                     "zIndex": 2,
                     "bgcolor": "#EFEFEF"
                 },
@@ -47,9 +64,56 @@
                     "y": 230,
                     "zIndex": 0,
                     "bgcolor": "green"
+                },{
+                    "id": "blueBlock",
+                    "colide":false,
+                    "width": 80,
+                    "height": 105,
+                    "x": 300,
+                    "y": 350,
+                    "zIndex": 0,
+                    "bgcolor": "blue"
+                }
+            ]
+        },
+        {
+            "Name": "SecondRoom",
+            "Room": 3,
+            "roomExits":[
+                {
+                    "exit":"right",
+                    "goto":3,
+                    "width":5,
+                    "height":300,
+                    "x":100,
+                    "y":0
+                }],
+            "displayObjects": [
+                {
+                    "id": "whiteBlock",
+                    "colide":true,
+                    "width": 25,
+                    "height": 25,
+                    "x": 20,
+                    "y": 30,
+                    "zIndex": 2,
+                    "bgcolor": "#EFEFEF"
+                },
+                {
+                    "id": "blackRock",
+                    "colide":true,
+                    "width": 300,
+                    "height": 50,
+                    "x": 90,
+                    "y": 130,
+                    "zIndex": 1,
+                    "bgcolor": "#444444"
                 }
             ]
         }
+
+
+
     ],
     "inventory": [
         {

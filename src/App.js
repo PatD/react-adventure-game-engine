@@ -44,13 +44,6 @@ export default class App extends Component {
       roomCurrentObjects:"",
 
 
-      // Rock stuff
-      rockPositionX: 100,
-      rockPositionY: 80,
-      rockWidth: 100,
-      rockHeight: 150,
-
-
 
       // Game state stuff
       playfieldX: 0,
@@ -190,16 +183,10 @@ export default class App extends Component {
 
 
 
-
-  // Handle object collision
+  // Check for object or wall collision
   hasCollided = () => {
-    
-    // Loop through display objects 
-    // We only care about the ones where colide is true.
-    // Some display objects will be for/background ones
 
     let checkForCollision = (dispObj) =>{
- 
       if (this.state.heroPositionY < dispObj.y + dispObj.width &&
         this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
         this.state.heroPositionX < dispObj.x + dispObj.height &&
@@ -211,12 +198,21 @@ export default class App extends Component {
       }
     }
 
-
+    // At each step, loop through objects and see if we've collided
     for (const [key, dispObj] of Object.entries(this.state.roomCurrentObjects)) {
         if(checkForCollision(dispObj) === true && dispObj.colide === true && key){
           return true
         }
+    }
 
+    // At each step, loop through room exits and see if we're exiting
+    for (const [key, roomEx] of Object.entries(this.state.roomExits)) {
+      if(checkForCollision(roomEx) === true && key){
+        console.log('Room Exit hit')
+
+        this.loadRoom(roomEx.goto)
+        return false
+      }
     }
   }
 
@@ -376,7 +372,8 @@ export default class App extends Component {
     this.setState({
       roomCurrent:currentRoom.Room, 
       roomCurrentObjects:currentRoom.displayObjects, 
-      roomCurrentName:currentRoom.Name
+      roomCurrentName:currentRoom.Name,
+      roomExits:currentRoom.roomExits
     })
 
   }
@@ -467,28 +464,23 @@ export default class App extends Component {
         
 
         <Screen
-            rockPositionX={this.state.rockPositionX}
-            rockPositionY={this.state.rockPositionY}
-            rockWidth={this.state.rockWidth}
-            rockHeight={this.state.rockPositionY}
-
-
+         
           // Room details
             roomCurrent={this.state.roomCurrent}
             roomCurrentName={this.state.roomCurrentName}
             roomCurrentObjects={this.state.roomCurrentObjects}
+            roomExits={this.state.roomExits}
 
-
-          // handleSubmittedText={this.handleSubmittedText}
+          
           haltHero={this.haltHero}
           handleHeroPositioning={this.handleHeroPositioning}
-          soundStatus={this.state.soundStatus}
           heroDirection={this.state.heroDirection}
           heroMoving={this.state.heroMoving}
           heroPositionX={this.state.heroPositionX}
           heroPositionY={this.state.heroPositionY}
           heroHeight={this.state.heroHeight}
           heroWidth={this.state.heroWidth}
+          
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           setdefaultKeyboardListners={this.setdefaultKeyboardListners}
@@ -496,7 +488,10 @@ export default class App extends Component {
           // textParserBlur={this.textParserBlur}
           textParserChange={this.textParserChange}
           // textParserFocus={this.textParserFocus}
+          
+          
           togglePause={this.togglePause}
+          soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound} />
 
         <Debug debugText={this.state.debuggerValue} />

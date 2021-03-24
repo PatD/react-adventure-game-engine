@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextInputParse from './TextInputParser'
 import Hero from './Hero'
 import DisplayObjects from './DisplayObjects'
+import RoomExits from './RoomExits'
 
 export default class Screen extends Component {
 
@@ -10,6 +11,10 @@ export default class Screen extends Component {
       <React.Fragment>
         <section id="gameUI">
           <main className={this.props.roomCurrentName}>
+
+            <RoomExits 
+              roomExits={this.props.roomExits}
+              roomCurrentName={this.props.roomCurrentName} />
 
             <DisplayObjects 
               roomCurrentName={this.props.roomCurrentName}
@@ -22,7 +27,7 @@ export default class Screen extends Component {
               heroPositionY={this.props.heroPositionY}
               heroDirection={this.props.heroDirection}
               heroMoving={this.props.heroMoving} />
-              
+
           </main>
           <footer>
             <form onSubmit={this.props.submitTextParser}>
