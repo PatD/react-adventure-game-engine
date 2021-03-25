@@ -209,7 +209,6 @@ export default class App extends Component {
     for (const [key, roomEx] of Object.entries(this.state.roomExits)) {
       if(checkForCollision(roomEx) === true && key){
         console.log('Room Exit hit')
-
         this.loadRoom(roomEx.goto)
         return false
       }
@@ -338,9 +337,6 @@ export default class App extends Component {
       else if (event.key === "Escape" && self.state.inventoryVisable === false) {
         self.refs.mainMenuRef.activateMainMenu(event)
         self.refs.mainMenuRef.toggleMenuDropdown(event)
-
-
-
       }
 
       // Handle arrow keys for movement
@@ -361,19 +357,60 @@ export default class App extends Component {
 
   // Loads a room onto the screen
   loadRoom = (roomToLoad) => {
-    console.log("Currently in room " + roomToLoad)
+    console.log("We're in room " + roomToLoad)
+    console.log("Botom edge " + this.state.playfieldX)
+    console.log("right edge " + this.state.playfieldY)
+
     
     function isRoom(r) {
       return r.Room === roomToLoad;
     }
     
-    var currentRoom = this.state.rooms.find(isRoom);
+    var nextRoom = this.state.rooms.find(isRoom);
 
+
+    console.log(nextRoom.starting)
+    console.log(nextRoom)
+
+    
+
+    // Set starting postiiong
+    if(nextRoom.starting === "top"){
+
+      this.setState({
+        heroDirection: "ArrowDown",
+        heroPositionY: 0,
+      })
+
+    } else if(nextRoom.starting === "left"){
+
+      this.setState({
+        heroDirection: "ArrowRight",
+        heroPositionY: 0,
+      })
+
+    } else if(nextRoom.starting === "right"){
+     
+      this.setState({
+        heroDirection: "ArrowLeft",
+        heroPositionY: this.state.playfieldY,
+      })
+
+    } else if(nextRoom.starting === "bottom"){
+
+      this.setState({
+        heroDirection: "ArrowUp",
+        heroPositionX: this.state.playfieldX,
+      })
+    }
+
+
+    // Set room structure
     this.setState({
-      roomCurrent:currentRoom.Room, 
-      roomCurrentObjects:currentRoom.displayObjects, 
-      roomCurrentName:currentRoom.Name,
-      roomExits:currentRoom.roomExits
+      roomCurrent:nextRoom.Room, 
+      roomCurrentObjects:nextRoom.displayObjects, 
+      roomCurrentName:nextRoom.Name,
+      roomExits:nextRoom.roomExits
     })
 
   }
