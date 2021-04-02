@@ -7,6 +7,9 @@ import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
 
+var CollisionCheckWorker = new Worker("../workers/CollisionCheck.js");
+
+
 
 export default class App extends Component {
   constructor() {
@@ -61,6 +64,8 @@ export default class App extends Component {
 
     this.toggleSound = this.toggleSound.bind(this);
   }
+
+  
 
   hideModal = () => {
     if(this.state.modalClickToClose === true){
@@ -184,8 +189,11 @@ export default class App extends Component {
 
 
   // Check for object or wall collision
-  hasCollided = () => {
 
+  /*
+  hasCollided = () => {
+    console.time('collisioncheck')
+   
     let checkForCollision = (dispObj) =>{
       if (this.state.heroPositionY < dispObj.y + dispObj.width &&
         this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
@@ -213,7 +221,51 @@ export default class App extends Component {
         return false
       }
     }
+
+    console.timeEnd('collisioncheck');
   }
+
+*/
+
+
+hasCollided = () => {
+  console.time('collisioncheck')
+  console.log(CollisionCheckWorker)
+
+
+  CollisionCheckWorker.postMessage('Hello World')
+
+
+  let checkForCollision = (dispObj) =>{
+    if (this.state.heroPositionY < dispObj.y + dispObj.width &&
+      this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
+      this.state.heroPositionX < dispObj.x + dispObj.height &&
+      this.state.heroPositionX + this.state.heroHeight > dispObj.x) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  // At each step, loop through objects and see if we've collided
+  for (const [key, dispObj] of Object.entries(this.state.roomCurrentObjects)) {
+      if(checkForCollision(dispObj) === true && dispObj.colide === true && key){
+        return true
+      }
+  }
+
+  // At each step, loop through room exits and see if we're exiting
+  for (const [key, roomEx] of Object.entries(this.state.roomExits)) {
+    if(checkForCollision(roomEx) === true && key){
+      console.log('Room Exit hit')
+      this.loadRoom(roomEx.goto)
+      return false
+    }
+  }
+
+  console.timeEnd('collisioncheck');
+}
 
 
 
@@ -441,6 +493,8 @@ export default class App extends Component {
 
 
   componentDidMount() { 
+
+    // this.CollisionWorker = new Worker(CollisionWorker);
 
     // set dimensions for play field
     const playfield = document.querySelector('main')
