@@ -9,7 +9,7 @@ onmessage = function(e) {
     if (workerResult.heroY < workerResult.y + workerResult.width &&
       workerResult.heroY + workerResult.heroWidth > workerResult.y &&
       workerResult.heroX < workerResult.x + workerResult.height &&
-      workerResult.heroX + workerResult.heroHeight > workerResult.y) {
+      workerResult.heroX + workerResult.heroHeight > workerResult.x) {
       return true
       
     }

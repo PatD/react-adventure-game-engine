@@ -7,8 +7,7 @@ import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
 
-var CollisionCheckWorker = new Worker("../workers/CollisionCheck.js");
-
+const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 
 
 export default class App extends Component {
@@ -63,6 +62,7 @@ export default class App extends Component {
     };
 
     this.toggleSound = this.toggleSound.bind(this);
+
   }
 
   
@@ -190,9 +190,9 @@ export default class App extends Component {
 
   // Check for object or wall collision
 
-  /*
+  
   hasCollided = () => {
-    console.time('collisioncheck')
+    // console.time('collisioncheck')
    
     let checkForCollision = (dispObj) =>{
       if (this.state.heroPositionY < dispObj.y + dispObj.width &&
@@ -222,67 +222,8 @@ export default class App extends Component {
       }
     }
 
-    console.timeEnd('collisioncheck');
+    // console.timeEnd('collisioncheck');
   }
-
-*/
-
-
-hasCollided = () => {
-  // console.time('collisioncheck')
-
-
-  // Receives a true or false from Web Worker on collision
-  CollisionCheckWorker.onmessage = function(e) {
-		console.log(e.data);
-    return e.data
-	}
-
-  
-
-  // let checkForCollision = (dispObj) =>{
-  //   if (this.state.heroPositionY < dispObj.y + dispObj.width &&
-  //     this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
-  //     this.state.heroPositionX < dispObj.x + dispObj.height &&
-  //     this.state.heroPositionX + this.state.heroHeight > dispObj.x) {
-  //     return true
-  //   }
-  //   else {
-  //     return false
-  //   }
-  // }
-
-  // At each step, loop through objects and see if we've collided
-  for (const [key, dispObj] of Object.entries(this.state.roomCurrentObjects)) {
-
-    const mergedHeroAndObject = {
-      ...dispObj, 
-      heroX:this.state.heroPositionX,
-      heroY:this.state.heroPositionY,
-      heroWidth:this.state.heroWidth,
-      heroHeight:this.state.heroHeight
-    }
-
-      CollisionCheckWorker.postMessage(mergedHeroAndObject)
-
-      if(checkForCollision(dispObj) === true && dispObj.colide === true && key){
-        return true
-      }
-  }
-
-  // At each step, loop through room exits and see if we're exiting
-  for (const [key, roomEx] of Object.entries(this.state.roomExits)) {
-
-    CollisionCheckWorker.postMessage(roomEx)
-    if(checkForCollision(roomEx) === true && key){
-      console.log('Room Exit hit')
-      this.loadRoom(roomEx.goto)
-      return false
-    }
-  }
-
-  // console.timeEnd('collisioncheck');
-}
 
 
 
@@ -290,13 +231,63 @@ hasCollided = () => {
   // Taking input from keyboard controls, 
   // move hero around the screen and
   // stop hero if they bash into walls and objects
+
+  // inputs are change type ... direction or stop
+  // outputs are function like this.halthero() or setstate
+
   handleHeroPositioning = (change) => {
 
     if (change !== "stop") {
+
       this.movementInterval = setInterval(() => {
+        
+        // Post hero's chosen direction and current deets to worker
+        WorkerHandleHeroMovement.postMessage({
+          "direction": change, 
+          hasCollided:this.hasCollided(),
+          heroPositionX:this.state.heroPositionX,
+          heroPositionY:this.state.heroPositionY,
+          heroWidth:this.state.heroWidth,
+          heroHeight:this.state.heroHeight,        
+          heroDirection:this.state.heroDirection,
+          heroLastDirection:this.state.heroLastDirection,
+          heroPositionCollided:this.state.heroPositionCollided,
+          heroMoving: this.state.heroMoving,
+          heroMovementDisance: this.state.heroMovementDisance,
+          playfieldY:this.state.playfieldY,
+          playfieldX:this.state.playfieldX
+        });
+
+
+      }, this.state.heroMovementUpdateSpeed)
+    } else {
+      
+      // This else is actually what stops the character.
+      return clearInterval(this.movementInterval)
+    }
+  };
+
+
+/*
+
+
+  handleHeroPositioning = (change) => {
+
+    if (change !== "stop") {
+
+      this.movementInterval = setInterval(() => {
+        
+        WorkerHandleHeroMovement.postMessage({
+          "direction": change, 
+          heroX:this.state.heroPositionX,
+          heroY:this.state.heroPositionY,
+          heroWidth:this.state.heroWidth,
+          heroHeight:this.state.heroHeight        
+        
+        });
 
         // Handle collision while moving
-        if (this.state.heroPositionCollided === false && this.hasCollided() === true && this.state.heroMoving !== "stopped") {
+        if (this.state.heroPositionCollided === false && this.hasCollided() === true && this.state.heroMoving !== "stopped") {   
           this.setState({heroPositionCollided:true})
           console.log('🛑 Hero Collided w/object. They were walking ' + this.state.heroDirection + " and before that " + this.state.heroLastDirection);
           return this.haltHero()
@@ -354,6 +345,11 @@ hasCollided = () => {
       return clearInterval(this.movementInterval)
     }
   };
+
+
+*/
+
+
 
   handleHeroMovement(keypress) {
 
@@ -426,9 +422,9 @@ hasCollided = () => {
 
   // Loads a room onto the screen
   loadRoom = (roomToLoad) => {
-    console.log("We're in room " + roomToLoad)
-    console.log("Botom edge " + this.state.playfieldX)
-    console.log("right edge " + this.state.playfieldY)
+    // console.log("We're in room " + roomToLoad)
+    // console.log("Botom edge " + this.state.playfieldX)
+    // console.log("right edge " + this.state.playfieldY)
 
     
     function isRoom(r) {
@@ -438,8 +434,8 @@ hasCollided = () => {
     var nextRoom = this.state.rooms.find(isRoom);
 
 
-    console.log(nextRoom.starting)
-    console.log(nextRoom)
+    // console.log(nextRoom.starting)
+    // console.log(nextRoom)
 
     
 
@@ -509,9 +505,25 @@ hasCollided = () => {
 
 
 
+
   componentDidMount() { 
 
-    // this.CollisionWorker = new Worker(CollisionWorker);
+    // When the component mounts, start an event listener for web worker updates
+    WorkerHandleHeroMovement.onmessage = (e) =>{
+      console.log("Returned from worker:")
+      console.log(e.data)
+
+      if(e.data === "halt"){
+        this.haltHero();
+      } else if(e.data === "haltCollide"){
+        this.setState({heroPositionCollided:true})
+        this.haltHero();
+      }else{
+        this.setState(e.data)
+      }
+      
+    }
+
 
     // set dimensions for play field
     const playfield = document.querySelector('main')
