@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import mainNavFunctions from './MainMenuHelpers';
 import Screen from './Screen';
-import Debug from './Debug'
 import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
 
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
-
 
 export default class App extends Component {
   constructor() {
@@ -52,7 +50,6 @@ export default class App extends Component {
       playfieldY: 0,
       pausedgame: false,
       soundStatus: "On",
-      debuggerValue: "This is the debugger window",
       textParserValue: "",
       submittedText: "",
 
@@ -98,10 +95,6 @@ export default class App extends Component {
     } else {
       this.setState({ soundStatus: "On" });
     }
-  }
-
-  updateDebugger(keyCaptured) {
-    this.setState({ debuggerValue: "\n Player pressed: " + keyCaptured + "\n " + this.state.debuggerValue })
   }
 
   modalButtonClick1 = (event) =>{
@@ -232,7 +225,6 @@ export default class App extends Component {
 
     // Don't move the hero if the game is paused
     if (this.state.pausedgame === false) {
-      // this.updateDebugger(keypress);
 
       // If hero is moving and a different movement direction is picked
       if (this.state.heroMoving === "moving" && this.state.heroDirection !== keypress) {
@@ -484,8 +476,6 @@ export default class App extends Component {
           togglePause={this.togglePause}
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound} />
-
-        <Debug debugText={this.state.debuggerValue} />
         
         <GameSelector loadGameFile={this.loadGameFile} />
       </React.Fragment>
