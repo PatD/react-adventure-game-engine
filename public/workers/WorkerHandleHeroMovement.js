@@ -2,12 +2,49 @@ onmessage = function (e) {
 
     // the hero's location and size, and 
     // the object's location and size, are passed as an object
-    const workerState = e.data
-    // console.log(workerState)
+    const workerState = e.data;
+
+    // Helper function to see if we hit a thing
+    hasCollided = () => {
+
+        let checkForCollision = (dispObj) => {
+            if (workerState.heroPositionY < dispObj.y + dispObj.width &&
+                workerState.heroPositionY + workerState.heroWidth > dispObj.y &&
+                workerState.heroPositionX < dispObj.x + dispObj.height &&
+                workerState.heroPositionX + workerState.heroHeight > dispObj.x) {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+
+        // At each step, loop through objects and see if we've collided
+        for (const [key, dispObj] of Object.entries(workerState.roomCurrentObjects)) {
+            if (checkForCollision(dispObj) === true && dispObj.colide === true && key) {
+                return true
+            }
+        }
+
+        // At each step, loop through room exits and see if we're exiting
+        for (const [key, roomEx] of Object.entries(workerState.roomExits)) {
+            if (checkForCollision(roomEx) === true && key) {
+                return roomEx.goto
+            }
+        }
+    };
+
+
 
     workerResult = () => {
+        // If we've hit a room exit, pass that number back
+        if(typeof hasCollided() === "number"){
+            console.log("Room exit number time")
+            return hasCollided()
+        }
+
         // Handle collision while moving
-        if (workerState.heroPositionCollided === false && workerState.hasCollided === true && workerState.heroMoving !== "stopped") {
+        if (workerState.heroPositionCollided === false && hasCollided() === true && workerState.heroMoving !== "stopped") {
             // { heroPositionCollided: true })
             console.log('🛑 Hero Collided w/object. They were walking ' + workerState.heroDirection + " and before that " + workerState.heroLastDirection);
             return "haltCollide"
@@ -59,14 +96,8 @@ onmessage = function (e) {
             return clearInterval(this.movementInterval)
         }
 
-
-
     }
-    // console.log(workerResult())
-
-
 
     // Results are sent back to the React component:
     postMessage(workerResult());
 }
-
