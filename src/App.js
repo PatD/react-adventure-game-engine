@@ -229,27 +229,42 @@ export default class App extends Component {
 
 
 hasCollided = () => {
-  console.time('collisioncheck')
-  console.log(CollisionCheckWorker)
+  // console.time('collisioncheck')
 
 
-  CollisionCheckWorker.postMessage('Hello World')
+  // Receives a true or false from Web Worker on collision
+  CollisionCheckWorker.onmessage = function(e) {
+		console.log(e.data);
+    return e.data
+	}
 
+  
 
-  let checkForCollision = (dispObj) =>{
-    if (this.state.heroPositionY < dispObj.y + dispObj.width &&
-      this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
-      this.state.heroPositionX < dispObj.x + dispObj.height &&
-      this.state.heroPositionX + this.state.heroHeight > dispObj.x) {
-      return true
-    }
-    else {
-      return false
-    }
-  }
+  // let checkForCollision = (dispObj) =>{
+  //   if (this.state.heroPositionY < dispObj.y + dispObj.width &&
+  //     this.state.heroPositionY + this.state.heroWidth > dispObj.y &&
+  //     this.state.heroPositionX < dispObj.x + dispObj.height &&
+  //     this.state.heroPositionX + this.state.heroHeight > dispObj.x) {
+  //     return true
+  //   }
+  //   else {
+  //     return false
+  //   }
+  // }
 
   // At each step, loop through objects and see if we've collided
   for (const [key, dispObj] of Object.entries(this.state.roomCurrentObjects)) {
+
+    const mergedHeroAndObject = {
+      ...dispObj, 
+      heroX:this.state.heroPositionX,
+      heroY:this.state.heroPositionY,
+      heroWidth:this.state.heroWidth,
+      heroHeight:this.state.heroHeight
+    }
+
+      CollisionCheckWorker.postMessage(mergedHeroAndObject)
+
       if(checkForCollision(dispObj) === true && dispObj.colide === true && key){
         return true
       }
@@ -257,6 +272,8 @@ hasCollided = () => {
 
   // At each step, loop through room exits and see if we're exiting
   for (const [key, roomEx] of Object.entries(this.state.roomExits)) {
+
+    CollisionCheckWorker.postMessage(roomEx)
     if(checkForCollision(roomEx) === true && key){
       console.log('Room Exit hit')
       this.loadRoom(roomEx.goto)
@@ -264,7 +281,7 @@ hasCollided = () => {
     }
   }
 
-  console.timeEnd('collisioncheck');
+  // console.timeEnd('collisioncheck');
 }
 
 
