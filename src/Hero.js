@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 
 class Hero extends Component {
   render(props) {
-  
     return (
     <React.Fragment>
       <div 
         style={{
-          backgroundImage:this.props.heroSprite,
           top:this.props.heroPositionX, 
           left:this.props.heroPositionY, 
           width:this.props.heroWidth, 

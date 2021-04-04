@@ -7,8 +7,14 @@ import RoomExits from './RoomExits'
 export default class Screen extends Component {
 
   render(props) {
+    // Since the hero sprite is base64, add it as a style stag:
+    const heroSpriteCSS = `#hero {background-Image:` + this.props.heroSprite + `}`
+
     return (
       <React.Fragment>
+      <style>
+        {heroSpriteCSS}
+      </style>
         <section id="gameUI">
           <main className={this.props.roomCurrentName}>
 
