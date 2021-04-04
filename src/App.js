@@ -291,44 +291,40 @@ export default class App extends Component {
 
   // Loads a room onto the screen
   loadRoom = (roomToLoad) => {
-    // console.log("We're in room " + roomToLoad)
-    // console.log("Botom edge " + this.state.playfieldX)
-    // console.log("right edge " + this.state.playfieldY)
-
     
     function isRoom(r) {
       return r.Room === roomToLoad;
     }
     
-    var nextRoom = this.state.rooms.find(isRoom);
+    const nextRoom = this.state.rooms.find(isRoom);
 
-    // Set starting postiiong
-    if(nextRoom.starting === "top"){
+    // Add exit position for right and bottom room exits
+    for (let roomExit of nextRoom.roomExits) {
+      if(roomExit.exit === "right"){
+        roomExit.y = this.state.playfieldY -5
+      } else if(roomExit.exit === "bottom"){
+        roomExit.x = this.state.playfieldX -5
+      }
+    }
 
+
+
+    // Set position of hero for travel from one room to the next
+    if(this.state.heroDirection === "ArrowUp"){
       this.setState({
-        heroDirection: "ArrowDown",
-        heroPositionY: 0,
+        heroPositionX: this.state.playfieldX - this.state.heroHeight -5,
       })
-
-    } else if(nextRoom.starting === "left"){
-
+    } else if(this.state.heroDirection === "ArrowLeft"){
       this.setState({
-        heroDirection: "ArrowRight",
-        heroPositionY: 0,
+        heroPositionY: this.state.playfieldY - this.state.heroWidth -5
       })
-
-    } else if(nextRoom.starting === "right"){
-     
+    } else if(this.state.heroDirection === "ArrowRight"){
       this.setState({
-        heroDirection: "ArrowLeft",
-        heroPositionY: this.state.playfieldY,
+        heroPositionY: 5,
       })
-
-    } else if(nextRoom.starting === "bottom"){
-
+    } else if(this.state.heroDirection === "ArrowDown"){
       this.setState({
-        heroDirection: "ArrowUp",
-        heroPositionX: this.state.playfieldX,
+        heroPositionX: 5,
       })
     }
 
@@ -373,7 +369,6 @@ export default class App extends Component {
 
     // When the component mounts, start an event listener for web worker updates
     WorkerHandleHeroMovement.onmessage = (e) =>{
-
       if(typeof e.data === "number"){
         this.loadRoom(e.data);   // If a room number is returned, that means the hero has hit an exit wall
       }else if(e.data === "halt"){
@@ -383,8 +378,7 @@ export default class App extends Component {
         this.haltHero();
       }else{
         this.setState(e.data)
-      }
-      
+      }   
     }
 
 

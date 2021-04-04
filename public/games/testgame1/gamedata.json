@@ -15,7 +15,7 @@
             "Room": 1
         },
         {
-            "Name": "Start",
+            "Name": "Hallway",
             "Room": 2,
             "starting":"",
             "roomExits": [
@@ -80,17 +80,17 @@
             ]
         },
         {
-            "Name": "SecondRoom",
+            "Name": "CargoBay",
             "Room": 3,
             "starting":"right",
             "roomExits": [
                 {
                     "exit": "right",
-                    "goto": 3,
+                    "goto": 2,
                     "width": 5,
                     "height": 300,
                     "x": 100,
-                    "y": 0
+                    "y":""
                 }
             ],
             "displayObjects": [
@@ -113,6 +113,33 @@
                     "y": 130,
                     "zIndex": 1,
                     "bgcolor": "#444444"
+                }
+            ]
+        },
+        {
+            "Name": "MessHall",
+            "Room": 4,
+            "starting":"right",
+            "roomExits": [
+                {
+                    "exit": "bottom",
+                    "goto": 2,
+                    "width": 300,
+                    "height": 5,
+                    "x": 0,
+                    "y":100
+                }
+            ],
+            "displayObjects": [
+                {
+                    "id": "whiteBlock",
+                    "colide": true,
+                    "width": 70,
+                    "height": 275,
+                    "x": 40,
+                    "y": 30,
+                    "zIndex": 2,
+                    "bgcolor": "#EFEFEF"
                 }
             ]
         }
