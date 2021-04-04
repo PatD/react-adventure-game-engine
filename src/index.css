@@ -366,7 +366,7 @@ main{
 
 
 #hero{
-  background-image: url('/herosprite.png');
+  /* background-image: url('/herosprite.png'); */
   position: absolute;
   z-index: 0;
   /* top:50px;

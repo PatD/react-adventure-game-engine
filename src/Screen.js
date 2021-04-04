@@ -26,7 +26,9 @@ export default class Screen extends Component {
               heroPositionX={this.props.heroPositionX}
               heroPositionY={this.props.heroPositionY}
               heroDirection={this.props.heroDirection}
-              heroMoving={this.props.heroMoving} />
+              heroMoving={this.props.heroMoving} 
+              heroSprite={this.props.heroSprite}
+              />
 
           </main>
           <footer>

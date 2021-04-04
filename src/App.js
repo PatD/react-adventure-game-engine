@@ -36,6 +36,7 @@ export default class App extends Component {
       heroMovementUpdateSpeed: 105,
       heroHeight: 0,
       heroWidth: 0,
+      heroSprite:"",
       
 
       // Room stuff
@@ -457,6 +458,7 @@ export default class App extends Component {
           heroPositionY={this.state.heroPositionY}
           heroHeight={this.state.heroHeight}
           heroWidth={this.state.heroWidth}
+          heroSprite={this.state.heroSprite}
           
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}

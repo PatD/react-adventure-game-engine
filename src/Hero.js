@@ -7,6 +7,7 @@ class Hero extends Component {
     <React.Fragment>
       <div 
         style={{
+          backgroundImage:this.props.heroSprite,
           top:this.props.heroPositionX, 
           left:this.props.heroPositionY, 
           width:this.props.heroWidth, 
