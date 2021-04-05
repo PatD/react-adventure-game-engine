@@ -6,23 +6,49 @@ import RoomExits from './RoomExits'
 
 export default class Screen extends Component {
 
+
+  // Fires when user hits enter on text field
+  submitTextParser = event => {
+    event.preventDefault();
+
+    if (this.props.pausedgame === false && this.props.inventoryVisable === false) {
+
+      console.log("Enter key: " + event.target.elements[0].value)
+
+      // Populates the Submitted Text state for processing
+      // then clears input field
+      this.props.textPopulateStateAndClearParser(event);
+
+      // Every text entry prompts a modal opening:
+      this.props.togglePause();
+
+      // and the text is passed up to a handling function
+      this.props.handleSubmittedTextModal(event.target.elements[0].value)
+    }
+    else {
+      // If the enter key is pressed, while the modal is open, close the mdoal
+      this.props.hideModal()
+    }
+  }
+
+
   render(props) {
     // Since the hero sprite is base64, add it as a style stag:
     const heroSpriteCSS = `#hero {background-Image:` + this.props.heroSprite + `}`
 
     return (
       <React.Fragment>
-      <style>
-        {heroSpriteCSS}
-      </style>
+        <style>
+          {heroSpriteCSS}
+        </style>
         <section id="gameUI">
           <main className={this.props.roomCurrentName}>
 
-            <RoomExits 
+            <RoomExits
               roomExits={this.props.roomExits}
               roomCurrentName={this.props.roomCurrentName} />
 
-            <DisplayObjects 
+            <DisplayObjects
               roomCurrentName={this.props.roomCurrentName}
               roomCurrentObjects={this.props.roomCurrentObjects} />
 
@@ -32,17 +58,15 @@ export default class Screen extends Component {
               heroPositionX={this.props.heroPositionX}
               heroPositionY={this.props.heroPositionY}
               heroDirection={this.props.heroDirection}
-              heroMoving={this.props.heroMoving} 
+              heroMoving={this.props.heroMoving}
               heroSprite={this.props.heroSprite}
-              />
+            />
 
           </main>
           <footer>
-            <form onSubmit={this.props.submitTextParser}>
+            <form onSubmit={this.submitTextParser}>
               <TextInputParse
-                textParserBlur={this.props.textParserBlur}
                 textParserChange={this.props.textParserChange}
-                textParserFocus={this.props.textParserFocus}
                 textParserValue={this.props.textParserValue}
               />
             </form>

@@ -44,8 +44,6 @@ export default class App extends Component {
       roomPrevious:"",
       roomCurrentObjects:"",
 
-
-
       // Game state stuff
       playfieldX: 0,
       playfieldY: 0,
@@ -63,23 +61,7 @@ export default class App extends Component {
 
   }
 
-  
-
-  hideModal = () => {
-    if(this.state.modalClickToClose === true){
-      this.setState({
-        modalClickToClose:true,
-        modalStatus: false,
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-        modalTextSlot4: "",
-      });
-    } else{
-      console.log('Clicking the modal does nothing here')
-    }
-    this.setState({ pausedgame: false });
-  };
-
+  // Function to pause the game, invoked by menu item changes usually
   togglePause = () => {
     if (this.state.pausedgame === false) {
       this.setState({ pausedgame: true });
@@ -98,6 +80,21 @@ export default class App extends Component {
     }
   }
 
+  hideModal = () => {
+    if(this.state.modalClickToClose === true){
+      this.setState({
+        modalClickToClose:true,
+        modalStatus: false,
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+      });
+    } else{
+      console.log('Clicking the modal does nothing here')
+    }
+    this.setState({ pausedgame: false });
+  };
+  
   modalButtonClick1 = (event) =>{
     if(this.state.modalButtonText1 === "Restart"){
       alert("GAME RESTART")
@@ -112,33 +109,15 @@ export default class App extends Component {
 
 
 
-  // Fires when user hits enter on text field
-  submitTextParser = event => {
-    event.preventDefault();
-
-    if (this.state.pausedgame === false && this.state.inventoryVisable === false) {
-
-      console.log("Enter key: " + event.target.elements[0].value)
-
-      // Populates the Submitted Text state for processing
-      // then clears input field
-      this.setState({
-        submittedText: event.target.elements[0].value,
-        textParserValue: ""
-      })
-
-      // Every text entry prompts a modal opening:
-      this.togglePause();
-      this.handleSubmittedTextModal(event.target.elements[0].value)
-    }
-    else {
-      // If the enter key is pressed, while the modal is open, close the mdoal
-      this.hideModal()
-    }
+  // When parser submits, text is stored in State and input field cleared
+  textPopulateStateAndClearParser = (event) =>{
+    this.setState({
+      submittedText: event.target.elements[0].value,
+      textParserValue: ""
+    })
   }
 
-
-  // Update state as letters are typed into input field
+  // Updates state as letters are typed into input field
   textParserChange = (event) => {
     if (this.state.pausedgame === false && this.state.inventoryVisable === false) {
       this.setState({
@@ -147,7 +126,7 @@ export default class App extends Component {
     }
   }
 
-
+  // Handles text submission - and usually opens a modal
   handleSubmittedTextModal = (text) => {
     this.setState({
       modalClickToClose:true,
@@ -155,6 +134,7 @@ export default class App extends Component {
       modalStatus: "modal display-block"
     })
   }
+
 
 
   toggleInventoryScreen(key) {
@@ -172,13 +152,10 @@ export default class App extends Component {
     }
   }
 
-
-
   haltHero = () => {
     this.handleHeroPositioning("stop")
     this.setState({ heroMoving: "stopped" })
   }
-
 
 
   // Taking input from keyboard controls, 
@@ -410,21 +387,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        
+      <React.Fragment>     
         <InventoryScreen
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
 
-        <header>
-          <MainMenuBar
-            ref="mainMenuRef"
-            togglePause={this.togglePause}
-            gameTitle={this.state.title}
-            handleDropDownMenuClick={this.handleDropDownMenuClick}
-            menuActive={true}
-            playerScore={0} />
-        </header>
 
         <Modal 
           hideModal={this.hideModal}
@@ -439,17 +406,24 @@ export default class App extends Component {
           modalButtonClick1={this.modalButtonClick1}
           modalButtonClick2={this.modalButtonClick2} />
 
-        
+        <header>
+          <MainMenuBar
+            ref="mainMenuRef"
+            togglePause={this.togglePause}
+            gameTitle={this.state.title}
+            handleDropDownMenuClick={this.handleDropDownMenuClick}
+            menuActive={true}
+            playerScore={0} />
+        </header>
 
-        <Screen
-         
+        <Screen         
           // Room details
-            roomCurrent={this.state.roomCurrent}
-            roomCurrentName={this.state.roomCurrentName}
-            roomCurrentObjects={this.state.roomCurrentObjects}
-            roomExits={this.state.roomExits}
+          roomCurrent={this.state.roomCurrent}
+          roomCurrentName={this.state.roomCurrentName}
+          roomCurrentObjects={this.state.roomCurrentObjects}
+          roomExits={this.state.roomExits}
 
-          
+          // Hero details
           haltHero={this.haltHero}
           handleHeroPositioning={this.handleHeroPositioning}
           heroDirection={this.state.heroDirection}
@@ -460,15 +434,19 @@ export default class App extends Component {
           heroWidth={this.state.heroWidth}
           heroSprite={this.state.heroSprite}
           
+          // Text parser details
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
+          textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
           setdefaultKeyboardListners={this.setdefaultKeyboardListners}
           submitTextParser={this.submitTextParser}
-          // textParserBlur={this.textParserBlur}
           textParserChange={this.textParserChange}
-          // textParserFocus={this.textParserFocus}
+          handleSubmittedTextModal={this.handleSubmittedTextModal}
           
-          
+          // Doing stuff
+          hideModal={this.hideModal}
+          inventoryVisable={this.state.inventoryVisable}
+          pausedgame={this.state.pausedgame}
           togglePause={this.togglePause}
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound} />
