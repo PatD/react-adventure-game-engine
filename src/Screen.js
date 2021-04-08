@@ -13,10 +13,9 @@ export default class Screen extends Component {
 
     if (this.props.pausedgame === false && this.props.inventoryVisable === false) {
 
-      console.log("Enter key: " + event.target.elements[0].value)
+      console.log("User entered: " + event.target.elements[0].value)
 
-      // Populates the Submitted Text state for processing
-      // then clears input field
+      // Populates the Submitted Text state for processing then clears input field
       this.props.textPopulateStateAndClearParser(event);
 
       // Every text entry prompts a modal opening:

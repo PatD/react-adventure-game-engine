@@ -7,6 +7,8 @@ import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
 
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
+const WorkerHandleTextInput = new Worker("../workers/WorkerHanldeTextInput.js");
+
 
 export default class App extends Component {
   constructor() {
@@ -128,11 +130,15 @@ export default class App extends Component {
 
   // Handles text submission - and usually opens a modal
   handleSubmittedTextModal = (text) => {
-    this.setState({
-      modalClickToClose:true,
-      modalText: "The hero typed " + text + ".",
-      modalStatus: "modal display-block"
-    })
+
+    // Sends text string to worker for processing
+    WorkerHandleTextInput.postMessage(text)
+
+    // this.setState({
+    //   modalClickToClose:true,
+    //   modalText: "The hero typed " + text + ".",
+    //   modalStatus: "modal display-block"
+    // })
   }
 
 
@@ -197,6 +203,12 @@ export default class App extends Component {
       return clearInterval(this.movementInterval)
     }
   };
+  
+
+
+
+
+
 
 
   handleHeroMovement(keypress) {
@@ -319,12 +331,6 @@ export default class App extends Component {
 
 
 
-
-
-
-
-
-
   // When a game is loaded, update React State with game data
   loadGameFile = (game) => {
     console.info("App component loads " + game.title)
@@ -344,6 +350,20 @@ export default class App extends Component {
 
 
   componentDidMount() { 
+
+    // When the component mounts, start an event listener for Text  web worker updates
+    WorkerHandleTextInput.onmessage = (e) =>{
+      console.log('From Text input')
+      console.log(e)
+
+      this.setState({
+        modalClickToClose:true,
+        modalText: "The hero typed " + e.data + ".",
+        modalStatus: "modal display-block"
+      })
+
+    }
+
 
     // When the component mounts, start an event listener for web worker updates
     WorkerHandleHeroMovement.onmessage = (e) =>{
