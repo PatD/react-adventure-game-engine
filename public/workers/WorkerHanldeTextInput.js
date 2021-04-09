@@ -21,19 +21,16 @@ onmessage = function (e) {
     // Strip out extra words like "is, the, and, am" and punctuation
 
 
-    // 
 
 
 
-    // Helper function to see if we hit a thing
-    hasCollided = () => {
-    };
 
 
 
-    workerResult = () => {
+
     
-    }
+
+
 
     // Results are sent back to the React component:
     postMessage(workerState);

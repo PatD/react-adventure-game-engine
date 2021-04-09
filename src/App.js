@@ -5,9 +5,9 @@ import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
+import TextHandlerFunctions from './TextHandler'
 
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
-const WorkerHandleTextInput = new Worker("../workers/WorkerHanldeTextInput.js");
 
 
 export default class App extends Component {
@@ -131,14 +131,31 @@ export default class App extends Component {
   // Handles text submission - and usually opens a modal
   handleSubmittedTextModal = (text) => {
 
-    // Sends text string to worker for processing
-    WorkerHandleTextInput.postMessage(text)
-
-    // this.setState({
-    //   modalClickToClose:true,
-    //   modalText: "The hero typed " + text + ".",
-    //   modalStatus: "modal display-block"
+    // // Sends text string to worker for processing
+    // WorkerHandleTextInput.postMessage(
+    //   {"inputText":text,
+    //   "verbs":this.state.verbs,
+    //   "room":this.state.roomCurrent,
+    //   "messages":this.state.roomMessages
     // })
+
+    
+    TextHandlerFunctions.sendTextCommand({
+      inputText:text,
+      inventory:this.state.inventory,
+      heroPositionX:this.state.heroPositionX,
+      heroPositionY:this.state.heroPositionY,
+      roomCurrent:this.state.roomCurrent,
+      roomCurrentName:this.state.roomCurrentName,
+      roomCurrentObjects:this.state.roomCurrentObjects,
+      customVerbs:this.state.customVerbs
+      })
+    
+    this.setState({
+      modalClickToClose:true,
+      modalText: "The hero typed " + text + ".",
+      modalStatus: "modal display-block"
+    })
   }
 
 
@@ -324,7 +341,8 @@ export default class App extends Component {
       roomCurrent:nextRoom.Room, 
       roomCurrentObjects:nextRoom.displayObjects, 
       roomCurrentName:nextRoom.Name,
-      roomExits:nextRoom.roomExits
+      roomExits:nextRoom.roomExits,
+      roomMessages:nextRoom.messages
     })
 
   }
@@ -351,18 +369,18 @@ export default class App extends Component {
 
   componentDidMount() { 
 
-    // When the component mounts, start an event listener for Text  web worker updates
-    WorkerHandleTextInput.onmessage = (e) =>{
-      console.log('From Text input')
-      console.log(e)
+    // When the component mounts, start an event listener for Text web worker updates
+    // WorkerHandleTextInput.onmessage = (e) =>{
+    //   console.log('From Text input')
+    //   console.log(e)
 
-      this.setState({
-        modalClickToClose:true,
-        modalText: "The hero typed " + e.data + ".",
-        modalStatus: "modal display-block"
-      })
+    //   this.setState({
+    //     modalClickToClose:true,
+    //     modalText: "The hero typed " + e.data + ".",
+    //     modalStatus: "modal display-block"
+    //   })
 
-    }
+    // }
 
 
     // When the component mounts, start an event listener for web worker updates
