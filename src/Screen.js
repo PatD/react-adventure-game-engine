@@ -6,14 +6,11 @@ import RoomExits from './RoomExits'
 
 export default class Screen extends Component {
 
-
   // Fires when user hits enter on text field
   submitTextParser = event => {
     event.preventDefault();
 
     if (this.props.pausedgame === false && this.props.inventoryVisable === false) {
-
-      console.log("User entered: " + event.target.elements[0].value)
 
       // Populates the Submitted Text state for processing then clears input field
       this.props.textPopulateStateAndClearParser(event);
@@ -23,6 +20,8 @@ export default class Screen extends Component {
 
       // and the text is passed up to a handling function
       this.props.handleSubmittedTextModal(event.target.elements[0].value)
+
+      
     }
     else {
       // If the enter key is pressed, while the modal is open, close the mdoal
@@ -65,8 +64,16 @@ export default class Screen extends Component {
           <footer>
             <form onSubmit={this.submitTextParser}>
               <TextInputParse
+                customVerbs={this.props.customVerbs}
+                inventory={this.props.inventory}
                 textParserChange={this.props.textParserChange}
                 textParserValue={this.props.textParserValue}
+                heroPositionX={this.props.heroPositionX}
+                heroPositionY={this.props.heroPositionY}
+                roomCurrentName={this.props.roomCurrentName}
+                roomCurrentObjects={this.props.roomCurrentObjects} 
+                roomCurrentDescription={this.props.roomCurrentDescription}
+                submittedText={this.props.submittedText}
               />
             </form>
           </footer>

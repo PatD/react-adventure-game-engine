@@ -12,10 +12,12 @@
     "rooms": [
         {
             "Name": "Loading",
-            "Room": 1
+            "Room": 1,
+            "Description":""
         },
         {
             "Name": "Hallway",
+            "Description": "You are in a hallway, you see blocks all around",
             "Room": 2,
             "starting":"",
             "messages":["You see a coffee maker","There is no spoon","This proves fatal"],
@@ -40,6 +42,7 @@
             "displayObjects": [
                 {
                     "id": "whiteBlock",
+                    "Description": "You see a white block in this room, it's amaing",
                     "colide": true,
                     "width": 100,
                     "height": 125,
@@ -50,6 +53,7 @@
                 },
                 {
                     "id": "redRock",
+                    "Description": "You see a RED block in this room, it's great",
                     "colide": true,
                     "width": 100,
                     "height": 150,
@@ -60,6 +64,7 @@
                 },
                 {
                     "id": "greenBlock",
+                    "Description": "",
                     "colide": true,
                     "width": 80,
                     "height": 75,
@@ -84,6 +89,7 @@
             "Name": "CargoBay",
             "Room": 3,
             "starting":"right",
+            "Description":"",
             "roomExits": [
                 {
                     "exit": "right",
@@ -119,6 +125,7 @@
         },
         {
             "Name": "MessHall",
+            "Description":"This is the mess hall",
             "Room": 4,
             "starting":"right",
             "roomExits": [

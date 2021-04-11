@@ -1,37 +1,47 @@
-// Handles Main Navigation menu item clicks.
+// Handles text commands!
 
 const TextHandlerFunctions = {
 
-    sendTextCommand:function(text,state){
-        // Convert entered text into an Array of seperate words
-        const wordArray = text.inputText.split(/\s+/);
-        this.verbRouter(wordArray,state);
+    // Convert entered text into an Array of seperate words
+    sendTextCommand:function(text,passedState){
+       
+        console.log(text)
+        console.log(passedState)
+        const wordArray = text.split(/\s+/);
+       
+        this.verbRouter(wordArray,passedState);
     },
 
     // Takes passed menu item name and routes it to the right function
-    verbRouter: function (wordArray,state) {
+    verbRouter: function (wordArray,passedState) {
+        console.log(wordArray)
 
         // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
 
-        //   "help","push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
+        //  "help","push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
 
         if(wordArray.includes('look')){
-            this.look(state)
+            this.look(wordArray,passedState)
         } else if(wordArray.includes('help')){
-            this.help(state)
-        } else if (wordArray.inputText('push')){
-            this.push(state)
+            this.help(passedState)
+        } else if (wordArray.includes('push')){
+            this.push(passedState)
         } else{
-            console('wut')
+            return console.log('wut')
         }
 
 
     },
 
+    look:function(wordArray,passedState){
+        console.log(passedState)
+        return 
+    }
 
+/*
 
-//     // Shows the "About this game" modal dialog box.
-//     // This should come from the game's own gamedata.json file
+   // Shows the "About this game" modal dialog box.
+    // This should come from the game's own gamedata.json file
    logText: function (text) {
      return console.log(text)
    },
@@ -74,6 +84,7 @@ const TextHandlerFunctions = {
             modalButtonText2:"Cancel"
         })
     }
+    */
 }
 
 export default TextHandlerFunctions;

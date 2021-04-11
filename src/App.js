@@ -5,7 +5,7 @@ import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
-import TextHandlerFunctions from './TextHandler'
+// import TextHandlerFunctions from './TextHandler'
 
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 
@@ -131,25 +131,27 @@ export default class App extends Component {
   // Handles text submission - and usually opens a modal
   handleSubmittedTextModal = (text) => {
 
-    // // Sends text string to worker for processing
-    // WorkerHandleTextInput.postMessage(
-    //   {"inputText":text,
-    //   "verbs":this.state.verbs,
-    //   "room":this.state.roomCurrent,
-    //   "messages":this.state.roomMessages
-    // })
+    // // // Sends text string to worker for processing
+    // // WorkerHandleTextInput.postMessage(
+    // //   {"inputText":text,
+    // //   "verbs":this.state.verbs,
+    // //   "room":this.state.roomCurrent,
+    // //   "messages":this.state.roomMessages
+    // // })
 
     
-    TextHandlerFunctions.sendTextCommand({
-      inputText:text,
-      inventory:this.state.inventory,
-      heroPositionX:this.state.heroPositionX,
-      heroPositionY:this.state.heroPositionY,
-      roomCurrent:this.state.roomCurrent,
-      roomCurrentName:this.state.roomCurrentName,
-      roomCurrentObjects:this.state.roomCurrentObjects,
-      customVerbs:this.state.customVerbs
-      })
+    // TextHandlerFunctions.sendTextCommand(text,this.state
+    // //   {
+    // //   inputText:text,
+    // //   inventory:this.state.inventory,
+    // //   heroPositionX:this.state.heroPositionX,
+    // //   heroPositionY:this.state.heroPositionY,
+    // //   roomCurrent:this.state.roomCurrent,
+    // //   roomCurrentName:this.state.roomCurrentName,
+    // //   roomCurrentObjects:this.state.roomCurrentObjects,
+    // //   customVerbs:this.state.customVerbs
+    // // }
+    // )
     
     this.setState({
       modalClickToClose:true,
@@ -342,7 +344,8 @@ export default class App extends Component {
       roomCurrentObjects:nextRoom.displayObjects, 
       roomCurrentName:nextRoom.Name,
       roomExits:nextRoom.roomExits,
-      roomMessages:nextRoom.messages
+      roomMessages:nextRoom.messages,
+      roomCurrentDescription:nextRoom.Description
     })
 
   }
@@ -459,6 +462,7 @@ export default class App extends Component {
           roomCurrent={this.state.roomCurrent}
           roomCurrentName={this.state.roomCurrentName}
           roomCurrentObjects={this.state.roomCurrentObjects}
+          roomCurrentDescription={this.state.roomCurrentDescription}
           roomExits={this.state.roomExits}
 
           // Hero details
@@ -473,6 +477,8 @@ export default class App extends Component {
           heroSprite={this.state.heroSprite}
           
           // Text parser details
+          inventory={this.state.inventory}
+          customVerbs={this.state.customVerbs}
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
