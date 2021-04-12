@@ -19,7 +19,7 @@ export default class Screen extends Component {
       this.props.togglePause();
 
       // and the text is passed up to a handling function
-      this.props.handleSubmittedTextModal(event.target.elements[0].value)
+      // this.props.handleSubmittedTextModal(event.target.elements[0].value)
 
       
     }
@@ -74,6 +74,7 @@ export default class Screen extends Component {
                 roomCurrentObjects={this.props.roomCurrentObjects} 
                 roomCurrentDescription={this.props.roomCurrentDescription}
                 submittedText={this.props.submittedText}
+                handleSubmittedTextModal={this.props.handleSubmittedTextModal}
               />
             </form>
           </footer>

@@ -17,7 +17,7 @@
         },
         {
             "Name": "Hallway",
-            "Description": "You are in a hallway, you see blocks all around",
+            "Description": "You are in a hallway, you see blocks all around. There's not a lot else going on in here, TBH.",
             "Room": 2,
             "starting":"",
             "messages":["You see a coffee maker","There is no spoon","This proves fatal"],
@@ -125,7 +125,7 @@
         },
         {
             "Name": "MessHall",
-            "Description":"This is the mess hall",
+            "Description":"This is the mess hall.",
             "Room": 4,
             "starting":"right",
             "roomExits": [

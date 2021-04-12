@@ -130,32 +130,10 @@ export default class App extends Component {
 
   // Handles text submission - and usually opens a modal
   handleSubmittedTextModal = (text) => {
-
-    // // // Sends text string to worker for processing
-    // // WorkerHandleTextInput.postMessage(
-    // //   {"inputText":text,
-    // //   "verbs":this.state.verbs,
-    // //   "room":this.state.roomCurrent,
-    // //   "messages":this.state.roomMessages
-    // // })
-
-    
-    // TextHandlerFunctions.sendTextCommand(text,this.state
-    // //   {
-    // //   inputText:text,
-    // //   inventory:this.state.inventory,
-    // //   heroPositionX:this.state.heroPositionX,
-    // //   heroPositionY:this.state.heroPositionY,
-    // //   roomCurrent:this.state.roomCurrent,
-    // //   roomCurrentName:this.state.roomCurrentName,
-    // //   roomCurrentObjects:this.state.roomCurrentObjects,
-    // //   customVerbs:this.state.customVerbs
-    // // }
-    // )
     
     this.setState({
       modalClickToClose:true,
-      modalText: "The hero typed " + text + ".",
+      modalText: text,
       modalStatus: "modal display-block"
     })
   }
@@ -223,7 +201,6 @@ export default class App extends Component {
     }
   };
   
-
 
 
 
@@ -371,20 +348,6 @@ export default class App extends Component {
 
 
   componentDidMount() { 
-
-    // When the component mounts, start an event listener for Text web worker updates
-    // WorkerHandleTextInput.onmessage = (e) =>{
-    //   console.log('From Text input')
-    //   console.log(e)
-
-    //   this.setState({
-    //     modalClickToClose:true,
-    //     modalText: "The hero typed " + e.data + ".",
-    //     modalStatus: "modal display-block"
-    //   })
-
-    // }
-
 
     // When the component mounts, start an event listener for web worker updates
     WorkerHandleHeroMovement.onmessage = (e) =>{

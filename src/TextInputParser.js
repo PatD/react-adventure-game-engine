@@ -49,38 +49,53 @@ export default class TextInputParser extends Component {
       } else if (textForParsing.includes('push')){
           this.push(textForParsing)
       } else{
-          return console.log('wut')
+         this.handleUnsure()
       }
 
     }
   }
 
-  verbLook = (textForParsing) =>{
-    console.log(JSON.stringify(textForParsing))
+  // For when we just don't have any idea what the person typed:
+  handleUnsure = () =>{
+    return this.props.handleSubmittedTextModal("I don't understand what you typed. Try something else.")
+  }
+
+  // Handles the player typing the word 'look'
+  verbLook = (textForParsing) => {
 
     // If just "look" (or 'look room' is typed, 
     // then read the room Description from this.roomCurrentDescription
     if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]'){
-
       if(this.props.roomCurrentDescription === "" || this.props.roomCurrentDescription === " " || this.props.roomCurrentDescription === null || this.props.roomCurrentDescription === "undefined"){
-        console.log("You don't see much")
+        return this.props.handleSubmittedTextModal("There's not much to see here")
       } else{
-        console.log(this.props.roomCurrentDescription)
+        return this.props.handleSubmittedTextModal(this.props.roomCurrentDescription)
       }
+    }
+
+    // What inventory items can be looked at?
+    // Loop through this.props.inventory and read 'Description' if 'owned' is true
+
+    if(textForParsing.length > 1 && JSON.stringify(textForParsing) !== '["look","room"]'){
+      console.log(textForParsing[1])
+      const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
+      const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
+
+      
+
+
+      
+      return this.props.handleSubmittedTextModal("Looking an a thing ")
 
     }
     
 
-    // What inventory items can be looked at?
-      // Loop through this.props.inventory and read 'Description' if 'owned' is true
   
     // What displayobjects in current room can be looked at?
       // Loop through this.props.roomCurrentObjects and if it has a Description that isn't "" or null
 
-    
+    } 
   
-  
-  }
 
 
 
