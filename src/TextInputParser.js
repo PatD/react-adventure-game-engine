@@ -16,7 +16,10 @@ export default class TextInputParser extends Component {
 
   // Input text parsing
   handleTextParsing(){
-    if(this.props.submittedText.length>0 && this.state.prevSubmittedText !== this.props.submittedText){
+  //  if(this.props.submittedText.length>0 && this.state.prevSubmittedText !== this.props.submittedText){
+ 
+  if(this.props.submittedText.length>0){
+   
       console.log("User submitted this text: " + this.props.submittedText)
   
       // Lowercase everything
@@ -52,7 +55,8 @@ export default class TextInputParser extends Component {
          this.handleUnsure()
       }
 
-    }
+    } 
+
   }
 
   // For when we just don't have any idea what the person typed:
@@ -81,7 +85,7 @@ export default class TextInputParser extends Component {
       const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
       const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
 
-      
+
 
 
       
@@ -117,7 +121,11 @@ export default class TextInputParser extends Component {
 
   componentDidUpdate() {
     this.searchInput.focus();
-    this.handleTextParsing()
+
+    if(this.state.prevSubmittedText !== this.props.submittedText){
+      this.handleTextParsing() 
+    } 
+    
   }
 
   render(props) {

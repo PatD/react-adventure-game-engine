@@ -16,7 +16,7 @@ export default class Screen extends Component {
       this.props.textPopulateStateAndClearParser(event);
 
       // Every text entry prompts a modal opening:
-      this.props.togglePause();
+      // this.props.togglePause();
 
       // and the text is passed up to a handling function
       // this.props.handleSubmittedTextModal(event.target.elements[0].value)
@@ -24,8 +24,11 @@ export default class Screen extends Component {
       
     }
     else {
-      // If the enter key is pressed, while the modal is open, close the mdoal
+      // If the enter key is pressed, while the modal is open, close the modal
       this.props.hideModal()
+
+  
+
     }
   }
 

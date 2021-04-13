@@ -134,8 +134,10 @@ export default class App extends Component {
     this.setState({
       modalClickToClose:true,
       modalText: text,
-      modalStatus: "modal display-block"
+      modalStatus: "modal display-block",
+      pausedgame:true
     })
+    this.haltHero()
   }
 
 
