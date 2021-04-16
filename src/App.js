@@ -110,6 +110,8 @@ export default class App extends Component {
   }
 
 
+  
+
 
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) =>{

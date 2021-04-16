@@ -4,7 +4,6 @@ export default class TextInputParser extends Component {
   constructor() {
     super();
     this.state = {
-      // Previous text submitted.  
       prevSubmittedText:"",
       wordArray:[]
     }
@@ -17,8 +16,9 @@ export default class TextInputParser extends Component {
   // Input text parsing
   handleTextParsing(){
   //  if(this.props.submittedText.length>0 && this.state.prevSubmittedText !== this.props.submittedText){
- 
-  if(this.props.submittedText.length>0){
+    // this.setState({prevSubmittedText:""})
+  
+  if(this.props.submittedText.length !==""){
    
       console.log("User submitted this text: " + this.props.submittedText)
   
@@ -39,6 +39,7 @@ export default class TextInputParser extends Component {
 
       // In this component, record this as the previous state, so we can check it next time.
       this.setState({prevSubmittedText:this.props.submittedText});
+      
 
       // Verb gauntlet
       
@@ -64,69 +65,29 @@ export default class TextInputParser extends Component {
     return this.props.handleSubmittedTextModal("I don't understand what you typed. Try something else.")
   }
 
-  // Handles the player typing the word 'look'
-  verbLook = (textForParsing) => {
-
-    // If just "look" (or 'look room' is typed, 
-    // then read the room Description from this.roomCurrentDescription
-    if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]'){
-      if(this.props.roomCurrentDescription === "" || this.props.roomCurrentDescription === " " || this.props.roomCurrentDescription === null || this.props.roomCurrentDescription === "undefined"){
-        return this.props.handleSubmittedTextModal("There's not much to see here")
-      } else{
-        return this.props.handleSubmittedTextModal(this.props.roomCurrentDescription)
-      }
-    }
-
-    // What inventory items can be looked at?
-    // Loop through this.props.inventory and read 'Description' if 'owned' is true
-
-    if(textForParsing.length > 1 && JSON.stringify(textForParsing) !== '["look","room"]'){
-      console.log(textForParsing[1])
-      const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
-      const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
-
-
-
-
-      
-      return this.props.handleSubmittedTextModal("Looking an a thing ")
-
-    }
-    
-
   
-    // What displayobjects in current room can be looked at?
-      // Loop through this.props.roomCurrentObjects and if it has a Description that isn't "" or null
-
-    } 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   componentDidMount(){
     this.searchInput.focus();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.searchInput.focus();
 
+
+    // If the App component submitted text is determined to not match the last submitted text, start parsing
+    // Weird because Submit function is in parent component.
+    // Have to have the submit function do this owrk, not componentupdate
+
     if(this.state.prevSubmittedText !== this.props.submittedText){
-      this.handleTextParsing() 
+    //  this.handleTextParsing() 
     } 
-    
+
   }
+
+
+
+
 
   render(props) {
     return (
