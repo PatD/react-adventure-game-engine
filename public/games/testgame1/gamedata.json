@@ -41,7 +41,8 @@
             ],
             "displayObjects": [
                 {
-                    "id": "whiteBlock",
+                    "id": "white",
+                    "Name": "white block",
                     "Description": "You see a white block in this room, it's amaing",
                     "colide": true,
                     "width": 100,
@@ -53,6 +54,7 @@
                 },
                 {
                     "id": "redRock",
+                    "Name": "red block",
                     "Description": "You see a RED block in this room, it's great",
                     "colide": true,
                     "width": 100,
@@ -64,6 +66,7 @@
                 },
                 {
                     "id": "greenBlock",
+                    "Name": "green block",
                     "Description": "",
                     "colide": true,
                     "width": 80,
@@ -75,6 +78,7 @@
                 },
                 {
                     "id": "blueBlock",
+                    "Name": "blue block",
                     "colide": true,
                     "width": 80,
                     "height": 105,
@@ -103,6 +107,7 @@
             "displayObjects": [
                 {
                     "id": "whiteBlock",
+                    "Name": "white block",
                     "colide": true,
                     "width": 25,
                     "height": 25,
@@ -112,7 +117,8 @@
                     "bgcolor": "#EFEFEF"
                 },
                 {
-                    "id": "blackRock",
+                    "id": "grayRock",
+                    "Name": "Gray Rock",
                     "colide": true,
                     "width": 300,
                     "height": 50,
@@ -141,6 +147,8 @@
             "displayObjects": [
                 {
                     "id": "whiteBlock",
+                    "Name": "white block",
+                    "Description": "There's a white block here",
                     "colide": true,
                     "width": 70,
                     "height": 275,

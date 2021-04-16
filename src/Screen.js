@@ -7,7 +7,7 @@ import RoomExits from './RoomExits'
 export default class Screen extends Component {
 
 
-  // Fires when user hits enter on text field
+  // Fires when user hits Enter on text field
   submitTextParser = event => {
 
     event.preventDefault();
@@ -15,7 +15,7 @@ export default class Screen extends Component {
     if (this.props.pausedgame === false && this.props.inventoryVisable === false && event.target.elements[0].value !== "") {
 
       this.handleTextParsing(event)
-      
+
       // Populates the Submitted Text state for processing then clears input field
       this.props.textPopulateStateAndClearParser(event);
 
@@ -29,45 +29,45 @@ export default class Screen extends Component {
 
 
 
- // Input text parsing
- handleTextParsing(event){
-  
-      // Lowercase everything
-      const makeLowerCase = event.target.elements[0].value.toLowerCase()
+  // Input text parsing
+  handleTextParsing(event) {
 
-      // Take each word the user inputs and add to an array
-      const makeWordArray = makeLowerCase.split(/\s+/);
+    // Lowercase everything
+    const makeLowerCase = event.target.elements[0].value.toLowerCase()
 
-      // Remove unneeded words and chars
-      const garbageWords = [" ","","the","at","to","of","a","for","all","some","i","next","with","around","through","on","in"];
+    // Take each word the user inputs and add to an array
+    const makeWordArray = makeLowerCase.split(/\s+/);
 
-      // An array of the essential - hopefully just a verb and a noun
-      const textForParsing = makeWordArray.filter(item => !garbageWords.includes(item))      
+    // Remove unneeded words and chars
+    const garbageWords = [" ", "", "my", "the", "at", "to", "of", "a", "for", "all", "some", "i", "next", "with", "around", "through", "on", "in",".",",","!","?"];
 
-      // Breaks user input into an array and puts in state
-      this.setState({textForParsing});
+    // Create an array of the essential - hopefully just a verb and a noun
+    const textForParsing = makeWordArray.filter(item => !garbageWords.includes(item))
 
-    
-      // Verb gauntlet
-      
-      // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
-      //  "help","push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
+    // Breaks user input into an array and puts in state
+    this.setState({ textForParsing });
 
-      if(textForParsing.includes('look')){
-        this.verbLook(textForParsing)
-      } else if(textForParsing.includes('help')){
-          this.help(textForParsing)
-      } else if (textForParsing.includes('push')){
-          this.push(textForParsing)
-      } else{
-         this.handleUnsure()
-      }
 
-    } 
+    // Verb gauntlet
+
+    // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
+    //  "help","push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
+
+    if (textForParsing.includes('look')) {
+      this.verbLook(textForParsing)
+    } else if (textForParsing.includes('help')) {
+      this.help(textForParsing)
+    } else if (textForParsing.includes('push')) {
+      this.push(textForParsing)
+    } else {
+      this.handleUnsure()
+    }
+
+  }
 
 
   // For when we just don't have any idea what the person typed:
-  handleUnsure = () =>{
+  handleUnsure = () => {
     return this.props.handleSubmittedTextModal("I don't understand what you typed. Try something else.")
   }
 
@@ -75,24 +75,32 @@ export default class Screen extends Component {
 
   // Handles the player typing the word 'look'
   verbLook = (textForParsing) => {
-
+    
     // If just "look" (or 'look room' is typed, 
+    let roomLooking = function(){
+      if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]'){
+        return true
+      } else {
+        return false
+      }
+    }
+
+
     // then read the room Description from this.roomCurrentDescription
-    if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]'){
+    if (roomLooking() === true) {
       // If there's no description provided, give a generic answer
-      if(this.props.roomCurrentDescription === "" || this.props.roomCurrentDescription === " " || this.props.roomCurrentDescription === null || this.props.roomCurrentDescription === "undefined"){
+      if (this.props.roomCurrentDescription === "" || this.props.roomCurrentDescription === " " || this.props.roomCurrentDescription === null || this.props.roomCurrentDescription === "undefined") {
         return this.props.handleSubmittedTextModal("There's not much to see here")
-      // Otherwise pass the room's description to the modal
-      } else{
+        // Otherwise pass the room's description to the modal
+      } else {
         return this.props.handleSubmittedTextModal(this.props.roomCurrentDescription)
       }
     }
 
 
     // Maybe they want to look at inventory items? Loop through this.props.inventory and read 'Description' if 'owned' is true
+    else if (roomLooking() === false) {
 
-    if(textForParsing.length > 1 && JSON.stringify(textForParsing) !== '["look","room"]'){
-      
       // Array without the word 'look'
       const trimmedLook = textForParsing.slice(1).join(' ')
 
@@ -103,30 +111,39 @@ export default class Screen extends Component {
       // If the item can be owned, but isn't yet, give one kind of message
       heroInventoryNotOwned.forEach(item => {
         const lowerName = item.Name.toLowerCase()
-        if(lowerName === trimmedLook){
-          return this.props.handleSubmittedTextModal("You're not ready to look at this yet.") 
+        if (lowerName === trimmedLook) {
+          return this.props.handleSubmittedTextModal("You're not ready to look at this yet.")
         }
       })
 
       // Otherwise read the description of it
       heroInventoryOwned.forEach(item => {
         const lowerName = item.Name.toLowerCase()
-        if(lowerName === trimmedLook){
-          return this.props.handleSubmittedTextModal(item.Description) 
+        if (lowerName === trimmedLook) {
+          return this.props.handleSubmittedTextModal(item.Description)
+        }
+      })
+      
+      // look at items in the room
+      this.props.roomCurrentObjects.forEach(item =>{
+        const lowerName = item.Name.toLowerCase()
+        if (lowerName === trimmedLook) {
+          return this.props.handleSubmittedTextModal(item.Description)
         }
       })
     
-      
-      
-      
+
+
+
+    } else {
+      return this.props.handleSubmittedTextModal("That's not something you can look at in this game")
     }
-    
 
-  
+
     // What displayobjects in current room can be looked at?
-      // Loop through this.props.roomCurrentObjects and if it has a Description that isn't "" or null
+    // Loop through this.props.roomCurrentObjects and if it has a Description that isn't "" or null
 
-    } 
+  }
 
 
 
@@ -173,7 +190,7 @@ export default class Screen extends Component {
                 heroPositionX={this.props.heroPositionX}
                 heroPositionY={this.props.heroPositionY}
                 roomCurrentName={this.props.roomCurrentName}
-                roomCurrentObjects={this.props.roomCurrentObjects} 
+                roomCurrentObjects={this.props.roomCurrentObjects}
                 roomCurrentDescription={this.props.roomCurrentDescription}
                 submittedText={this.props.submittedText}
                 handleSubmittedTextModal={this.props.handleSubmittedTextModal}
