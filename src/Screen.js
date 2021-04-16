@@ -7,31 +7,23 @@ import RoomExits from './RoomExits'
 export default class Screen extends Component {
 
 
-
   // Fires when user hits enter on text field
   submitTextParser = event => {
 
     event.preventDefault();
 
-    if (this.props.pausedgame === false && this.props.inventoryVisable === false) {
-      console.log("Submitted event new text")
+    if (this.props.pausedgame === false && this.props.inventoryVisable === false && event.target.elements[0].value !== "") {
 
       this.handleTextParsing(event)
       
       // Populates the Submitted Text state for processing then clears input field
       this.props.textPopulateStateAndClearParser(event);
 
-      
-
     }
     else {
       // If the enter key is pressed, while the modal is open, close the modal
-      console.log('Submitted event modal closed')
       this.props.hideModal()
-
-  
     }
-
   }
 
 
@@ -39,7 +31,7 @@ export default class Screen extends Component {
 
  // Input text parsing
  handleTextParsing(event){
-      console.log(event.target.elements[0].value,)
+  
       // Lowercase everything
       const makeLowerCase = event.target.elements[0].value.toLowerCase()
 
@@ -55,10 +47,7 @@ export default class Screen extends Component {
       // Breaks user input into an array and puts in state
       this.setState({textForParsing});
 
-      // In this component, record this as the previous state, so we can check it next time.
-      // this.setState({prevSubmittedText:this.props.submittedText});
-      
-
+    
       // Verb gauntlet
       
       // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
@@ -90,29 +79,46 @@ export default class Screen extends Component {
     // If just "look" (or 'look room' is typed, 
     // then read the room Description from this.roomCurrentDescription
     if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]'){
+      // If there's no description provided, give a generic answer
       if(this.props.roomCurrentDescription === "" || this.props.roomCurrentDescription === " " || this.props.roomCurrentDescription === null || this.props.roomCurrentDescription === "undefined"){
         return this.props.handleSubmittedTextModal("There's not much to see here")
+      // Otherwise pass the room's description to the modal
       } else{
         return this.props.handleSubmittedTextModal(this.props.roomCurrentDescription)
       }
     }
 
-    // What inventory items can be looked at?
-    // Loop through this.props.inventory and read 'Description' if 'owned' is true
+
+    // Maybe they want to look at inventory items? Loop through this.props.inventory and read 'Description' if 'owned' is true
 
     if(textForParsing.length > 1 && JSON.stringify(textForParsing) !== '["look","room"]'){
-      console.log(textForParsing[1])
+      
+      // Array without the word 'look'
+      const trimmedLook = textForParsing.slice(1).join(' ')
+
+      // Split what is owned and what isn't
       const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
       const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
 
-      console.log(heroInventoryOwned)
-      console.log(heroInventoryNotOwned)
+      // If the item can be owned, but isn't yet, give one kind of message
+      heroInventoryNotOwned.forEach(item => {
+        const lowerName = item.Name.toLowerCase()
+        if(lowerName === trimmedLook){
+          return this.props.handleSubmittedTextModal("You're not ready to look at this yet.") 
+        }
+      })
+
+      // Otherwise read the description of it
+      heroInventoryOwned.forEach(item => {
+        const lowerName = item.Name.toLowerCase()
+        if(lowerName === trimmedLook){
+          return this.props.handleSubmittedTextModal(item.Description) 
+        }
+      })
+    
       
-
-
       
-      return this.props.handleSubmittedTextModal("Looking an a thing ")
-
+      
     }
     
 
