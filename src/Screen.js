@@ -51,14 +51,16 @@ export default class Screen extends Component {
     // Verb gauntlet
 
     // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
-    //  "help","push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
+    // "use","change","take", "search", "help", "hold","press", "throw", "push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
 
     if (textForParsing.includes('look')) {
       this.verbLook(textForParsing)
+    } else if (textForParsing.includes('use')) {
+      this.use(textForParsing)
     } else if (textForParsing.includes('help')) {
-      this.help(textForParsing)
-    } else if (textForParsing.includes('push')) {
-      this.push(textForParsing)
+      this.getHelp(textForParsing)
+    } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) {
+      this.getObject(textForParsing)
     } else {
       this.handleUnsure()
     }
@@ -72,13 +74,39 @@ export default class Screen extends Component {
   }
 
 
+  // If the user begs for help
+  getHelp = () =>{
+    return this.props.handleSubmittedTextModal(this.props.helpText)
+  }
+
+
+  // We pick up an object.
+  getObject = (textForParsing) =>{
+
+    // If they just type get
+
+
+    // If it's not a getable thing
+
+
+    // Do we have it already?
+
+    // Is it in this room?
+
+    // We can get it, and we need to add to player inventory
+
+  }
+
+
+
+
 
   // Handles the player typing the word 'look'
   verbLook = (textForParsing) => {
     
-    // If just "look" (or 'look room' is typed, 
+    // If just "look" is typed, 
     let roomLooking = function(){
-      if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]'){
+      if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]' || JSON.stringify(textForParsing) === '["look","around"]'){
         return true
       } else {
         return false
@@ -131,18 +159,10 @@ export default class Screen extends Component {
           return this.props.handleSubmittedTextModal(item.Description)
         }
       })
-    
 
-
-
-    } else {
       return this.props.handleSubmittedTextModal("That's not something you can look at in this game")
-    }
 
-
-    // What displayobjects in current room can be looked at?
-    // Loop through this.props.roomCurrentObjects and if it has a Description that isn't "" or null
-
+    } 
   }
 
 

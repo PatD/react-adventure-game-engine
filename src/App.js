@@ -53,6 +53,7 @@ export default class App extends Component {
       soundStatus: "On",
       textParserValue: "",
       submittedText: "",
+      helpText:"Help! I need somebody. Not just anybody!",
 
       inventoryVisable: false,
       
@@ -455,6 +456,7 @@ export default class App extends Component {
           handleSubmittedTextModal={this.handleSubmittedTextModal}
           
           // Doing stuff
+          helpText={this.state.helpText}
           hideModal={this.hideModal}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
