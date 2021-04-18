@@ -112,6 +112,7 @@ export default class App extends Component {
 
 
   
+  
 
 
   // When parser submits, text is stored in State and input field cleared
@@ -145,6 +146,21 @@ export default class App extends Component {
 
 
 
+
+
+
+  // Adds item to inventory
+  addToInventory = (newItem) =>{
+    console.log(this.state.inventory)
+    console.log(newItem)
+
+
+  }
+
+
+
+
+  // Show or hide Inventory Screen
   toggleInventoryScreen(key) {
     if (this.state.inventoryVisable === false) {
       this.setState({
@@ -160,6 +176,7 @@ export default class App extends Component {
     }
   }
 
+  // Stop the hero in their tracks
   haltHero = () => {
     this.handleHeroPositioning("stop")
     this.setState({ heroMoving: "stopped" })
@@ -172,8 +189,6 @@ export default class App extends Component {
 
   // inputs are change type ... direction or stop
   // outputs are function like this.halthero() or setstate
-
-
   handleHeroPositioning = (change) => {
 
     if (change !== "stop") {
@@ -208,10 +223,6 @@ export default class App extends Component {
   
 
 
-
-
-
-
   handleHeroMovement(keypress) {
 
     // Don't move the hero if the game is paused
@@ -237,6 +248,8 @@ export default class App extends Component {
   };
 
 
+
+  // Adds event listeners for keyboard use.
   // Default keyboard configuration for gameplay.
   // Arrow keys move the hero
   // tab key opens inventory, escape opens menu, and 
@@ -320,7 +333,7 @@ export default class App extends Component {
     }
 
 
-    // Set room structure
+    // Set room stage
     this.setState({
       roomCurrent:nextRoom.Room, 
       roomCurrentObjects:nextRoom.displayObjects, 
@@ -350,11 +363,9 @@ export default class App extends Component {
 
 
 
-
-
   componentDidMount() { 
 
-    // When the component mounts, start an event listener for web worker updates
+    // When the component mounts, start an event listener for web worker updates.
     WorkerHandleHeroMovement.onmessage = (e) =>{
       if(typeof e.data === "number"){
         this.loadRoom(e.data);   // If a room number is returned, that means the hero has hit an exit wall
@@ -379,6 +390,7 @@ export default class App extends Component {
       // playfieldGridy: playfield.clientWidth / 64
     })
 
+    // Listen patiently for keyboard key presses
     this.setdefaultKeyboardListners();
   }
 
@@ -458,6 +470,7 @@ export default class App extends Component {
           // Doing stuff
           helpText={this.state.helpText}
           hideModal={this.hideModal}
+          addToInventory={this.addToInventory}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
           togglePause={this.togglePause}

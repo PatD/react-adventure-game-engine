@@ -80,16 +80,81 @@ export default class Screen extends Component {
   }
 
 
-  // We pick up an object.
+  // Hero picks up an object.
   getObject = (textForParsing) =>{
 
     // If they just type get
+    let justGet = function () {
+      if (JSON.stringify(textForParsing) === '["get"]' || JSON.stringify(textForParsing) === '["take"]' || JSON.stringify(textForParsing) === '["grab"]') {
+        return true
+      } else {
+        return false
+      }
+    }
 
+    if (justGet() === true) {
+      return this.props.handleSubmittedTextModal("You'll need to be more specific than that.")
+    }
+  
+    if (justGet() === false) {
+
+      // Do we have it already?
+
+      // Array without the word 'get'
+      const trimmedGet = textForParsing.slice(1).join(' ')
+
+      // Split what is owned and what isn't
+      const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
+      const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
+
+      // Tell the hero they already got it
+      heroInventoryOwned.forEach(item => {
+        const lowerName = item.Name.toLowerCase()
+        if (lowerName === trimmedGet) {
+          return this.props.handleSubmittedTextModal("You already have that!")
+        }
+      })
+
+      // If the hero wants to get an item, and it's in the game, but it isn't in this room:
+      heroInventoryNotOwned.forEach(item => {
+        const lowerName = item.Name.toLowerCase()
+        if (lowerName === trimmedGet && this.props.roomCurrent !== item.FoundRoom) {
+          return this.props.handleSubmittedTextModal("You can't get that here.")
+        }
+      })
+
+      // If the hero wants to get an item, and it's in the game, and it's in the room!
+      heroInventoryNotOwned.forEach(item => {
+        const lowerName = item.Name.toLowerCase()
+        if (lowerName === trimmedGet && this.props.roomCurrent === item.FoundRoom) {
+
+          // Update inventory state in app.js to repflect this.
+          this.props.addToInventory(trimmedGet)
+
+          return this.props.handleSubmittedTextModal("You got the " + item.Name + ".")
+        }
+      })
+
+
+
+      // If the item can be owned, but isn't yet, give one kind of message
+      // heroInventoryNotOwned.forEach(item => {
+      //   const lowerName = item.Name.toLowerCase()
+      //   if (lowerName === trimmedGet) {
+      //     return this.props.handleSubmittedTextModal("You're not ready to look at this yet.")
+      //   }
+      // })
+
+
+    
+    }
+
+    // return this.props.handleSubmittedTextModal("Not sure what you're trying to get.")
 
     // If it's not a getable thing
 
 
-    // Do we have it already?
+    
 
     // Is it in this room?
 
@@ -102,9 +167,22 @@ export default class Screen extends Component {
 
 
   // Handles the player typing the word 'look'
+  // Passes a response back to app.js handleSubmittedTextModal
   verbLook = (textForParsing) => {
+
+     // Array without the word 'look'
+     const trimmedLook = textForParsing.slice(1).join(' ')
+
+     // Array of Inventory Items the hero already owns
+     const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedLook && item.owned === true);
+     
+     // Array of Inventory Items the hero doesn't own
+     const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedLook && item.owned === false);
+     
+     // Array of Display Objects the hero is glancing at
+     const displayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedLook);
     
-    // If just "look" is typed, 
+    // Check to see if the user just typed look or look room 
     let roomLooking = function(){
       if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]' || JSON.stringify(textForParsing) === '["look","around"]'){
         return true
@@ -113,56 +191,36 @@ export default class Screen extends Component {
       }
     }
 
-
-    // then read the room Description from this.roomCurrentDescription
+    // ...then read the room Description from this.roomCurrentDescription
     if (roomLooking() === true) {
       // If there's no description provided, give a generic answer
       if (this.props.roomCurrentDescription === "" || this.props.roomCurrentDescription === " " || this.props.roomCurrentDescription === null || this.props.roomCurrentDescription === "undefined") {
-        return this.props.handleSubmittedTextModal("There's not much to see here")
+        return this.props.handleSubmittedTextModal("There's not much to see here.")
         // Otherwise pass the room's description to the modal
       } else {
         return this.props.handleSubmittedTextModal(this.props.roomCurrentDescription)
       }
     }
 
+    // If the item can be owned, but isn't yet, give one kind of message
+    else if(heroInventoryNotOwnedMatch.length === 1){
+      return this.props.handleSubmittedTextModal("You're not ready to look at this yet.")
+    }
+    
+    // Otherwise read the description of it
+    else if(heroInventoryOwnedMatch.length === 1){
+      return this.props.handleSubmittedTextModal(heroInventoryOwnedMatch[0].Description)
+    }
 
-    // Maybe they want to look at inventory items? Loop through this.props.inventory and read 'Description' if 'owned' is true
-    else if (roomLooking() === false) {
+    // look at items in the room
+    else if(displayObjectMatch.length === 1){      
+      return this.props.handleSubmittedTextModal(displayObjectMatch[0].Description)
+    }
 
-      // Array without the word 'look'
-      const trimmedLook = textForParsing.slice(1).join(' ')
-
-      // Split what is owned and what isn't
-      const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
-      const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
-
-      // If the item can be owned, but isn't yet, give one kind of message
-      heroInventoryNotOwned.forEach(item => {
-        const lowerName = item.Name.toLowerCase()
-        if (lowerName === trimmedLook) {
-          return this.props.handleSubmittedTextModal("You're not ready to look at this yet.")
-        }
-      })
-
-      // Otherwise read the description of it
-      heroInventoryOwned.forEach(item => {
-        const lowerName = item.Name.toLowerCase()
-        if (lowerName === trimmedLook) {
-          return this.props.handleSubmittedTextModal(item.Description)
-        }
-      })
-      
-      // look at items in the room
-      this.props.roomCurrentObjects.forEach(item =>{
-        const lowerName = item.Name.toLowerCase()
-        if (lowerName === trimmedLook) {
-          return this.props.handleSubmittedTextModal(item.Description)
-        }
-      })
-
+    // Looking at an error message here
+    else{
       return this.props.handleSubmittedTextModal("That's not something you can look at in this game")
-
-    } 
+    }  
   }
 
 
