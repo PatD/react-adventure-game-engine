@@ -28,7 +28,6 @@ export default class Screen extends Component {
 
 
 
-
   // Input text parsing
   handleTextParsing(event) {
 
@@ -39,7 +38,7 @@ export default class Screen extends Component {
     const makeWordArray = makeLowerCase.split(/\s+/);
 
     // Remove unneeded words and chars
-    const garbageWords = [" ", "", "my", "the", "at", "to", "of", "a", "for", "all", "some", "i", "next", "with", "around", "through", "on", "in",".",",","!","?"];
+    const garbageWords = [" ", "my", "the", "at", "to", "of", "a", "for", "all", "some", "i", "next", "with", "around", "through", "on", "in"];
 
     // Create an array of the essential - hopefully just a verb and a noun
     const textForParsing = makeWordArray.filter(item => !garbageWords.includes(item))
@@ -51,18 +50,18 @@ export default class Screen extends Component {
     // Verb gauntlet
 
     // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
-    // "use","change","take", "search", "help", "hold","press", "throw", "push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
+    // "use","change", "search",  "hold","press", "throw", "push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
 
-    if (textForParsing.includes('look')) {
+    if (textForParsing.includes('look')) { // ✔️
       this.verbLook(textForParsing)
     } else if (textForParsing.includes('use')) {
       this.use(textForParsing)
-    } else if (textForParsing.includes('help')) {
+    } else if (textForParsing.includes('help')) { // ✔️
       this.getHelp(textForParsing)
-    } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) {
+    } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) { // ✔️
       this.getObject(textForParsing)
     } else {
-      this.handleUnsure()
+      this.handleUnsure() // ✔️
     }
 
   }
@@ -83,7 +82,17 @@ export default class Screen extends Component {
   // Hero picks up an object.
   getObject = (textForParsing) =>{
 
-    // If they just type get
+    // Array without the word 'get'
+    const trimmedGet = textForParsing.slice(1).join(' ')
+
+    // Array of Inventory Items the hero already has
+    const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === true);
+    
+    // Array of Inventory Items the hero doesn't have
+    const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === false);
+    
+
+    // If they just type 'get'
     let justGet = function () {
       if (JSON.stringify(textForParsing) === '["get"]' || JSON.stringify(textForParsing) === '["take"]' || JSON.stringify(textForParsing) === '["grab"]') {
         return true
@@ -95,71 +104,29 @@ export default class Screen extends Component {
     if (justGet() === true) {
       return this.props.handleSubmittedTextModal("You'll need to be more specific than that.")
     }
-  
-    if (justGet() === false) {
 
-      // Do we have it already?
-
-      // Array without the word 'get'
-      const trimmedGet = textForParsing.slice(1).join(' ')
-
-      // Split what is owned and what isn't
-      const heroInventoryOwned = this.props.inventory.filter(item => item.owned === true);
-      const heroInventoryNotOwned = this.props.inventory.filter(item => item.owned === false);
-
-      // Tell the hero they already got it
-      heroInventoryOwned.forEach(item => {
-        const lowerName = item.Name.toLowerCase()
-        if (lowerName === trimmedGet) {
-          return this.props.handleSubmittedTextModal("You already have that!")
-        }
-      })
-
-      // If the hero wants to get an item, and it's in the game, but it isn't in this room:
-      heroInventoryNotOwned.forEach(item => {
-        const lowerName = item.Name.toLowerCase()
-        if (lowerName === trimmedGet && this.props.roomCurrent !== item.FoundRoom) {
-          return this.props.handleSubmittedTextModal("You can't get that here.")
-        }
-      })
-
-      // If the hero wants to get an item, and it's in the game, and it's in the room!
-      heroInventoryNotOwned.forEach(item => {
-        const lowerName = item.Name.toLowerCase()
-        if (lowerName === trimmedGet && this.props.roomCurrent === item.FoundRoom) {
-
-          // Update inventory state in app.js to repflect this.
-          this.props.addToInventory(trimmedGet)
-
-          return this.props.handleSubmittedTextModal("You got the " + item.Name + ".")
-        }
-      })
-
-
-
-      // If the item can be owned, but isn't yet, give one kind of message
-      // heroInventoryNotOwned.forEach(item => {
-      //   const lowerName = item.Name.toLowerCase()
-      //   if (lowerName === trimmedGet) {
-      //     return this.props.handleSubmittedTextModal("You're not ready to look at this yet.")
-      //   }
-      // })
-
-
-    
+    // If the hero wants to get an item, doesn't own it, and it's in the game, but it isn't in this room:
+    else if (heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent !== heroInventoryNotOwnedMatch[0].FoundRoom) {
+      return this.props.handleSubmittedTextModal("You can't get that here.")
     }
 
-    // return this.props.handleSubmittedTextModal("Not sure what you're trying to get.")
+    // Do we have it already?
+    else if(heroInventoryOwnedMatch.length === 1){
+      return this.props.handleSubmittedTextModal("You already have the " + heroInventoryOwnedMatch[0].Name)
+    }
 
-    // If it's not a getable thing
+    // If the hero wants to get an item, and it's in the game, and it's in the room!
+    else if (heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent === heroInventoryNotOwnedMatch[0].FoundRoom) {
+      // Update inventory state in app.js to repflect this.
+      this.props.addToInventory(trimmedGet)
 
+      return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
+    }
 
-    
-
-    // Is it in this room?
-
-    // We can get it, and we need to add to player inventory
-
+    // If the user asks to get thing it never can.
+    else{
+      return this.props.handleSubmittedTextModal("That's not something you can get in this game")
+    }  
   }
 
 
@@ -170,19 +137,19 @@ export default class Screen extends Component {
   // Passes a response back to app.js handleSubmittedTextModal
   verbLook = (textForParsing) => {
 
-     // Array without the word 'look'
+     // Array of user input without the word 'look'
      const trimmedLook = textForParsing.slice(1).join(' ')
 
-     // Array of Inventory Items the hero already owns
+     // Array of Inventory Items the hero already has
      const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedLook && item.owned === true);
      
-     // Array of Inventory Items the hero doesn't own
+     // Array of Inventory Items the hero doesn't have
      const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedLook && item.owned === false);
      
-     // Array of Display Objects the hero is glancing at
+     // Array of Display Objects the hero could be glancing at
      const displayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedLook);
     
-    // Check to see if the user just typed look or look room 
+    // Check to see if the user just typed 'look' or 'look room' 
     let roomLooking = function(){
       if(JSON.stringify(textForParsing) === '["look"]' || JSON.stringify(textForParsing) === '["look","room"]' || JSON.stringify(textForParsing) === '["look","around"]'){
         return true
@@ -217,7 +184,7 @@ export default class Screen extends Component {
       return this.props.handleSubmittedTextModal(displayObjectMatch[0].Description)
     }
 
-    // Looking at an error message here
+    // Looking at an error message here, got nothing
     else{
       return this.props.handleSubmittedTextModal("That's not something you can look at in this game")
     }  

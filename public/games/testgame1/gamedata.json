@@ -165,7 +165,7 @@
         {
             "Name": "Taco",
             "owned": false,
-            "Description": "You see a delicous taco and want nothing more than to take it.",
+            "Description": "You see a delicous taco and want nothing more than to eat it.",
             "FoundRoom":3
         },
         {

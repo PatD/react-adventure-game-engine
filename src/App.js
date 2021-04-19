@@ -150,12 +150,40 @@ export default class App extends Component {
 
 
   // Adds item to inventory
-  addToInventory = (newItem) =>{
-    console.log(this.state.inventory)
-    console.log(newItem)
+  addToInventory = (addItem) => {
 
+    // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
+    const matchedItem = this.state.inventory.findIndex(item => item.Name.toLowerCase() === addItem)
 
+    // Change owned from false to true with setState
+    let newInventory = [...this.state.inventory]
+
+    // If the player doesn't have it already, add it:
+    if(newInventory[matchedItem].owned === false){
+      newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
+
+      // Update state (and player's inventory screen) with new item
+      this.setState({ inventory: newInventory })
+    }
   }
+
+    // Remove item from inventory
+    // This is a utility function - player doesn't have the ability to drop quest items
+    removeFromInventory = (removeItem) => {
+
+     // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
+    const matchedItem = this.state.inventory.findIndex(item => item.Name.toLowerCase() === removeItem)
+  
+      // Change owned from false to true with setState
+      let newInventory = [...this.state.inventory]
+  
+      if(newInventory[matchedItem].owned === true){
+        newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
+        
+        // Update state (and player's inventory screen) with new item
+        this.setState({ inventory: newInventory })
+      }
+    }
 
 
 
@@ -471,6 +499,7 @@ export default class App extends Component {
           helpText={this.state.helpText}
           hideModal={this.hideModal}
           addToInventory={this.addToInventory}
+          removeFromInventory={this.removeFromInventory}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
           togglePause={this.togglePause}
