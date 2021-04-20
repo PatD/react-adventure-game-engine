@@ -27,8 +27,8 @@
                     "exit": "left",
                     "goto": 3,
                     "width": 5,
-                    "height": 300,
-                    "x": 100,
+                    "height": 75,
+                    "x": 350,
                     "y": 0
                 },
                 {
@@ -94,39 +94,127 @@
             "Name": "CargoBay",
             "Room": 3,
             "starting":"right",
-            "Description":"",
+            "Description":"You're in the cargo bay. A large computer terminal is at the other end.",
             "roomExits": [
                 {
                     "exit": "right",
                     "goto": 2,
                     "width": 5,
-                    "height": 300,
-                    "x": 100,
+                    "height": 75,
+                    "x": 350,
                     "y":""
                 }
             ],
             "displayObjects": [
                 {
-                    "id": "whiteBlock",
-                    "Name": "white block",
+                    "id": "invisiblebackground",
+                    "Name": "invisiblebackground",
                     "colide": true,
-                    "width": 25,
-                    "height": 25,
-                    "x": 20,
-                    "y": 30,
-                    "zIndex": 2,
-                    "bgcolor": "#EFEFEF"
+                    "width": 1000,
+                    "height":85,
+                    "x": 210,
+                    "y": 160,
+                    "zIndex": 10,
+                    "bgcolor": "none"
                 },
                 {
-                    "id": "grayRock",
-                    "Name": "Gray Rock",
+                    "id": "terminalscreen",
+                    "Name": "terminalscreen",
+                    "colide": false,
+                    "width": 105,
+                    "height":90,
+                    "x": 220,
+                    "y": 50,
+                    "zIndex": 3,
+                    "bgcolor": "#55FFFF"
+                },
+                {
+                    "id": "terminalcabinet",
+                    "Name": "terminalcabinet",
                     "colide": true,
-                    "width": 300,
-                    "height": 50,
-                    "x": 90,
-                    "y": 130,
-                    "zIndex": 1,
-                    "bgcolor": "#444444"
+                    "width": 125,
+                    "height":175,
+                    "x": 210,
+                    "y": 40,
+                    "zIndex": 2,
+                    "bgcolor": "#5555FF"
+                },
+                {
+                    "id": "backgroundbar",
+                    "Name": "backgroundbar",
+                    "colide": false,
+                    "width": 1000,
+                    "height":200,
+                    "x": 150,
+                    "y": 0,
+                    "zIndex": 0,
+                    "bgcolor": "#aaaaaa"
+                },               
+                {
+                    "id": "subleftwall",
+                    "Name": "subleftwall",
+                    "colide": true,
+                    "width": 10,
+                    "height": 300,
+                    "x": 150,
+                    "y": 10,
+                    "zIndex": 4,
+                    "bgcolor": "#555555"
+                },
+                {
+                    "id": "subceiling",
+                    "Name": "subceiling",
+                    "colide": false,
+                    "width": 1000,
+                    "height": 10,
+                    "x": 150,
+                    "y": 0,
+                    "zIndex": 4,
+                    "bgcolor": "#555555"
+                },
+                {
+                    "id": "topblackbar",
+                    "Name": "topblackbar",
+                    "colide": true,
+                    "width": 1000,
+                    "height": 150,
+                    "x": 0,
+                    "y": 0,
+                    "zIndex": 4,
+                    "bgcolor": "#000000"
+                },
+                {
+                    "id": "leftblackbar",
+                    "Name": "leftblackbar",
+                    "colide": false,
+                    "width": 10,
+                    "height": 400,
+                    "x": 150,
+                    "y": 0,
+                    "zIndex": 5,
+                    "bgcolor": "#000000"
+                },
+                {
+                    "id": "subfloor",
+                    "Name": "subfloor",
+                    "colide": false,
+                    "width": 1000,
+                    "height": 10,
+                    "x": 440,
+                    "y": 0,
+                    "zIndex": 4,
+                    "bgcolor": "#555555"
+                },
+                {
+                    "id": "basement",
+                    "Name": "basement",
+                    "colide": true,
+                    "width": 1000,
+                    "height": 400,
+                    "x": 450,
+                    "y": 0,
+                    "zIndex": 2,
+                    "bgcolor": "#000"
                 }
             ]
         },
