@@ -24,7 +24,11 @@ export default class DisplayObjects extends Component {
                         backgroundColor: d.bgcolor,
                         zIndex: d.zIndex
                     }}
-                    className={this.props.roomCurrentName + "_" + d.id}
+                    className={
+                        (d.class !== undefined) 
+                        ? this.props.roomCurrentName + "_" + d.id + " " + d.class
+                        : this.props.roomCurrentName + "_" + d.id
+                    }
                     key={d.id}></div>
 
 

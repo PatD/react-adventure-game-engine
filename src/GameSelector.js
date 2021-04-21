@@ -67,6 +67,13 @@ export default class GameSelector extends Component {
               
               this.loadSelectedGame()
               
+              // Apply custom styles
+              if(result[0].CSS){
+                const gameStyle = document.createElement('link');
+                document.head.appendChild(gameStyle);
+                gameStyle.setAttribute("rel","stylesheet")
+                gameStyle.setAttribute("href",result[0].CSS)
+              }
             },
             (error) => {
               this.setState({

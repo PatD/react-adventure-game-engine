@@ -28,7 +28,7 @@
                     "goto": 3,
                     "width": 5,
                     "height": 75,
-                    "x": 350,
+                    "x": 360,
                     "y": 0
                 },
                 {
@@ -91,15 +91,15 @@
             ]
         },
         {
-            "Name": "CargoBay",
+            "Name": "ComputerCenter",
             "Room": 3,
             "starting":"right",
-            "Description":"You're in the cargo bay. A large computer terminal is at the other end.",
+            "Description":"You're in the Computer Center. A large computer terminal is at the other end.",
             "roomExits": [
                 {
                     "exit": "right",
                     "goto": 2,
-                    "width": 5,
+                    "width": 1,
                     "height": 75,
                     "x": 350,
                     "y":""
@@ -131,14 +131,27 @@
                 {
                     "id": "terminalcabinet",
                     "Name": "terminalcabinet",
-                    "colide": true,
+                    "colide": false,
                     "width": 125,
                     "height":175,
                     "x": 210,
                     "y": 40,
-                    "zIndex": 2,
+                    "zIndex": 1,
                     "bgcolor": "#5555FF"
                 },
+
+                {
+                    "id": "invisibleTerminalCabinetCover",
+                    "Name": "invisibleTerminalCabinetCover",
+                    "colide": true,
+                    "width": 125,
+                    "height":125,
+                    "x": 210,
+                    "y": 40,
+                    "zIndex": 4,
+                    "bgcolor": ""
+                },
+
                 {
                     "id": "backgroundbar",
                     "Name": "backgroundbar",
@@ -148,7 +161,8 @@
                     "x": 150,
                     "y": 0,
                     "zIndex": 0,
-                    "bgcolor": "#aaaaaa"
+                    "bgcolor": "#aaaaaa",
+                    "class":"dither"
                 },               
                 {
                     "id": "subleftwall",
