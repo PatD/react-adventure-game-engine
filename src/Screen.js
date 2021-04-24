@@ -60,11 +60,20 @@ export default class Screen extends Component {
       this.getHelp(textForParsing)
     } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) { // ✔️
       this.getObject(textForParsing)
+    } else if(window.gameLogic){
+      this.handleCustomGameLogic(textForParsing)
     } else {
       this.handleUnsure() // ✔️
     }
 
   }
+
+
+  handleCustomGameLogic = (textForParsing) =>{
+    window.gameLogic.test(this.props)
+    console.log(window.gameLogic)
+  }
+
 
 
   // For when we just don't have any idea what the person typed:

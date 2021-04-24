@@ -14,6 +14,7 @@ export default class GameSelector extends Component {
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
+    
     // When select menu changed, store selection in state
     handleChange(event) {
        this.setState({selectedGame: event.target.value});
@@ -65,8 +66,14 @@ export default class GameSelector extends Component {
                 games: result
               });
               
-              this.loadSelectedGame()
               
+              // Apply custom JS
+              if(result[0].JS){
+                const gameLogic = document.createElement('script');
+                document.head.appendChild(gameLogic);
+                gameLogic.setAttribute("src",result[0].JS)
+              }
+
               // Apply custom styles
               if(result[0].CSS){
                 const gameStyle = document.createElement('link');
@@ -74,6 +81,9 @@ export default class GameSelector extends Component {
                 gameStyle.setAttribute("rel","stylesheet")
                 gameStyle.setAttribute("href",result[0].CSS)
               }
+
+              // Set the game state
+              this.loadSelectedGame()
             },
             (error) => {
               this.setState({

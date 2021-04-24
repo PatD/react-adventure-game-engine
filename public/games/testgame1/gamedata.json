@@ -7,9 +7,14 @@
     "heroPositionX": 225,
     "heroPositionY": 250,
     "heroMovementDisance": 5,
-    "heroMovementUpdateSpeed": 105,
+    "heroMovementUpdateSpeed": 85,
     "heroHeight": 68,
     "heroWidth": 32,
+    "flags":[
+        {"1":false},
+        {"2":false},
+        {"3":false}
+    ],
     "rooms": [
         {
             "Name": "Loading",
@@ -161,8 +166,8 @@
                     "x": 150,
                     "y": 0,
                     "zIndex": 0,
-                    "bgcolor": "#aaaaaa",
-                    "class":"dither"
+                    "bgcolor": "#AAAAAA",
+                    "class":"dither_bottom"
                 },               
                 {
                     "id": "subleftwall",
@@ -279,7 +284,7 @@
         {
             "Name": "Bubblegum",
             "owned": false,
-            "Description": "Some text",
+            "Description": "Chomp chomp chomp",
             "FoundRoom":4
         },
         {

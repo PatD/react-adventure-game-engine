@@ -1,6 +1,21 @@
 [
-    {"Title":"Test Quest 1", "Path":"../games/testgame1/gamedata.json", "CSS":"../games/testgame1/gameStyles.css", "default":true},
-    {"Title":"Test Game 2", "Path":"../games/testgame2/gamedata.json"},
-    {"Title":"Test Game 3", "Path":"../games/testgame3/gamedata.json"},
-    {"Title":"Test Game 4", "Path":"../games/testgame4/gamedata.json"}
+    {
+        "Title": "Test Quest 1",
+        "Path": "../games/testgame1/gamedata.json",
+        "CSS": "../games/testgame1/gameassets/gameStyles.css",
+        "JS":"../games/testgame1/gameassets/gameLogic.js",
+        "default": true
+    },
+    {
+        "Title": "Test Game 2",
+        "Path": "../games/testgame2/gamedata.json"
+    },
+    {
+        "Title": "Test Game 3",
+        "Path": "../games/testgame3/gamedata.json"
+    },
+    {
+        "Title": "Test Game 4",
+        "Path": "../games/testgame4/gamedata.json"
+    }
 ]
