@@ -54,7 +54,7 @@ export default class App extends Component {
       textParserValue: "",
       submittedText: "",
       helpText:"Help! I need somebody. Not just anybody!",
-
+      flags:[],
       inventoryVisable: false,
       
 
@@ -148,7 +148,6 @@ export default class App extends Component {
 
 
 
-
   // Adds item to inventory
   addToInventory = (addItem) => {
 
@@ -167,23 +166,43 @@ export default class App extends Component {
     }
   }
 
-    // Remove item from inventory
-    // This is a utility function - player doesn't have the ability to drop quest items
-    removeFromInventory = (removeItem) => {
+  // Remove item from inventory
+  // This is a utility function - player doesn't have the ability to drop quest items
+  removeFromInventory = (removeItem) => {
 
-     // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
+    // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
     const matchedItem = this.state.inventory.findIndex(item => item.Name.toLowerCase() === removeItem)
-  
-      // Change owned from false to true with setState
-      let newInventory = [...this.state.inventory]
-  
-      if(newInventory[matchedItem].owned === true){
-        newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
-        
-        // Update state (and player's inventory screen) with new item
-        this.setState({ inventory: newInventory })
-      }
+
+    // Change owned from false to true with setState
+    let newInventory = [...this.state.inventory]
+
+    if(newInventory[matchedItem].owned === true){
+      newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
+      
+      // Update state (and player's inventory screen) with new item
+      this.setState({ inventory: newInventory })
     }
+  }
+
+
+
+  // Adventure gamers complete puzzles and quests, and the game should remember that, 
+  // or conditionally change rooms based on a flag status.  This function accepts a
+  // flag number and changes it's boolean and updates it in state.
+  handleFlagChange = (flagNum) => {
+
+    const flagForTogglin = this.state.flags.map((item, index) => {
+      if(item.flag === flagNum){
+        item.value = true    
+      } 
+      return item;
+   }); 
+
+   this.setState({flags:flagForTogglin})
+
+    console.log("Just updated flag # " + flagNum)
+
+  }
 
 
 
@@ -203,6 +222,8 @@ export default class App extends Component {
       });
     }
   }
+
+
 
   // Stop the hero in their tracks
   haltHero = () => {
@@ -383,7 +404,6 @@ export default class App extends Component {
 
     this.setState(gameLoadedState)
     this.loadRoom(2); // change this to be dynamic
-
   }
 
 
@@ -496,6 +516,7 @@ export default class App extends Component {
           handleSubmittedTextModal={this.handleSubmittedTextModal}
           
           // Doing stuff
+          handleFlagChange={this.handleFlagChange}
           helpText={this.state.helpText}
           hideModal={this.hideModal}
           addToInventory={this.addToInventory}

@@ -68,10 +68,9 @@ export default class Screen extends Component {
 
   }
 
-
+  // Support for custom verbs
   handleCustomGameLogic = (textForParsing) =>{
-    window.gameLogic.test(this.props)
-    console.log(window.gameLogic)
+    window.gameLogic.handleCustomVerbs(textForParsing, this.props)
   }
 
 

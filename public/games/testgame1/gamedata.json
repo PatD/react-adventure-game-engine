@@ -11,9 +11,9 @@
     "heroHeight": 68,
     "heroWidth": 32,
     "flags":[
-        {"1":false},
-        {"2":false},
-        {"3":false}
+        {"flag":1,"value":false},
+        {"flag":2,"value":false},
+        {"flag":3,"value":false}
     ],
     "rooms": [
         {
