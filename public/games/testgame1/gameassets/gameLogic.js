@@ -10,7 +10,7 @@ window.gameLogic = {
     handleCustomVerbs(textforparsing, props){
         console.log(textforparsing)
         console.log(props)
-        props.handleFlagChange(2)
+        props.handleFlagChange(3)
         return props.handleSubmittedTextModal("You attempt to " + textforparsing[0] + ".")
     }
 

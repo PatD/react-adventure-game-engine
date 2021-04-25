@@ -191,14 +191,17 @@ export default class App extends Component {
   // flag number and changes it's boolean and updates it in state.
   handleFlagChange = (flagNum) => {
 
+    // Find the flag in state
     const flagForTogglin = this.state.flags.map((item, index) => {
-      if(item.flag === flagNum){
-        item.value = true    
-      } 
+      if (item.flag === flagNum) {
+        // If it's true, make it false, false make it true
+        item.value = item.value === true ? false : true;
+      }
       return item;
-   }); 
+    });
 
-   this.setState({flags:flagForTogglin})
+    // Update state with new value for this flag
+    this.setState({ flags: flagForTogglin })
 
     console.log("Just updated flag # " + flagNum)
 
