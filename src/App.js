@@ -185,9 +185,22 @@ export default class App extends Component {
   }
 
 
+  // Remove an object from the screen
+  // by setting it's visibility to hidden
+  takeObjectOffScreen = (hideItem) =>{
+    console.log("We are hiding " + hideItem)
 
-  // Adventure gamers complete puzzles and quests, and the game should remember that, 
-  // or conditionally change rooms based on a flag status.  This function accepts a
+    // See if the item is in display objects
+
+    // if it matches, set visibility to false.  React does the rest.
+
+  }
+
+
+
+
+  // Adventure gamers complete puzzles and quests, and the game should acount for that, 
+  // or conditionally change rooms based on a flag status. This function accepts a
   // flag number and changes it's boolean and updates it in state.
   handleFlagChange = (flagNum) => {
 
@@ -204,7 +217,6 @@ export default class App extends Component {
     this.setState({ flags: flagForTogglin })
 
     console.log("Just updated flag # " + flagNum)
-
   }
 
 
@@ -523,6 +535,7 @@ export default class App extends Component {
           helpText={this.state.helpText}
           hideModal={this.hideModal}
           addToInventory={this.addToInventory}
+          takeObjectOffScreen={this.takeObjectOffScreen}
           removeFromInventory={this.removeFromInventory}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}

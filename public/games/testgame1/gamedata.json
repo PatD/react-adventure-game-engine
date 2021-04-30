@@ -112,6 +112,18 @@
             ],
             "displayObjects": [
                 {
+                    "id": "inventoryTaco",
+                    "Name": "inventoryTaco",
+                    "colide": false,
+                    "visible": true,
+                    "width": 50,
+                    "height":40,
+                    "x": 270,
+                    "y": 85,
+                    "zIndex": 10,
+                    "bgcolor": "#ff0000"
+                },
+                {
                     "id": "invisiblebackground",
                     "Name": "invisiblebackground",
                     "colide": true,
@@ -273,7 +285,8 @@
             "Name": "Taco",
             "owned": false,
             "Description": "You see a delicous taco and want nothing more than to eat it.",
-            "FoundRoom":3
+            "FoundRoom":3,
+            "Visible":true
         },
         {
             "Name": "Suitcase",

@@ -22,7 +22,9 @@ export default class DisplayObjects extends Component {
                         top: d.x,
                         left: d.y,
                         backgroundColor: d.bgcolor,
-                        zIndex: d.zIndex
+                        zIndex: d.zIndex,
+                        display: (d.visible === false) ? "none" : "block"  // Usually display block, but is visible is set to false, then hide it.
+                    
                     }}
                     className={
                         (d.class !== undefined) 

@@ -128,6 +128,9 @@ export default class Screen extends Component {
       // Update inventory state in app.js to repflect this.
       this.props.addToInventory(trimmedGet)
 
+      // Is it on the screen?  Set state to account for this.
+      this.props.takeObjectOffScreen(trimmedGet)
+
       return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
     }
 
