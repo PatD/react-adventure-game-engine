@@ -221,6 +221,8 @@ export default class Screen extends Component {
               roomCurrentName={this.props.roomCurrentName} />
 
             <DisplayObjects
+              roomCurrent={this.props.roomCurrent}
+              inventory={this.props.inventory}
               roomCurrentName={this.props.roomCurrentName}
               roomCurrentObjects={this.props.roomCurrentObjects} />
 

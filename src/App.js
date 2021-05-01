@@ -192,6 +192,14 @@ export default class App extends Component {
 
     // See if the item is in display objects
 
+    // So we need to change it in this.state.rooms and this.state.roomCurrentObjects
+    
+    console.log(this.state.rooms)
+
+    // Is this better with Flags and CSS in gameStyles.css?  Less data to re-setState the flags thing than all game displayobjects
+
+
+
     // if it matches, set visibility to false.  React does the rest.
 
   }
