@@ -3,7 +3,7 @@ onmessage = function (e) {
     // the hero's location and size, and 
     // the object's location and size, are passed as an object
     const workerState = e.data;
-    // console.log(workerState.roomVisibleInventory)
+
 
     // Helper function to see if we hit a thing
     hasCollided = () => {
@@ -21,33 +21,49 @@ onmessage = function (e) {
         }
 
         // At each step, loop through objects and see if we've collided
-        for (const [key, dispObj] of Object.entries(workerState.roomCurrentObjects)) {
-            if (checkForCollision(dispObj) === true && dispObj.colide === true && key) {
-                return true
-            }
-        }
+        // for (const [key, dispObj] of Object.entries(workerState.roomVisibleInventory)) {
+        //     if (checkForCollision(dispObj) === true && dispObj.colide === true && key) {
+        //         return true
+        //     }
+        // }
 
-        // At each step, loop through room exits and see if we're exiting
-        for (const [key, roomEx] of Object.entries(workerState.roomExits)) {
-            if (checkForCollision(roomEx) === true && key) {
-                return roomEx.goto
-            }
-        }
+        
+        workerState.roomVisibleInventory.forEach(invOb => {
+            console.log(invOb)
+        });
+
+
+
+        return false
     };
 
 
 
     workerResult = () => {
-        // If we've hit a room exit, pass that number back
-        if(typeof hasCollided() === "number"){
-            console.log("Room exit number time")
-            return hasCollided()
-        }
 
+        console.log(workerState)
+        console.log(hasCollided())
+
+
+        /*
+        if (workerState.heroPositionCollided === false && hasCollided() === true && workerState.heroMoving !== "stopped") {
+            // { heroPositionCollided: true })
+            console.log('Near object')
+            return "haltCollide"
+        }
+        */
+
+        // If we've hit a room exit, pass that number back
+        // if(typeof hasCollided() === "number"){
+        //     console.log("Room exit number time")
+        //     return hasCollided()
+        // }
+
+        /*
         // Handle collision while moving
         if (workerState.heroPositionCollided === false && hasCollided() === true && workerState.heroMoving !== "stopped") {
             // { heroPositionCollided: true })
-            // console.log('🛑 Hero Collided w/object. They were walking ' + workerState.heroDirection + " and before that " + workerState.heroLastDirection);
+            console.log('🛑 Hero Collided w/object. They were walking ' + workerState.heroDirection + " and before that " + workerState.heroLastDirection);
             return "haltCollide"
         }
 
@@ -96,7 +112,7 @@ onmessage = function (e) {
         else {
             return clearInterval(this.movementInterval)
         }
-
+        */
     }
 
     // Results are sent back to the React component:

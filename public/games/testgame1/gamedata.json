@@ -275,8 +275,8 @@
             "Description": "You see a delicous taco and want nothing more than to eat it.",
             "FoundRoom":3,
             "Visible":true,
-            "x":270,
-            "y":90,
+            "x":290,
+            "y":190,
             "zIndex":5,
             "width":60,
             "height":40

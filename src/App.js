@@ -8,6 +8,8 @@ import MainMenuBar from './MainMenuBar'
 // import TextHandlerFunctions from './TextHandler'
 
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
+const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
+
 
 
 export default class App extends Component {
@@ -45,6 +47,7 @@ export default class App extends Component {
       roomCurrent:"",
       roomPrevious:"",
       roomCurrentObjects:"",
+      roomVisibleInventory:"",
 
       // Game state stuff
       playfieldX: 0,
@@ -282,8 +285,30 @@ export default class App extends Component {
           playfieldY:this.state.playfieldY,
           playfieldX:this.state.playfieldX,
           roomCurrentObjects:this.state.roomCurrentObjects,
-          roomExits:this.state.roomExits
+          roomExits:this.state.roomExits,
         });
+
+      // Check Hero's position against on-screen inventory items
+      WorkerHandleInventoryLocation.postMessage({
+        "direction": change, 
+        heroPositionX:this.state.heroPositionX,
+        heroPositionY:this.state.heroPositionY,
+        heroWidth:this.state.heroWidth,
+        heroHeight:this.state.heroHeight,        
+        heroDirection:this.state.heroDirection,
+        heroLastDirection:this.state.heroLastDirection,
+        heroPositionCollided:this.state.heroPositionCollided,
+        heroMoving:this.state.heroMoving,
+        heroMovementDisance: this.state.heroMovementDisance,
+        playfieldY:this.state.playfieldY,
+        playfieldX:this.state.playfieldX,
+        roomCurrentObjects:this.state.roomCurrentObjects,
+        roomExits:this.state.roomExits,
+        roomVisibleInventory:this.state.roomVisibleInventory,
+      })
+       
+
+
 
       }, this.state.heroMovementUpdateSpeed)
     } else {
@@ -404,6 +429,10 @@ export default class App extends Component {
       })
     }
 
+    // Add any inventory items that need to be displayed.
+    // Should be ownable, not in inventory already
+
+    const roomInv = this.state.inventory.filter(inv => inv.FoundRoom === nextRoom.Room && inv.owned === false && inv.Visible === true );
 
     // Set room stage
     this.setState({
@@ -412,7 +441,8 @@ export default class App extends Component {
       roomCurrentName:nextRoom.Name,
       roomExits:nextRoom.roomExits,
       roomMessages:nextRoom.messages,
-      roomCurrentDescription:nextRoom.Description
+      roomCurrentDescription:nextRoom.Description,
+      roomVisibleInventory:roomInv
     })
 
   }
@@ -449,6 +479,17 @@ export default class App extends Component {
         this.setState(e.data)
       }   
     }
+
+
+    // Also start a seperate event listener for inventory object web worker updates
+        // When the component mounts, start an event listener for web worker updates.
+      WorkerHandleInventoryLocation.onmessage = (e) =>{
+        // console.log('Response from inventory proximity wokrker')
+        console.log(e.data)
+        
+      }
+
+
 
 
     // set dimensions for play field
