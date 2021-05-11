@@ -8,7 +8,11 @@ onmessage = function (e) {
     // Helper function to see if we hit a thing
     hasCollided = () => {
 
+
         let checkForCollision = (dispObj) => {
+
+        
+
             if (workerState.heroPositionY < dispObj.y + dispObj.width &&
                 workerState.heroPositionY + workerState.heroWidth > dispObj.y &&
                 workerState.heroPositionX < dispObj.x + dispObj.height &&
@@ -21,29 +25,25 @@ onmessage = function (e) {
         }
 
         // At each step, loop through objects and see if we've collided
-        // for (const [key, dispObj] of Object.entries(workerState.roomVisibleInventory)) {
-        //     if (checkForCollision(dispObj) === true && dispObj.colide === true && key) {
-        //         return true
-        //     }
-        // }
+        for (const [key, dispObj] of Object.entries(workerState.roomVisibleInventory)) {
+            if (checkForCollision(dispObj) === true && dispObj.colide === true && key) {
+                return true
+            } else{
+                return false
+            }
+        }
 
-        
-        workerState.roomVisibleInventory.forEach(invOb => {
-            console.log(invOb)
-        });
-
-
-
-        return false
+        // return false
     };
 
 
 
     workerResult = () => {
 
-        console.log(workerState)
-        console.log(hasCollided())
 
+
+         console.log('Worker result')
+         console.log(hasCollided())
 
         /*
         if (workerState.heroPositionCollided === false && hasCollided() === true && workerState.heroMoving !== "stopped") {
@@ -117,4 +117,5 @@ onmessage = function (e) {
 
     // Results are sent back to the React component:
     postMessage(workerResult());
+    // postMessage("hi")
 }

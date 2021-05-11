@@ -485,8 +485,7 @@ export default class App extends Component {
         // When the component mounts, start an event listener for web worker updates.
       WorkerHandleInventoryLocation.onmessage = (e) =>{
         // console.log('Response from inventory proximity wokrker')
-        console.log(e.data)
-        
+        // console.log(e.data)
       }
 
 
