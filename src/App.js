@@ -5,8 +5,12 @@ import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
 import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
-// import TextHandlerFunctions from './TextHandler'
 
+
+// Movement workers
+  // They live outside the src directory because
+  // Create-React-App tries to merge them and they
+  // need to remain seperate files
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
 
@@ -159,13 +163,16 @@ export default class App extends Component {
 
     // Change owned from false to true with setState
     let newInventory = [...this.state.inventory]
+    let newRoomInventory = [...this.state.roomVisibleInventory]
 
     // If the player doesn't have it already, add it:
     if(newInventory[matchedItem].owned === false){
       newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
+      newRoomInventory[matchedItem] = { ...newRoomInventory[matchedItem], owned: !newRoomInventory[matchedItem].owned }
 
       // Update state (and player's inventory screen) with new item
-      this.setState({ inventory: newInventory })
+      this.setState({ inventory: newInventory, roomVisibleInventory:newRoomInventory })
+
     }
   }
 
@@ -188,24 +195,6 @@ export default class App extends Component {
   }
 
 
-  // Remove an object from the screen
-  // by setting it's visibility to hidden
-  takeObjectOffScreen = (hideItem) =>{
-    console.log("We are hiding " + hideItem)
-
-    // See if the item is in display objects
-
-    // So we need to change it in this.state.rooms and this.state.roomCurrentObjects
-    
-    console.log(this.state.rooms)
-
-    // Is this better with Flags and CSS in gameStyles.css?  Less data to re-setState the flags thing than all game displayobjects
-
-
-
-    // if it matches, set visibility to false.  React does the rest.
-
-  }
 
 
 
@@ -290,25 +279,13 @@ export default class App extends Component {
 
       // Check Hero's position against on-screen inventory items
       WorkerHandleInventoryLocation.postMessage({
-        "direction": change, 
         heroPositionX:this.state.heroPositionX,
         heroPositionY:this.state.heroPositionY,
         heroWidth:this.state.heroWidth,
         heroHeight:this.state.heroHeight,        
-        heroDirection:this.state.heroDirection,
-        heroLastDirection:this.state.heroLastDirection,
-        heroPositionCollided:this.state.heroPositionCollided,
-        heroMoving:this.state.heroMoving,
-        heroMovementDisance: this.state.heroMovementDisance,
-        playfieldY:this.state.playfieldY,
-        playfieldX:this.state.playfieldX,
-        roomCurrentObjects:this.state.roomCurrentObjects,
-        roomExits:this.state.roomExits,
         roomVisibleInventory:this.state.roomVisibleInventory,
       })
        
-
-
 
       }, this.state.heroMovementUpdateSpeed)
     } else {
@@ -409,7 +386,6 @@ export default class App extends Component {
     }
 
 
-
     // Set position of hero for travel from one room to the next
     if(this.state.heroDirection === "ArrowUp"){
       this.setState({
@@ -484,8 +460,7 @@ export default class App extends Component {
     // Also start a seperate event listener for inventory object web worker updates
         // When the component mounts, start an event listener for web worker updates.
       WorkerHandleInventoryLocation.onmessage = (e) =>{
-        // console.log('Response from inventory proximity wokrker')
-        // console.log(e.data)
+        console.log(e.data)
       }
 
 
@@ -583,7 +558,6 @@ export default class App extends Component {
           helpText={this.state.helpText}
           hideModal={this.hideModal}
           addToInventory={this.addToInventory}
-          takeObjectOffScreen={this.takeObjectOffScreen}
           removeFromInventory={this.removeFromInventory}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
