@@ -12,7 +12,7 @@ onmessage = function (e) {
         heroOffHeight = workerState.heroHeight + offset;
 
 
-    // Function checks if we're within the range of the object
+    // Function checks if we're within the range of inventory items on the screen
     hasCollided = () => {
 
         let checkForCollision = (dispObj) => {
@@ -28,15 +28,22 @@ onmessage = function (e) {
             }
         }
 
+        let obsInRange = []
+
         // At each step, loop through objects and see if we've collided
         for (const [key, dispObj] of Object.entries(workerState.roomVisibleInventory)) {
 
+            // If there's a collsion, add the inventory item to the array
             if (checkForCollision(dispObj) === true && dispObj.owned === false) {
-                return {"inRange": dispObj.Name}
+                obsInRange.push(dispObj.Name.toLowerCase()) // Adds it as lowercase here because the parser makes everything lowercase
+
+                // Otherwise remove it
             } else {
-                return {"notInRange": dispObj.Name}
+                obsInRange = obsInRange.filter(item => item !== dispObj.Name.toLowerCase());
             }
         }
+
+        return obsInRange;
     };
 
     workerResult = () => {
@@ -45,6 +52,6 @@ onmessage = function (e) {
         }
     };
 
-    // Objecgs we are near are sent back to the App component:
+    // Objects we are near are sent back to the App component:
     postMessage(workerResult());
 }

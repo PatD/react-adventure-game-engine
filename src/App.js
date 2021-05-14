@@ -52,6 +52,7 @@ export default class App extends Component {
       roomPrevious:"",
       roomCurrentObjects:"",
       roomVisibleInventory:"",
+      roomNearbyInventoryItems:[],
 
       // Game state stuff
       playfieldX: 0,
@@ -457,12 +458,12 @@ export default class App extends Component {
     }
 
 
-    // Also start a seperate event listener for inventory object web worker updates
-        // When the component mounts, start an event listener for web worker updates.
+    // Web worker to handle the player's proximity to on screen inventory items
       WorkerHandleInventoryLocation.onmessage = (e) =>{
-        console.log(e.data)
+        if(this.state.roomNearbyInventoryItems !== e.data){
+          this.setState({roomNearbyInventoryItems:e.data})
+        }
       }
-
 
 
 
@@ -530,6 +531,7 @@ export default class App extends Component {
           roomCurrentObjects={this.state.roomCurrentObjects}
           roomCurrentDescription={this.state.roomCurrentDescription}
           roomExits={this.state.roomExits}
+          roomNearbyInventoryItems={this.state.roomNearbyInventoryItems}
 
           // Hero details
           haltHero={this.haltHero}

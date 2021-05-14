@@ -89,9 +89,12 @@ export default class Screen extends Component {
 
   // Hero picks up an object.
   getObject = (textForParsing) =>{
-
+  
     // Array without the word 'get'
     const trimmedGet = textForParsing.slice(1).join(' ')
+    console.log(trimmedGet)
+    console.log(this.props.roomNearbyInventoryItems)
+    console.log(this.props.roomNearbyInventoryItems.includes(trimmedGet))
 
     // Array of Inventory Items the hero already has
     const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === true);
@@ -123,8 +126,13 @@ export default class Screen extends Component {
       return this.props.handleSubmittedTextModal("You already have the " + heroInventoryOwnedMatch[0].Name)
     }
 
+    // Hero isn't close enough to the item to get it
+    else if(this.props.roomNearbyInventoryItems.includes(trimmedGet) === false && heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent === heroInventoryNotOwnedMatch[0].FoundRoom){
+      return this.props.handleSubmittedTextModal("You need to be closer to the " + trimmedGet + ".")
+    }
+
     // If the hero wants to get an item, and it's in the game, and it's in the room!
-    else if (heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent === heroInventoryNotOwnedMatch[0].FoundRoom) {
+    else if (this.props.roomNearbyInventoryItems.includes(trimmedGet) === true && heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent === heroInventoryNotOwnedMatch[0].FoundRoom) {
       // Update inventory state in app.js to repflect this.
       this.props.addToInventory(trimmedGet)
 
