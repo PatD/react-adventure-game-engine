@@ -23,15 +23,6 @@ input{
 }
 
 
-#debugger{
-  display: none;
-  position: absolute;
-  top:5px;
-  left:5px;
-  opacity: 0.5;
-  min-height: 200px;
-}
-
 
 /* Inventory */
 aside {
@@ -90,8 +81,10 @@ body{
   /* display:grid; */
   /* grid-template-rows: 500px 1fr; */
   /* grid-template-columns: ; */
-  min-height:70vh;
-  max-width: 70vw;
+  /* min-height:70vh;
+  max-width: 70vw; */
+  /* width:100%;
+  height:100%; */
   margin: auto;
   /* border:2em solid #000 */
 }
@@ -100,7 +93,7 @@ body{
 
 header{
   position: static;
-  max-width: 70vw;
+  /* max-width: 70vw; */
   margin:0 auto;
   background: #fff;
   border-bottom:1px solid #444;

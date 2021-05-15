@@ -55,6 +55,8 @@ export default class App extends Component {
       roomNearbyInventoryItems:[],
 
       // Game state stuff
+      gameWidth:0,
+      gameHeight:0,
       playfieldX: 0,
       playfieldY: 0,
       pausedgame: false,
@@ -63,9 +65,7 @@ export default class App extends Component {
       submittedText: "",
       helpText:"Help! I need somebody. Not just anybody!",
       flags:[],
-      inventoryVisable: false,
-      
-
+      inventoryVisable: false
     };
 
     this.toggleSound = this.toggleSound.bind(this);
@@ -194,10 +194,6 @@ export default class App extends Component {
       this.setState({ inventory: newInventory })
     }
   }
-
-
-
-
 
 
   // Adventure gamers complete puzzles and quests, and the game should acount for that, 
@@ -459,11 +455,11 @@ export default class App extends Component {
 
 
     // Web worker to handle the player's proximity to on screen inventory items
-      WorkerHandleInventoryLocation.onmessage = (e) =>{
-        if(this.state.roomNearbyInventoryItems !== e.data){
-          this.setState({roomNearbyInventoryItems:e.data})
-        }
+    WorkerHandleInventoryLocation.onmessage = (e) =>{
+      if(this.state.roomNearbyInventoryItems !== e.data){
+        this.setState({roomNearbyInventoryItems:e.data})
       }
+    }
 
 
 
@@ -471,10 +467,12 @@ export default class App extends Component {
     const playfield = document.querySelector('main')
 
     this.setState({
-      playfieldX: playfield.clientHeight,
-      playfieldY: playfield.clientWidth,
-      // playfieldGridx: playfield.clientHeight / 48,
-      // playfieldGridy: playfield.clientWidth / 64
+      // playfieldX: playfield.clientHeight,
+      // playfieldY: playfield.clientWidth,
+
+      playfieldX: 640,
+      playfieldY: 420,
+
     })
 
     // Listen patiently for keyboard key presses
@@ -495,7 +493,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <React.Fragment>     
+      <React.Fragment>
+        
+        <GameSelector loadGameFile={this.loadGameFile} />
+
+
         <InventoryScreen
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
@@ -514,17 +516,22 @@ export default class App extends Component {
           modalButtonClick1={this.modalButtonClick1}
           modalButtonClick2={this.modalButtonClick2} />
 
-        <header>
-          <MainMenuBar
-            ref="mainMenuRef"
-            togglePause={this.togglePause}
-            gameTitle={this.state.title}
-            handleDropDownMenuClick={this.handleDropDownMenuClick}
-            menuActive={true}
-            playerScore={0} />
-        </header>
+       
+        <MainMenuBar
+          gameWidth={this.state.gameWidth}
+          ref="mainMenuRef"
+          togglePause={this.togglePause}
+          gameTitle={this.state.title}
+          handleDropDownMenuClick={this.handleDropDownMenuClick}
+          menuActive={true}
+          playerScore={0} />
+       
+        <Screen    
+          // Game dimensions
+          gameWidth={this.state.gameWidth}
+          gameHeight={this.state.gameHeight}
+        
 
-        <Screen         
           // Room details
           roomCurrent={this.state.roomCurrent}
           roomCurrentName={this.state.roomCurrentName}
@@ -546,7 +553,6 @@ export default class App extends Component {
           
           // Text parser details
           inventory={this.state.inventory}
-          customVerbs={this.state.customVerbs}
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
@@ -567,7 +573,7 @@ export default class App extends Component {
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound} />
         
-        <GameSelector loadGameFile={this.loadGameFile} />
+
       </React.Fragment>
     );
   }

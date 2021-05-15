@@ -83,11 +83,11 @@ export default class MainMenuBar extends Component {
     })
   }
 
-  // return <span className='soundStatus'>Sound:{props.soundState}</span>
+ 
   render(props){
   return (
     <React.Fragment>
-       
+       <header style={{width:this.props.gameWidth}}>
         {/* 
             Default state for the main nav inactive state 
             It is "visible" by default, and "hidden" when the submenu is "active".
@@ -123,6 +123,7 @@ export default class MainMenuBar extends Component {
 
       {/* Clicking this invisible div closes the main menu */}
       <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div>
+      </header>
     </React.Fragment>
   )}
 }

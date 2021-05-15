@@ -221,7 +221,7 @@ export default class Screen extends Component {
         <style>
           {heroSpriteCSS}
         </style>
-        <section id="gameUI">
+        <section id="gameUI" style={{width:this.props.gameWidth, height:this.props.gameHeight}}>
           <main className={this.props.roomCurrentName}>
 
             <RoomExits
