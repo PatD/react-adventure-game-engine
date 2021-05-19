@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 
-class Hero extends Component {
+export default class Hero extends Component {
   render(props) {
     return (
-    <React.Fragment>
       <div 
         style={{
           top:this.props.heroPositionX, 
@@ -11,9 +10,6 @@ class Hero extends Component {
           width:this.props.heroWidth, 
           height:this.props.heroHeight }}
         className={this.props.heroDirection + " " + this.props.heroMoving}
-        id="hero"></div>
-    </React.Fragment>)
+        id="hero"></div>)
   }
 }
-
-export default Hero;

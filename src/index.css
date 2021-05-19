@@ -310,10 +310,10 @@ header #hoverblock.inactive{
 .modal-main {
   position: fixed;
   background: white;
-  max-width: 700px;
-  width: 90%;
+  /* max-width: 700px;
+  width: 90%; */
   height: auto;
-  top: 25%;
+  top: 30%;
   left: 50%;
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);

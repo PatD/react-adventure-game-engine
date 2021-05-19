@@ -66,7 +66,7 @@ onmessage = function (e) {
         }
 
         // Handle if they're already on the wall
-        else if (workerState.direction === "ArrowRight" && workerState.heroPositionY > workerState.playfieldY - workerState.heroWidth) {
+        else if (workerState.direction === "ArrowRight" && workerState.heroPositionY > workerState.playfieldX - workerState.heroWidth) {
             return "halt"
         }
         else if (workerState.direction === "ArrowLeft" && workerState.heroPositionY <= 0) {
@@ -75,12 +75,15 @@ onmessage = function (e) {
         else if (workerState.direction === "ArrowUp" && workerState.heroPositionX <= 0) {
             return "halt"
         }
-        else if (workerState.direction === "ArrowDown" && workerState.heroPositionX >= workerState.playfieldX - workerState.heroHeight) {
+        else if (workerState.direction === "ArrowDown" && workerState.heroPositionX >= workerState.playfieldY - workerState.heroHeight) {
             return "halt"
         }
 
         // Handle walking
-        else if (workerState.direction === "ArrowRight" && workerState.heroPositionCollided === false && workerState.heroPositionY <= workerState.playfieldY - workerState.heroWidth) { // Needs to account for hero width
+        // else if (workerState.direction === "ArrowRight" && workerState.heroPositionCollided === false && workerState.heroPositionY <= workerState.playfieldY - workerState.heroWidth) { // Needs to account for hero width
+        else if (workerState.direction === "ArrowRight" && workerState.heroPositionCollided === false && workerState.heroPositionY <= workerState.playfieldX - workerState.heroWidth) { // Needs to account for hero width
+ 
+ 
             return { heroPositionY: workerState.heroPositionY + workerState.heroMovementDisance }
         }
         else if (workerState.direction === "ArrowLeft" && workerState.heroPositionCollided === false && workerState.heroPositionY >= 0) {
@@ -89,7 +92,9 @@ onmessage = function (e) {
         else if (workerState.direction === "ArrowUp" && workerState.heroPositionCollided === false && workerState.heroPositionX >= 0) {
             return { heroPositionX: workerState.heroPositionX - workerState.heroMovementDisance }
         }
-        else if (workerState.direction === "ArrowDown" && workerState.heroPositionCollided === false && workerState.heroPositionX <= workerState.playfieldX - workerState.heroHeight) { // Needs to account for hero height
+        // else if (workerState.direction === "ArrowDown" && workerState.heroPositionCollided === false && workerState.heroPositionX <= workerState.playfieldX - workerState.heroHeight) { // Needs to account for hero height
+        
+        else if (workerState.direction === "ArrowDown" && workerState.heroPositionCollided === false && workerState.heroPositionX <= workerState.playfieldY - workerState.heroHeight) { // Needs to account for hero height
             return { heroPositionX: workerState.heroPositionX + workerState.heroMovementDisance }
         }
 

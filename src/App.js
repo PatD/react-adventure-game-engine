@@ -55,8 +55,6 @@ export default class App extends Component {
       roomNearbyInventoryItems:[],
 
       // Game state stuff
-      gameWidth:0,
-      gameHeight:0,
       playfieldX: 0,
       playfieldY: 0,
       pausedgame: false,
@@ -268,8 +266,8 @@ export default class App extends Component {
           heroPositionCollided:this.state.heroPositionCollided,
           heroMoving:this.state.heroMoving,
           heroMovementDisance: this.state.heroMovementDisance,
-          playfieldY:this.state.playfieldY,
           playfieldX:this.state.playfieldX,
+          playfieldY:this.state.playfieldY,
           roomCurrentObjects:this.state.roomCurrentObjects,
           roomExits:this.state.roomExits,
         });
@@ -433,8 +431,9 @@ export default class App extends Component {
   }
 
 
-
-
+  componentDidUpdate(){
+    // console.log(this.state)
+  }
 
 
   componentDidMount() { 
@@ -464,14 +463,14 @@ export default class App extends Component {
 
 
     // set dimensions for play field
-    const playfield = document.querySelector('main')
+    // const playfield = document.querySelector('main')
 
     this.setState({
       // playfieldX: playfield.clientHeight,
       // playfieldY: playfield.clientWidth,
 
-      playfieldX: 640,
-      playfieldY: 420,
+      // playfieldX: 640,
+      // playfieldY: 420,
 
     })
 
@@ -504,6 +503,7 @@ export default class App extends Component {
 
 
         <Modal 
+          gameWidth={this.state.playfieldX}
           hideModal={this.hideModal}
           modalClickToClose={this.state.modalClickToClose}
           modalStatus={this.state.modalStatus}
@@ -518,7 +518,7 @@ export default class App extends Component {
 
        
         <MainMenuBar
-          gameWidth={this.state.gameWidth}
+          gameWidth={this.state.playfieldX}
           ref="mainMenuRef"
           togglePause={this.togglePause}
           gameTitle={this.state.title}
@@ -528,8 +528,8 @@ export default class App extends Component {
        
         <Screen    
           // Game dimensions
-          gameWidth={this.state.gameWidth}
-          gameHeight={this.state.gameHeight}
+          gameWidth={this.state.playfieldX}
+          gameHeight={this.state.playfieldY}
         
 
           // Room details

@@ -3,7 +3,7 @@
 const heroMovement = {
 
     handleHeroMovement:function(keypress, passedThis) {
-
+    
         // Don't move the hero if the game is paused
         if (passedThis.state.pausedgame === false) {
           // this.updateDebugger(keypress);

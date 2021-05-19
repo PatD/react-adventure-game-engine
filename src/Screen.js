@@ -27,7 +27,6 @@ export default class Screen extends Component {
   }
 
 
-
   // Input text parsing
   handleTextParsing(event) {
 
