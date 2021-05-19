@@ -372,11 +372,13 @@ export default class App extends Component {
     const nextRoom = this.state.rooms.find(isRoom);
 
     // Add exit position for right and bottom room exits
+    // since we don't necessarily know the dimensions of
+    // the game play area.
     for (let roomExit of nextRoom.roomExits) {
       if(roomExit.exit === "right"){
-        roomExit.y = this.state.playfieldY -5
+        roomExit.y = this.state.playfieldX -5
       } else if(roomExit.exit === "bottom"){
-        roomExit.x = this.state.playfieldX -5
+        roomExit.x = this.state.playfieldY -5
       }
     }
 
@@ -384,11 +386,11 @@ export default class App extends Component {
     // Set position of hero for travel from one room to the next
     if(this.state.heroDirection === "ArrowUp"){
       this.setState({
-        heroPositionX: this.state.playfieldX - this.state.heroHeight -5,
+        heroPositionX: this.state.playfieldY - this.state.heroHeight -5,
       })
     } else if(this.state.heroDirection === "ArrowLeft"){
       this.setState({
-        heroPositionY: this.state.playfieldY - this.state.heroWidth -5
+        heroPositionY: this.state.playfieldX - this.state.heroWidth -5
       })
     } else if(this.state.heroDirection === "ArrowRight"){
       this.setState({
