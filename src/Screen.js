@@ -46,6 +46,11 @@ export default class Screen extends Component {
     this.setState({ textForParsing });
 
 
+
+    // Everything has to lead to custom scripts, and maybe back to this
+
+
+
     // Verb gauntlet
 
     // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
@@ -71,7 +76,6 @@ export default class Screen extends Component {
   handleCustomGameLogic = (textForParsing) =>{
     window.gameLogic.handleCustomVerbs(textForParsing, this.props)
   }
-
 
 
   // For when we just don't have any idea what the person typed:

@@ -46,6 +46,9 @@ export default class App extends Component {
       heroWidth: 0,
       heroSprite:"",
       
+      // Score!
+      highScore:100,
+      currentScore:0,
 
       // Room stuff
       roomCurrent:"",
@@ -152,6 +155,11 @@ export default class App extends Component {
 
 
 
+  // Score!
+  updateScore = (points) =>{
+    let newScore = this.state.currentScore + points
+    this.state({ currentScore:newScore })
+  }
 
 
   // Adds item to inventory
@@ -495,10 +503,7 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
-        
-        <GameSelector loadGameFile={this.loadGameFile} />
-
-
+     
         <InventoryScreen
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
@@ -520,13 +525,15 @@ export default class App extends Component {
 
        
         <MainMenuBar
+          currentScore={this.state.currentScore}
+          highScore={this.state.highScore}
+          updateScore={this.updateScore}
           gameWidth={this.state.playfieldX}
           ref="mainMenuRef"
           togglePause={this.togglePause}
           gameTitle={this.state.title}
           handleDropDownMenuClick={this.handleDropDownMenuClick}
-          menuActive={true}
-          playerScore={0} />
+          menuActive={true} />
        
         <Screen    
           // Game dimensions
@@ -575,6 +582,10 @@ export default class App extends Component {
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound} />
         
+
+
+        <br />
+        <GameSelector loadGameFile={this.loadGameFile} />
 
       </React.Fragment>
     );

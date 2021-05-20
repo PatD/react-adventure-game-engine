@@ -93,7 +93,13 @@ export default class MainMenuBar extends Component {
             It is "visible" by default, and "hidden" when the submenu is "active".
         */}
         <div id="menuBarDefaultDisplay" className={this.state.mainNavBar} onClick={this.activateMainMenu}>
-          <MainMenuScore/>
+          
+          <MainMenuScore
+            currentScore={this.props.currentScore}
+            highScore={this.props.highScore}
+            updateScore={this.props.updateScore}
+          />
+          
           {/* <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} /> */}
           <span id="gameTitle">{this.props.gameTitle}</span>
         </div>

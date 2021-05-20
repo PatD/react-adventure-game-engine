@@ -17,7 +17,6 @@ window.gameLogic = {
         else {
             return props.handleSubmittedTextModal("You try and " + textforparsing[0] + " the " + textforparsing[1] + ", but nothing happens.")
         }
-        
     },
 
     // This is custom per-game code that allows the character to dance
