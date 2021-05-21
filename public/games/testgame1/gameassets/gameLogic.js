@@ -1,6 +1,19 @@
 console.log('Custom game logic file is loaded')
 window.gameLogic = {
 
+    handleGameTextParse(textforparsing, props){
+        console.log(textforparsing)
+        console.log(props)
+        console.log("Custom game parse")
+
+
+        if(props.roomCurrent === 3){
+            return console.log('We are in 3')
+        } else {
+            return console.log("NOT")
+        }
+
+    },
 
 
     // Check for custom verbs, and take action.

@@ -13,6 +13,7 @@ import MainMenuBar from './MainMenuBar'
   // need to remain seperate files
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
+// const WorkerHandleTextInput = new Worker("../workers/WorkerHandleTextInput.js");
 
 
 
@@ -224,7 +225,6 @@ export default class App extends Component {
 
 
 
-
   // Show or hide Inventory Screen
   toggleInventoryScreen(key) {
     if (this.state.inventoryVisable === false) {
@@ -336,34 +336,41 @@ export default class App extends Component {
     const self = this;
     document.addEventListener('keydown', function (event) {
 
-
       // Since "any key" can close the inventory screen, we start with that
       if(self.state.inventoryVisable === true){
-        event.preventDefault()
-        self.toggleInventoryScreen(event.key);
+        return [
+          event.preventDefault(),
+          self.toggleInventoryScreen(event.key)
+        ]
       } 
       // This opens the inventory screen
       else if(self.state.inventoryVisable === false && event.key === 'Tab'){
-        event.preventDefault()
-        self.toggleInventoryScreen(event.key);
+        return [
+          event.preventDefault(),
+          self.toggleInventoryScreen(event.key)
+        ]
       }
 
       // Handle Escape key to toggle menu
       else if (event.key === "Escape" && self.state.inventoryVisable === false) {
-        self.refs.mainMenuRef.activateMainMenu(event)
-        self.refs.mainMenuRef.toggleMenuDropdown(event)
+        return [
+          self.refs.mainMenuRef.activateMainMenu(event),
+          self.refs.mainMenuRef.toggleMenuDropdown(event)
+        ]
       }
 
       // Handle arrow keys for movement
       else if (
         (self.state.inventoryVisable === false && self.state.pausedgame === false) && 
-        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {        
-        event.preventDefault()
-        self.handleHeroMovement(event.key);
+        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) { 
+        return [       
+          event.preventDefault(),
+          self.handleHeroMovement(event.key)
+        ]
       }
-       else
-
-        console.log("User types text");
+       else{
+          // console.log("User types text");
+       }
 
     }, false);
   }

@@ -45,15 +45,13 @@ export default class Screen extends Component {
     // Breaks user input into an array and puts in state
     this.setState({ textForParsing });
 
+    // Check for custom commands/per-game logic first.    
+    window.gameLogic.handleGameTextParse(textForParsing, this.props)
 
 
-    // Everything has to lead to custom scripts, and maybe back to this
+    // If nothing returns with custom, run through the Verb gauntlet
 
-
-
-    // Verb gauntlet
-
-    // Assume these verbs are in most games.  Additional support provided from customVerbs in gamedata.json
+    
     // "use","change", "search",  "hold","press", "throw", "push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
 
     if (textForParsing.includes('look')) { // ✔️
@@ -65,7 +63,7 @@ export default class Screen extends Component {
     } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) { // ✔️
       this.getObject(textForParsing)
     } else if(window.gameLogic){
-      this.handleCustomGameLogic(textForParsing)
+      // this.handleCustomGameLogic(textForParsing)
     } else {
       this.handleUnsure() // ✔️
     }
