@@ -4,8 +4,11 @@ import Hero from './Hero'
 import DisplayObjects from './DisplayObjects'
 import RoomExits from './RoomExits'
 
+
+
 export default class Screen extends Component {
 
+  
 
   // Fires when user hits Enter on text field
   submitTextParser = event => {
@@ -45,15 +48,27 @@ export default class Screen extends Component {
     // Breaks user input into an array and puts in state
     this.setState({ textForParsing });
 
-    // Check for custom commands/per-game logic first.    
-    window.gameLogic.handleGameTextParse(textForParsing, this.props)
+  console.log(window.WorkerHandleGameLogic)
 
-
-    // If nothing returns with custom, run through the Verb gauntlet
-
+    // Check for custom per-game commands in  gameLogic.js first.    
+    if(self.gameLogic){
+      console.log('Send to worker:')
     
-    // "use","change", "search",  "hold","press", "throw", "push","pull","eat","turn","inventory","look","open","examine","close","inventory","save","restart","restore","inspect","get","pick","drop","talk","read"
+      
+      return self.gameLogic.handleGameTextParse(textForParsing, this.props);
 
+
+
+    } else {
+      // In case the developer hasn't included a custom game file, just run through the built-in:
+      return this.handleBuiltInText(textForParsing)
+    }
+    
+  }
+
+
+  // Build in verbs for all games
+  handleBuiltInText = (textForParsing) =>{
     if (textForParsing.includes('look')) { // ✔️
       this.verbLook(textForParsing)
     } else if (textForParsing.includes('use')) {
@@ -62,17 +77,17 @@ export default class Screen extends Component {
       this.getHelp(textForParsing)
     } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) { // ✔️
       this.getObject(textForParsing)
-    } else if(window.gameLogic){
-      // this.handleCustomGameLogic(textForParsing)
     } else {
       this.handleUnsure() // ✔️
     }
-
   }
+
+
+
 
   // Support for custom verbs
   handleCustomGameLogic = (textForParsing) =>{
-    window.gameLogic.handleCustomVerbs(textForParsing, this.props)
+    // window.gameLogic.handleCustomVerbs(textForParsing, this.props)
   }
 
 
@@ -211,9 +226,57 @@ export default class Screen extends Component {
   }
 
 
+  setCustomCodeWorker = () =>{
+    // Path to Web Worker for the game's specific logic is a
+    const WorkerHandleGameLogic = new Worker(this.props.gameLogic);
+
+    WorkerHandleGameLogic.onmessage = (e) =>{
+      console.log("Return from text worker:")  
+      console.log(e.data)
+    }
+  }
+
+
+  componentDidMount(){
+    // loop this until it's loaded
+    console.log(this.props.gameLogic)
+
+    this.timer = setInterval(
+      () => {
+        if(this.props.gameLogic !== ""){
+         this.setCustomCodeWorker();
+         clearInterval(this.timer)
+        }
+
+      },
+      500,
+    );
+
+  
+  }
+
+  componentDidUpdate = (prevProps) => {
+    // Open a WebWorker to handle per-game-logic.
+    // Commands and props are dispatched to it, and
+    // the event listener executes returned object
+    if(this.props.gameLogic.length !=="" && this.props.gameLogic !== prevProps.gameLogic){
+      
+      // // Path to Web Wdorker for the game's specific logic is a
+      // const WorkerHandleGameLogic = new Worker(this.props.gameLogic);
+
+      // WorkerHandleGameLogic.onmessage = (e) =>{
+      //   console.log("Return from text worker:")  
+      //   console.log(e.data)
+      // }
+
+
+    }
+  }
+
 
 
   render(props) {
+
     // Since the hero sprite is base64, add it as a style stag:
     const heroSpriteCSS = `#hero {background-Image:` + this.props.heroSprite + `}`
 

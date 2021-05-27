@@ -1,16 +1,32 @@
-console.log('Custom game logic file is loaded')
-window.gameLogic = {
+onmessage = function (e) {
+    
+    const workerState = e.data;
 
-    handleGameTextParse(textforparsing, props){
+    handleTextInput = () => {
+        return console.log(workerState)
+
+    }
+
+     // Results are sent back to the React component:
+    postMessage(handleTextInput());
+}
+
+/*
+self.gameLogic = {
+
+    handleGameTextParse(textforparsing, props, state){
         console.log(textforparsing)
         console.log(props)
         console.log("Custom game parse")
 
 
         if(props.roomCurrent === 3){
-            return console.log('We are in 3')
+            return [
+                console.log('we are in 3'),
+                state(textforparsing)
+            ]
         } else {
-            return console.log("NOT")
+            return false
         }
 
     },
@@ -47,3 +63,4 @@ window.gameLogic = {
 
     
 }
+*/

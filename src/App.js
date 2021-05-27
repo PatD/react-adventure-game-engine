@@ -59,6 +59,7 @@ export default class App extends Component {
       roomNearbyInventoryItems:[],
 
       // Game state stuff
+      gameLogic:"",
       playfieldX: 0,
       playfieldY: 0,
       pausedgame: false,
@@ -444,6 +445,9 @@ export default class App extends Component {
     const gameLoadedState = { ...this.state, ...game }
 
     this.setState(gameLoadedState)
+
+
+
     this.loadRoom(2); // change this to be dynamic
   }
 
@@ -546,6 +550,7 @@ export default class App extends Component {
           // Game dimensions
           gameWidth={this.state.playfieldX}
           gameHeight={this.state.playfieldY}
+          gameLogic={this.state.gameLogic}
         
 
           // Room details
