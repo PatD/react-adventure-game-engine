@@ -3,7 +3,7 @@ onmessage = function (e) {
     const workerState = e.data;
 
     handleTextInput = () => {
-        return console.log(workerState)
+        // return console.log(workerState)
 
     }
 

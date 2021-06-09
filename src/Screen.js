@@ -6,10 +6,16 @@ import RoomExits from './RoomExits'
 
 
 
+
 export default class Screen extends Component {
+  constructor() {
+    super();
 
-  
+  this.state = {
+    WorkerHandleGameLogic:""
+  }
 
+}
   // Fires when user hits Enter on text field
   submitTextParser = event => {
 
@@ -48,7 +54,7 @@ export default class Screen extends Component {
     // Breaks user input into an array and puts in state
     this.setState({ textForParsing });
 
-  console.log(window.WorkerHandleGameLogic)
+    console.log(self.WorkerHandleGameLogic)
 
     // Check for custom per-game commands in  gameLogic.js first.    
     if(self.gameLogic){
@@ -227,32 +233,38 @@ export default class Screen extends Component {
 
 
   setCustomCodeWorker = () =>{
+
+// - add to state!
+
     // Path to Web Worker for the game's specific logic is a
-    const WorkerHandleGameLogic = new Worker(this.props.gameLogic);
+    let WorkerHandleGameLogic = new Worker(this.props.gameLogic);
+
+
+    this.setState({WorkerHandleGameLogic:new Worker(this.props.gameLogic)})
 
     WorkerHandleGameLogic.onmessage = (e) =>{
       console.log("Return from text worker:")  
       console.log(e.data)
     }
+
+    WorkerHandleGameLogic.postMessage( 0 );
+
+
+    console.log(self)
   }
 
 
   componentDidMount(){
-    // loop this until it's loaded
-    console.log(this.props.gameLogic)
-
-    this.timer = setInterval(
+    
+    // This component needs access to the game's individual logic file
+    // but it's passed as props and not immediately available.
+    this.waitForWorker = setInterval(
       () => {
         if(this.props.gameLogic !== ""){
          this.setCustomCodeWorker();
-         clearInterval(this.timer)
-        }
+         clearInterval(this.waitForWorker)
+        }},50,);
 
-      },
-      500,
-    );
-
-  
   }
 
   componentDidUpdate = (prevProps) => {
