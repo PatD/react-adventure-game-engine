@@ -435,13 +435,17 @@ export default class App extends Component {
     })
 
 
-    // Execute any custom room logic
-
+    // Execute any custom room logic as soon as the room loads
+    // This might check a flag or inventory status and change the look of the room
     if (typeof self.roomChange === "function") { 
-      self.roomChange(nextRoom.Room)
+      
+      // The new room and the application state are passed to gameLogic.js
+      const roomFunc = self.roomChange(nextRoom.Room, this.state);
+
+      // And the function's return value is passed as a state change
+      return this.setState(roomFunc)
     }
     
-
   }
 
 

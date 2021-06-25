@@ -1,10 +1,37 @@
 console.log('Custom Game Logic File Loaded!')
 
-function roomChange(roomNumber) {
+
+// Each gameLogic file should have a roomChange function
+// that accepts the number and the state
+function roomChange(roomNumber,state) {
     if(roomNumber !== "undefined"){
-        console.log("Custom game logicc for " + roomNumber)
+
+        // This switch statement routes based on your own logic.
+        switch (roomNumber){
+            case 2:{
+                return roomChangetwo(roomNumber, state)
+            }
+            case 3:{
+                return roomChangeThree(roomNumber, state)
+            }
+            
+            default:{
+                return console.log('No custom room change for ' + roomNumber);
+            }
+        }
+
+//        return {customRoomFunction:roomNumber}
     }
 }
+
+
+
+// This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
+function roomChangetwo(roomNumber, state) {
+    console.log("We're out of switch statement room " + roomNumber)
+    return {customRoomFunction:roomNumber}
+}
+
 
 
 function customGameCode(){
