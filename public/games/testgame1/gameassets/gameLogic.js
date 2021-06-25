@@ -1,15 +1,30 @@
-onmessage = function (e) {
-    
-    const workerState = e.data;
+console.log('Custom Game Logic File Loaded!')
 
-    handleTextInput = () => {
-        // return console.log(workerState)
-
+function roomChange(roomNumber) {
+    if(roomNumber !== "undefined"){
+        console.log("Custom game logicc for " + roomNumber)
     }
-
-     // Results are sent back to the React component:
-    postMessage(handleTextInput());
 }
+
+
+function customGameCode(){
+    console.log('hi from gamelogic.js')
+}
+
+// onmessage = function (e) {
+    
+//     const workerState = e.data;
+
+
+//     console.log(workerState)
+
+//     handleTextInput = () => {
+//         // return console.log(workerState)
+//     }
+
+//      // Results are sent back to the React component:
+//     postMessage("We return: " + work);
+// }
 
 /*
 self.gameLogic = {

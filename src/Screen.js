@@ -5,8 +5,6 @@ import DisplayObjects from './DisplayObjects'
 import RoomExits from './RoomExits'
 
 
-
-
 export default class Screen extends Component {
   constructor() {
     super();
@@ -54,22 +52,25 @@ export default class Screen extends Component {
     // Breaks user input into an array and puts in state
     this.setState({ textForParsing });
 
-    console.log(self.WorkerHandleGameLogic)
 
     // Check for custom per-game commands in  gameLogic.js first.    
-    if(self.gameLogic){
-      console.log('Send to worker:')
-    
-      
-      return self.gameLogic.handleGameTextParse(textForParsing, this.props);
+    if(this.state.WorkerHandleGameLogic !== ""){
 
+      // TODO: Load this file into state?  Or get from Props?
+
+     // this.state.WorkerHandleGameLogic.postMessage(textForParsing)
+      self.customGameCode();
+      // Whatever is returned should be shuffled to handleBuiltIn or some other function
+      return console.log('Send to gamelogic:' + textForParsing);
 
 
     } else {
       // In case the developer hasn't included a custom game file, just run through the built-in:
       return this.handleBuiltInText(textForParsing)
     }
+   
     
+ 
   }
 
 
@@ -234,23 +235,22 @@ export default class Screen extends Component {
 
   setCustomCodeWorker = () =>{
 
-// - add to state!
+    // - add to state!
 
     // Path to Web Worker for the game's specific logic is a
-    let WorkerHandleGameLogic = new Worker(this.props.gameLogic);
+    //let WorkerHandleGameLogic = new Worker(this.props.gameLogic);
+
+    // this.setState({WorkerHandleGameLogic:new Worker(this.props.gameLogic)})
+
+    // WorkerHandleGameLogic.onmessage = (e) =>{
+    //   console.log("Return from text worker:")  
+    //   console.log(e.data)
+    // }
+
+    // WorkerHandleGameLogic.postMessage( 0 );
 
 
-    this.setState({WorkerHandleGameLogic:new Worker(this.props.gameLogic)})
-
-    WorkerHandleGameLogic.onmessage = (e) =>{
-      console.log("Return from text worker:")  
-      console.log(e.data)
-    }
-
-    WorkerHandleGameLogic.postMessage( 0 );
-
-
-    console.log(self)
+    // console.log(self)
   }
 
 
@@ -258,12 +258,12 @@ export default class Screen extends Component {
     
     // This component needs access to the game's individual logic file
     // but it's passed as props and not immediately available.
-    this.waitForWorker = setInterval(
-      () => {
-        if(this.props.gameLogic !== ""){
-         this.setCustomCodeWorker();
-         clearInterval(this.waitForWorker)
-        }},50,);
+    // this.waitForWorker = setInterval(
+    //   () => {
+    //     if(this.props.gameLogic !== ""){
+    //       this.setState({WorkerHandleGameLogic:new Worker(this.props.gameLogic)})
+    //      clearInterval(this.waitForWorker)
+    //     }},500,);
 
   }
 
@@ -271,7 +271,7 @@ export default class Screen extends Component {
     // Open a WebWorker to handle per-game-logic.
     // Commands and props are dispatched to it, and
     // the event listener executes returned object
-    if(this.props.gameLogic.length !=="" && this.props.gameLogic !== prevProps.gameLogic){
+    // if(this.props.gameLogic.length !=="" && this.props.gameLogic !== prevProps.gameLogic){
       
       // // Path to Web Wdorker for the game's specific logic is a
       // const WorkerHandleGameLogic = new Worker(this.props.gameLogic);
@@ -281,8 +281,7 @@ export default class Screen extends Component {
       //   console.log(e.data)
       // }
 
-
-    }
+    // }
   }
 
 
@@ -294,6 +293,10 @@ export default class Screen extends Component {
 
     return (
       <React.Fragment>
+        
+        {/* Per game logic is injected here  */}
+        <script script={this.props.gameLogic}></script>
+
         <style>
           {heroSpriteCSS}
         </style>

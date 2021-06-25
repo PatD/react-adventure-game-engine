@@ -434,6 +434,14 @@ export default class App extends Component {
       roomVisibleInventory:roomInv
     })
 
+
+    // Execute any custom room logic
+
+    if (typeof self.roomChange === "function") { 
+      self.roomChange(nextRoom.Room)
+    }
+    
+
   }
 
 
@@ -442,11 +450,10 @@ export default class App extends Component {
   loadGameFile = (game) => {
     console.info("App component loads " + game.title)
 
+
     const gameLoadedState = { ...this.state, ...game }
 
     this.setState(gameLoadedState)
-
-
 
     this.loadRoom(2); // change this to be dynamic
   }
