@@ -443,9 +443,22 @@ export default class App extends Component {
       const roomFunc = self.roomChange(nextRoom.Room, this.state);
 
       // And the function's return value is passed as a state change
-      return this.setState(roomFunc)
+      
+      if(roomFunc !== undefined && typeof roomFunc === 'object'){
+
+        // roomChange() returns a state update:
+        this.setState(roomFunc[0])
+
+        // RoomChange() may pass back a halt
+        if(roomFunc[1]!== "undefined"){
+          this.haltHero()
+        }
+      }
+
+      
+
     }
-    
+
   }
 
 

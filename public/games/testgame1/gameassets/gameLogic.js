@@ -1,26 +1,26 @@
 console.log('Custom Game Logic File Loaded!')
 
 
-// Each gameLogic file should have a roomChange function
-// that accepts the number and the state
+// Each gameLogic file should have a roomChange() function
+// that accepts the number and the current state. 
 function roomChange(roomNumber,state) {
     if(roomNumber !== "undefined"){
 
         // This switch statement routes based on your own logic.
+        // Each custom function should return an array of objects, 
+        // where the first object is whatever changes in state
         switch (roomNumber){
             case 2:{
                 return roomChangetwo(roomNumber, state)
             }
             case 3:{
-                return roomChangeThree(roomNumber, state)
+                return roomChangeThree(state)
             }
-            
+            // Not every room change needs a custom function:
             default:{
                 return console.log('No custom room change for ' + roomNumber);
             }
         }
-
-//        return {customRoomFunction:roomNumber}
     }
 }
 
@@ -29,8 +29,42 @@ function roomChange(roomNumber,state) {
 // This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
 function roomChangetwo(roomNumber, state) {
     console.log("We're out of switch statement room " + roomNumber)
-    return {customRoomFunction:roomNumber}
+    return [{customRoomFunction:roomNumber}]
 }
+
+
+// This is a custom function example that checks if an item is in inventory and returns 
+// a message.
+function roomChangeThree(state) {
+    console.log("Custom event for ROOM 3")
+
+    // Since state is passsed, we can see if the player has the inventory item
+    // in their posession
+    const hasTacoYet = state.inventory.find( ({ Name }) => Name === 'Taco')
+    
+    // If they have it, return a message
+    if(hasTacoYet.owned === true){        
+        // roomChange() [which calls all custom room functions] returns an array of objects
+        return  [
+        // First object is always state updates
+        // Second object is whether to stop the player or not use haltHero()
+          {
+            modalClickToClose:true,
+            modalText: "As the player returns to the room, he finds the TACO has gone missing!",
+            modalTextSlot2: "Upon checking his own pockets, he finds the taco there, safe and sound. Of course, he now some real regret about having a pocket-taco.",
+            modalStatus: "modal display-block",
+            pausedgame:true,
+          },
+          {
+            halt:true
+          }
+        ]
+    } else{
+        return
+    }
+    
+}
+
 
 
 
