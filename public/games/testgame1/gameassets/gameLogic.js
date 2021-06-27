@@ -29,7 +29,7 @@ function roomChange(roomNumber,state) {
 // This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
 function roomChangetwo(roomNumber, state) {
     console.log("We're out of switch statement room " + roomNumber)
-    return [{customRoomFunction:roomNumber}]
+  //  return [{customRoomFunction:roomNumber}]
 }
 
 
@@ -46,8 +46,7 @@ function roomChangeThree(state) {
     if(hasTacoYet.owned === true){        
         // roomChange() [which calls all custom room functions] returns an array of objects
         return  [
-        // First object is always state updates
-        // Second object is whether to stop the player or not use haltHero()
+        // First object is always state updatess      
           {
             modalClickToClose:true,
             modalText: "As the player returns to the room, he finds the TACO has gone missing!",
@@ -55,9 +54,13 @@ function roomChangeThree(state) {
             modalStatus: "modal display-block",
             pausedgame:true,
           },
-          {
-            halt:true
-          }
+          
+          // Second item is whether to stop the player or not use haltHero() [Optional]
+            "halt"
+          ,
+          // 3rd item is the delay [Optional]
+          
+            500
         ]
     } else{
         return
