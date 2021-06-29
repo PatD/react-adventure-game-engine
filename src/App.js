@@ -442,19 +442,29 @@ export default class App extends Component {
       // The new room and the application state are passed to gameLogic.js
       const roomFunc = self.roomChange(nextRoom.Room, this.state);
 
-      // roomChange() will return an array.
+      // roomChange() will return an array of things!
 
-      // roomChange() array may pass back a halt
-      if(roomFunc !== undefined && roomFunc.indexOf('halt') !== -1 && typeof roomFunc === 'object'){
-        this.haltHero()
-      }
+      /* 
+        [
+          00, // delay before firing
+          {}, // updates for state that are passed via setSetate 
+          "halt" // optional, stops the character
+        ]
+      */
 
-      // An object returned will be passed as state.
       if(roomFunc !== undefined && typeof roomFunc === 'object'){
-        this.setState(roomFunc[0])
-      }
-
     
+         setTimeout(() => {
+            this.setState(roomFunc[1]);
+
+            // roomChange() array might pass back a halt to stop the player
+            if(roomFunc.indexOf('halt') !== -1){
+              this.haltHero()
+            }
+
+         }, roomFunc[0])
+       }
+
     }
   }
 

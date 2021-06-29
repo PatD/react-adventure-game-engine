@@ -46,21 +46,20 @@ function roomChangeThree(state) {
     if(hasTacoYet.owned === true){        
         // roomChange() [which calls all custom room functions] returns an array of objects
         return  [
-        // First object is always state updatess      
-          {
-            modalClickToClose:true,
-            modalText: "As the player returns to the room, he finds the TACO has gone missing!",
-            modalTextSlot2: "Upon checking his own pockets, he finds the taco there, safe and sound. Of course, he now some real regret about having a pocket-taco.",
-            modalStatus: "modal display-block",
-            pausedgame:true,
-          },
+        // First item is a number. The delay in ms before state change.
+            2000,
+
+        // Second item is always state updates      
+            {
+                modalClickToClose:true,
+                modalText: "As the player returns to the room, he finds the TACO has gone missing!",
+                modalTextSlot2: "Upon checking his own pockets, he finds the taco there, safe and sound. Of course, he now some real regret about having a pocket-taco.",
+                modalStatus: "modal display-block",
+                pausedgame:true,
+            },
           
-          // Second item is whether to stop the player or not use haltHero() [Optional]
-            "halt"
-          ,
-          // 3rd item is the delay [Optional]
-          
-            500
+        // Third item is whether to stop the player or not use haltHero() [Optional]
+            "halt" 
         ]
     } else{
         return
