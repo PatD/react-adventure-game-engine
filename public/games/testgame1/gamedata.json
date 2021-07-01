@@ -13,11 +13,10 @@
     "heroMovementUpdateSpeed": 75,
     "heroHeight": 68,
     "heroWidth": 32,
-    "flags":[
-        {"flag":1,"value":false},
-        {"flag":2,"value":false},
-        {"flag":3,"value":false}
-    ],
+    "flags":{
+        "bananaPhone":true,
+        "hasTacoMessageShown":false
+    },
     "rooms": [
         {
             "Name": "Loading",

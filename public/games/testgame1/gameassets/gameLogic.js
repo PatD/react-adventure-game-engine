@@ -33,24 +33,32 @@ function roomChangetwo(roomNumber, state) {
 }
 
 
-// This is a custom function example that checks if an item is in inventory and returns 
-// a message.
+// This is a custom function example that checks if an item (the taco) is in 
+// player inventory and returns a message.
 function roomChangeThree(state) {
     console.log("Custom event for ROOM 3")
 
-    // Since state is passsed, we can see if the player has the inventory item
-    // in their posession
+    // Since state is passsed to this function, 
+    // we can see if the player has the inventory item in their posession
     const hasTacoYet = state.inventory.find( ({ Name }) => Name === 'Taco')
     
-    // If they have it, return a message
-    if(hasTacoYet.owned === true){        
-        // roomChange() [which calls all custom room functions] returns an array of objects
+    // If they have the taco, and we haven't shown this message to them yet, 
+    // return an update to state that opens the message modal
+    if(hasTacoYet.owned === true && state.flags.hasTacoMessageShown === false){     
+        
+        // We'll be updating our flags object in state, by 
+        // setting hasTacoMessageShown to true
+        const stateFlags = state.flags;
+        stateFlags.hasTacoMessageShown = true;
+
+        // roomChange() - which calls all custom room functions -returns an array of objects
         return  [
         // First item is a number. The delay in ms before state change.
             2000,
 
         // Second item is always state updates      
             {
+                flags:stateFlags,
                 modalClickToClose:true,
                 modalText: "As the player returns to the room, he finds the TACO has gone missing!",
                 modalTextSlot2: "Upon checking his own pockets, he finds the taco there, safe and sound. Of course, he now some real regret about having a pocket-taco.",

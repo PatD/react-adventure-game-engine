@@ -447,7 +447,7 @@ export default class App extends Component {
       /* 
         [
           00, // delay before firing
-          {}, // updates for state that are passed via setSetate 
+          {}, // updates for state in app.js 
           "halt" // optional, stops the character
         ]
       */
