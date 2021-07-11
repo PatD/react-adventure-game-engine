@@ -53,7 +53,13 @@ export default class Screen extends Component {
     this.setState({ textForParsing });
 
 
+
+
+
     // Check for custom per-game commands in  gameLogic.js first.    
+    
+    
+    /*
     if(this.state.WorkerHandleGameLogic !== ""){
 
       // TODO: Load this file into state?  Or get from Props?
@@ -64,7 +70,15 @@ export default class Screen extends Component {
       return console.log('Send to gamelogic:' + textForParsing);
 
 
-    } else {
+    } */
+
+    // Only do this if gameLogic.js exists:
+    if (typeof self.customTextParser === "function") { 
+      self.customTextParser(textForParsing,this.props);    
+
+
+    }
+    else {
       // In case the developer hasn't included a custom game file, just run through the built-in:
       return this.handleBuiltInText(textForParsing)
     }

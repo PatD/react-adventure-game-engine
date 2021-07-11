@@ -1,8 +1,9 @@
 console.log('Custom Game Logic File Loaded!')
 
 
-// Each gameLogic file should have a roomChange() function
+// Each gameLogic.js file should have a roomChange() function
 // that accepts the number and the current state. 
+// It is called by App.js loadRoom() after the room has been displayed
 function roomChange(roomNumber,state) {
     if(roomNumber !== "undefined"){
 
@@ -16,8 +17,10 @@ function roomChange(roomNumber,state) {
             case 3:{
                 return roomChangeThree(state)
             }
+
             // Not every room change needs a custom function:
             default:{
+                // ... so roomChange() quietly ends
                 return console.log('No custom room change for ' + roomNumber);
             }
         }
@@ -28,8 +31,7 @@ function roomChange(roomNumber,state) {
 
 // This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
 function roomChangetwo(roomNumber, state) {
-    console.log("We're out of switch statement room " + roomNumber)
-  //  return [{customRoomFunction:roomNumber}]
+    console.log("We're in a new room,  " + roomNumber)
 }
 
 
@@ -77,9 +79,14 @@ function roomChangeThree(state) {
 
 
 
-
-function customGameCode(){
-    console.log('hi from gamelogic.js')
+// Handles custom text input.  
+// All commands are routed through here for matching
+// And either an updated state is returned, or a way to 
+// run the built-in commands like look or get
+function customTextParser(textForParsing,props){
+    console.log(textForParsing)
+    console.log(props)
+   return console.log('hi from gamelogic.js')
 }
 
 // onmessage = function (e) {

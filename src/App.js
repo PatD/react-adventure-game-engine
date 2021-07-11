@@ -13,7 +13,6 @@ import MainMenuBar from './MainMenuBar'
   // need to remain seperate files
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
-// const WorkerHandleTextInput = new Worker("../workers/WorkerHandleTextInput.js");
 
 
 
@@ -186,7 +185,6 @@ export default class App extends Component {
   }
 
   // Remove item from inventory
-  // This is a utility function - player doesn't have the ability to drop quest items
   removeFromInventory = (removeItem) => {
 
     // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
@@ -263,7 +261,7 @@ export default class App extends Component {
 
       this.movementInterval = setInterval(() => {
         
-        // Post hero's chosen direction and current deets to worker
+        // Post hero's chosen direction and current details to worker
         WorkerHandleHeroMovement.postMessage({
           "direction": change, 
           heroPositionX:this.state.heroPositionX,
@@ -419,7 +417,7 @@ export default class App extends Component {
     }
 
     // Add any inventory items that need to be displayed.
-    // Should be ownable, not in inventory already
+    // Should be ownable and not in inventory already
 
     const roomInv = this.state.inventory.filter(inv => inv.FoundRoom === nextRoom.Room && inv.owned === false && inv.Visible === true );
 
@@ -436,7 +434,10 @@ export default class App extends Component {
 
 
     // Execute any custom room logic as soon as the room loads
-    // This might check a flag or inventory status and change the look of the room
+    // This might check a flag or read inventory status and change the look of the room.
+    // It's technically a second state update.
+    
+    // Only do this if gameLogic.js exists:
     if (typeof self.roomChange === "function") { 
       
       // The new room and the application state are passed to gameLogic.js
@@ -470,10 +471,11 @@ export default class App extends Component {
 
 
 
+
+
   // When a game is loaded, update React State with game data
   loadGameFile = (game) => {
     console.info("App component loads " + game.title)
-
 
     const gameLoadedState = { ...this.state, ...game }
 
@@ -482,10 +484,6 @@ export default class App extends Component {
     this.loadRoom(2); // change this to be dynamic
   }
 
-
-  componentDidUpdate(){
-    // console.log(this.state)
-  }
 
 
   componentDidMount() { 
@@ -512,25 +510,9 @@ export default class App extends Component {
       }
     }
 
-
-
-    // set dimensions for play field
-    // const playfield = document.querySelector('main')
-
-    this.setState({
-      // playfieldX: playfield.clientHeight,
-      // playfieldY: playfield.clientWidth,
-
-      // playfieldX: 640,
-      // playfieldY: 420,
-
-    })
-
     // Listen patiently for keyboard key presses
     this.setdefaultKeyboardListners();
   }
-
-
 
 
 
@@ -623,7 +605,8 @@ export default class App extends Component {
           pausedgame={this.state.pausedgame}
           togglePause={this.togglePause}
           soundStatus={this.state.soundStatus}
-          toggleSound={this.toggleSound} />
+          toggleSound={this.toggleSound}
+          flags={this.state.flags} />
         
 
 
