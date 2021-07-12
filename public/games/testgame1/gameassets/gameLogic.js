@@ -1,15 +1,16 @@
-console.log('Custom Game Logic File Loaded!')
+console.info('Custom Game Logic File Loaded!')
 
+/*
+    Each gameLogic.js file should have a roomChange() function
+    It acts as a routing tool.  Player enters a room, the room
+    checks itself to see if there's a custom function associated
+    with it, and that function fires if it does.
 
-// Each gameLogic.js file should have a roomChange() function
-// that accepts the number and the current state. 
-// It is called by App.js loadRoom() after the room has been displayed
+    Expects the new room and current state to be passed to it.
+*/
 function roomChange(roomNumber,state) {
-    if(roomNumber !== "undefined"){
+    if(roomNumber !== "undefined"){ // <-- This check is here because React fires this on load, and sometimes state isn't ready yet
 
-        // This switch statement routes based on your own logic.
-        // Each custom function should return an array of objects, 
-        // where the first object is whatever changes in state
         switch (roomNumber){
             case 2:{
                 return roomChangetwo(roomNumber, state)
@@ -28,6 +29,43 @@ function roomChange(roomNumber,state) {
 }
 
 
+
+// Each gameLogic.js file should have a customTextParser() function
+// That accepts text input and the props from screen.js
+
+// Handles custom text input from text parser. Expects props to be passed to it.   
+// All commands are routed through here for matching
+// And either an updated state is returned, or a way to 
+// run the built-in commands like look or get
+function customTextParser(textForParsing,props){
+    console.log(textForParsing)
+    console.log(props)
+
+
+    switch (textForParsing.join(' ')){
+        case 'derp dance':
+        case 'dance dance':{
+            return console.log('Dance x2@')
+        }
+        case 'eat taco':{
+            return customEatTaco(props)
+        }
+
+        // Not every text parse change needs a custom function:
+        default:{
+            // ... so customTextParser() returns false and the built-in text parser runs
+            return false
+        }
+    }
+}
+
+
+
+
+
+
+
+/*  Custom room change functions */
 
 // This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
 function roomChangetwo(roomNumber, state) {
@@ -78,82 +116,31 @@ function roomChangeThree(state) {
 }
 
 
+/* Custom text parser functions */
 
-// Handles custom text input.  
-// All commands are routed through here for matching
-// And either an updated state is returned, or a way to 
-// run the built-in commands like look or get
-function customTextParser(textForParsing,props){
-    console.log(textForParsing)
-    console.log(props)
-   return console.log('hi from gamelogic.js')
+function customEatTaco(props) {
+
+    return [
+        // First item is a number. The delay in ms before state change.
+        0,
+
+        // Second item is always state updates      
+        {
+            modalClickToClose: true,
+            modalText: "You decide to eat the taco, the smell was too delicous.",
+            modalStatus: "modal display-block",
+            pausedgame: true,
+        },
+
+        // Third item is whether to stop the player or not use haltHero() [Optional]
+        "halt",
+
+
+        {
+            customFunc: function(){
+                alert('hi')
+            }
+        }
+
+    ]
 }
-
-// onmessage = function (e) {
-    
-//     const workerState = e.data;
-
-
-//     console.log(workerState)
-
-//     handleTextInput = () => {
-//         // return console.log(workerState)
-//     }
-
-//      // Results are sent back to the React component:
-//     postMessage("We return: " + work);
-// }
-
-/*
-self.gameLogic = {
-
-    handleGameTextParse(textforparsing, props, state){
-        console.log(textforparsing)
-        console.log(props)
-        console.log("Custom game parse")
-
-
-        if(props.roomCurrent === 3){
-            return [
-                console.log('we are in 3'),
-                state(textforparsing)
-            ]
-        } else {
-            return false
-        }
-
-    },
-
-
-    // Check for custom verbs, and take action.
-        // Usually this is updating flags and returning text as modal  
-
-        // Loop through text for parsing array.  assume first word is verb
-    handleCustomVerbs(textforparsing, props){
-        console.log(textforparsing)
-        console.log(props)
-        
-        if(textforparsing[0] === 'dance'){
-            this.danceCustomVerb(textforparsing, props)
-        }
-        else {
-            return props.handleSubmittedTextModal("You try and " + textforparsing[0] + " the " + textforparsing[1] + ", but nothing happens.")
-        }
-    },
-
-    // This is custom per-game code that allows the character to dance
-    // It's also an example of a flag getting set becuase of a player action
-    danceCustomVerb(textforparsing, props){
-        console.log('This updates the flag')
-        props.handleFlagChange(3)
-        return props.handleSubmittedTextModal("You attempt to dance " + textforparsing[1] + "ingly.")
-    }
-
-    // Check for custom actions for in-game-verbs (look, get, etc)
-        // The game engine supports looking at inventory items, room objects, but you may need something beyond that
-
-        // 
-
-    
-}
-*/

@@ -74,6 +74,12 @@ export default class App extends Component {
 
   }
 
+  // Accepts a bunch of state changes from child components and updates parent component
+  updateAppComponentState = (passedState) =>{
+    this.setState(passedState)
+  }
+
+
   // Function to pause the game, invoked by menu item changes usually
   togglePause = () => {
     if (this.state.pausedgame === false) {
@@ -606,7 +612,9 @@ export default class App extends Component {
           togglePause={this.togglePause}
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound}
-          flags={this.state.flags} />
+          flags={this.state.flags} 
+          updateAppComponentState={this.updateAppComponentState} 
+          />
         
 
 

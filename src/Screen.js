@@ -54,28 +54,35 @@ export default class Screen extends Component {
 
 
 
-
-
     // Check for custom per-game commands in  gameLogic.js first.    
-    
-    
-    /*
-    if(this.state.WorkerHandleGameLogic !== ""){
-
-      // TODO: Load this file into state?  Or get from Props?
-
-     // this.state.WorkerHandleGameLogic.postMessage(textForParsing)
-      self.customGameCode();
-      // Whatever is returned should be shuffled to handleBuiltIn or some other function
-      return console.log('Send to gamelogic:' + textForParsing);
-
-
-    } */
 
     // Only do this if gameLogic.js exists:
     if (typeof self.customTextParser === "function") { 
-      self.customTextParser(textForParsing,this.props);    
+      
+      // Run the text through the custom text gauntlet
+      const customTextCheck = self.customTextParser(textForParsing,this.props)
 
+      
+      // if false is returned, that means no match, and just run it through the built-in commands
+      if (customTextCheck === false){
+        return this.handleBuiltInText(textForParsing);
+
+      } else if(customTextCheck !== false) {
+        setTimeout(() => {
+          this.props.updateAppComponentState(customTextCheck[1]);
+
+          // roomChange() array might pass back a halt to stop the player
+          if(customTextCheck.indexOf('halt') !== -1){
+            this.props.haltHero()
+          }
+
+          customTextCheck[3].customFunc()
+
+       }, customTextCheck[0])
+
+        // Also run through existing text parser?
+
+      }
 
     }
     else {
@@ -103,13 +110,6 @@ export default class Screen extends Component {
     }
   }
 
-
-
-
-  // Support for custom verbs
-  handleCustomGameLogic = (textForParsing) =>{
-    // window.gameLogic.handleCustomVerbs(textForParsing, this.props)
-  }
 
 
   // For when we just don't have any idea what the person typed:
@@ -244,58 +244,6 @@ export default class Screen extends Component {
     else{
       return this.props.handleSubmittedTextModal("That's not something you can look at in this game")
     }  
-  }
-
-
-  setCustomCodeWorker = () =>{
-
-    // - add to state!
-
-    // Path to Web Worker for the game's specific logic is a
-    //let WorkerHandleGameLogic = new Worker(this.props.gameLogic);
-
-    // this.setState({WorkerHandleGameLogic:new Worker(this.props.gameLogic)})
-
-    // WorkerHandleGameLogic.onmessage = (e) =>{
-    //   console.log("Return from text worker:")  
-    //   console.log(e.data)
-    // }
-
-    // WorkerHandleGameLogic.postMessage( 0 );
-
-
-    // console.log(self)
-  }
-
-
-  componentDidMount(){
-    
-    // This component needs access to the game's individual logic file
-    // but it's passed as props and not immediately available.
-    // this.waitForWorker = setInterval(
-    //   () => {
-    //     if(this.props.gameLogic !== ""){
-    //       this.setState({WorkerHandleGameLogic:new Worker(this.props.gameLogic)})
-    //      clearInterval(this.waitForWorker)
-    //     }},500,);
-
-  }
-
-  componentDidUpdate = (prevProps) => {
-    // Open a WebWorker to handle per-game-logic.
-    // Commands and props are dispatched to it, and
-    // the event listener executes returned object
-    // if(this.props.gameLogic.length !=="" && this.props.gameLogic !== prevProps.gameLogic){
-      
-      // // Path to Web Wdorker for the game's specific logic is a
-      // const WorkerHandleGameLogic = new Worker(this.props.gameLogic);
-
-      // WorkerHandleGameLogic.onmessage = (e) =>{
-      //   console.log("Return from text worker:")  
-      //   console.log(e.data)
-      // }
-
-    // }
   }
 
 
