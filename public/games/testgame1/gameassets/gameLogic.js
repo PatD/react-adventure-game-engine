@@ -43,9 +43,9 @@ function customTextParser(textForParsing,props){
 
 
     switch (textForParsing.join(' ')){
-        case 'derp dance':
+        case 'dance':
         case 'dance dance':{
-            return console.log('Dance x2@')
+            return justDance(props)
         }
         case 'eat taco':{
             return customEatTaco(props)
@@ -102,7 +102,7 @@ function roomChangeThree(state) {
                 modalClickToClose:true,
                 modalText: "As the player returns to the room, he finds the TACO has gone missing!",
                 modalTextSlot2: "Upon checking his own pockets, he finds the taco there, safe and sound. Of course, he now some real regret about having a pocket-taco.",
-                modalStatus: "modal display-block",
+                modalStatus: true,
                 pausedgame:true,
             },
           
@@ -118,27 +118,50 @@ function roomChangeThree(state) {
 
 /* Custom text parser functions */
 
+function justDance(props){
+    return [
+        5,
+        true,
+        {
+            modalClickToClose: true,
+            modalText: "You have been diagnosed with a fever.",
+            modalTextSlot2: "DANCE FEVER!",
+            modalStatus: true,
+            pausedgame: true,
+        },
+        "halt",
+        {
+
+        }
+
+    ]
+
+}
+
+
+
 function customEatTaco(props) {
 
+
+    // should this return an array of arrays that get looped through, to simulate state change?
     return [
         // First item is a number. The delay in ms before state change.
         0,
 
-        // Second item is always state updates      
+        // Second item is a halt command. Repalce with false if player shouldn't halt
+        true,
+
+        // third item is always state updates      
         {
             modalClickToClose: true,
             modalText: "You decide to eat the taco, the smell was too delicous.",
-            modalStatus: "modal display-block",
+            modalStatus: true,
             pausedgame: true,
         },
 
-        // Third item is whether to stop the player or not use haltHero() [Optional]
-        "halt",
-
-
         {
             customFunc: function(){
-                alert('hi')
+                //getHelp()
             }
         }
 

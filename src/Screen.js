@@ -61,18 +61,17 @@ export default class Screen extends Component {
       
       // Run the text through the custom text gauntlet
       const customTextCheck = self.customTextParser(textForParsing,this.props)
-
       
       // if false is returned, that means no match, and just run it through the built-in commands
       if (customTextCheck === false){
         return this.handleBuiltInText(textForParsing);
 
-      } else if(customTextCheck !== false) {
+      } else {
         setTimeout(() => {
-          this.props.updateAppComponentState(customTextCheck[1]);
+          this.props.updateAppComponentState(customTextCheck[2]);
 
           // roomChange() array might pass back a halt to stop the player
-          if(customTextCheck.indexOf('halt') !== -1){
+          if(customTextCheck[1] === true){
             this.props.haltHero()
           }
 
@@ -176,8 +175,36 @@ export default class Screen extends Component {
       // Is it on the screen?  Set state to account for this.
       // this.props.takeObjectOffScreen(trimmedGet)
 
-      return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
-    }
+      // return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
+   
+      const getTest = [
+        {
+          modalText: "Player! is picking up a thing",
+          modalTextSlot2: "",
+          modalTextSlot3: "",
+          modalTextSlot4: "",
+          modalWidth:400,
+          modalTop:250
+      },
+      {
+        modalText: "It's an amazing thing",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+        modalWidth:430,
+        modalTop:250
+      },
+      {
+        modalText: "So amazing we need a third dialog box!",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+        modalWidth:430,
+        modalTop:230
+      },]
+      return this.props.handleSubmittedTextModal(getTest)
+   
+     }
 
     // If the user asks to get thing it never can.
     else{

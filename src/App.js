@@ -23,6 +23,31 @@ export default class App extends Component {
     this.state = {
 
       // Modal
+      modalTextScript:[
+        {
+          modalText: "Looping Modal content is here!",
+          modalTextSlot2: "",
+          modalTextSlot3: "",
+          modalTextSlot4: "",
+          modalWidth:400,
+          modalTop:250
+      },
+      {
+        modalText: "Some more modal text content",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+        modalWidth:430,
+        modalTop:250
+      },
+      {
+        modalText: "EVEN more modal text content",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+        modalWidth:430,
+        modalTop:230
+      },],
       modalClickToClose:true,
       modalStatus: false,
       modalText: "Modal content is here!",
@@ -149,16 +174,196 @@ export default class App extends Component {
   }
 
   // Handles text submission - and usually opens a modal
-  handleSubmittedTextModal = (text) => {
+  handleSubmittedTextModal = async (text) => {
+
+    // Can pass either typeOf text - just a quick launch
+
+    // Or typeOf object = text, width, top, and that should update state and 
+
+    // Or typeof number = which says to grab the number in the this.state.modalTextScript state
+
+      // the recursion passes down to the next one through, once things are "false"
+
+   if(typeof text === "string"){
+      return (
+        this.setState({
+          modalClickToClose:true,
+          modalText: text,
+          modalStatus: true,
+          pausedgame:true
+          // modalWidth:400,
+          // modalTop:250
+        }),
+        this.haltHero() 
+      )
+    }
+
+    if(typeof text === "object"){
+      return this.setState({modalTextScript:text})
+    }
     
-    this.setState({
-      modalClickToClose:true,
-      modalText: text,
-      modalStatus: "modal display-block",
-      pausedgame:true
-    })
-    this.haltHero()
+
+       // Callback the next one if there is one?
+
+      // Set timeout to check if modalstatus is false yet.  If false, loop to the next.  Also check if "last item" is passed
+
   }
+
+
+
+
+
+  // Should display, halt the hero, allow enter press, listen for enter press, repeat
+
+    textModalCycle = async () => {
+
+      for (let i = 0; i < this.state.modalTextScript.length; i++) {
+        console.log(this.state.modalTextScript[i])
+        
+        await this.handleSubmittedTextModal(this.state.modalTextScript[i].modalText).then(() => {
+          console.log()
+        })
+ 
+      }
+
+
+      // // for (let txt of this.state.modalTextScript ) {
+      // //   console.log(txt)
+      // //   await this.handleSubmittedTextModal(txt.modalText);
+        
+      // // }]
+
+      // function showText(){
+      //   setTimeout(() => {
+      //     console.log("The Then" )
+      //   }, 2000);
+      // }
+
+      // for (let i = 0; i < this.state.modalTextScript.length; i++) {
+      //   console.log(this.state.modalTextScript[i])
+      //  // await this.handleSubmittedTextModal(this.state.modalTextScript[i].modalText);
+
+      //   await showText()
+      // }
+
+      // const loopTexts = async () => {
+      //   await this.handleSubmittedTextModal("ONE").then(()   => {
+  
+
+      //     setTimeout(() => {
+      //       console.log("The Then")
+      //     }, 2000);
+
+
+      //   });
+      //   await this.handleSubmittedTextModal("TWOOO");
+      //   await this.handleSubmittedTextModal("THREEEEE");
+      // }
+
+
+      // loopTexts();
+      /* example 
+
+
+    (anonymous) @ ga.js:44
+     // Define custom promise function
+
+      function timeoutPromise(interval) {
+        return new Promise((resolve, reject) => {
+          setTimeout(function(){
+            resolve("done");
+          }, interval);
+        });
+      };
+
+      async function timeTest() {
+        await timeoutPromise(10);
+           alert('1')
+        await timeoutPromise(20);
+                alert('2')
+        await timeoutPromise(300);
+                alert('3')
+      }
+
+      let startTime = Date.now();
+      timeTest().then(() => {
+        let finishTime = Date.now();
+        let timeTaken = finishTime - startTime;
+        alert("Time taken in milliseconds: " + timeTaken);
+      })
+
+      */
+
+      // Should support passing an object, or a string.
+
+      // String is kicked up to handleSubmittedTextModal(text), and this funciton is done
+
+      // If it's an object, we need to
+
+        // create a counter based on the object length
+
+        // add an event listener
+
+        // show the first object
+
+        // 
+
+        
+
+
+      // this.setState({
+      //   modalTextScriptCount:
+      // })
+
+      // this.haltHero()
+
+      // // control the loop externally.  recursive function that keeps calling itself?
+      // console.log(this.state.modalTextScript)
+      // console.log(this.state.modalTextScript.length)
+
+      // // add event listner on enter key for modal
+
+      // this.state.modalTextScript.map(s => {
+      //   return (
+      //     console.log(s),
+      //     this.setState({
+      //       pausedgame:true,
+      //       modalClickToClose:true,
+      //       modalText: s.modalText,
+      //       modalStatus: "modal display-block",
+      //     })
+      //     )
+      // })
+
+      
+
+        // which'll then call this.hideModal()
+
+        // this.setSTate the text:
+
+        // this.setState({
+        //   modalClickToClose:true,
+        //   modalText: text,
+        //   modalTextSlot2: "",
+        //   modalTextSlot3: "",
+        //   modalTextSlot4: "",
+        //   modalStatus: "modal display-block",
+        // })
+
+      // remove the even listner
+
+
+
+
+
+
+    }
+
+
+
+
+
+
 
 
 
@@ -348,6 +553,13 @@ export default class App extends Component {
           self.toggleInventoryScreen(event.key)
         ]
       } 
+
+      // Enter Key
+      else if(event.key === 'Enter'){
+        console.log('enter')
+        console.log(self.state.modalStatus)
+      }
+
       // This opens the inventory screen
       else if(self.state.inventoryVisable === false && event.key === 'Tab'){
         return [
@@ -600,6 +812,7 @@ export default class App extends Component {
           submitTextParser={this.submitTextParser}
           textParserChange={this.textParserChange}
           handleSubmittedTextModal={this.handleSubmittedTextModal}
+          textModalCycle={this.textModalCycle}
           
           // Doing stuff
           handleFlagChange={this.handleFlagChange}
