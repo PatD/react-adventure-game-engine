@@ -23,31 +23,7 @@ export default class App extends Component {
     this.state = {
 
       // Modal
-      modalTextScript:[
-        {
-          modalText: "Looping Modal content is here!",
-          modalTextSlot2: "",
-          modalTextSlot3: "",
-          modalTextSlot4: "",
-          modalWidth:400,
-          modalTop:250
-      },
-      {
-        modalText: "Some more modal text content",
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-        modalTextSlot4: "",
-        modalWidth:430,
-        modalTop:250
-      },
-      {
-        modalText: "EVEN more modal text content",
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-        modalTextSlot4: "",
-        modalWidth:430,
-        modalTop:230
-      },],
+      modalTextScript:[],
       modalClickToClose:true,
       modalStatus: false,
       modalText: "Modal content is here!",
@@ -152,9 +128,6 @@ export default class App extends Component {
   }
 
 
-  
-  
-
 
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) =>{
@@ -176,36 +149,58 @@ export default class App extends Component {
   // Handles text submission - and usually opens a modal
   handleSubmittedTextModal = async (text) => {
 
-    // Can pass either typeOf text - just a quick launch
+    // If a string is passed, we're just here to modal.  Show it and be done.
+    if(typeof text === "string"){
+        return [
+          this.setState({
+            modalClickToClose:true,
+            modalText: text,
+            modalStatus: true,
+            pausedgame:true
+          }),
+          this.haltHero()]
+      }
 
-    // Or typeOf object = text, width, top, and that should update state and 
+      // If it's object, we'll update state with it, show the first one, then start the cycle to show the next ones
+      if(typeof text === "object"){
+        const scriptLines = text.length;
+        return [
+          console.log('We are passing ' + scriptLines + ' items to state!'), 
+          // When the object initally passes through, set it in state. 
+          // We'll call the other lines recursively later
+          this.setState({modalTextScript:text}),
 
-    // Or typeof number = which says to grab the number in the this.state.modalTextScript state
+          // Show the first item
+          this.setState({
+            modalClickToClose:true,
+            modalText: text[0].modalText,
+            modalStatus: true,
+            pausedgame:true,
+            // modalWidth:400,
+            // modalTop:250
+          }),
+          this.haltHero(),
 
-      // the recursion passes down to the next one through, once things are "false"
-
-   if(typeof text === "string"){
-      return (
-        this.setState({
-          modalClickToClose:true,
-          modalText: text,
-          modalStatus: true,
-          pausedgame:true
-          // modalWidth:400,
-          // modalTop:250
-        }),
-        this.haltHero() 
-      )
-    }
-
-    if(typeof text === "object"){
-      return this.setState({modalTextScript:text})
-    }
+          // Call the next one!
+          this.handleSubmittedTextModal(1)
+        ]
+      }
     
 
        // Callback the next one if there is one?
 
       // Set timeout to check if modalstatus is false yet.  If false, loop to the next.  Also check if "last item" is passed
+
+    if(typeof text === "number"){
+      console.log('Loading #2, which we passed as 1')
+      const currentNum = text; // The number just passed
+      const nextNum = text + 1; // Next in line
+
+      // settimeout
+      
+
+    }
+
 
   }
 

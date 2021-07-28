@@ -50,6 +50,13 @@ function customTextParser(textForParsing,props){
         case 'eat taco':{
             return customEatTaco(props)
         }
+        case 'talk sarah':{
+            return customTalkSarah(props)
+        }
+
+        case 'talk ted':{
+            return customTalkTed(props)
+        }
 
         // Not every text parse change needs a custom function:
         default:{
@@ -116,7 +123,46 @@ function roomChangeThree(state) {
 }
 
 
+function customTalkTed(props) {
+    return [
+    0,
+    true,
+    {
+        modalClickToClose: true,
+        modalText: "Ted looks at you after you say hello, and then says he is quite busy playing 'Breath of the Wild' and doesn't have time to chat.",
+        modalStatus: true,
+        pausedgame: true,
+    },
+
+    {
+        customFunc: function(){
+            //getHelp()
+        }
+    }
+    ]
+}
+
 /* Custom text parser functions */
+function customTalkSarah(props) {
+    return [
+    0,
+    true,
+    {
+        modalClickToClose: true,
+        modalText: "Sarah tells you about Tom Nook, who is definitely not a racoon and instead a tanuki. Sarah waves and says have a fun time in your adventure.",
+        modalStatus: true,
+        pausedgame: true,
+    },
+
+    {
+        customFunc: function(){
+            //getHelp()
+        }
+    }
+    ]
+}
+
+
 
 function justDance(props){
     return [
