@@ -146,10 +146,11 @@ export default class App extends Component {
     }
   }
 
-  // Handles text submission - and usually opens a modal
+  // Handles text display - and usually opens a modal
   handleSubmittedTextModal = async (text) => {
 
-    // If a string is passed, we're just here to modal.  Show it and be done.
+    // If a string is passed, we're just here to modal. 
+    // Show it, wait for the enter key event, and be done.
     if(typeof text === "string"){
         return [
           this.setState({
@@ -161,7 +162,10 @@ export default class App extends Component {
           this.haltHero()]
       }
 
-      // If it's object, we'll update state with it, show the first one, then start the cycle to show the next ones
+
+      // If it's object that's passed, we'll update state with it, show 
+      // the first one, then start the cycle to show the 
+      // by recursively calling this function with the next number
       if(typeof text === "object"){
         const scriptLines = text.length;
         return [
@@ -185,23 +189,57 @@ export default class App extends Component {
           this.handleSubmittedTextModal(1)
         ]
       }
-    
-
-       // Callback the next one if there is one?
 
       // Set timeout to check if modalstatus is false yet.  If false, loop to the next.  Also check if "last item" is passed
 
     if(typeof text === "number"){
-      console.log('Loading #2, which we passed as 1')
-      const currentNum = text; // The number just passed
-      const nextNum = text + 1; // Next in line
-
-      // settimeout
       
+      console.log('Loading text box ' + text + ' , plus 1 since JS starts at zero')    
+      
+      // Check to detect the state of the modal. If it's closed, we can open the next modal! 
+        let modalChecker = setInterval(() => {
+          if(this.state.modalStatus === false){
+            return modalShower()
+          }
+              // // Check if this is the last one in the modal script
+              // if(text < this.state.modalTextScript.length ){
+              //   return [console.log(text + 1),
+              //   this.handleSubmittedTextModal(text + 1),
+                
+              //   ]
+              // } else{
+              //   return clearInterval(modalChecker)
+              // }
+          // } 
+          }, 1000);
+
+
+          let modalShower = () =>{
+            // Stop our timer that waits for user to hit enter
+            clearInterval(modalChecker)
+            console.log('modal status is ' + this.state.modalStatus)
+            console.log(this.state.modalTextScript[text])
+  
+            // Show the modal
+            this.setState({
+              modalClickToClose:true,
+              modalText: this.state.modalTextScript[text].modalText,
+              modalStatus: true,
+              pausedgame:true,
+              // modalWidth:400,
+              // modalTop:250
+            })
+
+            if(text + 1 < this.state.modalTextScript.length ){
+              console.log(text)
+              console.log(this.state.modalTextScript.length)
+              console.log(text + 1)
+              this.handleSubmittedTextModal(text + 1)
+            }
+
+          }
 
     }
-
-
   }
 
 
