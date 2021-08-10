@@ -175,34 +175,34 @@ export default class Screen extends Component {
       // Is it on the screen?  Set state to account for this.
       // this.props.takeObjectOffScreen(trimmedGet)
 
-      // return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
+      return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
    
-      const getTest = [
-        {
-          modalText: "Player! is picking up a thing",
-          modalTextSlot2: "",
-          modalTextSlot3: "",
-          modalTextSlot4: "",
-          modalWidth:400,
-          modalTop:250
-      },
-      {
-        modalText: "It's an amazing thing",
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-        modalTextSlot4: "",
-        modalWidth:430,
-        modalTop:250
-      },
-      {
-        modalText: "So amazing we need a third dialog box!",
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-        modalTextSlot4: "",
-        modalWidth:430,
-        modalTop:230
-      },]
-      return this.props.handleSubmittedTextModal(getTest)
+      // const getTest = [
+      //   {
+      //     modalText: "This adventure has been one challenge after another.  Finding this taco has been the culmination of months of question.  You pick it up.",
+      //     modalTextSlot2: "",
+      //     modalTextSlot3: "",
+      //     modalTextSlot4: "",
+      //     modalWidth:400,
+      //     modalTop:250
+      // },
+      // {
+      //   modalText: "You quickly regret this decision. It's a hard-shell taco and it crumbles to chip shards immediately.",
+      //   modalTextSlot2: "",
+      //   modalTextSlot3: "",
+      //   modalTextSlot4: "",
+      //   modalWidth:430,
+      //   modalTop:250
+      // },
+      // {
+      //   modalText: "And yet, you've committed to the quest and will cary this taco in your inventory.",
+      //   modalTextSlot2: "",
+      //   modalTextSlot3: "",
+      //   modalTextSlot4: "",
+      //   modalWidth:430,
+      //   modalTop:230
+      // },]
+      // return this.props.handleSubmittedTextModal(getTest)
    
      }
 

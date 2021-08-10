@@ -8,9 +8,9 @@ import MainMenuBar from './MainMenuBar'
 
 
 // Movement workers
-  // They live outside the src directory because
-  // Create-React-App tries to merge them and they
-  // need to remain seperate files
+// They live outside the src directory because
+// Create-React-App tries to merge them and they
+// need to remain seperate files
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
 
@@ -23,51 +23,51 @@ export default class App extends Component {
     this.state = {
 
       // Modal
-      modalTextScript:[],
-      modalClickToClose:true,
+      modalTextScript: [],
+      modalClickToClose: true,
       modalStatus: false,
       modalText: "Modal content is here!",
       modalTextSlot2: "",
       modalTextSlot3: "",
       modalTextSlot4: "",
-      modalButtonText1:"",
-      modalButtonText2:"",
+      modalButtonText1: "",
+      modalButtonText2: "",
 
       // Hero stuff
-      heroAlive:true,
-      heroLastDirection:"",
+      heroAlive: true,
+      heroLastDirection: "",
       heroDirection: "ArrowRight",
       heroMoving: "stopped",
       heroPositionX: 75,
       heroPositionY: 75,
-      heroPositionCollided:false,
+      heroPositionCollided: false,
       heroMovementDisance: 5,
       heroMovementUpdateSpeed: 105,
       heroHeight: 0,
       heroWidth: 0,
-      heroSprite:"",
-      
+      heroSprite: "",
+
       // Score!
-      highScore:100,
-      currentScore:0,
+      highScore: 100,
+      currentScore: 0,
 
       // Room stuff
-      roomCurrent:"",
-      roomPrevious:"",
-      roomCurrentObjects:"",
-      roomVisibleInventory:"",
-      roomNearbyInventoryItems:[],
+      roomCurrent: "",
+      roomPrevious: "",
+      roomCurrentObjects: "",
+      roomVisibleInventory: "",
+      roomNearbyInventoryItems: [],
 
       // Game state stuff
-      gameLogic:"",
+      gameLogic: "",
       playfieldX: 0,
       playfieldY: 0,
       pausedgame: false,
       soundStatus: "On",
       textParserValue: "",
       submittedText: "",
-      helpText:"Help! I need somebody. Not just anybody!",
-      flags:[],
+      helpText: "Help! I need somebody. Not just anybody!",
+      flags: [],
       inventoryVisable: false
     };
 
@@ -76,8 +76,14 @@ export default class App extends Component {
   }
 
   // Accepts a bunch of state changes from child components and updates parent component
-  updateAppComponentState = (passedState) =>{
-    this.setState(passedState)
+  updateAppComponentState = (passedState) => {
+    
+    if(passedState.modalTextScript.length > 0){
+      this.setState(passedState)
+      this.handleSubmittedTextModal(this.state.modalTextScript)
+    } else{
+      this.setState(passedState)
+    }
   }
 
 
@@ -101,36 +107,35 @@ export default class App extends Component {
   }
 
   hideModal = () => {
-    if(this.state.modalClickToClose === true){
+    if (this.state.modalClickToClose === true) {
       this.setState({
-        modalClickToClose:true,
+        modalClickToClose: true,
         modalStatus: false,
         modalTextSlot2: "",
         modalTextSlot3: "",
         modalTextSlot4: "",
       });
-    } else{
+    } else {
       console.log('Clicking the modal does nothing here')
     }
     this.setState({ pausedgame: false });
   };
-  
-  modalButtonClick1 = (event) =>{
-    if(this.state.modalButtonText1 === "Restart"){
+
+  modalButtonClick1 = (event) => {
+    if (this.state.modalButtonText1 === "Restart") {
       alert("GAME RESTART")
     }
   }
 
-  modalButtonClick2 = (event) =>{
-    if(this.state.modalButtonText1 === "Restart"){
-     // alert('CANCEL')
+  modalButtonClick2 = (event) => {
+    if (this.state.modalButtonText1 === "Restart") {
+      // alert('CANCEL')
     }
   }
 
 
-
   // When parser submits, text is stored in State and input field cleared
-  textPopulateStateAndClearParser = (event) =>{
+  textPopulateStateAndClearParser = (event) => {
     this.setState({
       submittedText: event.target.elements[0].value,
       textParserValue: ""
@@ -147,97 +152,75 @@ export default class App extends Component {
   }
 
   // Handles text display - and usually opens a modal
-  handleSubmittedTextModal = async (text) => {
+  // The type of passed data determines the results.
+  handleSubmittedTextModal = (passedText) => {
 
-    // If a string is passed, we're just here to modal. 
-    // Show it, wait for the enter key event, and be done.
-    if(typeof text === "string"){
-        return [
+    this.haltHero();
+
+    if (typeof passedText === "string") {
+      return [
+        this.setState({
+          modalClickToClose: true,
+          modalText: passedText,
+          modalStatus: true,
+          pausedgame: true
+        })]
+    }
+
+    if (typeof passedText === "object") {
+      return [
+        // First update the state with the passed object.
+        this.setState({ modalTextScript: passedText }),
+
+        // Show the first modal immediately (otherwise you incur a delay on the timer)
+        this.setState({
+          modalClickToClose: true,
+          modalText: passedText[0].modalText,
+          modalStatus: true,
+          pausedgame: true,
+          // modalWidth:400,
+          // modalTop:250
+        }),
+
+        // Call the next one!
+        this.handleSubmittedTextModal(1)
+      ]
+    }
+
+    if (typeof passedText === "number") {
+
+      // These need to be declared up front to
+      // prevent es-lint errors
+      let modalChecker, modalShower;
+      
+      return [
+        // Check to detect the state of the modal. If it's closed, we can open the next modal! 
+        modalChecker = setInterval(() => {
+          if (this.state.modalStatus === false) {
+            return modalShower();
+          }
+        }, 200),
+
+
+        modalShower = () => {
+          // Stop our timer that waits for user to hit enter
+          clearInterval(modalChecker)
+
+          // Show the modal
           this.setState({
-            modalClickToClose:true,
-            modalText: text,
+            modalClickToClose: true,
+            modalText: this.state.modalTextScript[passedText].modalText,
             modalStatus: true,
-            pausedgame:true
-          }),
-          this.haltHero()]
-      }
-
-
-      // If it's object that's passed, we'll update state with it, show 
-      // the first one, then start the cycle to show the 
-      // by recursively calling this function with the next number
-      if(typeof text === "object"){
-        const scriptLines = text.length;
-        return [
-          console.log('We are passing ' + scriptLines + ' items to state!'), 
-          // When the object initally passes through, set it in state. 
-          // We'll call the other lines recursively later
-          this.setState({modalTextScript:text}),
-
-          // Show the first item
-          this.setState({
-            modalClickToClose:true,
-            modalText: text[0].modalText,
-            modalStatus: true,
-            pausedgame:true,
+            pausedgame: true,
             // modalWidth:400,
             // modalTop:250
-          }),
-          this.haltHero(),
+          })
 
-          // Call the next one!
-          this.handleSubmittedTextModal(1)
-        ]
-      }
-
-      // Set timeout to check if modalstatus is false yet.  If false, loop to the next.  Also check if "last item" is passed
-
-    if(typeof text === "number"){
-      
-      console.log('Loading text box ' + text + ' , plus 1 since JS starts at zero')    
-      
-      // Check to detect the state of the modal. If it's closed, we can open the next modal! 
-        let modalChecker = setInterval(() => {
-          if(this.state.modalStatus === false){
-            return modalShower()
+          if (passedText + 1 < this.state.modalTextScript.length) {
+            this.handleSubmittedTextModal(passedText + 1)
           }
-              // // Check if this is the last one in the modal script
-              // if(text < this.state.modalTextScript.length ){
-              //   return [console.log(text + 1),
-              //   this.handleSubmittedTextModal(text + 1),
-                
-              //   ]
-              // } else{
-              //   return clearInterval(modalChecker)
-              // }
-          // } 
-          }, 1000);
-
-
-          let modalShower = () =>{
-            // Stop our timer that waits for user to hit enter
-            clearInterval(modalChecker)
-            console.log('modal status is ' + this.state.modalStatus)
-            console.log(this.state.modalTextScript[text])
-  
-            // Show the modal
-            this.setState({
-              modalClickToClose:true,
-              modalText: this.state.modalTextScript[text].modalText,
-              modalStatus: true,
-              pausedgame:true,
-              // modalWidth:400,
-              // modalTop:250
-            })
-
-            if(text + 1 < this.state.modalTextScript.length ){
-              console.log(text)
-              console.log(this.state.modalTextScript.length)
-              console.log(text + 1)
-              this.handleSubmittedTextModal(text + 1)
-            }
-
-          }
+        }
+    ]
 
     }
   }
@@ -246,164 +229,11 @@ export default class App extends Component {
 
 
 
-  // Should display, halt the hero, allow enter press, listen for enter press, repeat
-
-    textModalCycle = async () => {
-
-      for (let i = 0; i < this.state.modalTextScript.length; i++) {
-        console.log(this.state.modalTextScript[i])
-        
-        await this.handleSubmittedTextModal(this.state.modalTextScript[i].modalText).then(() => {
-          console.log()
-        })
- 
-      }
-
-
-      // // for (let txt of this.state.modalTextScript ) {
-      // //   console.log(txt)
-      // //   await this.handleSubmittedTextModal(txt.modalText);
-        
-      // // }]
-
-      // function showText(){
-      //   setTimeout(() => {
-      //     console.log("The Then" )
-      //   }, 2000);
-      // }
-
-      // for (let i = 0; i < this.state.modalTextScript.length; i++) {
-      //   console.log(this.state.modalTextScript[i])
-      //  // await this.handleSubmittedTextModal(this.state.modalTextScript[i].modalText);
-
-      //   await showText()
-      // }
-
-      // const loopTexts = async () => {
-      //   await this.handleSubmittedTextModal("ONE").then(()   => {
-  
-
-      //     setTimeout(() => {
-      //       console.log("The Then")
-      //     }, 2000);
-
-
-      //   });
-      //   await this.handleSubmittedTextModal("TWOOO");
-      //   await this.handleSubmittedTextModal("THREEEEE");
-      // }
-
-
-      // loopTexts();
-      /* example 
-
-
-    (anonymous) @ ga.js:44
-     // Define custom promise function
-
-      function timeoutPromise(interval) {
-        return new Promise((resolve, reject) => {
-          setTimeout(function(){
-            resolve("done");
-          }, interval);
-        });
-      };
-
-      async function timeTest() {
-        await timeoutPromise(10);
-           alert('1')
-        await timeoutPromise(20);
-                alert('2')
-        await timeoutPromise(300);
-                alert('3')
-      }
-
-      let startTime = Date.now();
-      timeTest().then(() => {
-        let finishTime = Date.now();
-        let timeTaken = finishTime - startTime;
-        alert("Time taken in milliseconds: " + timeTaken);
-      })
-
-      */
-
-      // Should support passing an object, or a string.
-
-      // String is kicked up to handleSubmittedTextModal(text), and this funciton is done
-
-      // If it's an object, we need to
-
-        // create a counter based on the object length
-
-        // add an event listener
-
-        // show the first object
-
-        // 
-
-        
-
-
-      // this.setState({
-      //   modalTextScriptCount:
-      // })
-
-      // this.haltHero()
-
-      // // control the loop externally.  recursive function that keeps calling itself?
-      // console.log(this.state.modalTextScript)
-      // console.log(this.state.modalTextScript.length)
-
-      // // add event listner on enter key for modal
-
-      // this.state.modalTextScript.map(s => {
-      //   return (
-      //     console.log(s),
-      //     this.setState({
-      //       pausedgame:true,
-      //       modalClickToClose:true,
-      //       modalText: s.modalText,
-      //       modalStatus: "modal display-block",
-      //     })
-      //     )
-      // })
-
-      
-
-        // which'll then call this.hideModal()
-
-        // this.setSTate the text:
-
-        // this.setState({
-        //   modalClickToClose:true,
-        //   modalText: text,
-        //   modalTextSlot2: "",
-        //   modalTextSlot3: "",
-        //   modalTextSlot4: "",
-        //   modalStatus: "modal display-block",
-        // })
-
-      // remove the even listner
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
 
   // Score!
-  updateScore = (points) =>{
+  updateScore = (points) => {
     let newScore = this.state.currentScore + points
-    this.state({ currentScore:newScore })
+    this.state({ currentScore: newScore })
   }
 
 
@@ -418,12 +248,12 @@ export default class App extends Component {
     let newRoomInventory = [...this.state.roomVisibleInventory]
 
     // If the player doesn't have it already, add it:
-    if(newInventory[matchedItem].owned === false){
+    if (newInventory[matchedItem].owned === false) {
       newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
       newRoomInventory[matchedItem] = { ...newRoomInventory[matchedItem], owned: !newRoomInventory[matchedItem].owned }
 
       // Update state (and player's inventory screen) with new item
-      this.setState({ inventory: newInventory, roomVisibleInventory:newRoomInventory })
+      this.setState({ inventory: newInventory, roomVisibleInventory: newRoomInventory })
 
     }
   }
@@ -437,9 +267,9 @@ export default class App extends Component {
     // Change owned from false to true with setState
     let newInventory = [...this.state.inventory]
 
-    if(newInventory[matchedItem].owned === true){
+    if (newInventory[matchedItem].owned === true) {
       newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
-      
+
       // Update state (and player's inventory screen) with new item
       this.setState({ inventory: newInventory })
     }
@@ -504,43 +334,43 @@ export default class App extends Component {
     if (change !== "stop") {
 
       this.movementInterval = setInterval(() => {
-        
+
         // Post hero's chosen direction and current details to worker
         WorkerHandleHeroMovement.postMessage({
-          "direction": change, 
-          heroPositionX:this.state.heroPositionX,
-          heroPositionY:this.state.heroPositionY,
-          heroWidth:this.state.heroWidth,
-          heroHeight:this.state.heroHeight,        
-          heroDirection:this.state.heroDirection,
-          heroLastDirection:this.state.heroLastDirection,
-          heroPositionCollided:this.state.heroPositionCollided,
-          heroMoving:this.state.heroMoving,
+          "direction": change,
+          heroPositionX: this.state.heroPositionX,
+          heroPositionY: this.state.heroPositionY,
+          heroWidth: this.state.heroWidth,
+          heroHeight: this.state.heroHeight,
+          heroDirection: this.state.heroDirection,
+          heroLastDirection: this.state.heroLastDirection,
+          heroPositionCollided: this.state.heroPositionCollided,
+          heroMoving: this.state.heroMoving,
           heroMovementDisance: this.state.heroMovementDisance,
-          playfieldX:this.state.playfieldX,
-          playfieldY:this.state.playfieldY,
-          roomCurrentObjects:this.state.roomCurrentObjects,
-          roomExits:this.state.roomExits,
+          playfieldX: this.state.playfieldX,
+          playfieldY: this.state.playfieldY,
+          roomCurrentObjects: this.state.roomCurrentObjects,
+          roomExits: this.state.roomExits,
         });
 
-      // Check Hero's position against on-screen inventory items
-      WorkerHandleInventoryLocation.postMessage({
-        heroPositionX:this.state.heroPositionX,
-        heroPositionY:this.state.heroPositionY,
-        heroWidth:this.state.heroWidth,
-        heroHeight:this.state.heroHeight,        
-        roomVisibleInventory:this.state.roomVisibleInventory,
-      })
-       
+        // Check Hero's position against on-screen inventory items
+        WorkerHandleInventoryLocation.postMessage({
+          heroPositionX: this.state.heroPositionX,
+          heroPositionY: this.state.heroPositionY,
+          heroWidth: this.state.heroWidth,
+          heroHeight: this.state.heroHeight,
+          roomVisibleInventory: this.state.roomVisibleInventory,
+        })
+
 
       }, this.state.heroMovementUpdateSpeed)
     } else {
-      
+
       // This else is actually what stops the character.
       return clearInterval(this.movementInterval)
     }
   };
-  
+
 
 
   handleHeroMovement(keypress) {
@@ -551,7 +381,7 @@ export default class App extends Component {
       // If hero is moving and a different movement direction is picked
       if (this.state.heroMoving === "moving" && this.state.heroDirection !== keypress) {
         // Change hero direction and keep hero moving
-        this.setState({heroLastDirection:this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
+        this.setState({ heroLastDirection: this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
         this.handleHeroPositioning("stop") // stop first
         this.handleHeroPositioning(keypress) // then go
       }
@@ -562,7 +392,7 @@ export default class App extends Component {
       // Otherwise, let the hero walk
       else {
         this.handleHeroPositioning(keypress)
-        this.setState({ heroLastDirection:this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
+        this.setState({ heroLastDirection: this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
       }
     }
   };
@@ -580,21 +410,21 @@ export default class App extends Component {
     document.addEventListener('keydown', function (event) {
 
       // Since "any key" can close the inventory screen, we start with that
-      if(self.state.inventoryVisable === true){
+      if (self.state.inventoryVisable === true) {
         return [
           event.preventDefault(),
           self.toggleInventoryScreen(event.key)
         ]
-      } 
+      }
 
       // Enter Key
-      else if(event.key === 'Enter'){
+      else if (event.key === 'Enter') {
         console.log('enter')
         console.log(self.state.modalStatus)
       }
 
       // This opens the inventory screen
-      else if(self.state.inventoryVisable === false && event.key === 'Tab'){
+      else if (self.state.inventoryVisable === false && event.key === 'Tab') {
         return [
           event.preventDefault(),
           self.toggleInventoryScreen(event.key)
@@ -611,16 +441,16 @@ export default class App extends Component {
 
       // Handle arrow keys for movement
       else if (
-        (self.state.inventoryVisable === false && self.state.pausedgame === false) && 
-        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) { 
-        return [       
+        (self.state.inventoryVisable === false && self.state.pausedgame === false) &&
+        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+        return [
           event.preventDefault(),
           self.handleHeroMovement(event.key)
         ]
       }
-       else{
-          // console.log("User types text");
-       }
+      else {
+        // console.log("User types text");
+      }
 
     }, false);
   }
@@ -629,39 +459,39 @@ export default class App extends Component {
 
   // Loads a room onto the screen
   loadRoom = (roomToLoad) => {
-    
+
     function isRoom(r) {
       return r.Room === roomToLoad;
     }
-    
+
     const nextRoom = this.state.rooms.find(isRoom);
 
     // Add exit position for right and bottom room exits
     // since we don't necessarily know the dimensions of
     // the game play area.
     for (let roomExit of nextRoom.roomExits) {
-      if(roomExit.exit === "right"){
-        roomExit.y = this.state.playfieldX -5
-      } else if(roomExit.exit === "bottom"){
-        roomExit.x = this.state.playfieldY -5
+      if (roomExit.exit === "right") {
+        roomExit.y = this.state.playfieldX - 5
+      } else if (roomExit.exit === "bottom") {
+        roomExit.x = this.state.playfieldY - 5
       }
     }
 
 
     // Set position of hero for travel from one room to the next
-    if(this.state.heroDirection === "ArrowUp"){
+    if (this.state.heroDirection === "ArrowUp") {
       this.setState({
-        heroPositionX: this.state.playfieldY - this.state.heroHeight -5,
+        heroPositionX: this.state.playfieldY - this.state.heroHeight - 5,
       })
-    } else if(this.state.heroDirection === "ArrowLeft"){
+    } else if (this.state.heroDirection === "ArrowLeft") {
       this.setState({
-        heroPositionY: this.state.playfieldX - this.state.heroWidth -5
+        heroPositionY: this.state.playfieldX - this.state.heroWidth - 5
       })
-    } else if(this.state.heroDirection === "ArrowRight"){
+    } else if (this.state.heroDirection === "ArrowRight") {
       this.setState({
         heroPositionY: 5,
       })
-    } else if(this.state.heroDirection === "ArrowDown"){
+    } else if (this.state.heroDirection === "ArrowDown") {
       this.setState({
         heroPositionX: 5,
       })
@@ -670,27 +500,27 @@ export default class App extends Component {
     // Add any inventory items that need to be displayed.
     // Should be ownable and not in inventory already
 
-    const roomInv = this.state.inventory.filter(inv => inv.FoundRoom === nextRoom.Room && inv.owned === false && inv.Visible === true );
+    const roomInv = this.state.inventory.filter(inv => inv.FoundRoom === nextRoom.Room && inv.owned === false && inv.Visible === true);
 
     // Set room stage
     this.setState({
-      roomCurrent:nextRoom.Room, 
-      roomCurrentObjects:nextRoom.displayObjects, 
-      roomCurrentName:nextRoom.Name,
-      roomExits:nextRoom.roomExits,
-      roomMessages:nextRoom.messages,
-      roomCurrentDescription:nextRoom.Description,
-      roomVisibleInventory:roomInv
+      roomCurrent: nextRoom.Room,
+      roomCurrentObjects: nextRoom.displayObjects,
+      roomCurrentName: nextRoom.Name,
+      roomExits: nextRoom.roomExits,
+      roomMessages: nextRoom.messages,
+      roomCurrentDescription: nextRoom.Description,
+      roomVisibleInventory: roomInv
     })
 
 
     // Execute any custom room logic as soon as the room loads
     // This might check a flag or read inventory status and change the look of the room.
     // It's technically a second state update.
-    
+
     // Only do this if gameLogic.js exists:
-    if (typeof self.roomChange === "function") { 
-      
+    if (typeof self.roomChange === "function") {
+
       // The new room and the application state are passed to gameLogic.js
       const roomFunc = self.roomChange(nextRoom.Room, this.state);
 
@@ -704,18 +534,18 @@ export default class App extends Component {
         ]
       */
 
-      if(roomFunc !== undefined && typeof roomFunc === 'object'){
-    
-         setTimeout(() => {
-            this.setState(roomFunc[1]);
+      if (roomFunc !== undefined && typeof roomFunc === 'object') {
 
-            // roomChange() array might pass back a halt to stop the player
-            if(roomFunc.indexOf('halt') !== -1){
-              this.haltHero()
-            }
+        setTimeout(() => {
+          this.setState(roomFunc[1]);
 
-         }, roomFunc[0])
-       }
+          // roomChange() array might pass back a halt to stop the player
+          if (roomFunc.indexOf('halt') !== -1) {
+            this.haltHero()
+          }
+
+        }, roomFunc[0])
+      }
 
     }
   }
@@ -737,27 +567,27 @@ export default class App extends Component {
 
 
 
-  componentDidMount() { 
+  componentDidMount() {
 
     // When the component mounts, start an event listener for web worker updates.
-    WorkerHandleHeroMovement.onmessage = (e) =>{
-      if(typeof e.data === "number"){
+    WorkerHandleHeroMovement.onmessage = (e) => {
+      if (typeof e.data === "number") {
         this.loadRoom(e.data);   // If a room number is returned, that means the hero has hit an exit wall
-      }else if(e.data === "halt"){
+      } else if (e.data === "halt") {
         this.haltHero();
-      } else if(e.data === "haltCollide"){
-        this.setState({heroPositionCollided:true})
+      } else if (e.data === "haltCollide") {
+        this.setState({ heroPositionCollided: true })
         this.haltHero();
-      }else{
+      } else {
         this.setState(e.data)
-      }   
+      }
     }
 
 
     // Web worker to handle the player's proximity to on screen inventory items
-    WorkerHandleInventoryLocation.onmessage = (e) =>{
-      if(this.state.roomNearbyInventoryItems !== e.data){
-        this.setState({roomNearbyInventoryItems:e.data})
+    WorkerHandleInventoryLocation.onmessage = (e) => {
+      if (this.state.roomNearbyInventoryItems !== e.data) {
+        this.setState({ roomNearbyInventoryItems: e.data })
       }
     }
 
@@ -778,13 +608,13 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
-     
+
         <InventoryScreen
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
 
 
-        <Modal 
+        <Modal
           gameWidth={this.state.playfieldX}
           hideModal={this.hideModal}
           modalClickToClose={this.state.modalClickToClose}
@@ -798,7 +628,7 @@ export default class App extends Component {
           modalButtonClick1={this.modalButtonClick1}
           modalButtonClick2={this.modalButtonClick2} />
 
-       
+
         <MainMenuBar
           currentScore={this.state.currentScore}
           highScore={this.state.highScore}
@@ -809,13 +639,13 @@ export default class App extends Component {
           gameTitle={this.state.title}
           handleDropDownMenuClick={this.handleDropDownMenuClick}
           menuActive={true} />
-       
-        <Screen    
+
+        <Screen
           // Game dimensions
           gameWidth={this.state.playfieldX}
           gameHeight={this.state.playfieldY}
           gameLogic={this.state.gameLogic}
-        
+
 
           // Room details
           roomCurrent={this.state.roomCurrent}
@@ -835,7 +665,7 @@ export default class App extends Component {
           heroHeight={this.state.heroHeight}
           heroWidth={this.state.heroWidth}
           heroSprite={this.state.heroSprite}
-          
+
           // Text parser details
           inventory={this.state.inventory}
           submittedText={this.state.submittedText}
@@ -845,8 +675,7 @@ export default class App extends Component {
           submitTextParser={this.submitTextParser}
           textParserChange={this.textParserChange}
           handleSubmittedTextModal={this.handleSubmittedTextModal}
-          textModalCycle={this.textModalCycle}
-          
+
           // Doing stuff
           handleFlagChange={this.handleFlagChange}
           helpText={this.state.helpText}
@@ -858,10 +687,10 @@ export default class App extends Component {
           togglePause={this.togglePause}
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound}
-          flags={this.state.flags} 
-          updateAppComponentState={this.updateAppComponentState} 
-          />
-        
+          flags={this.state.flags}
+          updateAppComponentState={this.updateAppComponentState}
+        />
+
 
 
         <br />
