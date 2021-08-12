@@ -32,9 +32,9 @@ aside {
   max-height: 80vh;
 
       /* min-height: 70vh; */
-  max-width: 70vw;
+  /* max-width: 70vw; */
   margin: 0 auto;
-  z-index: 100;
+  z-index: 101;
   position: absolute;
   left: 0;
   right: 0;

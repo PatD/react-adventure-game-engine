@@ -75,7 +75,9 @@ export default class Screen extends Component {
             this.props.haltHero()
           }
 
-          customTextCheck[3].customFunc()
+          if(customTextCheck[3] !== undefined){
+            customTextCheck[3].customFunc()
+          }
 
        }, customTextCheck[0])
 

@@ -38,9 +38,9 @@ function roomChange(roomNumber, state) {
 // And either an updated state is returned, or a way to 
 // run the built-in commands like look or get
 function customTextParser(textForParsing, props) {
-    console.log(textForParsing)
-    console.log(props)
-
+    // console.log(textForParsing)
+    // console.log(props)
+    console.log('Command passing through gameLogic.js')
 
     switch (textForParsing.join(' ')) {
         case 'get taco':
@@ -165,7 +165,6 @@ function customTalkSarah(props) {
     ]
 }
 
-
 function justDance(props) {
     return [
         5,
@@ -187,9 +186,21 @@ function justDance(props) {
 }
 
 function customEatTaco(props) {
+    
+    // Does the player have the item?
+    const hasTaco = props.inventory.find(p => p.Name === "Taco");
 
-
-    // should this return an array of arrays that get looped through, to simulate state change?
+    if (hasTaco.owned === false) {
+        return [
+            0,true,{
+                modalClickToClose: true,
+                modalText: "You would love a taco right now, but you don't have it..",
+                modalStatus: true,
+                pausedgame: true,
+            },
+        ]
+    } else {
+        // should this return an array of arrays that get looped through, to simulate state change?
     return [
         // First item is a number. The delay in ms before state change.
         0,
@@ -212,35 +223,56 @@ function customEatTaco(props) {
         }
 
     ]
+
+    }
 }
 
 function customGetTaco(props) {
-    return [
-        // First item is a number. The delay in ms before state change.
-        0,
 
-        // Second item is a halt command. Repalce with false if player shouldn't halt
-        true,
+    console.log(props)
+    // Get the status of the taco
+   // const hasTaco = props.inventory.find(p => p.Name === "Taco");
 
-        // third item is always state updates      
-        {
-            modalTextScript: [{
-                modalText: "Text string 1",
-            },
+    const tacoStatus = props.roomNearbyInventoryItems.indexOf('taco');
+    
+
+    if (tacoStatus < 0 ) {
+        console.log('notaco')
+        return false
+    } else {
+        console.log('hastaco')
+        return [
+            // First item is a number. The delay in ms before state change.
+            0,
+
+            // Second item is a halt command. Repalce with false if player shouldn't halt
+            true,
+
+            // third item is always state updates      
             {
-                modalText: "Text string 2"
-            }, {
-                modalText: "Text string 3"
+
+                // can we make an inventory state change here?
+
+                modalTextScript: [
+                {
+                    modalText: "Wait, you distinctly remember taking the taco before.",
+                },
+                {
+                    modalText: "Why would you try to get it again?"
+                },
+                {
+                    modalText: "Burrito. You'd rather have a burrito"
+                }
+                ]
+            },
+
+            {
+                customFunc: function () {
+                    //getHelp()
+
+                }
             }
-            ]
-        },
 
-        {
-            customFunc: function () {
-                //getHelp()
-
-            }
-        }
-
-    ]
+        ]
+    }
 }

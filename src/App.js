@@ -78,9 +78,13 @@ export default class App extends Component {
   // Accepts a bunch of state changes from child components and updates parent component
   updateAppComponentState = (passedState) => {
     
-    if(passedState.modalTextScript.length > 0){
+    // Sometimes gamelogic.js will pass an array of objects with multiple text boxes.  
+    // Load them into state and then start the modal text box function
+    if(passedState.modalTextScript !== undefined && passedState.modalTextScript.length > 0){
       this.setState(passedState)
       this.handleSubmittedTextModal(this.state.modalTextScript)
+    
+    // Otherwise, just update state
     } else{
       this.setState(passedState)
     }
