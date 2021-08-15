@@ -7,7 +7,7 @@ export default class Modal extends Component{
       <div 
         onClick={this.props.hideModal} 
         className={this.props.modalStatus ? "modal display-block": "modal display-none"}>
-        <section className="modal-main" style={{width:this.props.gameWidth - 60}}>
+        <section className="modal-main" style={{width:this.props.modalWidth, top:this.props.modalTop}}>
           <p>{this.props.modalText}</p>
           <p className={this.props.modalTextSlot2 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot2}</p>
           <p className={this.props.modalTextSlot3 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot3}</p>

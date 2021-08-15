@@ -7,6 +7,10 @@
     "highScore":245,
     "playfieldX":640,
     "playfieldY":420,
+    "modalWidthDefault":560,
+    "modalTopDefault":200,
+    "modalWidth":560,
+    "modalTop":200,
     "heroPositionX": 225,
     "heroPositionY": 250,
     "heroMovementDisance": 5,
@@ -252,6 +256,13 @@
                     "height": 5,
                     "x":"",
                     "y":100
+                },{
+                    "exit": "right",
+                    "goto": 5,
+                    "width": 50,
+                    "height": 300,
+                    "x":140,
+                    "y":""
                 }
             ],
             "displayObjects": [
@@ -266,6 +277,36 @@
                     "y": 30,
                     "zIndex": 2,
                     "bgcolor": "#EFEFEF"
+                }
+            ]
+        },
+        {
+            "Name": "Ted's Room",
+            "Description":"This is Ted's room.",
+            "Room": 5,
+            "starting":"left",
+            "roomExits": [
+                {
+                    "exit": "left",
+                    "goto": 4,
+                    "width": 2,
+                    "height": 300,
+                    "x":0,
+                    "y":""
+                }
+            ],
+            "displayObjects": [
+                {
+                    "id": "tedBlock",
+                    "Name": "ted block",
+                    "Description": "There's a Ted block here",
+                    "colide": true,
+                    "width": 90,
+                    "height": 175,
+                    "x": 240,
+                    "y": 50,
+                    "zIndex": 2,
+                    "bgcolor": "#FF0000"
                 }
             ]
         }

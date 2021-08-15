@@ -229,18 +229,15 @@ function customEatTaco(props) {
 
 function customGetTaco(props) {
 
-    console.log(props)
     // Get the status of the taco
-   // const hasTaco = props.inventory.find(p => p.Name === "Taco");
-
-    const tacoStatus = props.roomNearbyInventoryItems.indexOf('taco');
     
-
-    if (tacoStatus < 0 ) {
-        console.log('notaco')
+    // This tells us if the user is near the item in the game
+    const tacoStatus = props.roomNearbyInventoryItems.indexOf('taco');
+    const tacoHas = props.inventory.find(t => t.Name === "Taco")
+    
+    if (tacoHas.owned === false) {
         return false
     } else {
-        console.log('hastaco')
         return [
             // First item is a number. The delay in ms before state change.
             0,
@@ -250,18 +247,21 @@ function customGetTaco(props) {
 
             // third item is always state updates      
             {
-
-                // can we make an inventory state change here?
-
                 modalTextScript: [
                 {
                     modalText: "Wait, you distinctly remember taking the taco before.",
+                    modalWidth:600,
+                    modalTop:100
                 },
                 {
-                    modalText: "Why would you try to get it again?"
+                    modalText: "Why would you try to get it again?",
+                    modalWidth:300,
+                    modalTop:200,
                 },
                 {
-                    modalText: "Burrito. You'd rather have a burrito"
+                    modalText: "Burrito. You'd rather have a burrito",
+                    modalWidth:200,
+                    modalTop:350,
                 }
                 ]
             },

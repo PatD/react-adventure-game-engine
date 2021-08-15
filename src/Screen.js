@@ -130,9 +130,11 @@ export default class Screen extends Component {
   
     // Array without the word 'get'
     const trimmedGet = textForParsing.slice(1).join(' ')
+   /*
     console.log(trimmedGet)
     console.log(this.props.roomNearbyInventoryItems)
     console.log(this.props.roomNearbyInventoryItems.includes(trimmedGet))
+    */
 
     // Array of Inventory Items the hero already has
     const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === true);
@@ -178,34 +180,6 @@ export default class Screen extends Component {
       // this.props.takeObjectOffScreen(trimmedGet)
 
       return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
-   
-      // const getTest = [
-      //   {
-      //     modalText: "This adventure has been one challenge after another.  Finding this taco has been the culmination of months of question.  You pick it up.",
-      //     modalTextSlot2: "",
-      //     modalTextSlot3: "",
-      //     modalTextSlot4: "",
-      //     modalWidth:400,
-      //     modalTop:250
-      // },
-      // {
-      //   modalText: "You quickly regret this decision. It's a hard-shell taco and it crumbles to chip shards immediately.",
-      //   modalTextSlot2: "",
-      //   modalTextSlot3: "",
-      //   modalTextSlot4: "",
-      //   modalWidth:430,
-      //   modalTop:250
-      // },
-      // {
-      //   modalText: "And yet, you've committed to the quest and will cary this taco in your inventory.",
-      //   modalTextSlot2: "",
-      //   modalTextSlot3: "",
-      //   modalTextSlot4: "",
-      //   modalWidth:430,
-      //   modalTop:230
-      // },]
-      // return this.props.handleSubmittedTextModal(getTest)
-   
      }
 
     // If the user asks to get thing it never can.

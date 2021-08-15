@@ -14,8 +14,6 @@ import MainMenuBar from './MainMenuBar'
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
 
-
-
 export default class App extends Component {
   constructor() {
     super();
@@ -26,12 +24,16 @@ export default class App extends Component {
       modalTextScript: [],
       modalClickToClose: true,
       modalStatus: false,
-      modalText: "Modal content is here!",
+      modalText: "",
       modalTextSlot2: "",
       modalTextSlot3: "",
       modalTextSlot4: "",
       modalButtonText1: "",
       modalButtonText2: "",
+      modalWidthDefault:560,
+      modalTopDefault:200,
+      modalWidth:560,
+      modalTop:200,
 
       // Hero stuff
       heroAlive: true,
@@ -66,7 +68,7 @@ export default class App extends Component {
       soundStatus: "On",
       textParserValue: "",
       submittedText: "",
-      helpText: "Help! I need somebody. Not just anybody!",
+      helpText: "Default text for the game's help",
       flags: [],
       inventoryVisable: false
     };
@@ -159,22 +161,43 @@ export default class App extends Component {
   // The type of passed data determines the results.
   handleSubmittedTextModal = (passedText) => {
 
+    // Create a function scoped variable for the width and position
+    // from the top of the modal. Set it to the default each time at the
+    // start, it may get modified depending on type and passed data
+    let makeModalWidth = this.state.modalWidthDefault;
+    let makeModalTop = this.state.modalTopDefault;
+    
+
     this.haltHero();
 
+    // Accepts a quick bit of text
+    // No customization of width/top
     if (typeof passedText === "string") {
       return [
         this.setState({
           modalClickToClose: true,
           modalText: passedText,
           modalStatus: true,
-          pausedgame: true
+          pausedgame: true,
+          modalWidth:makeModalWidth,
+          modalTop:makeModalTop
         })]
     }
 
     if (typeof passedText === "object") {
+
+      // Smell for custom widths, heights
+      if(passedText[0].modalWidth !== 'undefined'){
+        makeModalWidth = passedText[0].modalWidth
+      }
+      if(passedText[0].modalTop !== 'undefined'){
+        makeModalTop = passedText[0].modalTop
+      }
+
       return [
         // First update the state with the passed object.
         this.setState({ modalTextScript: passedText }),
+
 
         // Show the first modal immediately (otherwise you incur a delay on the timer)
         this.setState({
@@ -182,8 +205,8 @@ export default class App extends Component {
           modalText: passedText[0].modalText,
           modalStatus: true,
           pausedgame: true,
-          // modalWidth:400,
-          // modalTop:250
+          modalWidth:makeModalWidth,
+          modalTop:makeModalTop
         }),
 
         // Call the next one!
@@ -196,6 +219,15 @@ export default class App extends Component {
       // These need to be declared up front to
       // prevent es-lint errors
       let modalChecker, modalShower;
+
+    
+      // Smell for custom widths, heights
+      if(this.state.modalTextScript[passedText].modalWidth !== 'undefined'){
+        makeModalWidth = this.state.modalTextScript[passedText].modalWidth
+      }
+      if(this.state.modalTextScript[passedText].modalTop !== 'undefined'){
+        makeModalTop = this.state.modalTextScript[passedText].modalTop
+      }
       
       return [
         // Check to detect the state of the modal. If it's closed, we can open the next modal! 
@@ -216,8 +248,8 @@ export default class App extends Component {
             modalText: this.state.modalTextScript[passedText].modalText,
             modalStatus: true,
             pausedgame: true,
-            // modalWidth:400,
-            // modalTop:250
+            modalWidth:makeModalWidth,
+            modalTop:makeModalTop
           })
 
           if (passedText + 1 < this.state.modalTextScript.length) {
@@ -239,7 +271,6 @@ export default class App extends Component {
     let newScore = this.state.currentScore + points
     this.state({ currentScore: newScore })
   }
-
 
   // Adds item to inventory
   addToInventory = (addItem) => {
@@ -301,7 +332,6 @@ export default class App extends Component {
   }
 
 
-
   // Show or hide Inventory Screen
   toggleInventoryScreen(key) {
     if (this.state.inventoryVisable === false) {
@@ -317,7 +347,6 @@ export default class App extends Component {
       });
     }
   }
-
 
 
   // Stop the hero in their tracks
@@ -422,10 +451,12 @@ export default class App extends Component {
       }
 
       // Enter Key
+     /*
       else if (event.key === 'Enter') {
         console.log('enter')
         console.log(self.state.modalStatus)
       }
+      */
 
       // This opens the inventory screen
       else if (self.state.inventoryVisable === false && event.key === 'Tab') {
@@ -556,8 +587,6 @@ export default class App extends Component {
 
 
 
-
-
   // When a game is loaded, update React State with game data
   loadGameFile = (game) => {
     console.info("App component loads " + game.title)
@@ -619,7 +648,8 @@ export default class App extends Component {
 
 
         <Modal
-          gameWidth={this.state.playfieldX}
+          modalWidth={this.state.modalWidth}
+          modalTop={this.state.modalTop}
           hideModal={this.hideModal}
           modalClickToClose={this.state.modalClickToClose}
           modalStatus={this.state.modalStatus}
