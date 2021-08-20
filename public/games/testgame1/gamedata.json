@@ -53,6 +53,19 @@
             ],
             "displayObjects": [
                 {
+                    "id": "npcSpaceMan",
+                    "NPC":true,
+                    "Name": "man",
+                    "Description": "You see a guy in a space-looking jump suit",
+                    "colide": true,
+                    "width": 28,
+                    "height": 66,
+                    "x": 150,
+                    "y": 530,
+                    "zIndex": 2
+              
+                },
+                {
                     "id": "white",
                     "Name": "white block",
                     "Description": "You see a white block in this room, it's amaing",

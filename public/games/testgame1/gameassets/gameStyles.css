@@ -15,6 +15,17 @@
 }
 
 
+#npcSpaceMan{
+    background-image:url('/games/testgame1/gameassets/gamesprite_npc.png');
+    /* background-size: contain; */
+    background-repeat: no-repeat;
+    background-position-x: 0px;
+    background-position-y: -66px;
+ 
+}
+
+
+
 #hero.dance{
     animation: dance 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }

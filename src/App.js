@@ -166,7 +166,6 @@ export default class App extends Component {
     // start, it may get modified depending on type and passed data
     let makeModalWidth = this.state.modalWidthDefault;
     let makeModalTop = this.state.modalTopDefault;
-    
 
     this.haltHero();
 
@@ -198,7 +197,6 @@ export default class App extends Component {
         // First update the state with the passed object.
         this.setState({ modalTextScript: passedText }),
 
-
         // Show the first modal immediately (otherwise you incur a delay on the timer)
         this.setState({
           modalClickToClose: true,
@@ -219,7 +217,6 @@ export default class App extends Component {
       // These need to be declared up front to
       // prevent es-lint errors
       let modalChecker, modalShower;
-
     
       // Smell for custom widths, heights
       if(this.state.modalTextScript[passedText].modalWidth !== 'undefined'){

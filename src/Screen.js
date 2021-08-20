@@ -100,6 +100,8 @@ export default class Screen extends Component {
   handleBuiltInText = (textForParsing) =>{
     if (textForParsing.includes('look')) { // ✔️
       this.verbLook(textForParsing)
+    } else if (textForParsing.includes('talk')){
+      this.verbTalk(textForParsing)
     } else if (textForParsing.includes('use')) {
       this.use(textForParsing)
     } else if (textForParsing.includes('help')) { // ✔️
@@ -189,7 +191,31 @@ export default class Screen extends Component {
   }
 
 
+  // Hero talks to another thing
+  verbTalk = (textForParsing) => {
+    console.log(textForParsing)
 
+    // Array of user input without the word 'talk'
+    const trimmedVerb = textForParsing.slice(1).join(' ')
+
+    // Array of Inventory Items the hero already has
+    const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedVerb && item.owned === true);
+    
+    // Array of Inventory Items the hero doesn't have
+    const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedVerb && item.owned === false);
+    
+    // Array of NPC Display Objects the hero could be glancing at
+    const npcDisplayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedVerb && item.NPC === true);
+   
+    console.log(npcDisplayObjectMatch)
+
+    // Check to see if the user just typed 'talk' or 'ask'  
+    if(JSON.stringify(textForParsing) === '["talk"]' || JSON.stringify(textForParsing) === '["ask"]' || JSON.stringify(textForParsing) === '["yell"]'){
+      return this.props.handleSubmittedTextModal("Who? Who are you talking to?")
+    }
+ 
+
+  }
 
 
   // Handles the player typing the word 'look'
