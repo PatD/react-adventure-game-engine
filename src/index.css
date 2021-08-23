@@ -110,7 +110,7 @@ header #gameTitle{
 }
 
 header{
-  cursor: url('/hand.png'),pointer;
+  cursor: url('/src/img/hand.png'),pointer;
 }
 
 
@@ -333,7 +333,7 @@ header #hoverblock.inactive{
   margin: 20px 30px 5px 0px;
   border: 4px solid #333;
   outline: none;
-  cursor: url(/hand.png),pointer;
+  cursor: url('/src/img/hand.png'),pointer;
 }
 
 .display-inlineblock {

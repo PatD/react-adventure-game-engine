@@ -107,7 +107,7 @@ export default class Screen extends Component {
     } else if (textForParsing.includes('help')) { // ✔️
       this.getHelp(textForParsing)
     } else if (textForParsing.includes('get') || textForParsing.includes('take') || textForParsing.includes('grab') ) { // ✔️
-      this.getObject(textForParsing)
+      this.verbGet(textForParsing)
     } else {
       this.handleUnsure() // ✔️
     }
@@ -128,15 +128,10 @@ export default class Screen extends Component {
 
 
   // Hero picks up an object.
-  getObject = (textForParsing) =>{
+  verbGet = (textForParsing) =>{
   
     // Array without the word 'get'
     const trimmedGet = textForParsing.slice(1).join(' ')
-   /*
-    console.log(trimmedGet)
-    console.log(this.props.roomNearbyInventoryItems)
-    console.log(this.props.roomNearbyInventoryItems.includes(trimmedGet))
-    */
 
     // Array of Inventory Items the hero already has
     const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === true);
@@ -204,13 +199,19 @@ export default class Screen extends Component {
     // Array of Inventory Items the hero doesn't have
     const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedVerb && item.owned === false);
     
-    // Array of NPC Display Objects the hero could be glancing at
-    const npcDisplayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedVerb && item.NPC === true);
+    // Array of Display Objects are in the room that match search term
+    const displayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedVerb);
    
+    // Array of NPC Display Objects are in the room
+    const npcDisplayObjectMatch = this.props.roomCurrentObjects.filter(item => item.NPC === true);
+   
+
+    console.log(this.props.roomCurrentObjects)
+    console.log(displayObjectMatch)
     console.log(npcDisplayObjectMatch)
 
-    // Check to see if the user just typed 'talk' or 'ask'  
-    if(JSON.stringify(textForParsing) === '["talk"]' || JSON.stringify(textForParsing) === '["ask"]' || JSON.stringify(textForParsing) === '["yell"]'){
+    // Check to see if the user just typed 'talk' or 'ask' and there's nobody around  
+    if(npcDisplayObjectMatch.length === 0){
       return this.props.handleSubmittedTextModal("Who? Who are you talking to?")
     }
  
