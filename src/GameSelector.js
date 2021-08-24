@@ -76,6 +76,7 @@ export default class GameSelector extends Component {
 
               // Apply custom styles
               if(result[0].CSS){
+                
                 const gameStyle = document.createElement('link');
                 document.head.appendChild(gameStyle);
                 gameStyle.setAttribute("rel","stylesheet")

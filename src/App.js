@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PreloadGameAssets from './PreloadGameAssets'
 import mainNavFunctions from './MainMenuHelpers';
 import Screen from './Screen';
 import Modal from './Modal'
@@ -257,9 +258,6 @@ export default class App extends Component {
 
     }
   }
-
-
-
 
 
 
@@ -722,10 +720,12 @@ export default class App extends Component {
           updateAppComponentState={this.updateAppComponentState}
         />
 
-
-
         <br />
         <GameSelector loadGameFile={this.loadGameFile} />
+
+
+        <PreloadGameAssets 
+          gameLogic={this.state.gameLogic} />
 
       </React.Fragment>
     );

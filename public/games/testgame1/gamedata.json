@@ -312,12 +312,12 @@
                 {
                     "id": "tedBlock",
                     "Name": "ted block",
-                    "Description": "There's a Ted block here",
+                    "Description": "There's a Ted block here. You stare at it, and it calls you derp.",
                     "colide": true,
                     "width": 90,
                     "height": 175,
                     "x": 240,
-                    "y": 50,
+                    "y": 300,
                     "zIndex": 2,
                     "bgcolor": "#FF0000"
                 }
@@ -340,14 +340,20 @@
         {
             "Name": "Suitcase",
             "owned": true,
-            "Description": "Some text describing this suitcase",
+            "Description": "This suitcase would be the perfect place to store a taco.",
             "FoundRoom":3
         },
         {
             "Name": "Bubblegum",
             "owned": false,
             "Description": "Chomp chomp chomp",
-            "FoundRoom":4
+            "FoundRoom":4,
+            "Visible":true,
+            "x":290,
+            "y":480,
+            "zIndex":5,
+            "width":60,
+            "height":40
         },
         {
             "Name": "Hat",
