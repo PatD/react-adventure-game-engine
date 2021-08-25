@@ -17,6 +17,13 @@
   image-rendering: pixelated;
 }
 
+.preloadimage img{
+  position: absolute;
+  top:-1000px;
+  width:1px;
+  height:1px;
+}
+
 /* Safari is weird about input fields */
 input{
   user-select: text;

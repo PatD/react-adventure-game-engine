@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
-export default class PreloadGameAssets extends Component {
+export class PreloadGameAssets extends Component {
     constructor() {
         super();
         this.state = {
-            gameAssetURLs:[]
+            gameAssetURLs: []
         };
     }
 
     // Extracts any images from CSS file and loads them into the browser for faster load times in game
     preloadGameAssets = () => {
-        
+
         let cssExtracts = [...document.styleSheets]
             .filter(sheet => {
                 try { return sheet.cssRules }
@@ -23,14 +23,14 @@ export default class PreloadGameAssets extends Component {
             .filter(rule => rule.style.backgroundImage.includes("url"))
             .reduce((urls, { style }) => {
                 if (style.backgroundImage.startsWith('url("data') === false) {
-                    let img = style.backgroundImage.replace('url("','')
-                    img = img.replace('")','')
+                    let img = style.backgroundImage.replace('url("', '')
+                    img = img.replace('")', '')
                     urls.push(img);
                 }
                 return urls;
             }, []);
 
-        this.setState({gameAssetURLs:cssExtracts})
+        this.setState({ gameAssetURLs: cssExtracts })
     }
 
 
@@ -43,9 +43,11 @@ export default class PreloadGameAssets extends Component {
 
     render() {
         return (
-        <React.Fragment>
-            {this.state.gameAssetURLs.map(asset => <img key={asset} src={asset} alt="" /> )} 
-        </React.Fragment>
+            <div className="preloadimage">
+                {this.state.gameAssetURLs.map(asset => <img key={asset} src={asset} alt="" />)}
+            </div>
         );
     }
-};
+}
+
+export default React.memo(PreloadGameAssets);
