@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Modal extends Component{
+export class Modal extends Component{
   // Support for four seprate line-broken slots in the dialog box  
   render(props){
     return (
@@ -21,4 +21,6 @@ export default class Modal extends Component{
       </div>
     );
   }
-};
+}
+
+export default React.memo(Modal);

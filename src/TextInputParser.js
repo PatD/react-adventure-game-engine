@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class TextInputParser extends Component {
+export class TextInputParser extends Component {
   
   // Focus the input field on load or change.  
   // Essentially, always be ready for text input
@@ -11,8 +11,6 @@ export default class TextInputParser extends Component {
   componentDidUpdate(prevProps) {
     this.searchInput.focus();
   }
-
-
 
   render(props) {
     return (
@@ -28,3 +26,5 @@ export default class TextInputParser extends Component {
     );
   }
 }
+
+export default React.memo(TextInputParser);

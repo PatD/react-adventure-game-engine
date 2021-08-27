@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class InventoryScreen extends Component {
+export class InventoryScreen extends Component {
   render(props) {
     
     // Create a variable to hold our inventory items
@@ -37,3 +37,5 @@ export default class InventoryScreen extends Component {
     )
   }
 }
+
+export default React.memo(InventoryScreen);
