@@ -5,15 +5,8 @@ import DisplayObjects from './DisplayObjects'
 import RoomExits from './RoomExits'
 
 
-export default class Screen extends Component {
-  constructor() {
-    super();
+export class Screen extends Component {
 
-  this.state = {
-    WorkerHandleGameLogic:""
-  }
-
-}
   // Fires when user hits Enter on text field
   submitTextParser = event => {
 
@@ -32,7 +25,6 @@ export default class Screen extends Component {
       this.props.hideModal()
     }
   }
-
 
   // Input text parsing
   handleTextParsing(event) {
@@ -95,7 +87,6 @@ export default class Screen extends Component {
  
   }
 
-
   // Build in verbs for all games
   handleBuiltInText = (textForParsing) =>{
     if (textForParsing.includes('look')) { // ✔️
@@ -113,13 +104,10 @@ export default class Screen extends Component {
     }
   }
 
-
-
   // For when we just don't have any idea what the person typed:
   handleUnsure = () => {
     return this.props.handleSubmittedTextModal("I don't understand what you typed. Try something else.")
   }
-
 
   // If the user begs for help
   getHelp = () =>{
@@ -338,3 +326,5 @@ export default class Screen extends Component {
       </React.Fragment>)
   }
 }
+
+export default React.memo(Screen);
