@@ -115,59 +115,48 @@ export class Screen extends Component {
   }
 
 
-  // Hero picks up an object.
+  // Handle hero getting a game item
+  // Returns a response back to props.handleSubmittedTextModal
   verbGet = (textForParsing) =>{
   
-    // Array without the word 'get'
+    // Array: Passed words without the word 'get'
     const trimmedGet = textForParsing.slice(1).join(' ')
 
-    // Array of Inventory Items the hero already has
+    // Array: Inventory Items the hero already has
     const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === true);
     
-    // Array of Inventory Items the hero doesn't have
+    // Array: Inventory Items the hero doesn't have
     const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === false);
     
 
-    // If they just type 'get'
-    let justGet = function () {
-      if (JSON.stringify(textForParsing) === '["get"]' || JSON.stringify(textForParsing) === '["take"]' || JSON.stringify(textForParsing) === '["grab"]') {
-        return true
-      } else {
-        return false
-      }
-    }
-
-    if (justGet() === true) {
+    // Result: Tell the user a message if they type just 'get' 
+    if (JSON.stringify(textForParsing) === '["get"]' || JSON.stringify(textForParsing) === '["take"]' || JSON.stringify(textForParsing) === '["grab"]') {
       return this.props.handleSubmittedTextModal("You'll need to be more specific than that.")
     }
 
-    // If the hero wants to get an item, doesn't own it, and it's in the game, but it isn't in this room:
+    // Result: If the hero wants to get an item, doesn't own it, and it's in the game, but it isn't in this room:
     else if (heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent !== heroInventoryNotOwnedMatch[0].FoundRoom) {
       return this.props.handleSubmittedTextModal("You can't get that here.")
     }
 
-    // Do we have it already?
+    // Result: Tell user they have it already
     else if(heroInventoryOwnedMatch.length === 1){
       return this.props.handleSubmittedTextModal("You already have the " + heroInventoryOwnedMatch[0].Name)
     }
 
-    // Hero isn't close enough to the item to get it
+    // Result: Tell here they aren't close enough to the item to get it
     else if(this.props.roomNearbyInventoryItems.includes(trimmedGet) === false && heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent === heroInventoryNotOwnedMatch[0].FoundRoom){
       return this.props.handleSubmittedTextModal("You need to be closer to the " + trimmedGet + ".")
     }
 
-    // If the hero wants to get an item, and it's in the game, and it's in the room!
+    // Result: If the hero wants to get an item, and it's in the game, and it's in the room!
     else if (this.props.roomNearbyInventoryItems.includes(trimmedGet) === true && heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent === heroInventoryNotOwnedMatch[0].FoundRoom) {
       // Update inventory state in app.js to repflect this.
       this.props.addToInventory(trimmedGet)
-
-      // Is it on the screen?  Set state to account for this.
-      // this.props.takeObjectOffScreen(trimmedGet)
-
       return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
      }
 
-    // If the user asks to get thing it never can.
+    // Error:  If the user asks to get thing it never can.
     else{
       return this.props.handleSubmittedTextModal("That's not something you can get in this game")
     }  
@@ -176,51 +165,77 @@ export class Screen extends Component {
 
   // Hero talks to another thing
   verbTalk = (textForParsing) => {
-    console.log(textForParsing)
 
-    // Array of user input without the word 'talk'
-    const trimmedVerb = textForParsing.slice(1).join(' ')
+    // Array: user input without the word 'talk'
+    const npcMatch = textForParsing.slice(1).join(' ')
+  
+    // Array: NPCs in the room
+    const npcDisplayObjectMatch = this.props.roomCurrentObjects.filter(item => item.NPC === true);   
 
-    // Array of Inventory Items the hero already has
-    const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedVerb && item.owned === true);
+    // Array: Names of of any NPCs in the room
+    const npcNames = []
+    npcDisplayObjectMatch.filter(item => npcNames.push(item.Name))
     
-    // Array of Inventory Items the hero doesn't have
-    const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedVerb && item.owned === false);
+    // Boolean: Does typed text match any NPC names?
     
-    // Array of Display Objects are in the room that match search term
-    const displayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedVerb);
-   
-    // Array of NPC Display Objects are in the room
-    const npcDisplayObjectMatch = this.props.roomCurrentObjects.filter(item => item.NPC === true);
-   
-
-    console.log(this.props.roomCurrentObjects)
-    console.log(displayObjectMatch)
-    console.log(npcDisplayObjectMatch)
-
-    // Check to see if the user just typed 'talk' or 'ask' and there's nobody around  
-    if(npcDisplayObjectMatch.length === 0){
-      return this.props.handleSubmittedTextModal("Who? Who are you talking to?")
-    }
  
+
+    // NPCs in the room?
+    if(npcDisplayObjectMatch.length === 0){
+      console.log('No NPCs in this room')
+    } else {
+      console.log('There are ' + npcDisplayObjectMatch.length + ' NPCs in this room.')
+      console.log(npcDisplayObjectMatch)
+      console.log(npcNames)
+    }
+
+
+
+    // Handle: User typed just 'talk' or 'ask' and there's nobody around  
+    if(npcNames.length === 0 && textForParsing.length === 1){
+      return this.props.handleSubmittedTextModal("You shout into the void, but no one hears you.")
+    }
+
+    // Handle: Talking when there's no one in the room at all, but user specified a thing
+    if(npcNames.length === 0 && textForParsing.length > 1 && npcMatch === false){
+      return this.props.handleSubmittedTextModal("You try your best to talk to the " + trimmedVerb + " but it's not alive." )
+    }
+
+    // Handle: User says 'talk' or 'ask' but there are mulitple NPCs.  
+    if(npcDisplayObjectMatch.length > 0 && textForParsing.length === 1){
+      return this.props.handleSubmittedTextModal("There's more than one person here. Who are you talking to?")
+    }
+
+    // If there's an NPC in the room who doesn't say much
+    if(npcDisplayObjectMatch.length> 0 && npcDisplayObjectMatch[0].NPCdefaultText === undefined){
+      return this.props.handleSubmittedTextModal("You start talking to the person, but it's clear they they're not going to say much")
+    }
+
+    // If the person being talked to has default text
+    if(npcDisplayObjectMatch.length === 1 || npcDisplayObjectMatch[0].NPCdefaultText !== undefined){
+      return this.props.handleSubmittedTextModal(npcDisplayObjectMatch[0].NPCdefaultText)
+    }
+
+  
+
 
   }
 
 
   // Handles the player typing the word 'look'
-  // Passes a response back to app.js handleSubmittedTextModal
+  // Returns a response back to props.handleSubmittedTextModal
   verbLook = (textForParsing) => {
 
-     // Array of user input without the word 'look'
+     // Array: User input without the word 'look'
      const trimmedLook = textForParsing.slice(1).join(' ')
 
-     // Array of Inventory Items the hero already has
+     // Array: Inventory Items the hero already has
      const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedLook && item.owned === true);
      
-     // Array of Inventory Items the hero doesn't have
+     // Array: Inventory Items the hero doesn't have
      const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedLook && item.owned === false);
      
-     // Array of Display Objects the hero could be glancing at
+     // Array: Current room's objects the hero could be near
      const displayObjectMatch = this.props.roomCurrentObjects.filter(item => item.Name.toLowerCase() === trimmedLook);
     
     // Check to see if the user just typed 'look' or 'look room' 

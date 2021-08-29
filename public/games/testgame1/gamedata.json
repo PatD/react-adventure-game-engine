@@ -55,6 +55,7 @@
                 {
                     "id": "npcSpaceMan",
                     "NPC":true,
+                    "NPCdefaultText":"Good morning. Myles is very sus for a cat!",
                     "Name": "man",
                     "Description": "You see a guy in a space-looking jump suit",
                     "colide": true,
@@ -62,6 +63,20 @@
                     "height": 66,
                     "x": 150,
                     "y": 530,
+                    "zIndex": 2
+              
+                },
+                {
+                    "id": "npcSpaceTwin",
+                    "NPC":true,
+                    "NPCdefaultText":"Good morning. I AM SPACE TWIN!",
+                    "Name": "twin",
+                    "Description": "You see a guy in a space-looking jump suit, a twin of the other gusy",
+                    "colide": true,
+                    "width": 28,
+                    "height": 66,
+                    "x": 350,
+                    "y": 230,
                     "zIndex": 2
               
                 },
@@ -90,16 +105,15 @@
                     "bgcolor": "#FF0000"
                 },
                 {
-                    "id": "greenBlock",
-                    "Name": "green block",
-                    "Description": "",
+                    "id": "grayBlock",
+                    "Name": "gray block",
+                    "Description": "This block is in 3-D!!!!",
                     "colide": true,
                     "width": 80,
-                    "height": 75,
+                    "height": 80,
                     "x": 40,
                     "y": 230,
-                    "zIndex": 0,
-                    "bgcolor": "green"
+                    "zIndex": 0
                 },
                 {
                     "id": "blueBlock",
@@ -318,8 +332,7 @@
                     "height": 175,
                     "x": 240,
                     "y": 300,
-                    "zIndex": 2,
-                    "bgcolor": "#FF0000"
+                    "zIndex": 2
                 }
             ]
         }
