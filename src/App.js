@@ -84,6 +84,7 @@ export default class App extends Component {
     // Sometimes gamelogic.js will pass an array of objects with multiple text boxes.  
     // Load them into state and then start the modal text box function
     if(passedState.modalTextScript !== undefined && passedState.modalTextScript.length > 0){
+
       this.setState(passedState)
       this.handleSubmittedTextModal(this.state.modalTextScript)
     
@@ -185,8 +186,8 @@ export default class App extends Component {
     }
 
     if (typeof passedText === "object") {
-
-      // Smell for custom widths, heights
+      console.log(passedText)
+      // Check if custom width or distance-from-top is passed
       if(passedText[0].modalWidth !== 'undefined'){
         makeModalWidth = passedText[0].modalWidth
       }
@@ -214,16 +215,17 @@ export default class App extends Component {
     }
 
     if (typeof passedText === "number") {
-
+      console.log("Not-first object ")
+      console.log(passedText)
       // These need to be declared up front to
       // prevent es-lint errors
       let modalChecker, modalShower;
     
       // Smell for custom widths, heights
-      if(this.state.modalTextScript[passedText].modalWidth !== 'undefined'){
+      if(this.state.modalTextScript[passedText] !==undefined && this.state.modalTextScript[passedText].modalWidth !== 'undefined'){
         makeModalWidth = this.state.modalTextScript[passedText].modalWidth
       }
-      if(this.state.modalTextScript[passedText].modalTop !== 'undefined'){
+      if(this.state.modalTextScript[passedText] !==undefined && this.state.modalTextScript[passedText].modalTop !== 'undefined'){
         makeModalTop = this.state.modalTextScript[passedText].modalTop
       }
       

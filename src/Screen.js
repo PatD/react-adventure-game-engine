@@ -166,8 +166,8 @@ export class Screen extends Component {
   // Hero talks to another thing
   verbTalk = (textForParsing) => {
 
-    // Array: user input without the word 'talk'
-    const npcMatch = textForParsing.slice(1).join(' ')
+    // String: user input without the word 'talk'
+    const trimmedVerb = textForParsing.slice(1).join(' ')
   
     // Array: NPCs in the room
     const npcDisplayObjectMatch = this.props.roomCurrentObjects.filter(item => item.NPC === true);   
@@ -176,49 +176,39 @@ export class Screen extends Component {
     const npcNames = []
     npcDisplayObjectMatch.filter(item => npcNames.push(item.Name))
     
-    // Boolean: Does typed text match any NPC names?
-    
+    // Object: NPC that matches passed verb
+    const matchNPCdefaultText = npcDisplayObjectMatch.find(npc => npc.Name === trimmedVerb)
  
-
-    // NPCs in the room?
-    if(npcDisplayObjectMatch.length === 0){
-      console.log('No NPCs in this room')
-    } else {
-      console.log('There are ' + npcDisplayObjectMatch.length + ' NPCs in this room.')
-      console.log(npcDisplayObjectMatch)
-      console.log(npcNames)
-    }
-
-
 
     // Handle: User typed just 'talk' or 'ask' and there's nobody around  
     if(npcNames.length === 0 && textForParsing.length === 1){
       return this.props.handleSubmittedTextModal("You shout into the void, but no one hears you.")
     }
 
-    // Handle: Talking when there's no one in the room at all, but user specified a thing
-    if(npcNames.length === 0 && textForParsing.length > 1 && npcMatch === false){
-      return this.props.handleSubmittedTextModal("You try your best to talk to the " + trimmedVerb + " but it's not alive." )
-    }
-
-    // Handle: User says 'talk' or 'ask' but there are mulitple NPCs.  
+    // Handle: User says only 'talk' or 'ask' but there are mulitple NPCs.  
     if(npcDisplayObjectMatch.length > 0 && textForParsing.length === 1){
       return this.props.handleSubmittedTextModal("There's more than one person here. Who are you talking to?")
     }
 
+    // Handle: Talking to a thing that isn't an NPC 
+    if(textForParsing.length > 1 && npcNames.includes(trimmedVerb) === false){
+      return this.props.handleSubmittedTextModal("You try your best to talk to the " + trimmedVerb + " but it's not alive." )
+    }
+
+    // Handle: Talking to an NPC with default text in gamedata.json
+    if(textForParsing.length > 1 && npcNames.includes(trimmedVerb) === true && matchNPCdefaultText.NPCdefaultText !== undefined){
+      return this.props.handleSubmittedTextModal(matchNPCdefaultText.NPCdefaultText)
+    }
+
     // If there's an NPC in the room who doesn't say much
-    if(npcDisplayObjectMatch.length> 0 && npcDisplayObjectMatch[0].NPCdefaultText === undefined){
-      return this.props.handleSubmittedTextModal("You start talking to the person, but it's clear they they're not going to say much")
+    if(textForParsing.length > 1 && npcNames.includes(trimmedVerb) === true && matchNPCdefaultText.NPCdefaultText === undefined){
+      return this.props.handleSubmittedTextModal("You try to talk, but they don't have much to say in response right now.")
     }
 
-    // If the person being talked to has default text
-    if(npcDisplayObjectMatch.length === 1 || npcDisplayObjectMatch[0].NPCdefaultText !== undefined){
-      return this.props.handleSubmittedTextModal(npcDisplayObjectMatch[0].NPCdefaultText)
+    // Handle Error
+    else {
+      return this.props.handleSubmittedTextModal("Sometimes it's more important to pay attention to what's not said.")
     }
-
-  
-
-
   }
 
 

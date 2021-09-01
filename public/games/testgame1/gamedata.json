@@ -69,8 +69,24 @@
                 {
                     "id": "npcSpaceTwin",
                     "NPC":true,
-                    "NPCdefaultText":"Good morning. I AM SPACE TWIN!",
                     "Name": "twin",
+                    "NPCdefaultText":[
+                        {
+                            "modalText": "TWIN, you distinctly remember taking the taco before.",
+                            "modalWidth":600,
+                            "modalTop":100
+                        },
+                        {
+                            "modalText": "Why would you try to get it again?",
+                            "modalWidth":300,
+                            "modalTop":200
+                        },
+                        {
+                            "modalText": "Burrito. You'd rather have a burrito",
+                            "modalWidth":200,
+                            "modalTop":350
+                        }
+                        ],
                     "Description": "You see a guy in a space-looking jump suit, a twin of the other gusy",
                     "colide": true,
                     "width": 28,

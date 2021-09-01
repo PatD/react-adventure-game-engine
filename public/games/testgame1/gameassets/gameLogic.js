@@ -64,6 +64,7 @@ function customTextParser(textForParsing, props) {
         // Not every text parse change needs a custom function:
         default: {
             // ... so customTextParser() returns false and the built-in text parser runs
+            console.log('No match in gamelogic.js, so passing back to run through game engine commands')
             return false
         }
     }

@@ -18,6 +18,7 @@ export class PreloadGameAssets extends Component {
             })
             .flatMap(sheet => Array.from(sheet.cssRules))
             .filter(rule => rule.style)
+            .filter(rule => rule.style.backgroundImage !== undefined) // Added this for Firefox
             .filter(rule => rule.style.backgroundImage !== '')
             .filter(rule => rule.style.backgroundImage !== 'initial')
             .filter(rule => rule.style.backgroundImage.includes("url"))
