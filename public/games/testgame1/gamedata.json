@@ -29,7 +29,7 @@
         },
         {
             "Name": "Hallway",
-            "Description": "You are in a hallway, you see blocks all around. There's not a lot else going on in here, TBH.",
+            "Description": "You're in the ship's cargo bay. There are a few storage crates, and two employees hard at work.",
             "Room": 2,
             "starting":"",
             "messages":["You see a coffee maker","There is no spoon","This proves fatal"],
@@ -55,7 +55,7 @@
                 {
                     "id": "npcSpaceMan",
                     "NPC":true,
-                    "NPCdefaultText":"Good morning. Myles is very sus for a cat!",
+                    "NPCdefaultText":"The nondescript spaceman nods at you, but doesn't look like he's in the mood for talking.",
                     "Name": "man",
                     "Description": "You see a guy in a space-looking jump suit",
                     "colide": true,
@@ -69,22 +69,22 @@
                 {
                     "id": "npcSpaceTwin",
                     "NPC":true,
-                    "Name": "twin",
+                    "Name": "other guy",
                     "NPCdefaultText":[
                         {
-                            "modalText": "TWIN, you distinctly remember taking the taco before.",
-                            "modalWidth":600,
-                            "modalTop":100
-                        },
-                        {
-                            "modalText": "Why would you try to get it again?",
-                            "modalWidth":300,
+                            "modalText": "Well HELLO fellow space enthusiast!",
+                            "modalWidth":500,
                             "modalTop":200
                         },
                         {
-                            "modalText": "Burrito. You'd rather have a burrito",
-                            "modalWidth":200,
-                            "modalTop":350
+                            "modalText": "Make no mistake, YOU have arrived at the right cargo bay for space action and adventure",
+                            "modalWidth":300,
+                            "modalTop":220
+                        },
+                        {
+                            "modalText": "Come back and find me when you have the keycard. That's what you'll need to go on your adventure!",
+                            "modalWidth":450,
+                            "modalTop":180
                         }
                         ],
                     "Description": "You see a guy in a space-looking jump suit, a twin of the other gusy",

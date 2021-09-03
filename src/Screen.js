@@ -26,6 +26,36 @@ export class Screen extends Component {
     }
   }
 
+
+  // Handles custom code from gamelogic.js, expects an object  
+  handleCustomReturnedCode(returnedCode){
+
+    // Handle score change
+    if(returnedCode.scoreChange !== undefined){
+      this.props.updateScore(returnedCode.scoreChange)
+    }
+
+    // Stop the hero if they're walking along
+    if(returnedCode.halt !== undefined && returnedCode.halt === true){
+      this.props.haltHero()
+    }
+
+    // Execute state changes!  
+    // This should be the default way to handle any custom code
+    if(returnedCode.newState !== undefined){
+      returnedCode.newState.forEach(stateChange => {
+        this.props.updateAppComponentState(stateChange);
+      })
+    }
+
+    // Code can pass some custom code back, but this isn't a great
+    // idea.  Game change should be managed through React state.
+    if(returnedCode.custFunc !== undefined){
+      returnedCode.custFunc()
+    }
+  }
+
+
   // Input text parsing
   handleTextParsing(event) {
 
@@ -59,6 +89,9 @@ export class Screen extends Component {
         return this.handleBuiltInText(textForParsing);
 
       } else {
+
+        return this.handleCustomReturnedCode(customTextCheck)
+
         setTimeout(() => {
           this.props.updateAppComponentState(customTextCheck[2]);
 
@@ -73,7 +106,12 @@ export class Screen extends Component {
 
        }, customTextCheck[0])
 
-        // Also run through existing text parser?
+      
+       
+
+
+
+
 
       }
 

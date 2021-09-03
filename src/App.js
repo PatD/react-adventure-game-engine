@@ -186,7 +186,7 @@ export default class App extends Component {
     }
 
     if (typeof passedText === "object") {
-      console.log(passedText)
+      
       // Check if custom width or distance-from-top is passed
       if(passedText[0].modalWidth !== 'undefined'){
         makeModalWidth = passedText[0].modalWidth
@@ -215,8 +215,7 @@ export default class App extends Component {
     }
 
     if (typeof passedText === "number") {
-      console.log("Not-first object ")
-      console.log(passedText)
+
       // These need to be declared up front to
       // prevent es-lint errors
       let modalChecker, modalShower;
@@ -266,7 +265,7 @@ export default class App extends Component {
   // Score!
   updateScore = (points) => {
     let newScore = this.state.currentScore + points
-    this.state({ currentScore: newScore })
+    this.setState({ currentScore: newScore })
   }
 
   // Adds item to inventory
@@ -708,6 +707,7 @@ export default class App extends Component {
           handleSubmittedTextModal={this.handleSubmittedTextModal}
 
           // Doing stuff
+          updateScore={this.updateScore}
           handleFlagChange={this.handleFlagChange}
           helpText={this.state.helpText}
           hideModal={this.hideModal}

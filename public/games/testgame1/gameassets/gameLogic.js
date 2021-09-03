@@ -167,22 +167,36 @@ function customTalkSarah(props) {
 }
 
 function justDance(props) {
-    return [
-        5,
-        true,
-        {
+    return {
+        // How long to wait before starting, in ms
+        "delay":5,
+        "stateDelay":50,
+        "scoreChange":3,
+        "flagSet":{
+            hasDanced:true
+        },
+        
+        // Halt
+        "halt":true,
+
+        // Array of state changegs
+        "newState":[{
             modalClickToClose: true,
             modalText: "You have been diagnosed with a fever.",
             modalTextSlot2: "DANCE FEVER!",
             modalStatus: true,
             pausedgame: true,
-        },
-        "halt",
-        {
+            },
+            {
+            modalClickToClose: true,
+            modalText: "You have been diagnosed with a fever!!!!.",
+            modalTextSlot2: "DANCE FEVER!",
+        }],
 
+        "custFunc":function(){
+            console.log("CUSTOM")
         }
-
-    ]
+    }
 
 }
 
