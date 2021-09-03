@@ -27,29 +27,35 @@ export class Screen extends Component {
   }
 
 
-  // Handles custom code from gamelogic.js, expects an object  
+  // Handles custom code from gamelogic.js, expects an object 
   handleCustomReturnedCode(returnedCode){
 
-    // Handle score change
+    // Flag changes - expects object
+    if(returnedCode.flagSet !== undefined){
+      this.props.handleFlagChange(returnedCode.flagSet)
+    }
+
+    // Score change - expects number
     if(returnedCode.scoreChange !== undefined){
       this.props.updateScore(returnedCode.scoreChange)
     }
 
-    // Stop the hero if they're walking along
+    // Stop walking hero
     if(returnedCode.halt !== undefined && returnedCode.halt === true){
       this.props.haltHero()
     }
 
-    // Execute state changes!  
-    // This should be the default way to handle any custom code
+    // Handle state changes in app.js
+    // Expects array of objects
+    // This should be the default way to handle any custom game code
     if(returnedCode.newState !== undefined){
       returnedCode.newState.forEach(stateChange => {
         this.props.updateAppComponentState(stateChange);
       })
     }
 
-    // Code can pass some custom code back, but this isn't a great
-    // idea.  Game change should be managed through React state.
+    // Code can pass some custom js code back, but this isn't a great
+    // idea. Game change should be managed through React state.
     if(returnedCode.custFunc !== undefined){
       returnedCode.custFunc()
     }
@@ -151,7 +157,6 @@ export class Screen extends Component {
   getHelp = () =>{
     return this.props.handleSubmittedTextModal(this.props.helpText)
   }
-
 
   // Handle hero getting a game item
   // Returns a response back to props.handleSubmittedTextModal

@@ -310,21 +310,14 @@ export default class App extends Component {
   // Adventure gamers complete puzzles and quests, and the game should acount for that, 
   // or conditionally change rooms based on a flag status. This function accepts a
   // flag number and changes it's boolean and updates it in state.
-  handleFlagChange = (flagNum) => {
+  handleFlagChange = (flagChange) => {
 
-    // Find the flag in state
-    const flagForTogglin = this.state.flags.map((item, index) => {
-      if (item.flag === flagNum) {
-        // If it's true, make it false, false make it true
-        item.value = item.value === true ? false : true;
-      }
-      return item;
-    });
+    let updateFlags = {
+      ...this.state.flags, // Existing Flags
+      ...flagChange        // New or updated flags
+    }
 
-    // Update state with new value for this flag
-    this.setState({ flags: flagForTogglin })
-
-    console.log("Just updated flag # " + flagNum)
+    this.setState({ flags: updateFlags })
   }
 
 
@@ -344,13 +337,11 @@ export default class App extends Component {
     }
   }
 
-
   // Stop the hero in their tracks
   haltHero = () => {
     this.handleHeroPositioning("stop")
     this.setState({ heroMoving: "stopped" })
   }
-
 
   // Taking input from keyboard controls, 
   // move hero around the screen and
@@ -642,7 +633,6 @@ export default class App extends Component {
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
 
-
         <Modal
           modalWidth={this.state.modalWidth}
           modalTop={this.state.modalTop}
@@ -675,7 +665,6 @@ export default class App extends Component {
           gameWidth={this.state.playfieldX}
           gameHeight={this.state.playfieldY}
           gameLogic={this.state.gameLogic}
-
 
           // Room details
           roomCurrent={this.state.roomCurrent}
@@ -724,7 +713,6 @@ export default class App extends Component {
 
         <br />
         <GameSelector loadGameFile={this.loadGameFile} />
-
 
         <PreloadGameAssets 
           gameLogic={this.state.gameLogic} />

@@ -167,13 +167,15 @@ function customTalkSarah(props) {
 }
 
 function justDance(props) {
+
     return {
         // How long to wait before starting, in ms
         "delay":5,
         "stateDelay":50,
         "scoreChange":3,
         "flagSet":{
-            hasDanced:true
+            "hasDanced":true,
+            "bananaPhone":true,
         },
         
         // Halt
