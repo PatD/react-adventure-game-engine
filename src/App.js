@@ -262,7 +262,7 @@ export default class App extends Component {
 
 
 
-  // Score!
+  // Update Player Score
   updateScore = (points) => {
     let newScore = this.state.currentScore + points
     this.setState({ currentScore: newScore })
@@ -319,7 +319,6 @@ export default class App extends Component {
 
     this.setState({ flags: updateFlags })
   }
-
 
   // Show or hide Inventory Screen
   toggleInventoryScreen(key) {

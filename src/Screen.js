@@ -26,41 +26,51 @@ export class Screen extends Component {
     }
   }
 
-
   // Handles custom code from gamelogic.js, expects an object 
   handleCustomReturnedCode(returnedCode){
 
-    // Flag changes - expects object
-    if(returnedCode.flagSet !== undefined){
-      this.props.handleFlagChange(returnedCode.flagSet)
+    // By default, don't delay anything...
+    let startDelay = 0
+    
+    // ...but the developer can pass a delay in the object and we'll use that.
+    if(returnedCode.delay !== undefined && typeof returnedCode.delay === 'number'){
+      startDelay = returnedCode.delay
     }
 
-    // Score change - expects number
-    if(returnedCode.scoreChange !== undefined){
-      this.props.updateScore(returnedCode.scoreChange)
-    }
 
-    // Stop walking hero
-    if(returnedCode.halt !== undefined && returnedCode.halt === true){
-      this.props.haltHero()
-    }
+    return setTimeout(() => {
+    
+      // Flag changes - expects object
+      if(returnedCode.flagSet !== undefined){
+        this.props.handleFlagChange(returnedCode.flagSet)
+      }
 
-    // Handle state changes in app.js
-    // Expects array of objects
-    // This should be the default way to handle any custom game code
-    if(returnedCode.newState !== undefined){
-      returnedCode.newState.forEach(stateChange => {
-        this.props.updateAppComponentState(stateChange);
-      })
-    }
+      // Score change - expects number
+      if(returnedCode.scoreChange !== undefined){
+        this.props.updateScore(returnedCode.scoreChange)
+      }
 
-    // Code can pass some custom js code back, but this isn't a great
-    // idea. Game change should be managed through React state.
-    if(returnedCode.custFunc !== undefined){
-      returnedCode.custFunc()
-    }
+      // Stop walking hero
+      if(returnedCode.halt !== undefined && returnedCode.halt === true){
+        this.props.haltHero()
+      }
+
+      // Handle state changes in app.js.  Expects array of objects
+      // This should be the default way to handle any custom game code
+      if(returnedCode.newState !== undefined){
+        for(let stateChange of returnedCode.newState){
+          this.props.updateAppComponentState(stateChange);
+        }
+      }
+
+      // Code can pass some custom js code back, but this isn't a great
+      // idea. Game change should be managed through React state.
+      if(returnedCode.custFunc !== undefined){
+        returnedCode.custFunc()
+      }
+  
+    }, startDelay)
   }
-
 
   // Input text parsing
   handleTextParsing(event) {
@@ -82,7 +92,7 @@ export class Screen extends Component {
 
 
 
-    // Check for custom per-game commands in  gameLogic.js first.    
+  // Check for custom per-game commands in  gameLogic.js first.    
 
     // Only do this if gameLogic.js exists:
     if (typeof self.customTextParser === "function") { 
@@ -95,40 +105,14 @@ export class Screen extends Component {
         return this.handleBuiltInText(textForParsing);
 
       } else {
-
+        // Otherwise run it through our custom-code handler which updates state
         return this.handleCustomReturnedCode(customTextCheck)
-
-        setTimeout(() => {
-          this.props.updateAppComponentState(customTextCheck[2]);
-
-          // roomChange() array might pass back a halt to stop the player
-          if(customTextCheck[1] === true){
-            this.props.haltHero()
-          }
-
-          if(customTextCheck[3] !== undefined){
-            customTextCheck[3].customFunc()
-          }
-
-       }, customTextCheck[0])
-
-      
-       
-
-
-
-
-
       }
-
     }
     else {
       // In case the developer hasn't included a custom game file, just run through the built-in:
       return this.handleBuiltInText(textForParsing)
     }
-   
-    
- 
   }
 
   // Build in verbs for all games
@@ -254,7 +238,6 @@ export class Screen extends Component {
     }
   }
 
-
   // Handles the player typing the word 'look'
   // Returns a response back to props.handleSubmittedTextModal
   verbLook = (textForParsing) => {
@@ -311,8 +294,6 @@ export class Screen extends Component {
       return this.props.handleSubmittedTextModal("That's not something you can look at in this game")
     }  
   }
-
-
 
   render(props) {
 

@@ -168,78 +168,93 @@ function customTalkSarah(props) {
 
 function justDance(props) {
 
-    return {
-        // How long to wait before starting, in ms
-        "delay":5,
-        "stateDelay":50,
-        "scoreChange":3,
-        "flagSet":{
-            "hasDanced":true,
-            "bananaPhone":true,
-        },
-        
-        // Halt
-        "halt":true,
+    // Has the player danced already?
+    if (props.flags.hasDanced !== true || props.flags.hasDanced === undefined) {
+        return {
+            // How long to wait before starting, in ms
+            "delay": 0, 
+            "stateChangeDelay":3000,
+            "scoreChange": 3,
+            "flagSet": {
+                "hasDanced": true,
+                "bananaPhone": true,
+            },
 
-        // Array of state changegs
-        "newState":[{
-            modalClickToClose: true,
-            modalText: "You have been diagnosed with a fever.",
-            modalTextSlot2: "DANCE FEVER!",
-            modalStatus: true,
-            pausedgame: true,
+            // Halt
+            "halt": true,
+
+            // Array of state changegs
+            "newState": [{
+                modalClickToClose: true,
+                modalText: "You have been diagnosed with a fever.",
+                modalTextSlot2: "DANCE FEVER!",
+                modalStatus: true,
+                pausedgame: true,
             },
             {
-            modalClickToClose: true,
-            modalText: "You have been diagnosed with a fever!!!!.",
-            modalTextSlot2: "DANCE FEVER!",
-        }],
+                modalTop:150
+            }],
 
-        "custFunc":function(){
-            console.log("CUSTOM")
+            "custFunc": function () {
+                console.log("CUSTOM")
+            }
+        }
+
+    } else {
+        return {
+            // Array of state changegs
+            "newState": [{
+                modalClickToClose: true,
+                modalText: "Dancing once is sufficient, thank you very much",
+                modalStatus: true,
+                pausedgame: true,
+            }]
         }
     }
 
 }
 
 function customEatTaco(props) {
-    
+
     // Does the player have the item?
     const hasTaco = props.inventory.find(p => p.Name === "Taco");
 
     if (hasTaco.owned === false) {
-        return [
-            0,true,{
+        return {
+            "newState": [{
                 modalClickToClose: true,
-                modalText: "You would love a taco right now, but you don't have it..",
+                modalText: "You would love a taco right now, but you don't have it.",
                 modalStatus: true,
                 pausedgame: true,
-            },
-        ]
+            }]
+        }
+        
     } else {
         // should this return an array of arrays that get looped through, to simulate state change?
-    return [
-        // First item is a number. The delay in ms before state change.
-        0,
+        return {
+            // How long to wait before starting, in ms
+            "delay": 0, 
+            "scoreChange": 1,
+            "flagSet": {
+                "tacoEaten": true,
+            },
 
-        // Second item is a halt command. Repalce with false if player shouldn't halt
-        true,
+            // Halt
+            "halt": true,
 
-        // third item is always state updates      
-        {
-            modalClickToClose: true,
-            modalText: "You decide to eat the taco, the smell was too delicous.",
-            modalStatus: true,
-            pausedgame: true,
-        },
+            // Array of state changegs
+            "newState": [{
+                modalClickToClose: true,
+                modalText: "You decide to eat the taco",
+                modalTextSlot2: "It was DELICOUS!",
+                modalStatus: true,
+                pausedgame: true,
+            }],
 
-        {
-            customFunc: function () {
-                //getHelp()
+            "custFunc": function () {
+                console.log("CUSTOM")
             }
         }
-
-    ]
 
     }
 }
@@ -247,11 +262,11 @@ function customEatTaco(props) {
 function customGetTaco(props) {
 
     // Get the status of the taco
-    
+
     // This tells us if the user is near the item in the game
     const tacoStatus = props.roomNearbyInventoryItems.indexOf('taco');
     const tacoHas = props.inventory.find(t => t.Name === "Taco")
-    
+
     if (tacoHas.owned === false) {
         return false
     } else {
@@ -265,21 +280,21 @@ function customGetTaco(props) {
             // third item is always state updates      
             {
                 modalTextScript: [
-                {
-                    modalText: "Wait, you distinctly remember taking the taco before.",
-                    modalWidth:600,
-                    modalTop:100
-                },
-                {
-                    modalText: "Why would you try to get it again?",
-                    modalWidth:300,
-                    modalTop:200,
-                },
-                {
-                    modalText: "Burrito. You'd rather have a burrito",
-                    modalWidth:200,
-                    modalTop:350,
-                }
+                    {
+                        modalText: "Wait, you distinctly remember taking the taco before.",
+                        modalWidth: 600,
+                        modalTop: 100
+                    },
+                    {
+                        modalText: "Why would you try to get it again?",
+                        modalWidth: 300,
+                        modalTop: 200,
+                    },
+                    {
+                        modalText: "Burrito. You'd rather have a burrito",
+                        modalWidth: 200,
+                        modalTop: 350,
+                    }
                 ]
             },
 
