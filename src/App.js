@@ -80,6 +80,8 @@ export default class App extends Component {
 
   // Accepts a bunch of state changes from child components and updates parent component
   updateAppComponentState = (passedState) => {
+
+    // console.log(passedState)
     
     // Sometimes gamelogic.js will pass an array of objects with multiple text boxes.  
     // Load them into state and then start the modal text box function
@@ -268,7 +270,7 @@ export default class App extends Component {
     this.setState({ currentScore: newScore })
   }
 
-  // Adds item to inventory
+  // Adds item to inventory - EXPECTS STRING
   addToInventory = (addItem) => {
 
     // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
@@ -289,21 +291,26 @@ export default class App extends Component {
     }
   }
 
-  // Remove item from inventory
+  // Remove item(s) from inventory - EXPECTS ARRAY
   removeFromInventory = (removeItem) => {
 
-    // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
-    const matchedItem = this.state.inventory.findIndex(item => item.Name.toLowerCase() === removeItem)
+    removeItem.forEach(item => { 
+        
+      // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
+      const matchedItem = this.state.inventory.findIndex(invItem => invItem.Name.toLowerCase() === item.toLowerCase())
+ 
+      // Create a copy of the current state's Inventory
+      let newInventory = [...this.state.inventory]
+      
+      // For the matching item, change owned status to false
+      newInventory[matchedItem].owned = false;
 
-    // Change owned from false to true with setState
-    let newInventory = [...this.state.inventory]
+      // And availability to false, so they can't immediately get it again
+      newInventory[matchedItem].available = false;
 
-    if (newInventory[matchedItem].owned === true) {
-      newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
-
-      // Update state (and player's inventory screen) with new item
+      // Update state with the new inventory
       this.setState({ inventory: newInventory })
-    }
+    })
   }
 
 

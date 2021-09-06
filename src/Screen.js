@@ -37,7 +37,6 @@ export class Screen extends Component {
       startDelay = returnedCode.delay
     }
 
-
     return setTimeout(() => {
     
       // Flag changes - expects object
@@ -45,12 +44,17 @@ export class Screen extends Component {
         this.props.handleFlagChange(returnedCode.flagSet)
       }
 
+      // Handle removing an existing items from inventory - expects array
+      if(returnedCode.removeItems !== undefined){
+        this.props.removeFromInventory(returnedCode.removeItems)
+      }
+
       // Score change - expects number
       if(returnedCode.scoreChange !== undefined){
         this.props.updateScore(returnedCode.scoreChange)
       }
 
-      // Stop walking hero
+      // Stop walking hero - expects boolean
       if(returnedCode.halt !== undefined && returnedCode.halt === true){
         this.props.haltHero()
       }
@@ -149,21 +153,38 @@ export class Screen extends Component {
     // Array: Passed words without the word 'get'
     const trimmedGet = textForParsing.slice(1).join(' ')
 
-    // Array: Inventory Items the hero already has
+    // Array of objs: Inventory Items the hero already has that matches this query
     const heroInventoryOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === true);
     
-    // Array: Inventory Items the hero doesn't have
+    // Array of objs: Inventory Items the hero doesn't have that matches this query
     const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === false);
     
+    /*
+      console.log("Match has:")
+      console.log(heroInventoryOwnedMatch[0])
+      console.log("Match doesn't have:")
+      console.log(heroInventoryNotOwnedMatch[0])
+      console.log("Availability")
+      console.log(heroInventoryNotOwnedMatch[0].available)
+    */
 
     // Result: Tell the user a message if they type just 'get' 
     if (JSON.stringify(textForParsing) === '["get"]' || JSON.stringify(textForParsing) === '["take"]' || JSON.stringify(textForParsing) === '["grab"]') {
       return this.props.handleSubmittedTextModal("You'll need to be more specific than that.")
     }
 
+    if(heroInventoryNotOwnedMatch[0].available !== undefined && heroInventoryNotOwnedMatch[0].available === false){
+      return this.props.handleSubmittedTextModal("You can't get the " + heroInventoryNotOwnedMatch[0].Name + " again.")
+    }
+
     // Result: If the hero wants to get an item, doesn't own it, and it's in the game, but it isn't in this room:
     else if (heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent !== heroInventoryNotOwnedMatch[0].FoundRoom) {
       return this.props.handleSubmittedTextModal("You can't get that here.")
+    }
+
+    // Result:  Tell player they can't have it again, after avaiability is set to false
+    else if(heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch[0].availability === false){
+      console.log("You already had it.")
     }
 
     // Result: Tell user they have it already
@@ -183,12 +204,11 @@ export class Screen extends Component {
       return this.props.handleSubmittedTextModal("You got the " +  heroInventoryNotOwnedMatch[0].Name + ".")
      }
 
-    // Error:  If the user asks to get thing it never can.
+    // Error: If the user asks to get thing it never can.
     else{
       return this.props.handleSubmittedTextModal("That's not something you can get in this game")
     }  
   }
-
 
   // Hero talks to another thing
   verbTalk = (textForParsing) => {

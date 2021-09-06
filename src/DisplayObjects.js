@@ -48,8 +48,8 @@ export default class DisplayObjects extends Component {
     // Also render any visible Inventory objects
     renderInventoryDisplayObjects() {
         // Create array of objects of that's any inventory item where 
-        // inventory:FoundRoom = roomCurrent and Visible:true
-        const roomInventory = this.props.inventory.filter(inv => inv.FoundRoom === this.props.roomCurrent && inv.Visible === true && inv.owned === false );
+        // inventory:FoundRoom = roomCurrent and Visible:true and available isn't false
+        const roomInventory = this.props.inventory.filter(inv => inv.FoundRoom === this.props.roomCurrent && inv.Visible === true && inv.owned === false && inv.available !== false );
 
         if (roomInventory.length > 0) {
             let invDispObs = roomInventory.map((d) => (

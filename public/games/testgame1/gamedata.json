@@ -293,6 +293,14 @@
             "starting":"right",
             "roomExits": [
                 {
+                    "exit": "top",
+                    "goto": 8,
+                    "width": 300,
+                    "height": 2,
+                    "x":"",
+                    "y":350
+                },
+                {
                     "exit": "bottom",
                     "goto": 2,
                     "width": 300,
@@ -349,6 +357,48 @@
                     "x": 240,
                     "y": 300,
                     "zIndex": 2
+                }
+            ]
+        },
+        {
+            "Name": "Sarah's Room - Employees only",
+            "Description":"This is the employee lounge, where hardworking space employees can come and chill out on their breaks.",
+            "Room": 8,
+            "starting":"bottom",
+            "roomExits": [
+                {
+                    "exit": "bottom",
+                    "goto": 4,
+                    "width": 200,
+                    "height": 2,
+                    "x":"",
+                    "y":350
+                }
+            ],
+            "displayObjects": [
+                {
+                    "id": "couch",
+                    "Name": "couch",
+                    "Description": "This is a couch! they are for sitting!",
+                    "colide": false,
+                    "width": 300,
+                    "height": 55,
+                    "x": 50,
+                    "y": 80,
+                    "zIndex": 2,
+                    "bgcolor":"#999"
+                },
+                {
+                    "id": "couchback",
+                    "Name": "couchback",
+                    "Description": "This is a couch! they are for sitting!",
+                    "colide": false,
+                    "width": 200,
+                    "height": 55,
+                    "x": 33,
+                    "y": 130,
+                    "zIndex": 2,
+                    "bgcolor":"#666"
                 }
             ]
         }

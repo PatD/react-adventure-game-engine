@@ -219,7 +219,7 @@ function customEatTaco(props) {
     // Does the player have the item?
     const hasTaco = props.inventory.find(p => p.Name === "Taco");
 
-    if (hasTaco.owned === false) {
+    if (hasTaco.owned === false && props.flags.tacoEaten === undefined) {
         return {
             "newState": [{
                 modalClickToClose: true,
@@ -228,9 +228,14 @@ function customEatTaco(props) {
                 pausedgame: true,
             }]
         }
-        
+
+    } else if(hasTaco.owned === false && props.flags.tacoEaten === true){
+        console.log("YOU HAVE ALREADY EATEN IT")
     } else {
         // should this return an array of arrays that get looped through, to simulate state change?
+       
+        console.log(props.inventory.find(p => p.Name === "Taco"))
+       
         return {
             // How long to wait before starting, in ms
             "delay": 0, 
@@ -238,6 +243,8 @@ function customEatTaco(props) {
             "flagSet": {
                 "tacoEaten": true,
             },
+            // Remove 
+            "removeItems":["Taco","Wallet"],
 
             // Halt
             "halt": true,
@@ -264,21 +271,26 @@ function customGetTaco(props) {
     // Get the status of the taco
 
     // This tells us if the user is near the item in the game
-    const tacoStatus = props.roomNearbyInventoryItems.indexOf('taco');
     const tacoHas = props.inventory.find(t => t.Name === "Taco")
 
-    if (tacoHas.owned === false) {
+    // If the player doesn't have the taco, use the game-engine taco message
+    if (tacoHas.owned === false || props.flags.hasSeenTacoMessage === true) {
         return false
     } else {
-        return [
-            // First item is a number. The delay in ms before state change.
-            0,
+        // If they already have the taco, one time show them a silly message
+        return {
+            "delay": 0, 
+            "scoreChange": 4,
+            "flagSet": {
+                "hasSeenTacoMessage": true,
+            },
 
-            // Second item is a halt command. Repalce with false if player shouldn't halt
-            true,
+            // Halt
+            "halt": true,
 
-            // third item is always state updates      
-            {
+            // Array of state changegs
+            "newState": [{
+                modalClickToClose: true,
                 modalTextScript: [
                     {
                         modalText: "Wait, you distinctly remember taking the taco before.",
@@ -295,16 +307,10 @@ function customGetTaco(props) {
                         modalWidth: 200,
                         modalTop: 350,
                     }
-                ]
-            },
-
-            {
-                customFunc: function () {
-                    //getHelp()
-
-                }
-            }
-
-        ]
+                ],
+                modalStatus: true,
+                pausedgame: true,
+            }],
+            }        
     }
 }
