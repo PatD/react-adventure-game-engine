@@ -407,6 +407,7 @@
         {
             "Name": "Taco",
             "owned": false,
+            "available":true,
             "Description": "You see a delicous taco and want nothing more than to eat it.",
             "FoundRoom":3,
             "Visible":true,
@@ -419,12 +420,14 @@
         {
             "Name": "Suitcase",
             "owned": true,
+            "available":true,
             "Description": "This suitcase would be the perfect place to store a taco.",
             "FoundRoom":3
         },
         {
             "Name": "Bubblegum",
             "owned": false,
+            "available":true,
             "Description": "Chomp chomp chomp",
             "FoundRoom":4,
             "Visible":true,
@@ -437,24 +440,28 @@
         {
             "Name": "Hat",
             "owned": false,
+            "available":true,
             "Description": "Some text",
             "FoundRoom":4
         },
         {
             "Name": "Keycard",
             "owned": true,
+            "available":true,
             "Description": "This keycard is about the size of a business card, and has instructions about returning it safely to it's rightful owner. You suspect it unlocks a door.",
             "FoundRoom":2
         },
         {
             "Name": "Phone",
             "owned": false,
+            "available":true,
             "Description": "Some text",
             "FoundRoom":2
         },
         {
             "Name": "Wallet",
             "owned": false,
+            "available":true,
             "Description": "Some text",
             "FoundRoom":10
         }

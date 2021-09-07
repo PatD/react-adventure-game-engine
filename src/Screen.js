@@ -159,6 +159,12 @@ export class Screen extends Component {
     // Array of objs: Inventory Items the hero doesn't have that matches this query
     const heroInventoryNotOwnedMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet && item.owned === false);
     
+    // Array of obs: Inventory item, regardless of ownership
+    const inventoryMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet);
+    
+    // True or false if item is not at all in any inventory
+    console.log(inventoryMatch)
+    
     /*
       console.log("Match has:")
       console.log(heroInventoryOwnedMatch[0])
@@ -173,18 +179,19 @@ export class Screen extends Component {
       return this.props.handleSubmittedTextModal("You'll need to be more specific than that.")
     }
 
-    if(heroInventoryNotOwnedMatch[0].available !== undefined && heroInventoryNotOwnedMatch[0].available === false){
-      return this.props.handleSubmittedTextModal("You can't get the " + heroInventoryNotOwnedMatch[0].Name + " again.")
+    // Result: Players asks to get a thing that doens't exist
+    else if(inventoryMatch.length === 0){
+      return this.props.handleSubmittedTextModal("You can't get that in this game.")
+    }
+
+    // Result: Tell the player nope, because the item is flagged us unavailable.
+    else if(inventoryMatch[0].available === false){
+      return this.props.handleSubmittedTextModal("Sorry, you can't get the " + heroInventoryNotOwnedMatch[0].Name + ".")
     }
 
     // Result: If the hero wants to get an item, doesn't own it, and it's in the game, but it isn't in this room:
     else if (heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch.length === 1 && this.props.roomCurrent !== heroInventoryNotOwnedMatch[0].FoundRoom) {
       return this.props.handleSubmittedTextModal("You can't get that here.")
-    }
-
-    // Result:  Tell player they can't have it again, after avaiability is set to false
-    else if(heroInventoryOwnedMatch.length === 0 && heroInventoryNotOwnedMatch[0].availability === false){
-      console.log("You already had it.")
     }
 
     // Result: Tell user they have it already

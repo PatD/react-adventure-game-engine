@@ -143,7 +143,6 @@ export default class App extends Component {
     }
   }
 
-
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) => {
     this.setState({
@@ -262,8 +261,6 @@ export default class App extends Component {
     }
   }
 
-
-
   // Update Player Score
   updateScore = (points) => {
     let newScore = this.state.currentScore + points
@@ -312,7 +309,6 @@ export default class App extends Component {
       this.setState({ inventory: newInventory })
     })
   }
-
 
   // Adventure gamers complete puzzles and quests, and the game should acount for that, 
   // or conditionally change rooms based on a flag status. This function accepts a

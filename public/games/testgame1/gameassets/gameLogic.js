@@ -221,6 +221,7 @@ function customEatTaco(props) {
 
     if (hasTaco.owned === false && props.flags.tacoEaten === undefined) {
         return {
+            "halt": true,
             "newState": [{
                 modalClickToClose: true,
                 modalText: "You would love a taco right now, but you don't have it.",
@@ -229,8 +230,16 @@ function customEatTaco(props) {
             }]
         }
 
-    } else if(hasTaco.owned === false && props.flags.tacoEaten === true){
-        console.log("YOU HAVE ALREADY EATEN IT")
+    } else if(hasTaco.owned === false && props.flags.tacoEaten === true && hasTaco.available === false){
+        return {
+            "halt": true,
+            "newState": [{
+                modalClickToClose: true,
+                modalText: "YOU ALREADY ATE IT",
+                modalStatus: true,
+                pausedgame: true,
+            }]
+        }
     } else {
         // should this return an array of arrays that get looped through, to simulate state change?
        
