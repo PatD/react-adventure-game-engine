@@ -79,37 +79,45 @@ export default class App extends Component {
   }
 
   // Accepts an array of objects for state updates from child components
-  updateAppComponentState = (passedState, sequence = 1) => {
+  updateAppComponentState = (passedState, sequence = 1, pause = 0) => {
 
-    // Execute the array of objects returned
-    console.log(passedState[sequence -1])
+    // Check and see if there's a delay on the state change
+    let statePause = pause;
 
-    if(passedState[sequence -1].modalTextScript !== undefined && passedState[sequence -1].modalTextScript.length > 0){
-      console.log('multiline script')
-      this.setState(passedState[sequence -1])
-      this.handleSubmittedTextModal(this.state.modalTextScript)
-    
-    // Otherwise, just update state
-    } else{
-      this.setState(passedState[sequence -1])
+    if(passedState[sequence -1].statePause !== undefined){
+      statePause = passedState[sequence -1].statePause;
     }
 
+    // Update state
+    return setTimeout(() => {
+
+      // if there's a multiple lined text script, set it in state first, then display it
+      if(passedState[sequence -1].modalTextScript !== undefined && passedState[sequence -1].modalTextScript.length > 0){
+        console.log('multiline script updated')
+        this.setState(passedState[sequence -1])
+        this.handleSubmittedTextModal(this.state.modalTextScript)
+      
+      // Otherwise, just update state
+      } else{
+        this.setState(passedState[sequence -1])
+      }
 
 
+      // Since we may need to execute multiple state changes, recursively, 
+      // we need to check and see if we're the last one in the array of objects
+      let sequenceLast = false;
 
-    // Since we may need to execute multiple state changes, recursively, 
-    // we need to check and see if we're the last one in the array of objects
-    let sequenceLast = false;
+      if(passedState.length === sequence){
+        console.log("This is the last item in the array of objects")
+        sequenceLast = true
+      }
+      
 
-    if(passedState.length === sequence){
-      console.log("This is the last item in the array of objects")
-      sequenceLast = true
-    }
-    
+      if(sequenceLast === false){
+        this.updateAppComponentState(passedState, sequence + 1)
+      }
 
-    if(sequenceLast === false){
-      this.updateAppComponentState(passedState, sequence + 1)
-    }
+    },statePause)
   }
 
 

@@ -224,10 +224,45 @@ function justDance(props) {
                 modalTextSlot2: "DANCE FEVER!",
                 modalStatus: true,
                 pausedgame: true,
+                heroDirection:"ArrowDown"
             },
             {
-                modalTop:150
-            }],
+                heroPositionX: props.heroPositionX - 5,
+                heroPositionY: props.heroPositionY - 5,
+                heroDirection:"ArrowUp",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 15,
+                heroPositionY: props.heroPositionY + 15,
+                heroDirection:"ArrowRight",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 25,
+                heroPositionY: props.heroPositionY + 25,
+                heroDirection:"ArrowLeft",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX - 5,
+                heroPositionY: props.heroPositionY - 5,
+                heroDirection:"ArrowUp",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 15,
+                heroPositionY: props.heroPositionY + 15,
+                heroDirection:"ArrowRight",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 25,
+                heroPositionY: props.heroPositionY + 25,
+                heroDirection:"ArrowLeft",
+                statePause:500
+            },
+        ],
 
             "custFunc": function () {
                 console.log("CUSTOM")

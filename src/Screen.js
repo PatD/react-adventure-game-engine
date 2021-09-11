@@ -62,10 +62,6 @@ export class Screen extends Component {
       // Handle state changes in app.js.  Expects array of objects
       // This should be the default way to handle any custom game code
       if(returnedCode.newState !== undefined){
-      //   for(let stateChange of returnedCode.newState){
-      //     this.props.updateAppComponentState(stateChange);
-      //   }
-        // this.props.updateAppComponentState(returnedCode.newState, returnedCode.newState.length );
         this.props.updateAppComponentState(returnedCode.newState);
       }
 
