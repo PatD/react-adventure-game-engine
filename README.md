@@ -4,6 +4,51 @@ Details to come.
 [![Netlify Status](https://api.netlify.com/api/v1/badges/987b18a9-7288-4088-b864-a99f1ffbaca9/deploy-status)](https://app.netlify.com/sites/react-adventure-game-engine/deploys)
 
 
+
+
+
+### An example custom function from gamelogic.js
+
+```javasscript
+return {
+  // How long to wait before starting, in ms
+  "delay": 0, 
+  "scoreChange": 1,
+  "flagSet": {
+      "tacoEaten": true,
+  },
+  
+  // Remove item from inventory
+  "removeItems":["Taco","Wallet"],
+
+  // Halt
+  "halt": true,
+
+  // Array of state changes
+  "newState": [{
+      modalClickToClose: true,
+      modalText: "You decide to eat the taco",
+      modalTextSlot2: "It was DELICOUS!",
+      modalStatus: true,
+      pausedgame: true,
+  }],
+
+  "custFunc": function () {
+      console.log("CUSTOM")
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
 ## Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

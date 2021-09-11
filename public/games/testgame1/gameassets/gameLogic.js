@@ -43,6 +43,9 @@ function customTextParser(textForParsing, props) {
     console.log('Command passing through gameLogic.js')
 
     switch (textForParsing.join(' ')) {
+        case 'party':{
+            return customParty(props)
+        }
         case 'get taco':
         case 'take taco': {
             return customGetTaco(props)
@@ -126,6 +129,36 @@ function roomChangeThree(state) {
 
 }
 
+/* Custom text parser functions */
+
+function customParty(props) {
+    return {
+        "delay": 2, 
+        "scoreChange": 34,
+        "flagSet": {
+            "partyAlltheTime": true,
+        },
+
+        // Halt
+        "halt": true,
+
+        // Array of state changegs
+        "newState": [{
+            modalClickToClose: true,
+            modalText: "Party rock is in the house tonight",
+            modalStatus: true,
+            pausedgame: true,
+            modalTop:150
+        },
+        {
+            modalClickToClose: true,
+            modalText: "Everybody just have a good time",
+            modalStatus: true,
+            pausedgame: true,
+            modalTop:300
+        }]
+    }
+}
 
 function customTalkTed(props) {
     return [
@@ -146,7 +179,6 @@ function customTalkTed(props) {
     ]
 }
 
-/* Custom text parser functions */
 function customTalkSarah(props) {
     return [
         0,
@@ -167,6 +199,8 @@ function customTalkSarah(props) {
 }
 
 function justDance(props) {
+
+    // Example of a custom command that also checks and sets a flag
 
     // Has the player danced already?
     if (props.flags.hasDanced !== true || props.flags.hasDanced === undefined) {

@@ -26,7 +26,7 @@ export class Screen extends Component {
     }
   }
 
-  // Handles custom code from gamelogic.js, expects an object 
+  // Handles custom code returned from gamelogic.js - Expects object 
   handleCustomReturnedCode(returnedCode){
 
     // By default, don't delay anything...
@@ -62,9 +62,11 @@ export class Screen extends Component {
       // Handle state changes in app.js.  Expects array of objects
       // This should be the default way to handle any custom game code
       if(returnedCode.newState !== undefined){
-        for(let stateChange of returnedCode.newState){
-          this.props.updateAppComponentState(stateChange);
-        }
+      //   for(let stateChange of returnedCode.newState){
+      //     this.props.updateAppComponentState(stateChange);
+      //   }
+        // this.props.updateAppComponentState(returnedCode.newState, returnedCode.newState.length );
+        this.props.updateAppComponentState(returnedCode.newState);
       }
 
       // Code can pass some custom js code back, but this isn't a great
@@ -121,7 +123,12 @@ export class Screen extends Component {
 
   // Build in verbs for all games
   handleBuiltInText = (textForParsing) =>{
-    if (textForParsing.includes('look')) { // ✔️
+    if(textForParsing.includes('inventory')){
+      this.props.updateAppComponentState({
+        inventoryVisable: true,
+        pausedgame: true
+      })
+    } else if (textForParsing.includes('look')) { // ✔️
       this.verbLook(textForParsing)
     } else if (textForParsing.includes('talk')){
       this.verbTalk(textForParsing)
@@ -161,18 +168,6 @@ export class Screen extends Component {
     
     // Array of obs: Inventory item, regardless of ownership
     const inventoryMatch = this.props.inventory.filter(item => item.Name.toLowerCase() === trimmedGet);
-    
-    // True or false if item is not at all in any inventory
-    console.log(inventoryMatch)
-    
-    /*
-      console.log("Match has:")
-      console.log(heroInventoryOwnedMatch[0])
-      console.log("Match doesn't have:")
-      console.log(heroInventoryNotOwnedMatch[0])
-      console.log("Availability")
-      console.log(heroInventoryNotOwnedMatch[0].available)
-    */
 
     // Result: Tell the user a message if they type just 'get' 
     if (JSON.stringify(textForParsing) === '["get"]' || JSON.stringify(textForParsing) === '["take"]' || JSON.stringify(textForParsing) === '["grab"]') {
