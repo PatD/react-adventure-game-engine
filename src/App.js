@@ -120,9 +120,6 @@ export default class App extends Component {
     },statePause)
   }
 
-
-
-
   // Function to pause the game, invoked by menu item changes usually
   togglePause = () => {
     if (this.state.pausedgame === false) {
@@ -337,13 +334,14 @@ export default class App extends Component {
   }
 
   // Add/Edit/Remove flag changes
+  handleFlagChange = (flagChange) => {
+
     /* EXPECTS OBJECT 
     {
       "hasDanced": true,
       "bananaPhone": false,
     } 
     */
-  handleFlagChange = (flagChange) => {
 
     let updateFlags = {
       ...this.state.flags, // Existing Flags
@@ -446,8 +444,6 @@ export default class App extends Component {
       }
     }
   };
-
-
 
   // Adds event listeners for key presses.
   // Game engine is scoped for arrow keys to move character, tab key for inventory, and escape key for main menu
@@ -634,7 +630,6 @@ export default class App extends Component {
   }
 
 
-
   // Accepts input from main menu
   // then passes the menu item name off to 
   // MainMenuHelpers.js for processing
@@ -685,9 +680,10 @@ export default class App extends Component {
           gameLogic={this.state.gameLogic}
 
           // Room details
-          roomCurrent={this.state.roomCurrent}
-          roomCurrentName={this.state.roomCurrentName}
-          roomCurrentObjects={this.state.roomCurrentObjects}
+          roomCurrent={this.state.roomCurrent}  // Room number, number
+          roomCurrentName={this.state.roomCurrentName}  // This is the room's primary style class, string
+          roomCurrentAltStyle={this.state.roomCurrentAltStyle} // Secondary room style class for CSS, string
+          roomCurrentObjects={this.state.roomCurrentObjects} 
           roomCurrentDescription={this.state.roomCurrentDescription}
           roomExits={this.state.roomExits}
           roomNearbyInventoryItems={this.state.roomNearbyInventoryItems}

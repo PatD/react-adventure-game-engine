@@ -56,3 +56,18 @@
               transform-origin: 100% 0%;
     }
   }
+
+
+
+.partyrock{
+        background: linear-gradient(341deg, #0000aa, #00aa00, #00aaaa, #5555ff, #55ffff);
+        background-size: 100px 100px;
+        image-rendering: pixelated;
+        animation: partyrock 30s ease infinite;
+    }
+    
+    @keyframes partyrock { 
+        0%{background-position:97% 0%}
+        50%{background-position:4% 100%}
+        100%{background-position:97% 0%}
+    }

@@ -328,7 +328,7 @@ export class Screen extends Component {
           {heroSpriteCSS}
         </style>
         <section id="gameUI" style={{width:this.props.gameWidth, height:this.props.gameHeight}}>
-          <main className={this.props.roomCurrentName}>
+          <main className={this.props.roomCurrentName + " " + this.props.roomCurrentAltStyle} >
 
             <RoomExits
               roomExits={this.props.roomExits}

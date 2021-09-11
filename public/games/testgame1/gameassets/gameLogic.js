@@ -143,20 +143,34 @@ function customParty(props) {
         "halt": true,
 
         // Array of state changegs
-        "newState": [{
+        "newState": [
+            {
+                roomCurrentAltStyle: "partyrock",
+                statePause:50
+            },
+            
+            {
             modalClickToClose: true,
-            modalText: "Party rock is in the house tonight",
+            modalTextScript: [
+                {
+                    modalText: "Party rock is in the house TONIGHT",
+                    modalWidth: 600,
+                    modalTop: 100
+                },
+                {
+                    modalText: "Everybody just have a good time",
+                    modalWidth: 300,
+                    modalTop: 200,
+                }
+            ],
             modalStatus: true,
             pausedgame: true,
-            modalTop:150
         },
         {
-            modalClickToClose: true,
-            modalText: "Everybody just have a good time",
-            modalStatus: true,
-            pausedgame: true,
-            modalTop:300
-        }]
+            roomCurrentAltStyle: " ",
+            statePause:5000
+        },
+        ]
     }
 }
 
