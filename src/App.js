@@ -287,7 +287,7 @@ export default class App extends Component {
     }
   }
 
-  // Update Player Score
+  // Update Player Score - EXPECTS NUMBER
   updateScore = (points) => {
     let newScore = this.state.currentScore + points
     this.setState({ currentScore: newScore })
@@ -317,7 +317,7 @@ export default class App extends Component {
   // Remove item(s) from inventory - EXPECTS ARRAY
   removeFromInventory = (removeItem) => {
 
-    removeItem.forEach(item => { 
+    return removeItem.forEach(item => { 
         
       // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
       const matchedItem = this.state.inventory.findIndex(invItem => invItem.Name.toLowerCase() === item.toLowerCase())
@@ -336,9 +336,13 @@ export default class App extends Component {
     })
   }
 
-  // Adventure gamers complete puzzles and quests, and the game should acount for that, 
-  // or conditionally change rooms based on a flag status. This function accepts a
-  // flag number and changes it's boolean and updates it in state.
+  // Add/Edit/Remove flag changes
+    /* EXPECTS OBJECT 
+    {
+      "hasDanced": true,
+      "bananaPhone": false,
+    } 
+    */
   handleFlagChange = (flagChange) => {
 
     let updateFlags = {
@@ -350,7 +354,7 @@ export default class App extends Component {
   }
 
   // Show or hide Inventory Screen
-  toggleInventoryScreen(key) {
+  toggleInventoryScreen = () => {
     if (this.state.inventoryVisable === false) {
       this.setState({
         inventoryVisable: true,
@@ -410,7 +414,6 @@ export default class App extends Component {
           roomVisibleInventory: this.state.roomVisibleInventory,
         })
 
-
       }, this.state.heroMovementUpdateSpeed)
     } else {
 
@@ -420,8 +423,7 @@ export default class App extends Component {
   };
 
 
-
-  handleHeroMovement(keypress) {
+  handleHeroMovement = (keypress) => {
 
     // Don't move the hero if the game is paused
     if (this.state.pausedgame === false) {
@@ -447,61 +449,49 @@ export default class App extends Component {
 
 
 
-  // Adds event listeners for keyboard use.
-  // Default keyboard configuration for gameplay.
-  // Arrow keys move the hero
-  // tab key opens inventory, escape opens menu, and 
-  // alpha keys get typed into text parser.
+  // Adds event listeners for key presses.
+  // Game engine is scoped for arrow keys to move character, tab key for inventory, and escape key for main menu
   setdefaultKeyboardListners = () => {
-
-    const self = this;
-    document.addEventListener('keydown', function (event) {
+    return document.addEventListener('keydown', (event) => {
 
       // Since "any key" can close the inventory screen, we start with that
-      if (self.state.inventoryVisable === true) {
+      if (this.state.inventoryVisable === true) {
         return [
           event.preventDefault(),
-          self.toggleInventoryScreen(event.key)
+          this.toggleInventoryScreen(event.key)
         ]
       }
 
-      // Enter Key
-     /*
-      else if (event.key === 'Enter') {
-        console.log('enter')
-        console.log(self.state.modalStatus)
-      }
-      */
-
       // This opens the inventory screen
-      else if (self.state.inventoryVisable === false && event.key === 'Tab') {
+      else if (this.state.inventoryVisable === false && event.key === 'Tab') {
         return [
           event.preventDefault(),
-          self.toggleInventoryScreen(event.key)
+          this.toggleInventoryScreen(event.key)
         ]
       }
 
       // Handle Escape key to toggle menu
-      else if (event.key === "Escape" && self.state.inventoryVisable === false) {
+      else if (event.key === "Escape" && this.state.inventoryVisable === false) {
         return [
-          self.refs.mainMenuRef.activateMainMenu(event),
-          self.refs.mainMenuRef.toggleMenuDropdown(event)
+          this.refs.mainMenuRef.activateMainMenu(event),
+          this.refs.mainMenuRef.toggleMenuDropdown(event)
         ]
       }
 
       // Handle arrow keys for movement
       else if (
-        (self.state.inventoryVisable === false && self.state.pausedgame === false) &&
+        (this.state.inventoryVisable === false && this.state.pausedgame === false) &&
         (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
         return [
           event.preventDefault(),
-          self.handleHeroMovement(event.key)
+          this.handleHeroMovement(event.key)
         ]
       }
+      
+      // Any other keypress is ignored!
       else {
-        // console.log("User types text");
+         return false
       }
-
     }, false);
   }
 
@@ -615,7 +605,7 @@ export default class App extends Component {
 
 
 
-  componentDidMount() {
+  componentDidMount = () => {
 
     // When the component mounts, start an event listener for web worker updates.
     WorkerHandleHeroMovement.onmessage = (e) => {
