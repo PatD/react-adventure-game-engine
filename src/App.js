@@ -36,6 +36,10 @@ export default class App extends Component {
       modalWidth:560,
       modalTop:200,
 
+      // Menu state
+      menuBarActive:false, 
+
+
       // Hero stuff
       heroAlive: true,
       heroLastDirection: "",
@@ -424,7 +428,7 @@ export default class App extends Component {
   handleHeroMovement = (keypress) => {
 
     // Don't move the hero if the game is paused
-    if (this.state.pausedgame === false) {
+    if (this.state.pausedgame === false && this.state.menuBarActive === false) {
 
       // If hero is moving and a different movement direction is picked
       if (this.state.heroMoving === "moving" && this.state.heroDirection !== keypress) {
@@ -469,8 +473,11 @@ export default class App extends Component {
       // Handle Escape key to toggle menu
       else if (event.key === "Escape" && this.state.inventoryVisable === false) {
         return [
-          this.refs.mainMenuRef.activateMainMenu(event),
-          this.refs.mainMenuRef.toggleMenuDropdown(event)
+          this.haltHero(),
+          this.setState({menuBarActive: this.state.menuBarActive ? false : true})
+
+          // this.refs.mainMenuRef.activateMainMenu(event),
+          // this.refs.mainMenuRef.toggleMenuDropdown(event)
         ]
       }
 
@@ -663,15 +670,15 @@ export default class App extends Component {
 
 
         <MainMenuBar
+          menuBarActive={this.state.menuBarActive}
           currentScore={this.state.currentScore}
           highScore={this.state.highScore}
-          updateScore={this.updateScore}
+          // updateScore={this.updateScore}
           gameWidth={this.state.playfieldX}
-          ref="mainMenuRef"
-          togglePause={this.togglePause}
           gameTitle={this.state.title}
           handleDropDownMenuClick={this.handleDropDownMenuClick}
-          menuActive={true} />
+          // menuActive={true}
+          updateAppComponentState={this.updateAppComponentState} />
 
         <Screen
           // Game dimensions

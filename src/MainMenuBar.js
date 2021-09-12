@@ -71,7 +71,10 @@ export default class MainMenuBar extends Component {
 
 
   // Fires when a menu item is chosen
-  resetMenu = (event) =>{
+  // resetMenu = (event) =>{
+  resetMenu = () =>{
+    return [
+    
     // Put the menu back together
     this.setState({
       mainNavBar: "active",  
@@ -80,8 +83,40 @@ export default class MainMenuBar extends Component {
       mainNavFileMenu: "inactive subMenu",
       mainNavSoundMenu: "inactive subMenu",
       mainNavSpecialMenu: "inactive subMenu",
-    })
+    }),
+    this.props.updateAppComponentState([{menuBarActive:false}])
+    ]
   }
+
+
+
+  componentDidUpdate(prevProps) {
+    
+    // console.log(this.props.menuBarActive)
+    // console.log(prevProps.menuBarActive)
+
+
+
+    
+    if(this.props.menuBarActive !== prevProps.menuBarActive){
+      if(this.state.mainNavBar === "active"){
+        this.setState({
+          mainNavBar:"inactive",
+          mainNavMenuVisibility: "active",
+          mainNavGameMenu: "active subMenu",
+        })
+      } 
+      else{
+        console.log('closing time')
+  
+        this.resetMenu()
+  
+      }
+      
+    } 
+
+  }
+
 
  
   render(props){
@@ -92,12 +127,15 @@ export default class MainMenuBar extends Component {
             Default state for the main nav inactive state 
             It is "visible" by default, and "hidden" when the submenu is "active".
         */}
+
+      
         <div id="menuBarDefaultDisplay" className={this.state.mainNavBar} onClick={this.activateMainMenu}>
           
+        {/* <div id="menuBarDefaultDisplay" className={this.props.menuBarActive ? "inactive" : "active"} onClick={this.activateMainMenu}> */}
+        
           <MainMenuScore
             currentScore={this.props.currentScore}
             highScore={this.props.highScore}
-            updateScore={this.props.updateScore}
           />
           
           {/* <MainMenuSound toggleSound={this.props.toggleSound} soundStatus={this.props.soundStatus} /> */}
@@ -109,7 +147,7 @@ export default class MainMenuBar extends Component {
           This is the main nav bar.  
           It is "invisible" when inactive, and "visible" when active
         */}
-        <div id="menuBarNavBarActive" className={this.state.mainNavMenuVisibility}>
+        <div id="menuBarNavBarActive" className={this.state.mainNavMenuVisibility} >
           <nav>
             <ul>
               <li onClick={this.toggleMenuDropdown} className={this.state.mainNavGameMenu}>Game</li>                
@@ -128,7 +166,8 @@ export default class MainMenuBar extends Component {
 
 
       {/* Clicking this invisible div closes the main menu */}
-      <div id="hoverblock" onClick={this.resetMenu}  className={this.state.mainNavBar}></div>
+      <div id="hoverblock" onClick={this.resetMenu} className={this.state.mainNavBar}></div>
+
       </header>
     </React.Fragment>
   )}
