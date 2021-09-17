@@ -8,7 +8,7 @@ import GameSelector from './GameSelector'
 import MainMenuBar from './MainMenuBar'
 
 
-// Movement workers
+// Movement workers 🛠 🪚 🧰
 // They live outside the src directory because
 // Create-React-App tries to merge them and they
 // need to remain seperate files
@@ -38,7 +38,11 @@ export default class App extends Component {
 
       // Menu state
       menuBarActive:false, 
+      mainMenuItems:[],
 
+      // Inventory
+      inventory:[],
+      inventoryVisable: false,
 
       // Hero stuff
       heroAlive: true,
@@ -74,8 +78,7 @@ export default class App extends Component {
       textParserValue: "",
       submittedText: "",
       helpText: "Default text for the game's help",
-      flags: [],
-      inventoryVisable: false
+      flags: []
     };
 
     this.toggleSound = this.toggleSound.bind(this);
@@ -125,14 +128,14 @@ export default class App extends Component {
   }
 
   // Function to pause the game, invoked by menu item changes usually
-  togglePause = () => {
-    if (this.state.pausedgame === false) {
-      this.setState({ pausedgame: true });
-      this.haltHero();
-    } else {
-      this.setState({ pausedgame: false });
-    }
-  }
+  // togglePause = () => {
+  //   if (this.state.pausedgame === false) {
+  //     this.setState({ pausedgame: true });
+  //     this.haltHero();
+  //   } else {
+  //     this.setState({ pausedgame: false });
+  //   }
+  // }
 
   toggleSound() {
 
@@ -172,18 +175,28 @@ export default class App extends Component {
 
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) => {
-    this.setState({
+    return this.setState({
       submittedText: event.target.elements[0].value,
       textParserValue: ""
     })
   }
-
+ 
   // Updates state as letters are typed into input field
   textParserChange = (event) => {
-    if (this.state.pausedgame === false && this.state.inventoryVisable === false) {
-      this.setState({
-        textParserValue: event.target.value
-      });
+  
+    // Is a value false?
+    const checkFalse = (val) => val === false;
+
+    // Only allow text input when these resolve to false
+    const toCheck = [
+      this.state.pausedgame,
+      this.state.inventoryVisable,
+      this.state.menuBarActive,
+      this.state.modalStatus
+    ]
+
+    if (toCheck.every(checkFalse) === true) {
+      return this.setState({ textParserValue: event.target.value})
     }
   }
 
@@ -291,7 +304,7 @@ export default class App extends Component {
   // Update Player Score - EXPECTS NUMBER
   updateScore = (points) => {
     let newScore = this.state.currentScore + points
-    this.setState({ currentScore: newScore })
+    return this.setState({ currentScore: newScore })
   }
 
   // Adds item to inventory - EXPECTS STRING
@@ -310,7 +323,7 @@ export default class App extends Component {
       newRoomInventory[matchedItem] = { ...newRoomInventory[matchedItem], owned: !newRoomInventory[matchedItem].owned }
 
       // Update state (and player's inventory screen) with new item
-      this.setState({ inventory: newInventory, roomVisibleInventory: newRoomInventory })
+      return this.setState({ inventory: newInventory, roomVisibleInventory: newRoomInventory })
 
     }
   }
@@ -337,6 +350,36 @@ export default class App extends Component {
     })
   }
 
+  // Show or hide Inventory Screen
+  toggleInventoryScreen = () => {
+
+    // Is a value false?
+    const checkFalse = (val) => val === false;
+
+    // Only allow inventory toggle when these resolve to false
+    const toCheck = [
+      this.state.pausedgame,
+      this.state.inventoryVisable,
+      this.state.menuBarActive,
+      this.state.modalStatus
+    ]
+
+    if (toCheck.every(checkFalse) === true) {
+      return [
+        this.setState({
+          inventoryVisable: true,
+          pausedgame: true
+        }),
+        this.haltHero()
+      ]
+    } else {
+      return this.setState({
+        inventoryVisable: false,
+        pausedgame: false
+      })
+    }
+  }
+
   // Add/Edit/Remove flag changes
   handleFlagChange = (flagChange) => {
 
@@ -353,22 +396,6 @@ export default class App extends Component {
     }
 
     this.setState({ flags: updateFlags })
-  }
-
-  // Show or hide Inventory Screen
-  toggleInventoryScreen = () => {
-    if (this.state.inventoryVisable === false) {
-      this.setState({
-        inventoryVisable: true,
-        pausedgame: true
-      });
-      this.haltHero();
-    } else {
-      this.setState({
-        inventoryVisable: false,
-        pausedgame: false
-      });
-    }
   }
 
   // Stop the hero in their tracks
@@ -471,13 +498,10 @@ export default class App extends Component {
       }
 
       // Handle Escape key to toggle menu
-      else if (event.key === "Escape" && this.state.inventoryVisable === false) {
+      else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === false) {
         return [
           this.haltHero(),
           this.setState({menuBarActive: this.state.menuBarActive ? false : true})
-
-          // this.refs.mainMenuRef.activateMainMenu(event),
-          // this.refs.mainMenuRef.toggleMenuDropdown(event)
         ]
       }
 
@@ -497,7 +521,6 @@ export default class App extends Component {
       }
     }, false);
   }
-
 
 
   // Loads a room onto the screen
@@ -726,7 +749,7 @@ export default class App extends Component {
           removeFromInventory={this.removeFromInventory}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
-          togglePause={this.togglePause}
+          // togglePause={this.togglePause}
           soundStatus={this.state.soundStatus}
           toggleSound={this.toggleSound}
           flags={this.state.flags}
