@@ -4,7 +4,7 @@
     "description": "This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
     "copyright": "2021",
     "helpText": "Use your keyboard's arrow keys to move the character around the screen. Type commands for your character, like 'look at the room' or 'open this chest'.  Solve puzzles with what you carry by hitting Tab to access your inventory.  The Esc key will open the game menu where additional commands are available." ,
-    "mainMenuItems":[],
+    "mainMenuItemsCustom":[],
     "highScore":245,
     "playfieldX":640,
     "playfieldY":420,

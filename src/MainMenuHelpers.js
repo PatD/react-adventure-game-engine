@@ -1,9 +1,12 @@
 // Handles Main Navigation menu item clicks.
 
+// Refactor to allow some from gamedata.json
+
 const mainNavFunctions = {
 
     // Takes passed menu item name and routes it to the right function
     route: function (passedThis, passedMenuItem) {
+
 
         if (passedMenuItem === 'About') {
             this.about(passedThis);

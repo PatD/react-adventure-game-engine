@@ -31,17 +31,49 @@ export default class App extends Component {
       modalTextSlot4: "",
       modalButtonText1: "",
       modalButtonText2: "",
-      modalWidthDefault:560,
-      modalTopDefault:200,
-      modalWidth:560,
-      modalTop:200,
+      modalWidthDefault: 560,
+      modalTopDefault: 200,
+      modalWidth: 560,
+      modalTop: 200,
 
       // Menu state
-      menuBarActive:false, 
-      mainMenuItems:[],
+      menuBarActive: false,
+      mainMenuItems: [
+        {
+          top: "Game",
+          order:1,
+          items: [
+            {
+              name: "Help",
+              active: true,
+            }, {
+              name: "About",
+              active: true
+            }
+          ]
+        }, {
+          top: "File",
+          order:2,
+          items: [{
+            name: "Save Game",
+            active: false,
+          }, {
+            name: "Load Game",
+            active: false,
+          },{
+            name: "Restart",
+            active: false,
+          }, {
+            name: "------",
+            active: false,
+          }, {
+            name: "Swap Game",
+            active: false,
+          }]
+        }, {top:"Special", order:3,}, {top:"Sound", order:4}],
 
       // Inventory
-      inventory:[],
+      inventory: [],
       inventoryVisable: false,
 
       // Hero stuff
@@ -91,22 +123,22 @@ export default class App extends Component {
     // Check and see if there's a delay on the state change
     let statePause = pause;
 
-    if(passedState[sequence -1].statePause !== undefined){
-      statePause = passedState[sequence -1].statePause;
+    if (passedState[sequence - 1].statePause !== undefined) {
+      statePause = passedState[sequence - 1].statePause;
     }
 
     // Update state
     return setTimeout(() => {
 
       // if there's a multiple lined text script, set it in state first, then display it
-      if(passedState[sequence -1].modalTextScript !== undefined && passedState[sequence -1].modalTextScript.length > 0){
+      if (passedState[sequence - 1].modalTextScript !== undefined && passedState[sequence - 1].modalTextScript.length > 0) {
         console.log('multiline script updated')
-        this.setState(passedState[sequence -1])
+        this.setState(passedState[sequence - 1])
         this.handleSubmittedTextModal(this.state.modalTextScript)
-      
-      // Otherwise, just update state
-      } else{
-        this.setState(passedState[sequence -1])
+
+        // Otherwise, just update state
+      } else {
+        this.setState(passedState[sequence - 1])
       }
 
 
@@ -114,17 +146,17 @@ export default class App extends Component {
       // we need to check and see if we're the last one in the array of objects
       let sequenceLast = false;
 
-      if(passedState.length === sequence){
+      if (passedState.length === sequence) {
         console.log("This is the last item in the array of objects")
         sequenceLast = true
       }
-      
 
-      if(sequenceLast === false){
+
+      if (sequenceLast === false) {
         this.updateAppComponentState(passedState, sequence + 1)
       }
 
-    },statePause)
+    }, statePause)
   }
 
   // Function to pause the game, invoked by menu item changes usually
@@ -180,10 +212,10 @@ export default class App extends Component {
       textParserValue: ""
     })
   }
- 
+
   // Updates state as letters are typed into input field
   textParserChange = (event) => {
-  
+
     // Is a value false?
     const checkFalse = (val) => val === false;
 
@@ -196,7 +228,7 @@ export default class App extends Component {
     ]
 
     if (toCheck.every(checkFalse) === true) {
-      return this.setState({ textParserValue: event.target.value})
+      return this.setState({ textParserValue: event.target.value })
     }
   }
 
@@ -221,18 +253,18 @@ export default class App extends Component {
           modalText: passedText,
           modalStatus: true,
           pausedgame: true,
-          modalWidth:makeModalWidth,
-          modalTop:makeModalTop
+          modalWidth: makeModalWidth,
+          modalTop: makeModalTop
         })]
     }
 
     if (typeof passedText === "object") {
-      
+
       // Check if custom width or distance-from-top is passed
-      if(passedText[0].modalWidth !== 'undefined'){
+      if (passedText[0].modalWidth !== 'undefined') {
         makeModalWidth = passedText[0].modalWidth
       }
-      if(passedText[0].modalTop !== 'undefined'){
+      if (passedText[0].modalTop !== 'undefined') {
         makeModalTop = passedText[0].modalTop
       }
 
@@ -246,8 +278,8 @@ export default class App extends Component {
           modalText: passedText[0].modalText,
           modalStatus: true,
           pausedgame: true,
-          modalWidth:makeModalWidth,
-          modalTop:makeModalTop
+          modalWidth: makeModalWidth,
+          modalTop: makeModalTop
         }),
 
         // Call the next one!
@@ -260,15 +292,15 @@ export default class App extends Component {
       // These need to be declared up front to
       // prevent es-lint errors
       let modalChecker, modalShower;
-    
+
       // Smell for custom widths, heights
-      if(this.state.modalTextScript[passedText] !==undefined && this.state.modalTextScript[passedText].modalWidth !== 'undefined'){
+      if (this.state.modalTextScript[passedText] !== undefined && this.state.modalTextScript[passedText].modalWidth !== 'undefined') {
         makeModalWidth = this.state.modalTextScript[passedText].modalWidth
       }
-      if(this.state.modalTextScript[passedText] !==undefined && this.state.modalTextScript[passedText].modalTop !== 'undefined'){
+      if (this.state.modalTextScript[passedText] !== undefined && this.state.modalTextScript[passedText].modalTop !== 'undefined') {
         makeModalTop = this.state.modalTextScript[passedText].modalTop
       }
-      
+
       return [
         // Check to detect the state of the modal. If it's closed, we can open the next modal! 
         modalChecker = setInterval(() => {
@@ -288,15 +320,15 @@ export default class App extends Component {
             modalText: this.state.modalTextScript[passedText].modalText,
             modalStatus: true,
             pausedgame: true,
-            modalWidth:makeModalWidth,
-            modalTop:makeModalTop
+            modalWidth: makeModalWidth,
+            modalTop: makeModalTop
           })
 
           if (passedText + 1 < this.state.modalTextScript.length) {
             this.handleSubmittedTextModal(passedText + 1)
           }
         }
-    ]
+      ]
 
     }
   }
@@ -331,14 +363,14 @@ export default class App extends Component {
   // Remove item(s) from inventory - EXPECTS ARRAY
   removeFromInventory = (removeItem) => {
 
-    return removeItem.forEach(item => { 
-        
+    return removeItem.forEach(item => {
+
       // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
       const matchedItem = this.state.inventory.findIndex(invItem => invItem.Name.toLowerCase() === item.toLowerCase())
- 
+
       // Create a copy of the current state's Inventory
       let newInventory = [...this.state.inventory]
-      
+
       // For the matching item, change owned status to false
       newInventory[matchedItem].owned = false;
 
@@ -501,7 +533,7 @@ export default class App extends Component {
       else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === false) {
         return [
           this.haltHero(),
-          this.setState({menuBarActive: this.state.menuBarActive ? false : true})
+          this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
         ]
       }
 
@@ -514,10 +546,10 @@ export default class App extends Component {
           this.handleHeroMovement(event.key)
         ]
       }
-      
+
       // Any other keypress is ignored!
       else {
-         return false
+        return false
       }
     }, false);
   }
@@ -617,7 +649,6 @@ export default class App extends Component {
   }
 
 
-
   // When a game is loaded, update React State with game data
   loadGameFile = (game) => {
     console.info("App component loads " + game.title)
@@ -628,7 +659,6 @@ export default class App extends Component {
 
     this.loadRoom(2); // change this to be dynamic
   }
-
 
 
   componentDidMount = () => {
@@ -664,6 +694,10 @@ export default class App extends Component {
   // then passes the menu item name off to 
   // MainMenuHelpers.js for processing
   handleDropDownMenuClick = (event) => {
+
+    // This only fires on clicking a menu item choice
+    console.log(event)
+    console.log(event.target.innerText)
     mainNavFunctions.route(this, event.target.innerText)
   }
 
@@ -694,6 +728,8 @@ export default class App extends Component {
 
         <MainMenuBar
           menuBarActive={this.state.menuBarActive}
+          mainMenuItems={this.state.mainMenuItems}
+
           currentScore={this.state.currentScore}
           highScore={this.state.highScore}
           // updateScore={this.updateScore}
@@ -713,7 +749,7 @@ export default class App extends Component {
           roomCurrent={this.state.roomCurrent}  // Room number, number
           roomCurrentName={this.state.roomCurrentName}  // This is the room's primary style class, string
           roomCurrentAltStyle={this.state.roomCurrentAltStyle} // Secondary room style class for CSS, string
-          roomCurrentObjects={this.state.roomCurrentObjects} 
+          roomCurrentObjects={this.state.roomCurrentObjects}
           roomCurrentDescription={this.state.roomCurrentDescription}
           roomExits={this.state.roomExits}
           roomNearbyInventoryItems={this.state.roomNearbyInventoryItems}
@@ -759,7 +795,7 @@ export default class App extends Component {
         <br />
         <GameSelector loadGameFile={this.loadGameFile} />
 
-        <PreloadGameAssets 
+        <PreloadGameAssets
           gameLogic={this.state.gameLogic} />
 
       </React.Fragment>
