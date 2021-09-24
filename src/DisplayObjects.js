@@ -57,7 +57,6 @@ export default class DisplayObjects extends Component {
                 <div
                     id={d.Name}
                     style={{
-                        position: "absolute",
                         width: d.width,
                         height: d.height,
                         top: d.x,
@@ -66,13 +65,11 @@ export default class DisplayObjects extends Component {
                         zIndex: d.zIndex
                     }}
                     className={
-                        (d.class !== undefined) 
-                        ? "Inventory_" + d.Name + " " + d.class
-                        : "Inventory_" + d.Name
+                        (d.cssName !== undefined) 
+                        ? "inventoryItem Inventory_" + d.cssName + " " + d.Name
+                        : "inventoryItem Inventory_" + d.Name
                     }
                     key={d.Name}></div>
-
-
             ));
                 
             this.setState({ displayInventoryDisplayObjects: invDispObs })

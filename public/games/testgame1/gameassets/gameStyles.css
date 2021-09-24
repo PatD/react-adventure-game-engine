@@ -8,17 +8,16 @@
 }
 
 
-.Inventory_Taco{
+.Inventory_taco{
     background-image:url('/games/testgame1/gameassets/inventory_taco.png');
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
-
-.Inventory_Keycard{
+.Inventory_keycard{
     background-image:url('/games/testgame1/gameassets/inventory_keycard.gif');
-    background-size: contain;
-    background-repeat: no-repeat;
+}
+
+.Inventory_fakekeycard{
+    background-image:url('/games/testgame1/gameassets/inventory_fakekeycard.gif');
 }
 
 #npcSpaceMan{

@@ -226,15 +226,13 @@ header #hoverblock.inactive{
 
 
 
-
-
-
-
-
-
-
-
-
+/* Individual inventory item */
+.inventoryItem{
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 
 
 
