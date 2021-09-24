@@ -51,7 +51,7 @@ export default class App extends Component {
               active: true
             }
           ]
-        }, {
+        },{
           top: "File",
           order:2,
           items: [{
@@ -70,7 +70,24 @@ export default class App extends Component {
             name: "Swap Game",
             active: false,
           }]
-        }, {top:"Special", order:3,}, {top:"Sound", order:4}],
+        }, {top:"Special", order:3,items:[
+          {
+            name: "Fast",
+            active: false,
+          },
+          {
+            name: "Normal",
+            active: false,
+          },
+          {
+            name: "Slooowww",
+            active: false,
+          }
+
+        ]},{top:"Sound", order:4,items:[          {
+          name: "Sound On/Off",
+          active: false,
+        }]}],
 
       // Inventory
       inventory: [],
@@ -342,6 +359,7 @@ export default class App extends Component {
   // Adds item to inventory - EXPECTS STRING
   addToInventory = (addItem) => {
 
+    console.log(addItem)
     // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
     const matchedItem = this.state.inventory.findIndex(item => item.Name.toLowerCase() === addItem)
 
@@ -349,14 +367,30 @@ export default class App extends Component {
     let newInventory = [...this.state.inventory]
     let newRoomInventory = [...this.state.roomVisibleInventory]
 
-    // If the player doesn't have it already, add it:
-    if (newInventory[matchedItem].owned === false) {
-      newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
-      newRoomInventory[matchedItem] = { ...newRoomInventory[matchedItem], owned: !newRoomInventory[matchedItem].owned }
+    // return [
+    //   console.log(matchedItem),
+    //   console.log(newInventory),
+    //   console.log(newRoomInventory)
+    // ]
 
+
+    // If the player doesn't have it already, add it:
+    if (newInventory[matchedItem].owned !== true) {
+      console.log('add to inventory!')
+      
+      newInventory[matchedItem].owned = true
+      // newRoomInventory[matchedItem].owned = true
+
+
+      /*
+      newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
+      
+      newRoomInventory[matchedItem] = { ...newRoomInventory[matchedItem], owned: !newRoomInventory[matchedItem].owned }
+    */
+      
       // Update state (and player's inventory screen) with new item
       return this.setState({ inventory: newInventory, roomVisibleInventory: newRoomInventory })
-
+      
     }
   }
 

@@ -5,6 +5,26 @@ Details to come.
 
 
 
+### An example Inventory item in gamedata.json
+
+```javascript
+{
+    "Name": "Taco", // Name displayed in the inventory screen
+    "owned": false, // Does player have it
+    "available":true, // Is it available to get, or exhausted
+    "Description": "You see a delicous taco and want nothing more than to eat it.",  // shown when player types 'look taco'
+    "FoundRoom":3,
+    "Visible":true,
+    "x":290,
+    "y":480,
+    "zIndex":5,
+    "width":60,
+    "height":40
+},
+
+
+```
+
 
 
 ### An example custom function from gamelogic.js

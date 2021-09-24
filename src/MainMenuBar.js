@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import MainMenuScore from './MainMenuScore.js'
 import NavGame from './navs/Game.js'
-import NavFile from './navs/File.js'
-import NavSound from './navs/Sound.js'
+// import NavFile from './navs/File.js'
+// import NavSound from './navs/Sound.js'
 import NavSpecial from './navs/Special.js'
 
 
@@ -12,19 +12,17 @@ export default class MainMenuBar extends Component {
 
     // Initial state - all menu items are closed, and the score and title are displayed to the user
     this.state = {
-      mainNavBar: "active",
-      mainNavMenuVisibility: "inactive",
-      mainNavGameMenu: "inactive subMenu",
-      mainNavFileMenu: "inactive subMenu",
-      mainNavSoundMenu: "inactive subMenu",
-      mainNavSpecialMenu: "inactive subMenu",
+      mainNavBar: "active", // The main menu is active, no menu options shown
+      mainNavSource:{}, // Dynamic list of main menu choices
+      mainNavMenuVisibility: "inactive", // Shown when user hits escape and can choose menu items.
+      mainNavFirst:"", // Marker for the left-most menu item. 
     };
   }
 
 
-
+  // Mouse Click to open main menu
   activateMainMenu = (event) => {
-    console.log('Menu clicked');
+    /*
     event.preventDefault();
     if (this.state.mainNavBar === "active") {
       console.log('Menu was closed, opening')
@@ -36,12 +34,8 @@ export default class MainMenuBar extends Component {
         mainNavGameMenu: "active subMenu",
       })
     }
-    else {
-      console.log('closing time')
-
-      this.resetMenu()
-
-    }
+    else this.resetMenu()
+    */
   }
 
 
@@ -50,11 +44,16 @@ export default class MainMenuBar extends Component {
   toggleMenuDropdown = (event) => {
     event.preventDefault();
 
+    console.log(event.target.innerText)
+
     // Close menus
+
+      // identify any ones in state that have 'submenu' and set to active
+
     this.setState({
       mainNavGameMenu: "inactive subMenu",
       mainNavFileMenu: "inactive subMenu",
-      mainNavSoundMenu: "inactive subMenu",
+      // mainNavSoundMenu: "inactive subMenu",
       mainNavSpecialMenu: "inactive subMenu",
     })
 
@@ -97,24 +96,50 @@ export default class MainMenuBar extends Component {
   // resetMenu = (event) =>{
   resetMenu = () => {
     console.log('ResetMenu')
+
+    const resetState = this.state.mainNavSource;
     return [
 
       // Put the menu back together
       this.setState({
         mainNavBar: "active",
-        mainNavMenuVisibility: "inactive",
-        mainNavGameMenu: "inactive subMenu",
-        mainNavFileMenu: "inactive subMenu",
-        mainNavSoundMenu: "inactive subMenu",
-        mainNavSpecialMenu: "inactive subMenu",
+        mainNavMenuVisibility: "inactive"
       }),
+
+      this.setState(resetState),
       this.props.updateAppComponentState([{ menuBarActive: false }])
     ]
   }
 
 
   componentDidMount(){
-      // Keyboard movement of menu
+      // Set state for dynamic menu generation
+
+      // Identify main menu items:
+      const _mainNavMenuItems = [];
+      const getMenuItems = this.props.mainMenuItems.map(mainNavItem => {
+        _mainNavMenuItems.push(mainNavItem.top)
+      })
+
+      // Build into object to add to component state
+      const menuState = {};
+      for (const key of _mainNavMenuItems) {
+          let newKey = "mainNav" + [key] + "Menu"
+          menuState[newKey] = "inactive subMenu"
+      }
+
+      // Add the dynamically generated top-level menu chocies to the nav bar
+      this.setState(menuState)
+
+      this.setState({
+        // And add a backup of all menus, closed
+        mainNavSource:menuState, 
+        // Add marker for left-most item
+        mainNavFirst:"mainNav" + _mainNavMenuItems[0] + "Menu"
+      })
+
+
+      // Also, enable keyboard movement of menu
       document.addEventListener('keydown', (event) => {
 
         // Handle arrow keys for movement
@@ -133,27 +158,25 @@ export default class MainMenuBar extends Component {
 
   componentDidUpdate(prevProps) {
 
-    // console.log(this.props.menuBarActive)
-    // console.log(prevProps.menuBarActive)
-
-
     if (this.props.menuBarActive !== prevProps.menuBarActive) {
       if (this.state.mainNavBar === "active") {
-        this.setState({
+
+        const firstMenu = this.state.mainNavFirst;
+        
+
+        let activate = {
+          
           mainNavBar: "inactive",
-          mainNavMenuVisibility: "active",
-          mainNavGameMenu: "active subMenu",
-        })
+          mainNavMenuVisibility: "active"
+        }
+        activate[firstMenu] = "active"
+
+        console.log(activate)
+        // Identify first choice to make active
+        this.setState(activate)
       }
-      else {
-        console.log('closing time')
-
-        this.resetMenu()
-
-      }
-
+      else this.resetMenu()
     }
-
   }
 
 
@@ -169,11 +192,7 @@ export default class MainMenuBar extends Component {
 
 
           <div id="menuBarDefaultDisplay" className={this.state.mainNavBar} /* onClick={this.activateMainMenu} */>
-
-
-            {/* <div id="menuBarDefaultDisplay" className={this.props.menuBarActive ? "inactive" : "active"} onClick={this.activateMainMenu}> */}
-
-            <MainMenuScore
+          <MainMenuScore
               currentScore={this.props.currentScore}
               highScore={this.props.highScore}
             />
@@ -186,37 +205,50 @@ export default class MainMenuBar extends Component {
           {/*
           This is the main nav bar.  
           It is "invisible" when inactive, and "visible" when active
-        */}
+          */}
           <div id="menuBarNavBarActive" className={this.state.mainNavMenuVisibility} >
             <nav>
-
-              {/*
-                This uses props from the app.js component to define the main nav dropdowns.
-              */}
               <ul>
-                {this.props.mainMenuItems.map(mainNavItem => (
+                {this.props.mainMenuItems.map(main => (
                   <li
                     onClick={this.toggleMenuDropdown}
-                    key={mainNavItem.order}
-                    className={"inactive subMenu mainNavItem_" + mainNavItem.top}>{mainNavItem.top}
+                    key={main.order}
+                    className={"inactive subMenu mainNavItem_" + main.top}>{main.top}
                   </li>
                 ))
                 }
               </ul>
-              {/* <ul>
-              <li onClick={this.toggleMenuDropdown} className={this.state.mainNavGameMenu}>Game</li>                
-              <li onClick={this.toggleMenuDropdown} className={this.state.mainNavFileMenu}>File</li>
-              <li onClick={this.toggleMenuDropdown} className={this.state.mainNavSpecialMenu}>Special</li>
-              <li onClick={this.toggleMenuDropdown} className={this.state.mainNavSoundMenu}>Sound</li>
-            </ul> */}
             </nav>
           </div>
 
 
-          <NavGame resetMenu={this.resetMenu} mainNavGameMenu={this.state.mainNavGameMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} />
-          <NavFile resetMenu={this.resetMenu} mainNavFileMenu={this.state.mainNavFileMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} />
-          <NavSpecial resetMenu={this.resetMenu} mainNavSpecialMenu={this.state.mainNavSpecialMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} />
-          <NavSound resetMenu={this.resetMenu} mainNavSoundMenu={this.state.mainNavSoundMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} />
+          {
+            /* Sub manus */
+          }
+
+            {this.props.mainMenuItems.map(subMenu => (
+              <ul key={subMenu.order} className={"manNav" + subMenu.top + "Menu inactive subMenu"}>
+                {
+                  subMenu.items.map(item => {
+                    return <li onClick={this.handleMenuClick} key={item.name}>{item.name}</li>
+                  })
+                }
+              </ul>
+            ))
+            }
+
+
+          {/* <ul className={this.state.mainNavFileMenu}>
+              <li onClick={this.handleMenuClick}>Save Game</li>
+              <li onClick={this.handleMenuClick}>Load Game</li>
+              <li onClick={this.handleMenuClick}>Restart</li>
+              <li> ----------- </li>
+              <li onClick={this.handleMenuClick}>Swap Game</li>
+          </ul> */}
+          {/* <NavGame resetMenu={this.resetMenu} mainNavGameMenu={this.state.mainNavGameMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} /> */}
+          {/* <NavFile resetMenu={this.resetMenu} mainNavFileMenu={this.state.mainNavFileMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} /> */}
+          {/* <NavSpecial resetMenu={this.resetMenu} mainNavSpecialMenu={this.state.mainNavSpecialMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} /> */}
+          {/* <NavSound resetMenu={this.resetMenu} mainNavSoundMenu={this.state.mainNavSoundMenu} handleDropDownMenuClick={this.props.handleDropDownMenuClick} /> */}
 
 
           {/* Clicking this invisible div closes the main menu */}

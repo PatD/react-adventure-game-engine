@@ -458,13 +458,6 @@
             "FoundRoom":4
         },
         {
-            "Name": "Keycard",
-            "owned": true,
-            "available":true,
-            "Description": "This keycard is about the size of a business card, and has instructions about returning it safely to it's rightful owner. You suspect it unlocks a door.",
-            "FoundRoom":2
-        },
-        {
             "Name": "Phone",
             "owned": false,
             "available":true,
@@ -477,6 +470,19 @@
             "available":true,
             "Description": "Some text",
             "FoundRoom":10
+        },
+        {
+            "Name": "Keycard",
+            "owned": false,
+            "available":true,
+            "Description": "This keycard is about the size of a business card, and has instructions about returning it safely to a rightful owner. You suspect it unlocks a door.",
+            "FoundRoom":4,
+            "Visible":true,
+            "x":290,
+            "y":480,
+            "zIndex":5,
+            "width":60,
+            "height":40
         }
     ],
     
