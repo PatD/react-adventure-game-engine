@@ -41,6 +41,7 @@ export default class App extends Component {
       mainMenuItems: [
         {
           top: "Game",
+          name:"mainNavGameMenu",
           order:1,
           items: [
             {
@@ -53,6 +54,7 @@ export default class App extends Component {
           ]
         },{
           top: "File",
+          name:"mainNavFileMenu",
           order:2,
           items: [{
             name: "Save Game",
@@ -70,7 +72,13 @@ export default class App extends Component {
             name: "Swap Game",
             active: false,
           }]
-        }, {top:"Special", order:3,items:[
+        }, {top:"Speed", 
+        name:"mainNavSpeedMenu",
+        order:3,items:[
+          {
+            name: "LOL",
+            active: false,
+          },
           {
             name: "Fast",
             active: false,
@@ -84,7 +92,8 @@ export default class App extends Component {
             active: false,
           }
 
-        ]},{top:"Sound", order:4,items:[          {
+        ]},{top:"Sound",
+        name:"mainNavSoundMenu", order:4,items:[          {
           name: "Sound On/Off",
           active: false,
         }]}],

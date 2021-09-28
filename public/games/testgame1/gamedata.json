@@ -15,7 +15,7 @@
     "heroPositionX": 225,
     "heroPositionY": 250,
     "heroMovementDisance": 5,
-    "heroMovementUpdateSpeed": 75,
+    "heroMovementUpdateSpeed": 65,
     "heroHeight": 68,
     "heroWidth": 32,
     "flags":{

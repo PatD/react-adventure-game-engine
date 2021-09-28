@@ -162,7 +162,7 @@ header .subMenu{
   background: #fff;
   padding: 15px 30px;
   outline-offset: -10px;
-  display:block;
+  display:none;
   position: absolute;
   z-index: -1;
 }

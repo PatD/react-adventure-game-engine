@@ -1,10 +1,10 @@
 /* Main Menu Styles - required per-game for dropdown menu control */
-#subMenuGame.mainNavGameMenu,
-#subMenuFile.mainNavFileMenu,
-#subMenuSpecial.mainNavSpecialMenu,
-#subMenuSound.mainNavSoundMenu{
+#subMenumainNavGameMenu.mainNavGameMenu,
+#subMenumainNavFileMenu.mainNavFileMenu,
+#subMenumainNavSpeedMenu.mainNavSpeedMenu,
+#subMenumainNavSoundMenu.mainNavSoundMenu{
     z-index: 99;
-}
+    display: block;}
 
 
 /* Per-game graphics and animation loaded */
@@ -12,7 +12,6 @@
 .ComputerCenter_backgroundbar.dither_bottom{
     background-image:url('/games/testgame1/gameassets/dither_bottom_cyan_00AAAA.gif')
 }
-
 
 .Inventory_taco{
     background-image:url('/games/testgame1/gameassets/inventory_taco.png');
