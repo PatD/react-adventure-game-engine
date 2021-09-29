@@ -64,7 +64,7 @@ export default class App extends Component {
             active: false,
           },{
             name: "Restart",
-            active: false,
+            active: true,
           }, {
             name: "------",
             active: false,
@@ -85,7 +85,7 @@ export default class App extends Component {
           },
           {
             name: "Normal",
-            active: false,
+            active: true,
           },
           {
             name: "Slooowww",

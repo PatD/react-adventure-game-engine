@@ -107,9 +107,9 @@ header #gameTitle{
   float: right;
 }
 
-header{
+/* header{
   cursor: url('/src/img/hand.png'),pointer;
-}
+} */
 
 
 
@@ -127,16 +127,21 @@ header #menuBarDefaultDisplay.inactive{
 
 /* Main nav bar menu items visible */
 header #menuBarNavBarActive.active{
-  padding:5px;
+  padding:5px 5px 5px 20px;
 }
 header #menuBarNavBarActive.inactive{
   display:none;
 }
 
+/* Main nav */
 header #menuBarNavBarActive li{
   display: inline-block;
-  padding:2px 20px 2px 4px
+  padding:2px 5px 2px 6px;
+  margin-right: 10px;
 }
+
+header #menuBarNavBarActive li.active
+{background-color: #333;color:#fff}
 
 header #menuBarNavBarActive li.subMenu.inactive{
   position: static;
@@ -154,17 +159,15 @@ header #menuBarNavBarActive li.subMenu.active{
 
 
 
-
-
 /* Sub menu  */
 header .subMenu{
   outline: 2px solid #444;
   background: #fff;
   padding: 15px 30px;
   outline-offset: -10px;
-  display:none;
+  display:block;
   position: absolute;
-  z-index: -1;
+  z-index: 101;
 }
 
 
@@ -174,23 +177,7 @@ header .subMenu li{
 }
 
 
-/* Submenu positioning */
-header ul.subMenu {
-  margin-left:0px;
-}
-header ul:nth-of-type(2).subMenu {
-  margin-left:80px;
-}
-header ul:nth-of-type(3).subMenu {
-  margin-left:170px;
-}
-header ul:nth-of-type(4).subMenu {
-  margin-left:305px;
-}
-header ul:nth-of-type(5).subMenu {
-  margin-left:365px;
-}
-
+header .subMenu li.disabled{color:#CCC}
 
 /* Invisible click-off-menu-zone */
 header #hoverblock.active{
@@ -324,7 +311,7 @@ header #hoverblock.inactive{
   margin: 20px 30px 5px 0px;
   border: 4px solid #333;
   outline: none;
-  cursor: url('/src/img/hand.png'),pointer;
+  /* cursor: url('/src/img/hand.png'),pointer; */
 }
 
 .display-inlineblock {

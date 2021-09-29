@@ -1,10 +1,9 @@
 /* Main Menu Styles - required per-game for dropdown menu control */
-#subMenumainNavGameMenu.mainNavGameMenu,
-#subMenumainNavFileMenu.mainNavFileMenu,
-#subMenumainNavSpeedMenu.mainNavSpeedMenu,
-#subMenumainNavSoundMenu.mainNavSoundMenu{
-    z-index: 99;
-    display: block;}
+#subMenumainNavFileMenu.active {left:142px}
+#subMenumainNavSpeedMenu.active{left:230px}
+#subMenumainNavSoundMenu.active{left:334px}
+
+
 
 
 /* Per-game graphics and animation loaded */
