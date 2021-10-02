@@ -179,6 +179,17 @@ header .subMenu li{
 
 header .subMenu li.disabled{color:#CCC}
 
+
+/* Currently active dropdown menu, individual item selected */
+header ul.subMenu li#selected{
+  background:#222;
+  color:#fff;
+}
+
+
+
+
+
 /* Invisible click-off-menu-zone */
 header #hoverblock.active{
   z-index: -1;

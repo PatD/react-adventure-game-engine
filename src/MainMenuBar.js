@@ -23,12 +23,14 @@ export default class MainMenuBar extends Component {
     // Array: Main nav top level choices
     const mainNavs = Object.keys(this.state.mainNavSource)
 
-    // Number: Find currently active item in the array, as a number
+    // Number: Find currently active main nav in the array, as a number
     const currentNum = mainNavs.findIndex(i => i == this.state.mainNavCurrentActive)
+
+    // Array of Obs:  What is the currently open menu?  Select the first item
+    const currentSubMenuChoices = this.props.mainMenuItems.filter(choices => choices.name === this.state.mainNavCurrentActive)
 
     // Handle key presses
     if ((key === "ArrowRight") && (mainNavs.length !== currentNum + 1)) {
-
       // The the next right-arrow choice is made, open the submenu for it
       const newMenuItems = this.props.mainMenuItems.find(x => x.name === mainNavs[currentNum + 1])
       return this.setState({
@@ -36,9 +38,7 @@ export default class MainMenuBar extends Component {
         subNavActiveItems: newMenuItems.items
       })
     }
-
-    if (key === "ArrowLeft" && currentNum !== 0) {
-
+    else if (key === "ArrowLeft" && currentNum !== 0) {
       // The the next left-arrow choice is made, open the submenu for it
       const newMenuItems = this.props.mainMenuItems.find(x => x.name === mainNavs[currentNum - 1])
       return this.setState({
@@ -46,20 +46,32 @@ export default class MainMenuBar extends Component {
         subNavActiveItems: newMenuItems.items
       })
     }
+    else if (key === "ArrowDown") {
+
+      // Copy of the currently open menu.
+      // When a user chnages a selection, we update state with the new object to show what's selected
+      const workingSubNavActiveItems = this.state.subNavActiveItems;
+
+      // Number of items in the open sub menu
+      const menuCount = this.state.subNavActiveItems.length;
+
+      // Currently selected item:
+      const currentSelected = this.state.subNavActiveItems.findIndex(x => x.selected === true);
+
+      if (currentSelected + 2 <= menuCount) {
+        // Make the next one true
+        workingSubNavActiveItems[currentSelected + 1].selected = true;
+        workingSubNavActiveItems[currentSelected].selected = false;
+      }
+
+      // And the last one false
+      return this.setState({ subNavActiveItems: workingSubNavActiveItems })
 
 
-    // What is the currently open menu?  Select the first item
-
-    // console.log('On ' +this.state.mainNavCurrentActive )
-
-    const currentSubMenuChoices = this.props.mainMenuItems.filter(choices => choices.name === this.state.mainNavCurrentActive)
-
-    if (key === "ArrowDown") {
-      console.log('On ' + this.state.mainNavCurrentActive)
       //return this.setState({mainNavCurrentActive:mainNavs[currentNum - 1]})
     }
 
-    if (key === "ArrowUp") {
+    else if (key === "ArrowUp") {
       console.log('On ' + this.state.mainNavCurrentActive)
       //return this.setState({mainNavCurrentActive:mainNavs[currentNum - 1]})
     }
@@ -67,9 +79,11 @@ export default class MainMenuBar extends Component {
 
     // on selection, copy this to state!  Add a selected field in this local version of state, and use that to generate the sub menu?
 
+    else {
+      return false
+    }
 
   }
-
 
   // Fires when a menu item is chosen, or when menu is closed
   resetMenu = () => {
@@ -88,6 +102,22 @@ export default class MainMenuBar extends Component {
       // Update parent component state
       this.props.updateAppComponentState([{ menuBarActive: false }])
     ]
+  }
+
+  openMenu = () => {
+    const firstMenu = this.state.mainNavFirst;
+    const firstSubMenu = this.props.mainMenuItems.find(x => x.name === firstMenu)
+
+    // Shows the menu options, hides game title and score
+    let activate = {
+      mainNavBar: "inactive",
+      mainNavMenuVisibility: "active",
+      mainNavCurrentActive: this.state.mainNavFirst,
+      subNavActiveItems: firstSubMenu.items
+    }
+
+    // Identify first choice to make active
+    this.setState(activate)
   }
 
   componentDidMount() {
@@ -138,22 +168,10 @@ export default class MainMenuBar extends Component {
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)
     if (this.props.menuBarActive !== prevProps.menuBarActive) {
       if (this.state.mainNavBar === "active") {
-
-        const firstMenu = this.state.mainNavFirst;
-        const firstSubMenu = this.props.mainMenuItems.find(x => x.name === firstMenu)
-
-        // Shows the menu options, hides game title and score
-        let activate = {
-          mainNavBar: "inactive",
-          mainNavMenuVisibility: "active",
-          mainNavCurrentActive: this.state.mainNavFirst,
-          subNavActiveItems: firstSubMenu.items
-        }
-
-        // Identify first choice to make active
-        this.setState(activate)
+        return this.openMenu()
       }
-      else this.resetMenu()
+      else {
+        return this.resetMenu()}
     }
   }
 
@@ -185,15 +203,16 @@ export default class MainMenuBar extends Component {
           </ul>
         </div>
 
-        {/* Submenu content loaded here */}
+        {/* Submenu content injected here */}
         <ul
           id={"subMenu" + this.state.mainNavCurrentActive}
-          className={this.state.mainNavCurrentActive != "" ? "subMenu active" : "inactive"}>
+          className={this.state.mainNavCurrentActive != "" ? "subMenu active" : ""}>
           {this.state.subNavActiveItems.map((subMenu, index) => (
             <li
-              key={index} 
-              onClick={this.handleMenuClick} 
-              className={subMenu.active === true ? "enabled":"disabled"}>{subMenu.name}</li>
+              key={index}
+              onClick={this.handleMenuClick}
+              id={subMenu.selected === true ? "selected" : ""}
+              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name}</li>
           ))}
         </ul>
       </header>

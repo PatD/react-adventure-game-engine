@@ -47,9 +47,11 @@ export default class App extends Component {
             {
               name: "Help",
               active: true,
+              selected:true
             }, {
               name: "About",
-              active: true
+              active: true,
+              selected:false
             }
           ]
         },{
@@ -59,18 +61,23 @@ export default class App extends Component {
           items: [{
             name: "Save Game",
             active: false,
+            selected:true
           }, {
             name: "Load Game",
             active: false,
+            selected:false
           },{
             name: "Restart",
             active: true,
+            selected:false
           }, {
             name: "------",
             active: false,
+            selected:false
           }, {
             name: "Swap Game",
             active: false,
+            selected:false
           }]
         }, {top:"Speed", 
         name:"mainNavSpeedMenu",
@@ -78,24 +85,29 @@ export default class App extends Component {
           {
             name: "LOL",
             active: false,
+            selected:true
           },
           {
             name: "Fast",
             active: false,
+            selected:false
           },
           {
             name: "Normal",
             active: true,
+            selected:false
           },
           {
             name: "Slooowww",
             active: false,
+            selected:false
           }
 
         ]},{top:"Sound",
         name:"mainNavSoundMenu", order:4,items:[          {
           name: "Sound On/Off",
           active: false,
+          selected:true
         }]}],
 
       // Inventory
