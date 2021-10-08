@@ -745,18 +745,6 @@ export default class App extends Component {
   }
 
 
-  // Accepts input from main menu
-  // then passes the menu item name off to 
-  // MainMenuHelpers.js for processing
-  handleDropDownMenuClick = (event) => {
-
-    // This only fires on clicking a menu item choice
-    console.log(event)
-    console.log(event.target.innerText)
-    mainNavFunctions.route(this, event.target.innerText)
-  }
-
-
   render() {
     return (
       <React.Fragment>
@@ -790,7 +778,7 @@ export default class App extends Component {
           // updateScore={this.updateScore}
           gameWidth={this.state.playfieldX}
           gameTitle={this.state.title}
-          handleDropDownMenuClick={this.handleDropDownMenuClick}
+          // handleDropDownMenuClick={this.handleDropDownMenuClick}
           // menuActive={true}
           updateAppComponentState={this.updateAppComponentState} />
 
