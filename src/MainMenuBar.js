@@ -9,7 +9,7 @@ export default class MainMenuBar extends Component {
     this.state = {
       mainNavBar: "active", // The main menu is active, no menu options shown
       mainNavMenuVisibility: "inactive", // Shown when user hits escape and can choose menu items.
-      mainNavSource: {}, // Dynamic list of main menu choices, passed down as props
+      mainNavs: [], // handlekeyboardMenu() uses these as reference
       mainNavFirst: "", // Marker for the left-most menu item. 
       mainNavCurrentActive: "", // The submenu that is currenlty open. There can be only 1!
       subNavActiveItems: [],  // Currently open menu
@@ -20,34 +20,31 @@ export default class MainMenuBar extends Component {
 
   handleKeyboardMenu = (key) => {
 
-    // Array: Main nav top level choices
-    const mainNavs = Object.keys(this.state.mainNavSource)
-
     // Number: Find currently active main nav in the array, as a number
-    const currentNum = mainNavs.findIndex(i => i == this.state.mainNavCurrentActive)
+    const currentNum = this.state.mainNavs.findIndex(i => i == this.state.mainNavCurrentActive)
 
     // Handle key presses
-    if ((key === "ArrowRight") && (mainNavs.length !== currentNum + 1)) {
+    if ((key === "ArrowRight") && (this.state.mainNavs.length !== currentNum + 1)) {
       // The the next right-arrow choice is made, open the submenu for it
-      const newMenuItems = this.props.mainMenuItems.find(x => x.name === mainNavs[currentNum + 1])
+      const newMenuItems = this.props.mainMenuItems.find(x => x.name === this.state.mainNavs[currentNum + 1])
       const newMenuSelected = newMenuItems.items.find(s => s.selected === true)
 
       // Reset the subMenu on the way out. Otherwise it keeps the middle seleciton
       return this.setState({
-        mainNavCurrentActive: mainNavs[currentNum + 1],
+        mainNavCurrentActive: this.state.mainNavs[currentNum + 1],
         subNavActiveItems: newMenuItems.items,
-        subNavSelectedItem:newMenuSelected.name
+        subNavSelectedItem: newMenuSelected.name
       })
     }
     else if (key === "ArrowLeft" && currentNum !== 0) {
       // The the next left-arrow choice is made, open the submenu for it
-      const newMenuItems = this.props.mainMenuItems.find(x => x.name === mainNavs[currentNum - 1])
+      const newMenuItems = this.props.mainMenuItems.find(x => x.name === this.state.mainNavs[currentNum - 1])
       const newMenuSelected = newMenuItems.items.find(s => s.selected === true)
-      
+
       return this.setState({
-        mainNavCurrentActive:mainNavs[currentNum - 1],
-        subNavActiveItems:newMenuItems.items,
-        subNavSelectedItem:newMenuSelected.name
+        mainNavCurrentActive: this.state.mainNavs[currentNum - 1],
+        subNavActiveItems: newMenuItems.items,
+        subNavSelectedItem: newMenuSelected.name
       })
     }
     else if (key === "ArrowDown") {
@@ -83,7 +80,6 @@ export default class MainMenuBar extends Component {
 
     }
     else if (key === "ArrowUp") {
-
       // Copy of the currently open menu.
       // When a user chnages a selection, we update state with the new object to show what's selected
       const workingSubNavActiveItems = this.state.subNavActiveItems;
@@ -113,12 +109,10 @@ export default class MainMenuBar extends Component {
         subNavActiveItems: workingSubNavActiveItems,
         subNavSelectedItem: sel.name
       })
-
     }
     else {
       return false
     }
-
   }
 
   // Fires when a menu item is chosen, or when menu is closed
@@ -129,7 +123,6 @@ export default class MainMenuBar extends Component {
         mainNavMenuVisibility: "inactive",
         mainNavCurrentActive: "",
         subNavActiveItems: [],
-        subNavSelectedItem:""
       }),
 
       // Update parent component state
@@ -138,12 +131,11 @@ export default class MainMenuBar extends Component {
   }
 
   openMenu = () => {
-    
     // Engine defaults to opening the leftmost (first) menu, and selecting the first item:
     const firstSubMenu = this.props.mainMenuItems.find(x => x.name === this.state.mainNavFirst)
 
     // Change any menu option to not selected, then make the first one selected
-    if(firstSubMenu.items[0].selected !== true){
+    if (firstSubMenu.items[0].selected !== true) {
       firstSubMenu.items.forEach(f => {
         f.selected = false
       });
@@ -155,9 +147,9 @@ export default class MainMenuBar extends Component {
     let activate = {
       mainNavBar: "inactive",
       mainNavMenuVisibility: "active",
-      mainNavCurrentActive:this.state.mainNavFirst,
-      subNavActiveItems:firstSubMenu.items,
-      subNavSelectedItem:firstSubMenu.items[0].name
+      mainNavCurrentActive: this.state.mainNavFirst,
+      subNavActiveItems: firstSubMenu.items,
+      subNavSelectedItem: firstSubMenu.items[0].name
     }
 
     // Identify first choice to make active
@@ -171,6 +163,13 @@ export default class MainMenuBar extends Component {
       _mainNavMenuItems.push(mainNavItem.top)
     })
 
+    // Array needed in handleKeyboardMenu()
+    const mainNavs = []
+    _mainNavMenuItems.forEach((element, index) => {
+      mainNavs.push("mainNav" + element + "Menu")
+    });
+
+
     // Build into object to add to component state
     const menuState = {};
     for (const key of _mainNavMenuItems) {
@@ -178,12 +177,10 @@ export default class MainMenuBar extends Component {
       menuState[newKey] = "inactive subMenu"
     }
 
-    // Add the dynamically generated top-level menu chocies to the nav bar
-    this.setState(menuState)
-
     this.setState({
-      // And add a backup of all menus, closed
-      mainNavSource: menuState,
+      // Keys for main nav positioning
+      mainNavs: mainNavs,
+
       // Add marker for left-most item
       mainNavFirst: "mainNav" + _mainNavMenuItems[0] + "Menu"
     })
@@ -200,7 +197,7 @@ export default class MainMenuBar extends Component {
       }
       else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
         (event.key === 'Enter')) {
-        console.log('ENTER ' + this.state.subNavSelectedItem)
+        console.log('ENTER key pressed for ' + this.state.subNavSelectedItem)
       }
 
       // Any other keypress is ignored!
