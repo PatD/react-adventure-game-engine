@@ -14,7 +14,7 @@ export default class MainMenuBar extends Component {
       mainNavCurrentActive: "", // The submenu that is currenlty open. There can be only 1!
       subNavActiveItems: [],  // Currently open menu
       subNavSelectedItem: "" // currently highlighted item
-    };
+    };  
   }
 
 
@@ -124,9 +124,8 @@ export default class MainMenuBar extends Component {
         mainNavCurrentActive: "",
         subNavActiveItems: [],
       }),
-
-      // Update parent component state
-      this.props.updateAppComponentState([{ menuBarActive: false }])
+        // Update parent component state
+        this.props.updateAppComponentState([{ menuBarActive: false }])
     ]
   }
 
@@ -178,10 +177,7 @@ export default class MainMenuBar extends Component {
     }
 
     this.setState({
-      // Keys for main nav positioning
       mainNavs: mainNavs,
-
-      // Add marker for left-most item
       mainNavFirst: "mainNav" + _mainNavMenuItems[0] + "Menu"
     })
 
@@ -195,26 +191,37 @@ export default class MainMenuBar extends Component {
         (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
         return this.handleKeyboardMenu(event.key)
       }
+
+      // Handle Enter key for selection
       else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
         (event.key === 'Enter')) {
-        console.log('ENTER key pressed for ' + this.state.subNavSelectedItem)
+          return [
+          // Close the menu
+          this.props.updateAppComponentState([{ menuBarActive: false }]),
+
+          // Take whatever action is selected
+          this.props.handleMainMenuAction(this.state.subNavSelectedItem)
+          ]
       }
 
       // Any other keypress is ignored!
       else return false
-
     }, false);
   }
 
+
+  
   componentDidUpdate(prevProps) {
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)
     if (this.props.menuBarActive !== prevProps.menuBarActive) {
+
       if (this.state.mainNavBar === "active") {
         return this.openMenu()
       }
       else {
         return this.resetMenu()
       }
+
     }
   }
 

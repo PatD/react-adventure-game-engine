@@ -1,28 +1,35 @@
 // Handles Main Navigation menu item clicks.
 
-// Refactor to allow some from gamedata.json
-
 const mainNavFunctions = {
 
+    // test: function(currentState,action){
+    //     console.log(currentState)
+    //     console.log(action)
+    // },
+
     // Takes passed menu item name and routes it to the right function
-    route: function (passedThis, passedMenuItem) {
+    route: function (currentState, action) {
 
-
-        if (passedMenuItem === 'About') {
-            this.about(passedThis);
+        if (action === 'About') {
+            return {
+                modalClickToClose:false,
+                modalStatus: "modal display-block",
+                modalText:currentState.title + ": " + currentState.subTitle,
+                modalTextSlot2: currentState.description,
+            }
         }
-        else if (passedMenuItem === 'Help') {
-            this.help(passedThis);
+        else if (action === 'Help') {
+            this.help(currentState);
         }
-        else if (passedMenuItem === 'Restart') {
-            this.restart(passedThis);
+        else if (action === 'Restart') {
+            this.restart(currentState);
         }
-        else if (passedMenuItem === 'Swap Game') {
-            this.swapGame(passedThis);
+        else if (action === 'Swap Game') {
+            this.swapGame(currentState);
         }
         else {
             // Game is currently paused, so on error unpause the game:
-            passedThis.setState({ pausedgame: false })
+            currentState.setcurrentState({ pausedgame: false })
         }
 
     },
@@ -31,18 +38,15 @@ const mainNavFunctions = {
 
     // Shows the "About this game" modal dialog box.
     // This should come from the game's own gamedata.json file
-    about: function (passedThis) {
-        return passedThis.setState({
+    about: function () {
+        return {
             modalStatus: "modal display-block",
-            modalText: passedThis.state.title,
-            modalTextSlot2: passedThis.state.subTitle,
-            modalTextSlot3: passedThis.state.description,
-            modalTextSlot4: "Released in " + passedThis.state.copyright + ".",
-        })
+            modalText: "About!",
+        }
     },
 
-    help: function(passedThis){
-        return passedThis.setState({
+    help: function(currentState){
+        return currentState.setcurrentState({
             modalStatus: "modal display-block",
             modalText: "Use the arrow keys to move your hero around the screen.",
             modalTextSlot2: "Use the Tab key to open your inventory.",
@@ -50,8 +54,8 @@ const mainNavFunctions = {
         })
     },
 
-    restart: function(passedThis){
-        passedThis.setState({
+    restart: function(currentState){
+        currentState.setcurrentState({
             modalStatus: "modal display-block",
             modalText: "Restart the game? All unsaved progress will be lost forever.",
             modalButtonText1:"Restart",
@@ -59,8 +63,8 @@ const mainNavFunctions = {
         })
     },
 
-    swapGame: function(passedThis){
-        passedThis.setState({
+    swapGame: function(currentState){
+        currentState.setcurrentState({
             modalClickToClose:false,
             modalStatus: "modal display-block",
             modalText: "Select from any of these games in your /games directory. Any unsaved progress in this current game will be lost.",

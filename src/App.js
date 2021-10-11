@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PreloadGameAssets from './PreloadGameAssets'
-import mainNavFunctions from './MainMenuHelpers';
+import MainNavFunctions from './MainNavFunctions';
 import Screen from './Screen';
 import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
@@ -185,7 +185,7 @@ export default class App extends Component {
       let sequenceLast = false;
 
       if (passedState.length === sequence) {
-        console.log("This is the last item in the array of objects")
+        // console.log("This is the last item in the array of objects")
         sequenceLast = true
       }
 
@@ -197,15 +197,34 @@ export default class App extends Component {
     }, statePause)
   }
 
-  // Function to pause the game, invoked by menu item changes usually
-  // togglePause = () => {
-  //   if (this.state.pausedgame === false) {
-  //     this.setState({ pausedgame: true });
-  //     this.haltHero();
-  //   } else {
-  //     this.setState({ pausedgame: false });
-  //   }
-  // }
+
+  // Accepts commands from main navigation, then routes them to helper funciton file
+  handleMainMenuAction = (action) =>{
+
+    // Cycle through built-in functions first
+   
+    if (action === 'About') {
+      return this.handleSubmittedTextModal('ABOUT')
+      // return this.setState({
+      //     modalClickToClose:false,
+      //     modalStatus: "modal display-block",
+      //     modalText:this.state.title + ": " + this.state.subTitle,
+      //     modalTextSlot2: this.state.description,
+      // })
+    }
+   
+   
+   
+   
+   
+    // const mainNavFuncValue = MainNavFunctions.route(this.state,action)
+
+    // this.setState(mainNavFuncValue)
+
+
+    // Then pass off to gameLogic.js
+
+  }
 
   toggleSound() {
 
@@ -273,7 +292,7 @@ export default class App extends Component {
   // Handles text display - and usually opens a modal
   // The type of passed data determines the results.
   handleSubmittedTextModal = (passedText) => {
-
+    
     // Create a function scoped variable for the width and position
     // from the top of the modal. Set it to the default each time at the
     // start, it may get modified depending on type and passed data
@@ -380,7 +399,6 @@ export default class App extends Component {
   // Adds item to inventory - EXPECTS STRING
   addToInventory = (addItem) => {
 
-    console.log(addItem)
     // Find item in game (not player) Inventory. All inventory items must be in the gamedata.json file at startup.
     const matchedItem = this.state.inventory.findIndex(item => item.Name.toLowerCase() === addItem)
 
@@ -388,26 +406,11 @@ export default class App extends Component {
     let newInventory = [...this.state.inventory]
     let newRoomInventory = [...this.state.roomVisibleInventory]
 
-    // return [
-    //   console.log(matchedItem),
-    //   console.log(newInventory),
-    //   console.log(newRoomInventory)
-    // ]
-
-
     // If the player doesn't have it already, add it:
     if (newInventory[matchedItem].owned !== true) {
       console.log('add to inventory!')
       
       newInventory[matchedItem].owned = true
-      // newRoomInventory[matchedItem].owned = true
-
-
-      /*
-      newInventory[matchedItem] = { ...newInventory[matchedItem], owned: !newInventory[matchedItem].owned }
-      
-      newRoomInventory[matchedItem] = { ...newRoomInventory[matchedItem], owned: !newRoomInventory[matchedItem].owned }
-    */
       
       // Update state (and player's inventory screen) with new item
       return this.setState({ inventory: newInventory, roomVisibleInventory: newRoomInventory })
@@ -772,14 +775,11 @@ export default class App extends Component {
         <MainMenuBar
           menuBarActive={this.state.menuBarActive}
           mainMenuItems={this.state.mainMenuItems}
-
           currentScore={this.state.currentScore}
           highScore={this.state.highScore}
-          // updateScore={this.updateScore}
           gameWidth={this.state.playfieldX}
           gameTitle={this.state.title}
-          // handleDropDownMenuClick={this.handleDropDownMenuClick}
-          // menuActive={true}
+          handleMainMenuAction={this.handleMainMenuAction}
           updateAppComponentState={this.updateAppComponentState} />
 
         <Screen
