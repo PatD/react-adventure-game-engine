@@ -196,9 +196,10 @@ export default class MainMenuBar extends Component {
       else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
         (event.key === 'Enter')) {
           return [
-          // Close the menu
-          this.props.updateAppComponentState([{ menuBarActive: false }]),
-
+          
+          // Prevent the default action for the enter key (in this case, sumbitting the text parser or closing the modal)
+          event.preventDefault(),
+        
           // Take whatever action is selected
           this.props.handleMainMenuAction(this.state.subNavSelectedItem)
           ]

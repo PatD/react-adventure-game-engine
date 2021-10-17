@@ -200,13 +200,14 @@ export default class App extends Component {
 
   // Accepts commands from main navigation, then routes them to helper funciton file
   handleMainMenuAction = (action) =>{
-
+    this.setState({menuBarActive: false})
+    console.log(action)
     // Cycle through built-in functions first
    
     if (action === 'About') {
-      return this.handleSubmittedTextModal('ABOUT')
+      return this.handleSubmittedTextModal("Some about text")
       // return this.setState({
-      //     modalClickToClose:false,
+      //     modalClickToClose:true,
       //     modalStatus: "modal display-block",
       //     modalText:this.state.title + ": " + this.state.subTitle,
       //     modalTextSlot2: this.state.description,
@@ -293,6 +294,7 @@ export default class App extends Component {
   // The type of passed data determines the results.
   handleSubmittedTextModal = (passedText) => {
     
+
     // Create a function scoped variable for the width and position
     // from the top of the modal. Set it to the default each time at the
     // start, it may get modified depending on type and passed data
@@ -304,6 +306,9 @@ export default class App extends Component {
     // Accepts a quick bit of text
     // No customization of width/top
     if (typeof passedText === "string") {
+      // console.log(passedText)
+      // console.log(typeof passedText)
+
       return [
         this.setState({
           modalClickToClose: true,
@@ -747,6 +752,9 @@ export default class App extends Component {
     this.setdefaultKeyboardListners();
   }
 
+  componentDidUpdate = () => {
+    // console.log(this.state.modalStatus)
+  }
 
   render() {
     return (
@@ -817,6 +825,12 @@ export default class App extends Component {
           submitTextParser={this.submitTextParser}
           textParserChange={this.textParserChange}
           handleSubmittedTextModal={this.handleSubmittedTextModal}
+
+          // Main Menu status
+          menuBarActive={this.state.menuBarActive}
+
+          // Modal
+          modalStatus={this.state.modalStatus}
 
           // Doing stuff
           toggleInventoryScreen={this.toggleInventoryScreen}

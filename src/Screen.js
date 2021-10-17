@@ -12,7 +12,20 @@ export class Screen extends Component {
 
     event.preventDefault();
 
-    if (this.props.pausedgame === false && this.props.inventoryVisable === false && event.target.elements[0].value !== "") {
+    // Check if game is active, inventory isn't shown, and menu bar is closed
+
+    // Only allow text input when these resolve to false
+    const checkFalse = (val) => val === false;
+
+    const areWeFalse = [
+      this.props.pausedgame,
+      this.props.inventoryVisable,
+      this.props.menuBarActive,
+      this.props.modalStatus
+    ]
+
+    // need to prevent this when the menu is active?
+    if (areWeFalse.every(checkFalse) === true && event.target.elements[0].value !== "") {
 
       this.handleTextParsing(event)
 

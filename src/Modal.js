@@ -5,7 +5,7 @@ export class Modal extends Component{
   render(props){
     return (
       <div 
-        onClick={this.props.hideModal} 
+        // onClick={this.props.hideModal} 
         className={this.props.modalStatus ? "modal display-block": "modal display-none"}>
         <section className="modal-main" style={{width:this.props.modalWidth, top:this.props.modalTop}}>
           <p>{this.props.modalText}</p>
