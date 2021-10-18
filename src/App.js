@@ -21,6 +21,12 @@ export default class App extends Component {
 
     this.state = {
 
+      // Meta
+      title:"",
+      subTitle:"",
+      description:"",
+      version:0,
+
       // Modal
       modalTextScript: [],
       modalClickToClose: true,
@@ -83,13 +89,13 @@ export default class App extends Component {
         name:"mainNavSpeedMenu",
         order:3,items:[
           {
-            name: "LOL",
-            active: false,
+            name: "Fastest",
+            active: true,
             selected:true
           },
           {
             name: "Fast",
-            active: false,
+            active: true,
             selected:false
           },
           {
@@ -98,8 +104,8 @@ export default class App extends Component {
             selected:false
           },
           {
-            name: "Slooowww",
-            active: false,
+            name: "Slow",
+            active: true,
             selected:false
           }
 
@@ -124,6 +130,7 @@ export default class App extends Component {
       heroPositionCollided: false,
       heroMovementDisance: 5,
       heroMovementUpdateSpeed: 105,
+      heroMovementSpeeds:[100,65,30,1],
       heroHeight: 0,
       heroWidth: 0,
       heroSprite: "",
@@ -200,26 +207,53 @@ export default class App extends Component {
 
   // Accepts commands from main navigation, then routes them to helper funciton file
   handleMainMenuAction = (action) =>{
+
+    // Player has made a selection - close the menu!
     this.setState({menuBarActive: false})
+    
     console.log(action)
     // Cycle through built-in functions first
-   
+
+
+    // About game
     if (action === 'About') {
-      return this.handleSubmittedTextModal("Some about text")
-      // return this.setState({
-      //     modalClickToClose:true,
-      //     modalStatus: "modal display-block",
-      //     modalText:this.state.title + ": " + this.state.subTitle,
-      //     modalTextSlot2: this.state.description,
-      // })
+      this.setState({
+        modalTextSlot2: this.state.subTitle,
+        modalTextSlot3: this.state.description,
+        modalTextSlot4: "Version: " + this.state.version
+      })
+      return this.handleSubmittedTextModal(this.state.title)
+    }
+    else if(action === 'Help'){
+      return this.handleSubmittedTextModal(this.state.helpText)
+    }
+    else if(action === 'Slow'){
+      return this.setState({
+        heroMovementDisance:3,
+        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[0]
+      })
+    }
+    else if(action === 'Normal'){
+      return this.setState({
+        heroMovementDisance:4,
+        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[1]
+      })
+    }
+    else if(action === 'Fast'){
+      return this.setState({
+        heroMovementDisance:8,
+        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[2]
+      })
+    }
+      else if(action === 'Fastest'){
+      return this.setState({
+        heroMovementDisance:10,
+        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[3]
+      })
     }
    
    
-   
-   
-   
-    // const mainNavFuncValue = MainNavFunctions.route(this.state,action)
-
+  
     // this.setState(mainNavFuncValue)
 
 

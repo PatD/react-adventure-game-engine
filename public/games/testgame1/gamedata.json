@@ -2,38 +2,49 @@
     "title": "Test Quest ][",
     "subTitle": "The quest to develop a React.js Game Engine!",
     "description": "This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
+    "version": 0.1,
     "copyright": "2021",
-    "helpText": "Use your keyboard's arrow keys to move the character around the screen. Type commands for your character, like 'look at the room' or 'open this chest'.  Solve puzzles with what you carry by hitting Tab to access your inventory.  The Esc key will open the game menu where additional commands are available." ,
-    "mainMenuItemsCustom":[],
-    "highScore":245,
-    "playfieldX":640,
-    "playfieldY":420,
-    "modalWidthDefault":560,
-    "modalTopDefault":200,
-    "modalWidth":560,
-    "modalTop":200,
+    "helpText": "Use your keyboard arrow keys to move the character around the screen. See your character's inventory with the Tab key. The Escape key opens the main menu. Solve puzzles by typing commands, like 'look at the room' or 'open this chest'. ",
+    "mainMenuItemsCustom": [],
+    "highScore": 245,
+    "playfieldX": 640,
+    "playfieldY": 420,
+    "modalWidthDefault": 560,
+    "modalTopDefault": 200,
+    "modalWidth": 560,
+    "modalTop": 200,
     "heroPositionX": 225,
     "heroPositionY": 250,
     "heroMovementDisance": 5,
     "heroMovementUpdateSpeed": 65,
+    "heroMovementSpeeds": [
+        80,
+        35,
+        30,
+        15
+    ],
     "heroHeight": 68,
     "heroWidth": 32,
-    "flags":{
-        "bananaPhone":false,
-        "hasTacoMessageShown":false
+    "flags": {
+        "bananaPhone": false,
+        "hasTacoMessageShown": false
     },
     "rooms": [
         {
             "Name": "Loading",
             "Room": 1,
-            "Description":""
+            "Description": ""
         },
         {
             "Name": "Hallway",
             "Description": "You're in the ship's cargo bay. There are a few storage crates, and two employees hard at work.",
             "Room": 2,
-            "starting":"",
-            "messages":["You see a coffee maker","There is no spoon","This proves fatal"],
+            "starting": "",
+            "messages": [
+                "You see a coffee maker",
+                "There is no spoon",
+                "This proves fatal"
+            ],
             "roomExits": [
                 {
                     "exit": "left",
@@ -55,8 +66,8 @@
             "displayObjects": [
                 {
                     "id": "npcSpaceMan",
-                    "NPC":true,
-                    "NPCdefaultText":"The nondescript spaceman nods at you, but doesn't look like he's in the mood for talking.",
+                    "NPC": true,
+                    "NPCdefaultText": "The nondescript spaceman nods at you, but doesn't look like he's in the mood for talking.",
                     "Name": "man",
                     "Description": "You see a guy in a space-looking jump suit",
                     "colide": true,
@@ -65,29 +76,28 @@
                     "x": 150,
                     "y": 530,
                     "zIndex": 2
-              
                 },
                 {
                     "id": "npcSpaceTwin",
-                    "NPC":true,
+                    "NPC": true,
                     "Name": "other guy",
-                    "NPCdefaultText":[
+                    "NPCdefaultText": [
                         {
                             "modalText": "Well HELLO fellow space enthusiast!",
-                            "modalWidth":500,
-                            "modalTop":200
+                            "modalWidth": 500,
+                            "modalTop": 200
                         },
                         {
                             "modalText": "Make no mistake, YOU have arrived at the right cargo bay for space action and adventure",
-                            "modalWidth":300,
-                            "modalTop":220
+                            "modalWidth": 300,
+                            "modalTop": 220
                         },
                         {
                             "modalText": "Come back and find me when you have the keycard. That's what you'll need to go on your adventure!",
-                            "modalWidth":450,
-                            "modalTop":180
+                            "modalWidth": 450,
+                            "modalTop": 180
                         }
-                        ],
+                    ],
                     "Description": "You see a guy in a space-looking jump suit, a twin of the other gusy",
                     "colide": true,
                     "width": 28,
@@ -95,7 +105,6 @@
                     "x": 350,
                     "y": 230,
                     "zIndex": 2
-              
                 },
                 {
                     "id": "vortex",
@@ -160,16 +169,16 @@
         {
             "Name": "ComputerCenter",
             "Room": 3,
-            "starting":"right",
-            "Description":"You're in the Computer Center. A large computer terminal is at the other end.",
+            "starting": "right",
+            "Description": "You're in the Computer Center. A large computer terminal is at the other end.",
             "roomExits": [
                 {
                     "exit": "right",
                     "goto": 2,
                     "width": 1,
                     "height": 75,
-                    "x":340,
-                    "y":""
+                    "x": 340,
+                    "y": ""
                 }
             ],
             "displayObjects": [
@@ -178,7 +187,7 @@
                     "Name": "invisiblebackground",
                     "colide": true,
                     "width": 1000,
-                    "height":85,
+                    "height": 85,
                     "x": 210,
                     "y": 160,
                     "zIndex": 10,
@@ -189,7 +198,7 @@
                     "Name": "terminalscreen",
                     "colide": false,
                     "width": 105,
-                    "height":90,
+                    "height": 90,
                     "x": 220,
                     "y": 50,
                     "zIndex": 3,
@@ -200,37 +209,35 @@
                     "Name": "terminalcabinet",
                     "colide": false,
                     "width": 125,
-                    "height":175,
+                    "height": 175,
                     "x": 210,
                     "y": 40,
                     "zIndex": 1,
                     "bgcolor": "#5555FF"
                 },
-
                 {
                     "id": "invisibleTerminalCabinetCover",
                     "Name": "invisibleTerminalCabinetCover",
                     "colide": true,
                     "width": 125,
-                    "height":125,
+                    "height": 125,
                     "x": 210,
                     "y": 40,
                     "zIndex": 4,
                     "bgcolor": ""
                 },
-
                 {
                     "id": "backgroundbar",
                     "Name": "backgroundbar",
                     "colide": false,
                     "width": 1000,
-                    "height":200,
+                    "height": 200,
                     "x": 150,
                     "y": 0,
                     "zIndex": 0,
                     "bgcolor": "#AAAAAA",
-                    "class":"dither_bottom"
-                },               
+                    "class": "dither_bottom"
+                },
                 {
                     "id": "subleftwall",
                     "Name": "subleftwall",
@@ -301,32 +308,33 @@
         },
         {
             "Name": "MessHall",
-            "Description":"This is the mess hall.",
+            "Description": "This is the mess hall.",
             "Room": 4,
-            "starting":"right",
+            "starting": "right",
             "roomExits": [
                 {
                     "exit": "top",
                     "goto": 8,
                     "width": 300,
                     "height": 2,
-                    "x":"",
-                    "y":350
+                    "x": "",
+                    "y": 350
                 },
                 {
                     "exit": "bottom",
                     "goto": 2,
                     "width": 300,
                     "height": 5,
-                    "x":"",
-                    "y":100
-                },{
+                    "x": "",
+                    "y": 100
+                },
+                {
                     "exit": "right",
                     "goto": 5,
                     "width": 50,
                     "height": 300,
-                    "x":140,
-                    "y":""
+                    "x": 140,
+                    "y": ""
                 }
             ],
             "displayObjects": [
@@ -346,17 +354,17 @@
         },
         {
             "Name": "Ted's Room",
-            "Description":"This is Ted's room.",
+            "Description": "This is Ted's room.",
             "Room": 5,
-            "starting":"left",
+            "starting": "left",
             "roomExits": [
                 {
                     "exit": "left",
                     "goto": 4,
                     "width": 2,
                     "height": 300,
-                    "x":0,
-                    "y":""
+                    "x": 0,
+                    "y": ""
                 }
             ],
             "displayObjects": [
@@ -375,17 +383,17 @@
         },
         {
             "Name": "Sarah's Room - Employees only",
-            "Description":"This is the employee lounge, where hardworking space employees can come and chill out on their breaks.",
+            "Description": "This is the employee lounge, where hardworking space employees can come and chill out on their breaks.",
             "Room": 8,
-            "starting":"bottom",
+            "starting": "bottom",
             "roomExits": [
                 {
                     "exit": "bottom",
                     "goto": 4,
                     "width": 200,
                     "height": 2,
-                    "x":"",
-                    "y":350
+                    "x": "",
+                    "y": 350
                 }
             ],
             "displayObjects": [
@@ -399,7 +407,7 @@
                     "x": 50,
                     "y": 80,
                     "zIndex": 2,
-                    "bgcolor":"#999"
+                    "bgcolor": "#999"
                 },
                 {
                     "id": "couchback",
@@ -411,7 +419,7 @@
                     "x": 33,
                     "y": 130,
                     "zIndex": 2,
-                    "bgcolor":"#666"
+                    "bgcolor": "#666"
                 }
             ]
         }
@@ -419,93 +427,184 @@
     "inventory": [
         {
             "Name": "Taco",
-            "cssName":"taco",
+            "cssName": "taco",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "You see a delicous taco and want nothing more than to eat it.",
-            "FoundRoom":3,
-            "Visible":true,
-            "x":290,
-            "y":480,
-            "zIndex":5,
-            "width":60,
-            "height":40
+            "FoundRoom": 3,
+            "Visible": true,
+            "x": 290,
+            "y": 480,
+            "zIndex": 5,
+            "width": 60,
+            "height": 40
         },
         {
             "Name": "Suitcase",
-            "cssName":"suitcase",
+            "cssName": "suitcase",
             "owned": true,
-            "available":true,
+            "available": true,
             "Description": "This suitcase would be the perfect place to store a taco.",
-            "FoundRoom":3
+            "FoundRoom": 3
         },
         {
             "Name": "Bubblegum",
-            "cssName":"bubblegum",
+            "cssName": "bubblegum",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "Chomp chomp chomp",
-            "FoundRoom":4,
-            "Visible":true,
-            "x":290,
-            "y":480,
-            "zIndex":5,
-            "width":60,
-            "height":40
+            "FoundRoom": 4,
+            "Visible": true,
+            "x": 290,
+            "y": 480,
+            "zIndex": 5,
+            "width": 60,
+            "height": 40
         },
         {
             "Name": "Hat",
-            "cssName":"hat",
+            "cssName": "hat",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "Some text",
-            "FoundRoom":4
+            "FoundRoom": 4
         },
         {
             "Name": "Phone",
-            "cssName":"phone",
+            "cssName": "phone",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "Some text",
-            "FoundRoom":2
+            "FoundRoom": 2
         },
         {
             "Name": "Wallet",
-            "cssName":"wallet",
+            "cssName": "wallet",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "Some text",
-            "FoundRoom":10
+            "FoundRoom": 10
         },
         {
             "Name": "Keycard",
-            "cssName":"keycard",
+            "cssName": "keycard",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "This keycard is about the size of a business card, and has instructions about returning it safely to a rightful owner. You suspect it unlocks a door.",
-            "FoundRoom":4,
-            "Visible":true,
-            "x":190,
-            "y":480,
-            "zIndex":5,
-            "width":60,
-            "height":40
+            "FoundRoom": 4,
+            "Visible": true,
+            "x": 190,
+            "y": 480,
+            "zIndex": 5,
+            "width": 60,
+            "height": 40
         },
         {
             "Name": "Fake Keycard",
-            "cssName":"fakekeycard",
+            "cssName": "fakekeycard",
             "owned": false,
-            "available":true,
+            "available": true,
             "Description": "This keycard is about the size of a business card, but upon closer inspection you see it is definitely fake.",
-            "FoundRoom":4,
-            "Visible":true,
-            "x":250,
-            "y":390,
-            "zIndex":5,
-            "width":50,
-            "height":40
+            "FoundRoom": 4,
+            "Visible": true,
+            "x": 250,
+            "y": 390,
+            "zIndex": 5,
+            "width": 50,
+            "height": 40
         }
     ],
-    "gameLogic":"/games/testgame1/gameassets/gameLogic.js",
-    "heroSprite":"url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEQBAMAAACtirfOAAAAG1BMVEUAAABQUP8AiIhQ//+KAACIUAD/UFD//1BQUFAF8DTrAAAAAXRSTlMAQObYZgAABHJJREFUeF7tnOGNo0AMRq+FtJAWaIEWaMEt0ELKPhyUfQuOZjIgwsfKliard7bhCW51P/Lp/r2qn8rhBBYQ6H/qBJYQSAHwBBYSMDuBhQTsWSewjAD4TT5bgGKghaHWfUUB8HusIECZncBCAl1ndgIrCUx1AgsJjGPXHcFQ6P9JAejFUOhLCkCBNz9yBMbRprqKgFfgjQK+6ew/zejrC9hUsBf9FgG/CkzfO2oC1H0qBsbRGSWzWcesJDCOZQEzLYFh+C0wTAWZvdjMyfvoeM1CkM+j+/56bCgImK3/ufRXQNcZml8RfWczyIy/ZLyC2NcVqC9ERqEwLy1wmwq+36FP+HZbCvCK6IdfczEBt1oKwJ8IvPYRghGA1QQclwKtQn5ahfQFIBiB1v1rCkDtAn3/m9QF+ql8APYD8cl8bX8Ywr6wwDDVkucDOZfmZyEYYfaXwkoCIOwF80l/yz666GgK+IEQgJ327asLIBV/Qlv39QUc9gkwoS8ARiEITT7b93UFWKkXOnv3NQQyP5L5iRTwygyJGQPfYS0BexYD32EdAS8GTmAZAbCVEWjd1xDgF+MElhDIBAnfCJzAQgKZIeFrxqOYCfp/XWB5Q/6EvroAA3D7I7epxvF6AjHEsV2AwAIzzroCNlWMbLS9EgRgvsxWFyAfgI4zkYxZyWy9j3BZwExPgEAFEQ50ZvZ1lLz/PsJhRkSD6zFPxENHIIZM7/d1rIcJYj7LxMA6uOTd+ApgTQEYARZin9s3zAsK3KYCCRjUGIGYJ1gGe2KffQUBh+V4m4D3XACOQpG1BPyUuC6wTUhfAI4hlPb9awswURfo+8K+qMA6DzCfeoQj7hNfiPuqAkQyoPnUIxwIOUO1fYRVBHCqRzCY2LZPiENXIIYwoiK8Z19PAJko8E5p376qAO12AbrXEwAQQq2g2LCvKkDz00Jp676YAPG8LzElIHBCWkBVwOto1hYwY+EYVhZ4PMweDxaOYV0B+6mjWVWg71+xkqNZWWA+R7KuACPHs5TACREOZYGuI1JxHGsKEC7wzyWv+7V5JgosKeDNYfChBU9VYuZhhAosKjCfI1ldgEDBUXx1gRRIAbPfbPbpPH0zZYHhWSwQwSCM/r7PvhnsBNNXFTDrnmXGDWEvHil9+DXN/vySeML0VQXWA1HgPSME8UTXrCww5wUYiHmA2EfYrJw/oK8pwEIb14VhfYGuCwvN3HUpUGBpAf7jlpKQz9Q4Xg9WFiCyESMYCIS+n7BfYGEBLrjnBpHjvqoAA7VXsldIX6CFG/aZubYAVRCg1AVibRegri/Qunx9gXrtX9YXyAxJZkgyQ5ICKZACKZACmSll5HhWFuieVeK+38fDAOsJdD8FQ3Btvr6hJFDPD7AAb8sLOMCKApkfSIEUSIEUqEc46DNf63stWVcgRjjeBxYQgkv7PGH62gIMtDE3LLCkALUlwhG5HuFQF8gMSWZIMkOSGZJjAguwqgCRjRIjUOYoBKsK8IiOZlGBzJBkhiQzJJkhyfoPLe2r2HUzyVsAAAAASUVORK5CYII=')"
+    "menuBarActive": false,
+    "mainMenuItems": [
+        {
+            "top": "Game",
+            "name": "mainNavGameMenu",
+            "order": 1,
+            "items": [
+                {
+                    "name": "Help",
+                    "active": true,
+                    "selected": true
+                },
+                {
+                    "name": "About",
+                    "active": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "top": "File",
+            "name": "mainNavFileMenu",
+            "order": 2,
+            "items": [
+                {
+                    "name": "Save Game",
+                    "active": false,
+                    "selected": true
+                },
+                {
+                    "name": "Load Game",
+                    "active": false,
+                    "selected": false
+                },
+                {
+                    "name": "------",
+                    "active": false,
+                    "selected": false
+                },
+                {
+                    "name": "Restart",
+                    "active": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "top": "Speed",
+            "name": "mainNavSpeedMenu",
+            "order": 3,
+            "items": [
+                {
+                    "name": "LOL",
+                    "active": true,
+                    "selected": true
+                },
+                {
+                    "name": "Fastest",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "Fast",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "Normal",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "Slow",
+                    "active": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "top": "Sound",
+            "name": "mainNavSoundMenu",
+            "order": 4,
+            "items": [
+                {
+                    "name": "Sound On/Off",
+                    "active": false,
+                    "selected": true
+                }
+            ]
+        }
+    ],
+    "gameLogic": "/games/testgame1/gameassets/gameLogic.js",
+    "heroSprite": "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEQBAMAAACtirfOAAAAG1BMVEUAAABQUP8AiIhQ//+KAACIUAD/UFD//1BQUFAF8DTrAAAAAXRSTlMAQObYZgAABHJJREFUeF7tnOGNo0AMRq+FtJAWaIEWaMEt0ELKPhyUfQuOZjIgwsfKliard7bhCW51P/Lp/r2qn8rhBBYQ6H/qBJYQSAHwBBYSMDuBhQTsWSewjAD4TT5bgGKghaHWfUUB8HusIECZncBCAl1ndgIrCUx1AgsJjGPXHcFQ6P9JAejFUOhLCkCBNz9yBMbRprqKgFfgjQK+6ew/zejrC9hUsBf9FgG/CkzfO2oC1H0qBsbRGSWzWcesJDCOZQEzLYFh+C0wTAWZvdjMyfvoeM1CkM+j+/56bCgImK3/ufRXQNcZml8RfWczyIy/ZLyC2NcVqC9ERqEwLy1wmwq+36FP+HZbCvCK6IdfczEBt1oKwJ8IvPYRghGA1QQclwKtQn5ahfQFIBiB1v1rCkDtAn3/m9QF+ql8APYD8cl8bX8Ywr6wwDDVkucDOZfmZyEYYfaXwkoCIOwF80l/yz666GgK+IEQgJ327asLIBV/Qlv39QUc9gkwoS8ARiEITT7b93UFWKkXOnv3NQQyP5L5iRTwygyJGQPfYS0BexYD32EdAS8GTmAZAbCVEWjd1xDgF+MElhDIBAnfCJzAQgKZIeFrxqOYCfp/XWB5Q/6EvroAA3D7I7epxvF6AjHEsV2AwAIzzroCNlWMbLS9EgRgvsxWFyAfgI4zkYxZyWy9j3BZwExPgEAFEQ50ZvZ1lLz/PsJhRkSD6zFPxENHIIZM7/d1rIcJYj7LxMA6uOTd+ApgTQEYARZin9s3zAsK3KYCCRjUGIGYJ1gGe2KffQUBh+V4m4D3XACOQpG1BPyUuC6wTUhfAI4hlPb9awswURfo+8K+qMA6DzCfeoQj7hNfiPuqAkQyoPnUIxwIOUO1fYRVBHCqRzCY2LZPiENXIIYwoiK8Z19PAJko8E5p376qAO12AbrXEwAQQq2g2LCvKkDz00Jp676YAPG8LzElIHBCWkBVwOto1hYwY+EYVhZ4PMweDxaOYV0B+6mjWVWg71+xkqNZWWA+R7KuACPHs5TACREOZYGuI1JxHGsKEC7wzyWv+7V5JgosKeDNYfChBU9VYuZhhAosKjCfI1ldgEDBUXx1gRRIAbPfbPbpPH0zZYHhWSwQwSCM/r7PvhnsBNNXFTDrnmXGDWEvHil9+DXN/vySeML0VQXWA1HgPSME8UTXrCww5wUYiHmA2EfYrJw/oK8pwEIb14VhfYGuCwvN3HUpUGBpAf7jlpKQz9Q4Xg9WFiCyESMYCIS+n7BfYGEBLrjnBpHjvqoAA7VXsldIX6CFG/aZubYAVRCg1AVibRegri/Qunx9gXrtX9YXyAxJZkgyQ5ICKZACKZACmSll5HhWFuieVeK+38fDAOsJdD8FQ3Btvr6hJFDPD7AAb8sLOMCKApkfSIEUSIEUqEc46DNf63stWVcgRjjeBxYQgkv7PGH62gIMtDE3LLCkALUlwhG5HuFQF8gMSWZIMkOSGZJjAguwqgCRjRIjUOYoBKsK8IiOZlGBzJBkhiQzJJkhyfoPLe2r2HUzyVsAAAAASUVORK5CYII=')"
 }
