@@ -567,7 +567,7 @@
             "items": [
                 {
                     "name": "LOL",
-                    "active": true,
+                    "active": false,
                     "selected": true
                 },
                 {
@@ -598,8 +598,8 @@
             "order": 4,
             "items": [
                 {
-                    "name": "Sound On/Off",
-                    "active": false,
+                    "name": "Toggle Sound",
+                    "active": true,
                     "selected": true
                 }
             ]

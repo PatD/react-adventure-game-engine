@@ -114,7 +114,7 @@ header #gameTitle{
 
 
 
-/* Main Nav before anyone clicks */
+/* Main Nav before anyone presses escape */
 header #menuBarDefaultDisplay{
   height: 100%;
   padding-top: 2px;
@@ -133,6 +133,7 @@ header #menuBarNavBarActive.active{
 header #menuBarNavBarActive.inactive{
   display:none;
 }
+
 
 /* Main nav */
 header #menuBarNavBarActive li{
@@ -181,12 +182,18 @@ header .subMenu li{
 header .subMenu li.disabled{color:#CCC}
 
 
+
+
 /* Currently active dropdown menu, individual item selected */
 header ul.subMenu li#selected{
   background:#222;
   color:#fff;
 }
-
+/* Selected menu item if it's disabled */
+header ul.subMenu li#selected.disabled{
+  background:#ccc;
+  color:#fff;
+}
 
 
 

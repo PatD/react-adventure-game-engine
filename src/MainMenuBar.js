@@ -14,7 +14,7 @@ export default class MainMenuBar extends Component {
       mainNavCurrentActive: "", // The submenu that is currenlty open. There can be only 1!
       subNavActiveItems: [],  // Currently open menu
       subNavSelectedItem: "" // currently highlighted item
-    };  
+    };
   }
 
 
@@ -124,8 +124,8 @@ export default class MainMenuBar extends Component {
         mainNavCurrentActive: "",
         subNavActiveItems: [],
       }),
-        // Update parent component state
-        this.props.updateAppComponentState([{ menuBarActive: false }])
+      // Update parent component state
+      this.props.updateAppComponentState([{ menuBarActive: false }])
     ]
   }
 
@@ -195,14 +195,23 @@ export default class MainMenuBar extends Component {
       // Handle Enter key for selection
       else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
         (event.key === 'Enter')) {
-          return [
-          
+
+        // Is the current menu item disabled?
+        const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
+
+        if (selectedDisabled.active !== true) {
+          event.preventDefault()
+          return false
+        }
+
+        else return [
+
           // Prevent the default action for the enter key (in this case, sumbitting the text parser or closing the modal)
           event.preventDefault(),
-        
+
           // Take whatever action is selected
           this.props.handleMainMenuAction(this.state.subNavSelectedItem)
-          ]
+        ]
       }
 
       // Any other keypress is ignored!
@@ -211,7 +220,7 @@ export default class MainMenuBar extends Component {
   }
 
 
-  
+
   componentDidUpdate(prevProps) {
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)
     if (this.props.menuBarActive !== prevProps.menuBarActive) {
@@ -222,7 +231,6 @@ export default class MainMenuBar extends Component {
       else {
         return this.resetMenu()
       }
-
     }
   }
 
@@ -239,10 +247,7 @@ export default class MainMenuBar extends Component {
         </div>
 
 
-        {/*
-          This is the main nav bar.  
-          It is "invisible" when inactive, and "visible" when active
-          */}
+        {/* This is the main nav bar. It is "invisible" when inactive, and "visible" when active */}
         <div id="menuBarNavBarActive" className={this.state.mainNavMenuVisibility} >
           <ul>
             {this.props.mainMenuItems.map(main => (
@@ -254,7 +259,7 @@ export default class MainMenuBar extends Component {
           </ul>
         </div>
 
-        {/* Submenu choices injected here */}
+        {/* Submenu choices rendered here */}
         <ul
           id={"subMenu" + this.state.mainNavCurrentActive}
           className={this.state.mainNavCurrentActive != "" ? "subMenu active" : ""}>

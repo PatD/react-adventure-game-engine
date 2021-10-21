@@ -151,15 +151,12 @@ export default class App extends Component {
       playfieldX: 0,
       playfieldY: 0,
       pausedgame: false,
-      soundStatus: "On",
+      soundOn: true,
       textParserValue: "",
       submittedText: "",
       helpText: "Default text for the game's help",
       flags: []
     };
-
-    this.toggleSound = this.toggleSound.bind(this);
-
   }
 
   // Accepts an array of objects for state updates from child components
@@ -215,7 +212,6 @@ export default class App extends Component {
     // Cycle through built-in functions first
 
 
-    // About game
     if (action === 'About') {
       this.setState({
         modalTextSlot2: this.state.subTitle,
@@ -245,30 +241,39 @@ export default class App extends Component {
         heroMovementUpdateSpeed:this.state.heroMovementSpeeds[2]
       })
     }
-      else if(action === 'Fastest'){
+    else if(action === 'Fastest'){
       return this.setState({
         heroMovementDisance:10,
         heroMovementUpdateSpeed:this.state.heroMovementSpeeds[3]
       })
     }
-   
-   
-  
-    // this.setState(mainNavFuncValue)
+    else if(action === 'Toggle Sound'){
+      this.setState(prevState => ({
+        soundOn: !prevState.soundOn
+      }))
+      const soundString = this.state.soundOn ? "On":"Off";
+      return this.handleSubmittedTextModal("Sound is now " + soundString)
+    } 
+
+    else if(action === 'Restart'){
+
+      // ask if player wants to restart.  If OK, window.reload, else return false
+
+      this.setState({
+        modalTextSlot2: "Press ESCAPE to continue this game.",
+      })
+      return this.handleSubmittedTextModal("Press ENTER to restart the game. All progress will be lost.")
 
 
+    }
+    else {
+      return false
+    }
+   
     // Then pass off to gameLogic.js
 
   }
 
-  toggleSound() {
-
-    if (this.state.soundStatus === "On") {
-      this.setState({ soundStatus: "Off" });
-    } else {
-      this.setState({ soundStatus: "On" });
-    }
-  }
 
   hideModal = () => {
     if (this.state.modalClickToClose === true) {
@@ -877,8 +882,7 @@ export default class App extends Component {
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
           // togglePause={this.togglePause}
-          soundStatus={this.state.soundStatus}
-          toggleSound={this.toggleSound}
+          soundOn={this.state.soundOn}
           flags={this.state.flags}
           updateAppComponentState={this.updateAppComponentState}
         />
