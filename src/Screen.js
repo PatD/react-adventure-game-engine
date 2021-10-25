@@ -24,18 +24,20 @@ export class Screen extends Component {
       this.props.modalStatus
     ]
 
-    // need to prevent this when the menu is active?
+    // If all our falses are false (yeesh), and the inut box isn't empty, submit the text for processing
     if (areWeFalse.every(checkFalse) === true && event.target.elements[0].value !== "") {
 
-      this.handleTextParsing(event)
+     return[ 
+       this.handleTextParsing(event),
 
-      // Populates the Submitted Text state for processing then clears input field
-      this.props.textPopulateStateAndClearParser(event);
+       // Populates the Submitted Text state for processing then clears input field
+       this.props.textPopulateStateAndClearParser(event)
+     ]
 
     }
     else {
       // If the enter key is pressed, while the modal is open, close the modal
-      this.props.hideModal()
+      return this.props.hideModal(event)
     }
   }
 

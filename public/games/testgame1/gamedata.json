@@ -9,6 +9,7 @@
     "highScore": 245,
     "playfieldX": 640,
     "playfieldY": 420,
+    "modalConfirmation":"",
     "modalWidthDefault": 560,
     "modalTopDefault": 200,
     "modalWidth": 560,
@@ -540,7 +541,7 @@
             "items": [
                 {
                     "name": "Save Game",
-                    "active": false,
+                    "active": true,
                     "selected": true
                 },
                 {

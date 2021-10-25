@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PreloadGameAssets from './PreloadGameAssets'
-import MainNavFunctions from './MainNavFunctions';
+// import MainNavFunctions from './MainNavFunctions';
 import Screen from './Screen';
 import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
@@ -41,6 +41,7 @@ export default class App extends Component {
       modalTopDefault: 200,
       modalWidth: 560,
       modalTop: 200,
+      modalConfirmation:"", // occurs optionally when a modal is used as a confirmation and the enter key closes it
 
       // Menu state
       menuBarActive: false,
@@ -209,9 +210,9 @@ export default class App extends Component {
     this.setState({menuBarActive: false})
     
     console.log(action)
+    
+    
     // Cycle through built-in functions first
-
-
     if (action === 'About') {
       this.setState({
         modalTextSlot2: this.state.subTitle,
@@ -260,10 +261,23 @@ export default class App extends Component {
       // ask if player wants to restart.  If OK, window.reload, else return false
 
       this.setState({
+        modalConfirmation: "restart",
         modalTextSlot2: "Press ESCAPE to continue this game.",
       })
       return this.handleSubmittedTextModal("Press ENTER to restart the game. All progress will be lost.")
 
+
+    }
+    else if(action === 'Save Game'){
+
+      // ask if player wants to restart.  If OK, window.reload, else return false
+
+      this.setState({
+        modalConfirmation: "saveGame",
+        modalTextSlot2: "Press ENTER to save your current game to this computer. It will overwrite any existing save.",
+        modalTextSlot3: "Press ESCAPE to cancel.",
+      })
+      return this.handleSubmittedTextModal("SAVE GAME.")
 
     }
     else {
@@ -275,20 +289,61 @@ export default class App extends Component {
   }
 
 
-  hideModal = () => {
+  // Routes commands that run when a modal is closed.
+  confirmationCommand = (command) =>{
+    // Run a built-in command 
+    
+    console.log("A Modal confirmation command just fired: " + command)
+
+    if(command === 'restart'){
+      // ToDo: maybe remove game switcher feature?
+      // this.loadGameFile(game)
+    }
+
+    else if(command === "saveGame"){
+      this.saveGame()
+    }
+    
+
+    // Anything not in here is passed to gameLogic.js
+
+  }
+
+
+
+  hideModal = (event) => {
+    
+    console.log(event)
+
+
+    // Optionally, check first if a post-enter command has been decreed.
+    // This optional command will fire when Enter is pressed
+    if(this.state.modalConfirmation !== "" && this.state.modalClickToClose === true){
+      event.preventDefault()
+      this.confirmationCommand(this.state.modalConfirmation)
+    }
+
+
+    // Now close the modal
     if (this.state.modalClickToClose === true) {
-      this.setState({
+      return this.setState({
+        modalConfirmation:"",
         modalClickToClose: true,
         modalStatus: false,
         modalTextSlot2: "",
         modalTextSlot3: "",
         modalTextSlot4: "",
+        pausedgame: false 
       });
-    } else {
-      console.log('Clicking the modal does nothing here')
     }
-    this.setState({ pausedgame: false });
   };
+
+  
+  saveGame = () => {
+      localStorage.setItem(this.state.title, JSON.stringify(this.state))  
+      this.handleSubmittedTextModal("Game saved successfully")
+  }
+
 
   modalButtonClick1 = (event) => {
     if (this.state.modalButtonText1 === "Restart") {
@@ -347,7 +402,7 @@ export default class App extends Component {
     if (typeof passedText === "string") {
       // console.log(passedText)
       // console.log(typeof passedText)
-
+      console.log('start handleSubmittedTextModal')
       return [
         this.setState({
           modalClickToClose: true,
@@ -622,6 +677,15 @@ export default class App extends Component {
           this.toggleInventoryScreen(event.key)
         ]
       }
+      
+      // Handle Enter key for modals where Enter is the confirmation
+      // else if(event.key === 'Enter' && this.state.inventoryVisable === false && this.state.modalClickToClose === true){
+      //   return event.preventDefault()
+      // }
+
+      else if(event.key === 'Enter' ){
+        //return event.preventDefault()
+      }
 
       // This opens the inventory screen
       else if (this.state.inventoryVisable === false && event.key === 'Tab') {
@@ -631,9 +695,18 @@ export default class App extends Component {
         ]
       }
 
+      // Handle Escape key to close modal dialog box
+      else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === true) {
+        return [
+          event.preventDefault(),
+          this.hideModal()
+        ]
+      }
+
       // Handle Escape key to toggle menu
       else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === false) {
-        return [
+        return [ 
+          event.preventDefault(),
           this.haltHero(),
           this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
         ]
@@ -881,7 +954,6 @@ export default class App extends Component {
           removeFromInventory={this.removeFromInventory}
           inventoryVisable={this.state.inventoryVisable}
           pausedgame={this.state.pausedgame}
-          // togglePause={this.togglePause}
           soundOn={this.state.soundOn}
           flags={this.state.flags}
           updateAppComponentState={this.updateAppComponentState}
