@@ -209,9 +209,6 @@ export default class App extends Component {
     // Player has made a selection - close the menu!
     this.setState({menuBarActive: false})
     
-    console.log(action)
-    
-    
     // Cycle through built-in functions first
     if (action === 'About') {
       this.setState({
@@ -311,19 +308,19 @@ export default class App extends Component {
 
 
 
-  hideModal = (event) => {
+  hideModal = ( event ) => {
     
-    console.log(event)
+    console.log(event.key)
 
-
-    // Optionally, check first if a post-enter command has been decreed.
+    // Check first if a post-enter command has been decreed.
     // This optional command will fire when Enter is pressed
-    if(this.state.modalConfirmation !== "" && this.state.modalClickToClose === true){
-      event.preventDefault()
-      this.confirmationCommand(this.state.modalConfirmation)
+    if(this.state.modalConfirmation !== "" && this.state.modalClickToClose === true && event.key !== 'Escape'){
+      return [
+        this.confirmationCommand(this.state.modalConfirmation)
+      ]
     }
 
-
+    
     // Now close the modal
     if (this.state.modalClickToClose === true) {
       return this.setState({
@@ -335,13 +332,20 @@ export default class App extends Component {
         modalTextSlot4: "",
         pausedgame: false 
       });
-    }
+    } 
   };
 
   
   saveGame = () => {
-      localStorage.setItem(this.state.title, JSON.stringify(this.state))  
-      this.handleSubmittedTextModal("Game saved successfully")
+    return [
+      this.setState({
+        modalConfirmation:"",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+      }),
+      localStorage.setItem(this.state.title, JSON.stringify(this.state)),
+      this.handleSubmittedTextModal("Game saved successfully. Press ENTER to continue.")
+    ]
   }
 
 
@@ -387,7 +391,6 @@ export default class App extends Component {
   // Handles text display - and usually opens a modal
   // The type of passed data determines the results.
   handleSubmittedTextModal = (passedText) => {
-    
 
     // Create a function scoped variable for the width and position
     // from the top of the modal. Set it to the default each time at the
@@ -670,28 +673,26 @@ export default class App extends Component {
   setdefaultKeyboardListners = () => {
     return document.addEventListener('keydown', (event) => {
 
-      // Since "any key" can close the inventory screen, we start with that
+      // "Any key" can close the inventory screen, we start with that
       if (this.state.inventoryVisable === true) {
         return [
           event.preventDefault(),
-          this.toggleInventoryScreen(event.key)
+          this.toggleInventoryScreen()
         ]
       }
       
       // Handle Enter key for modals where Enter is the confirmation
-      // else if(event.key === 'Enter' && this.state.inventoryVisable === false && this.state.modalClickToClose === true){
-      //   return event.preventDefault()
-      // }
-
-      else if(event.key === 'Enter' ){
-        //return event.preventDefault()
+      else if(event.key === 'Enter'){
+        /* 
+          Maybe not a good idea? There's a submit event that uses the enter key on screen.js
+        */
       }
 
       // This opens the inventory screen
       else if (this.state.inventoryVisable === false && event.key === 'Tab') {
         return [
           event.preventDefault(),
-          this.toggleInventoryScreen(event.key)
+          this.toggleInventoryScreen()
         ]
       }
 
@@ -699,11 +700,11 @@ export default class App extends Component {
       else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === true) {
         return [
           event.preventDefault(),
-          this.hideModal()
+          this.hideModal(event)
         ]
       }
 
-      // Handle Escape key to toggle menu
+      // Handle Escape key to toggle main menu
       else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === false) {
         return [ 
           event.preventDefault(),
@@ -722,7 +723,7 @@ export default class App extends Component {
         ]
       }
 
-      // Any other keypress is ignored!
+      // Any other keypress is ignored here!
       else {
         return false
       }
