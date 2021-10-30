@@ -35,8 +35,8 @@ export default class App extends Component {
       modalTextSlot2: "",
       modalTextSlot3: "",
       modalTextSlot4: "",
-      modalButtonText1: "",
-      modalButtonText2: "",
+      // modalButtonText1: "",
+      // modalButtonText2: "",
       modalWidthDefault: 560,
       modalTopDefault: 200,
       modalWidth: 560,
@@ -262,8 +262,6 @@ export default class App extends Component {
         modalTextSlot2: "Press ESCAPE to continue this game.",
       })
       return this.handleSubmittedTextModal("Press ENTER to restart the game. All progress will be lost.")
-
-
     }
     else if(action === 'Save Game'){
       this.setState({
@@ -307,11 +305,11 @@ export default class App extends Component {
     }
 
     else if(command === "saveGame"){
-      this.saveGame()
+      return this.saveGame()
     }
 
     else if(command === "loadSaveGame"){
-      this.loadSaveGame()
+      return this.loadSaveGame()
     }
     
 
@@ -333,7 +331,6 @@ export default class App extends Component {
       ]
     }
 
-    
     // Now close the modal
     if (this.state.modalClickToClose === true) {
       return this.setState({
@@ -350,13 +347,28 @@ export default class App extends Component {
 
   
   saveGame = () => {
+    // Remove what's not needed from state before saving. 
+    this.setState({
+      modalConfirmation:"",
+      modalTextSlot2: "",
+      modalTextSlot3: "",
+      modalTextSlot4: "",
+    })
+    
+    // Capture the current games state
+    const savedState = this.state
+    
+    // Get rid of stuff we dom't need when saving
+    delete savedState.modalConfirmation
+    delete savedState.modalTextSlot2
+    delete savedState.modalTextSlot3
+    delete savedState.modalTextSlot4
+    delete savedState.gameLogic
+
+    
+
     return [
-      this.setState({
-        modalConfirmation:"",
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-      }),
-      localStorage.setItem(this.state.title, JSON.stringify(this.state)),
+      localStorage.setItem(this.state.title, JSON.stringify(savedState)),
       this.handleSubmittedTextModal("Game saved successfully. Press ENTER to continue.")
     ]
   }
@@ -382,7 +394,7 @@ export default class App extends Component {
         return this.handleSubmittedTextModal("No saved data found on this computer. Press ENTER to continue.")
       }
   }
-
+  /*
   modalButtonClick1 = (event) => {
     if (this.state.modalButtonText1 === "Restart") {
       alert("GAME RESTART")
@@ -394,7 +406,7 @@ export default class App extends Component {
       // alert('CANCEL')
     }
   }
-
+  */
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) => {
     return this.setState({
@@ -921,10 +933,11 @@ export default class App extends Component {
           modalTextSlot2={this.state.modalTextSlot2}
           modalTextSlot3={this.state.modalTextSlot3}
           modalTextSlot4={this.state.modalTextSlot4}
-          modalButtonText1={this.state.modalButtonText1}
-          modalButtonText2={this.state.modalButtonText2}
-          modalButtonClick1={this.modalButtonClick1}
-          modalButtonClick2={this.modalButtonClick2} />
+          // modalButtonText1={this.state.modalButtonText1}
+          // modalButtonText2={this.state.modalButtonText2}
+          // modalButtonClick1={this.modalButtonClick1}
+          // modalButtonClick2={this.modalButtonClick2} 
+          />
 
 
         <MainMenuBar

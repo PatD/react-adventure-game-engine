@@ -5,7 +5,6 @@ export class Modal extends Component{
   render(props){
     return (
       <div 
-        // onClick={this.props.hideModal} 
         className={this.props.modalStatus ? "modal display-block": "modal display-none"}>
         <section className="modal-main" style={{width:this.props.modalWidth, top:this.props.modalTop}}>
           <p>{this.props.modalText}</p>
@@ -13,10 +12,10 @@ export class Modal extends Component{
           <p className={this.props.modalTextSlot3 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot3}</p>
           <p className={this.props.modalTextSlot4 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot4}</p>
 
-          <div id="buttonWrap">
+          {/* <div id="buttonWrap">
             <button onClick={this.props.modalButtonClick1} className={this.props.modalButtonText1 ==="" ? "display-none" : "display-inlineblock"}>{this.props.modalButtonText1}</button>
             <button onClick={this.props.modalButtonClick2} className={this.props.modalButtonText2 ==="" ? "display-none" : "display-inlineblock"}>{this.props.modalButtonText2}</button>
-          </div>
+          </div> */}
         </section>
       </div>
     );
