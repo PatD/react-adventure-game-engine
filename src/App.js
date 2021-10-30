@@ -266,31 +266,40 @@ export default class App extends Component {
 
     }
     else if(action === 'Save Game'){
-
-      // ask if player wants to restart.  If OK, window.reload, else return false
-
       this.setState({
         modalConfirmation: "saveGame",
         modalTextSlot2: "Press ENTER to save your current game to this computer. It will overwrite any existing save.",
         modalTextSlot3: "Press ESCAPE to cancel.",
       })
       return this.handleSubmittedTextModal("SAVE GAME.")
+    }
+
+    else if(action === 'Load Game'){
+
+      // Add check for an actual saved game?
+      this.setState({
+        modalConfirmation: "loadSaveGame",
+        modalTextSlot2: "You are about to load your saved game.",
+        modalTextSlot3: "Press ENTER to continue.",
+        modalTextSlot4: "Press ESCAPE to cancel.",
+      })
+      return this.handleSubmittedTextModal("LOAD A SAVED GAME.")
 
     }
+
     else {
+
+      // Then pass off to gameLogic.js
       return false
     }
    
-    // Then pass off to gameLogic.js
+    
 
   }
 
 
   // Routes commands that run when a modal is closed.
   confirmationCommand = (command) =>{
-    // Run a built-in command 
-    
-    console.log("A Modal confirmation command just fired: " + command)
 
     if(command === 'restart'){
       // ToDo: maybe remove game switcher feature?
@@ -299,6 +308,10 @@ export default class App extends Component {
 
     else if(command === "saveGame"){
       this.saveGame()
+    }
+
+    else if(command === "loadSaveGame"){
+      this.loadSaveGame()
     }
     
 
@@ -348,6 +361,27 @@ export default class App extends Component {
     ]
   }
 
+
+  loadSaveGame = () => {
+    
+      this.setState({
+        modalConfirmation:"",
+        modalTextSlot2: "",
+        modalTextSlot3: "",
+        modalTextSlot4: "",
+      })
+      const loadedSave = JSON.parse(localStorage.getItem(this.state.title))
+      
+      if(loadedSave !== null){
+        return [
+          this.setState(loadedSave),        
+          this.handleSubmittedTextModal("Game loaded successfully. Press ENTER to continue.")
+        ]
+      }
+      else {
+        return this.handleSubmittedTextModal("No saved data found on this computer. Press ENTER to continue.")
+      }
+  }
 
   modalButtonClick1 = (event) => {
     if (this.state.modalButtonText1 === "Restart") {
