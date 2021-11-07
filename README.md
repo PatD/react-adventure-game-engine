@@ -1,18 +1,48 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/987b18a9-7288-4088-b864-a99f1ffbaca9/deploy-status)](https://app.netlify.com/sites/react-adventure-game-engine/deploys)
 
 # Building a React.js tribute to 1980's adventure games
-This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (CGA) or sixteen (EGA) color graphics, driven with arrow keys for hero movement and a text parser for execuring game commands. 
+This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (`CGA`) or sixteen (`EGA`) color graphics, driven with arrow keys for hero movement and a text parser for execuring game commands. 
 
 ## But why?
-The primary reason was to give me a chance to learn React without making a CRUD form. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
+The primary reason was to give me a chance to learn React without making a CRUD form or TODO list. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
+
+## Should I use it to make a game?
+I mean, why not? If 1980s style advernture games are the style you want to mimic, and you're already comfortable with HTML5, CSS, JavaScript (especially reactive JavaScript frameworks like React and Vue), this might be the engine for you. It doesn't promise 60FPS, nor state of the art 3d graphics. 
 
 ## Getting started
-This is a Create React App project, not ejected. The engine itself is in the /src folder and the games themselves live in /public/games.  Keeping the game style and logic seprate from the engine was a significant challenge - Create React App doesn't really love files outside of /src.
+This is a Create React App project, not ejected. The engine itself is in the `/src` folder and the games themselves live in `/public/games`.  Keeping the game style and logic seprate from the engine was a significant challenge - Create React App doesn't really love files outside of `/src`.
 
-## What's in a game
-Each game should be self contained in its own folder in /public/games.  This repo houses a test game in a folder called /testgame1.
+### How the engine works
+Most of the game's data is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort. 
 
-In the root should be a file called gamedata.json, which houses the default state of the game, all rooms and room objects, hero details, menu choices, etc.  There should also be a subfolder called /gameassets.  In /gameassets, there should be all your graphical files, as well as the game's stylesheet (gameStyles.css) and custom code (gameLogic.js).
+## What's in an individual game
+Each game can be self contained in its own folder in `/public/games`.  This repo houses a test game in a folder called `/testgame1`.
+
+In the root should be a file called gamedata.json, which houses the default state of the game, all rooms and room objects, hero details, menu choices, etc.  There should also be a subfolder called `/gameassets`.  In `/gameassets`, there should be all your graphical files, as well as the game's stylesheet (`gameStyles.css`) and custom code file (`gameLogic.js`).
+
+In theory, your could run a game without anything a `gameLogic.js` - the engine will build out the rooms in gamedata.json. Your hero could walk around and look at things, get things, and enjoy the scenery.
+
+## Creating your first game
+Create a copy of `/public/games/gameTemplate` in the `/public/games` folder, and add a reference to it in `/public/games/gamelist.json`.  In your new folder, you'll find:
+
+* `gamedata.json` - Should be a JSON object containing metadata (title, description), room data, display objects, inventory, hero graphic specifications.
+* `../gameassets/gameLogic.js` - All non-engine game code can live in here. You'll find two starter functions, one that fires when a room is loaded, and another that routes custom commands not found in the engine.
+* `../gameassets/gameStyles.css` - This will be mostly empty. You'll want to use this file to reference all your graphic assets. On load, the game automatically parses every image in there and loads it into the browser cache for faster loading
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
