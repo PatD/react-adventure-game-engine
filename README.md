@@ -1,7 +1,18 @@
-# Building a React.js tribute to 1980's adventure games
-Details to come.
-
 [![Netlify Status](https://api.netlify.com/api/v1/badges/987b18a9-7288-4088-b864-a99f1ffbaca9/deploy-status)](https://app.netlify.com/sites/react-adventure-game-engine/deploys)
+
+# Building a React.js tribute to 1980's adventure games
+This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (CGA) or sixteen (EGA) color graphics, driven with arrow keys for hero movement and a text parser for execuring game commands. 
+
+## But why?
+The primary reason was to give me a chance to learn React without making a CRUD form. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
+
+## Getting started
+This is a Create React App project, not ejected. The engine itself is in the /src folder and the games themselves live in /public/games.  Keeping the game style and logic seprate from the engine was a significant challenge - Create React App doesn't really love files outside of /src.
+
+## What's in a game
+Each game should be self contained in its own folder in /public/games.  This repo houses a test game in a folder called /testgame1.
+
+In the root should be a file called gamedata.json, which houses the default state of the game, all rooms and room objects, hero details, menu choices, etc.  There should also be a subfolder called /gameassets.  In /gameassets, there should be all your graphical files, as well as the game's stylesheet (gameStyles.css) and custom code (gameLogic.js).
 
 
 
