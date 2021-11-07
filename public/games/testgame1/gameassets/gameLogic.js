@@ -9,6 +9,7 @@ console.info('Custom Game Logic File Loaded!')
     Expects the new room and current state to be passed to it.
 */
 function roomChange(roomNumber, state) {
+    console.log(roomNumber)
     if (roomNumber !== "undefined") { // <-- This check is here because React fires this on load, and sometimes state isn't ready yet
 
         switch (roomNumber) {
@@ -84,6 +85,24 @@ function customTextParser(textForParsing, props) {
 // This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
 function roomChangetwo(roomNumber, state) {
     console.log("We're in a new room,  " + roomNumber)
+
+    // Check for the player's locaition periodically
+
+    // If there's a match, game-over the player
+    updateFame = () =>{
+        // console.log(window.gameState.heroPositionY)
+       
+        if((window.gameState.heroPositionY >= 320 && window.gameState.heroPositionY < 380) && 
+        (window.gameState.heroPositionX >= 140 && window.gameState.heroPositionX < 200)){
+            console.log('hit')
+        }
+        
+        requestAnimationFrame(updateFame)
+
+    }
+
+    requestAnimationFrame(updateFame)
+
 }
 
 

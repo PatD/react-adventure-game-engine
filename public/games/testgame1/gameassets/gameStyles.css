@@ -41,6 +41,16 @@
  
 }
 
+#sloth {
+    background-image:url('/games/testgame1/gameassets/gamesprite_sloth.png');
+    background-repeat: no-repeat;
+}
+
+#vortex{
+    background-image:url('/games/testgame1/gameassets/gamesprite_swirlingdoomvortex.png');
+    background-repeat: no-repeat;
+}
+
 #grayBlock {
     background-image:url('/games/testgame1/gameassets/grayBlock.png');
     background-repeat: no-repeat;

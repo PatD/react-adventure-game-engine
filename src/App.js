@@ -203,6 +203,22 @@ export default class App extends Component {
   }
 
 
+
+  // No glory without sacrifice, no growth without pain
+  gameOver = (message) =>{
+
+    // Set player status
+    this.setState({
+      heroAlive:false
+    })
+
+    if(message === undefined){
+      const msg = "Game Over. Thank you for playing " + this.state.title + ". You can restart or load a saved game."
+      this.handleSubmittedTextModal(msg)
+    }
+
+  }
+
   // Accepts commands from main navigation, then routes them to helper funciton file
   handleMainMenuAction = (action) =>{
 
@@ -318,11 +334,9 @@ export default class App extends Component {
   }
 
 
-
+  // Closes an open dialog box
   hideModal = ( event ) => {
-    
-    console.log(event.key)
-
+  
     // Check first if a post-enter command has been decreed.
     // This optional command will fire when Enter is pressed
     if(this.state.modalConfirmation !== "" && this.state.modalClickToClose === true && event.key !== 'Escape'){
@@ -394,19 +408,8 @@ export default class App extends Component {
         return this.handleSubmittedTextModal("No saved data found on this computer. Press ENTER to continue.")
       }
   }
-  /*
-  modalButtonClick1 = (event) => {
-    if (this.state.modalButtonText1 === "Restart") {
-      alert("GAME RESTART")
-    }
-  }
 
-  modalButtonClick2 = (event) => {
-    if (this.state.modalButtonText1 === "Restart") {
-      // alert('CANCEL')
-    }
-  }
-  */
+
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) => {
     return this.setState({
@@ -911,8 +914,13 @@ export default class App extends Component {
     this.setdefaultKeyboardListners();
   }
 
-  componentDidUpdate = () => {
-    // console.log(this.state.modalStatus)
+  componentDidUpdate = (prevState) => {
+    
+    // Make game state available for gameLogic.js
+    if(prevState !== this.state){
+      window.gameState = this.state;
+    }    
+    
   }
 
   render() {
