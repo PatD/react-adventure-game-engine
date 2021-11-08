@@ -6,6 +6,9 @@ This game engine is heavily derived from 1980/90's graphic adventure computer ga
 ## But why?
 The primary reason was to give me a chance to learn React without making a CRUD form or TODO list. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
 
+> ## Why didn't you use...
+> There are a ton of great React libraries and tools that would have made this effort significantly easier. But learning and understanding require doing the hard part first, before you can appreciate the value of a good state management library or animation library.
+
 ## Should I use it to make a game?
 I mean, why not? If 1980s style advernture games are the style you want to mimic, and you're already comfortable with HTML5, CSS, JavaScript (especially reactive JavaScript frameworks like React and Vue), this might be the engine for you. It doesn't promise 60FPS, nor state of the art 3d graphics. 
 
@@ -19,17 +22,17 @@ Most of the game's data is maintained, during play, in app.js' state. Most compo
 
 #### Built in keyboard controls
 In the spirit of the 1980s, this engine is strictly keyboard driven. No mouse support is provided. The engine's functions are coded to suport:
-  * Tab key opens the inventory (and any other key closes it)
-  * The Escape key:
+  * *Tab* key opens the inventory (and any other key closes it)
+  * *Escape* key
     * Opens the main menu
     * Closes the main menu (if it is open)
     * Dismisses any open modal dialog box
-  * The Enter key: 
+  * *Enter* key: 
     * Dismisses an open modal dialog box
     * Submits text parser words 
     * Selects a main menu item
     * Confirms a choice modal dialog box action (like saving or loading a saved game)
-  * The arrow keys (not `WASD`):
+  * *Arrow* keys (not `WASD`):
     * Move the hero character around the screen
     * Controls the main menu when open
     * Diagonals on the num pad aren't supported currently
@@ -38,13 +41,13 @@ In the spirit of the 1980s, this engine is strictly keyboard driven. No mouse su
 As the player adventures around, they must ineract with their environment. Since no mouse support is provided, the player must type commands like `open door` or `get the taco` or `give taco to horse` to make progress in the same.
 
 There is built in support for these commands:
-* Get - as in `"get taco"` or `"get the keycard"`. There's support for getting any item in the gamedata.json Inventory array, as long as the room matches. Error messaging is available for when items aren't in the right room.
-* Help - Opens a modal dialog box with the help text from gamedata.json.
-* Inventory - Opens the inventory screen.
-* Look - As in `"look"` or `"look at the monster"`.  There's support for just typing it alone, as well as support for looking at any display object in gamedata.json. 
-* Talk - As in `"talk to blacksmith"`. As long as the NPC is labled as such in the gamedata.json file, a reponse with automatically be returned.  There's error handling for players to try to talk to inanimate objects.
+* *Get* - As in `"get taco"` or `"get the keycard"`. There's support for getting any item in the gamedata.json Inventory array, as long as the room matches. Error messaging is available for when items aren't in the right room.
+* *Help* - Opens a modal dialog box with the help text from gamedata.json.
+* *Inventory* - Opens the inventory screen.
+* *Look* - As in `"look"` or `"look at the monster"`.  There's support for just typing it alone, as well as support for looking at any display object in gamedata.json. 
+* *Talk* - As in `"talk to blacksmith"`. As long as the NPC is labled as such in the gamedata.json file, a reponse with automatically be returned.  There's error handling for players to try to talk to inanimate objects.
 
-
+There's support for custom commands as well. The engine will check 
 
 
 ## What's in an individual game
