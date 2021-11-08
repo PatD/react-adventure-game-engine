@@ -12,8 +12,28 @@ I mean, why not? If 1980s style advernture games are the style you want to mimic
 ## Getting started
 This is a Create React App project, not ejected. The engine itself is in the `/src` folder and the games themselves live in `/public/games`.  Keeping the game style and logic seprate from the engine was a significant challenge - Create React App doesn't really love files outside of `/src`.
 
-### How the engine works
+## How the engine works
 Most of the game's data is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort. 
+
+#### The engine itself handles
+
+* Keyboard controls - In the spirit of the 1980s, this engine is strictly keyboard driven. No mouse support is provided. The engine's functions are coded to suport:
+  * Tab key opens the inventory (and any other key closes it)
+  * The Escape key:
+    * Opens the main menu
+    * Closes the main menu (if it is open)
+    * Dismisses any open modal dialog box
+  * The Enter key: 
+    * Dismisses an open modal dialog box
+    * Submits text parser words 
+    * Selects a main menu item
+    * Confirms a choice modal dialog box action (like saving or loading a saved game)
+  * The arrow keys (not `WASD`):
+    * Move the hero character around the screen
+    * Controls the main menu when open
+    * Diagonals on the num pad aren't supported currently
+
+
 
 ## What's in an individual game
 Each game can be self contained in its own folder in `/public/games`.  This repo houses a test game in a folder called `/testgame1`.
@@ -23,7 +43,9 @@ In the root should be a file called gamedata.json, which houses the default stat
 In theory, your could run a game without anything a `gameLogic.js` - the engine will build out the rooms in gamedata.json. Your hero could walk around and look at things, get things, and enjoy the scenery.
 
 ## Creating your first game
-Create a copy of `/public/games/gameTemplate` in the `/public/games` folder, and add a reference to it in `/public/games/gamelist.json`.  In your new folder, you'll find:
+Create a copy of `/public/games/gameTemplate` in the `/public/games` folder, and add a reference to it in `/public/games/gamelist.json`.  
+
+In your new folder, you'll find:
 
 * `gamedata.json` - Should be a JSON object containing metadata (title, description), room data, display objects, inventory, hero graphic specifications.
 * `../gameassets/gameLogic.js` - All non-engine game code can live in here. You'll find two starter functions, one that fires when a room is loaded, and another that routes custom commands not found in the engine.
