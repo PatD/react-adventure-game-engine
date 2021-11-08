@@ -17,7 +17,8 @@ Most of the game's data is maintained, during play, in app.js' state. Most compo
 
 #### The engine itself handles
 
-* Keyboard controls - In the spirit of the 1980s, this engine is strictly keyboard driven. No mouse support is provided. The engine's functions are coded to suport:
+#### Built in keyboard controls
+In the spirit of the 1980s, this engine is strictly keyboard driven. No mouse support is provided. The engine's functions are coded to suport:
   * Tab key opens the inventory (and any other key closes it)
   * The Escape key:
     * Opens the main menu
@@ -32,6 +33,17 @@ Most of the game's data is maintained, during play, in app.js' state. Most compo
     * Move the hero character around the screen
     * Controls the main menu when open
     * Diagonals on the num pad aren't supported currently
+
+#### Text command input
+As the player adventures around, they must ineract with their environment. Since no mouse support is provided, the player must type commands like `open door` or `get the taco` or `give taco to horse` to make progress in the same.
+
+There is built in support for these commands:
+* Get - as in `"get taco"` or `"get the keycard"`. There's support for getting any item in the gamedata.json Inventory array, as long as the room matches. Error messaging is available for when items aren't in the right room.
+* Help - Opens a modal dialog box with the help text from gamedata.json.
+* Inventory - Opens the inventory screen.
+* Look - As in `"look"` or `"look at the monster"`.  There's support for just typing it alone, as well as support for looking at any display object in gamedata.json. 
+* Talk - As in `"talk to blacksmith"`. As long as the NPC is labled as such in the gamedata.json file, a reponse with automatically be returned.  There's error handling for players to try to talk to inanimate objects.
+
 
 
 

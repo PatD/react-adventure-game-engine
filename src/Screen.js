@@ -135,10 +135,10 @@ export class Screen extends Component {
   // Build in verbs for all games
   handleBuiltInText = (textForParsing) =>{
     if(textForParsing.includes('inventory')){
-      this.props.updateAppComponentState({
+      this.props.updateAppComponentState([{
         inventoryVisable: true,
         pausedgame: true
-      })
+      }])
     } else if (textForParsing.includes('look')) { // ✔️
       this.verbLook(textForParsing)
     } else if (textForParsing.includes('talk')){
