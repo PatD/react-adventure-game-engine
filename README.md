@@ -18,7 +18,6 @@ This is a Create React App project, not ejected. The engine itself is in the `/s
 ## How the engine works
 Most of the game's current status (player position on screen, inventory, flags) is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort. 
 
-
 ## What's tracked in game state
 In the root component (app.js), state drives the user interface and interactivity.
 
@@ -28,10 +27,24 @@ title | _string_ | Game title
 subTitle | _string_ | Game sub title
 description | _string_ | Game description, shown in 'About' menu link
 version  | _number_ | Game version, shown in 'About' menu link
+pausedgame | _boolean_ | Is the game paused or not
+soundOn | _boolean_ | Sound on (true) or muted (false)
 menuBarActive | _boolean_ | When false, the main menu is closed, when true it is open.
 mainMenuItems | _array_ | An array objects to define the main menu. A reasonable default is provided by the engine.
 inventory | _array_ | An array of objects, the player's game inventory and whether they have it on them or not
 inventoryVisable | _boolean_ | If false, the inventory interface is closed. If true, it is shown
+highScore | _number_ | Maximum possible score in the game. Shown in the UI
+currentScore | _number_ | Player's current score.
+gameLogic | _string_ | Path to custom JS file for the game.
+playfieldX | _number_ | Width of the game play area.
+playfieldY | _number_ | Height of the game play area.
+textParserValue: "",
+submittedText: "",
+helpText: "Default text for the game's help",
+flags: []
+
+State  | Type | Notes
+------------ | ------------- | -------------
 modalStatus | _boolean_ | When true, the modal is open. When false it is closed
 modalClickToClose | _boolean_ | When true, the modal is open. When false it is closed
 modalWidth | _number_ | Width of the modal. Height cannot be set. 
@@ -44,8 +57,17 @@ modalTextSlot3 | _string_ | 3rd line of modal text (if passed)
 modalTextSlot4 | _string_ | 4th line of modal text (if passed)
 modalTextScript | _array_ | An array of objects, passing mulitple lines of dialog to be shown in sequence.
 modalConfirmation | _string_ | A string of text that is used to optionally execute code after the user hits enter in a modal box. 
-highScore | _number_ | Maximum possible score in the game. Shown in the UI
-currentScore | _number_ | Player's current score
+
+State  | Type | Notes
+------------ | ------------- | -------------
+rooms | _array_ | Array of objects. All the rooms in the game. Probably the biggest object in the game.
+roomExits | _array_ | Array of objects. Defines where on the screen the hero exits the room and moved to the next room by the game engine
+roomCurrent | _string_ | Name of the current room, per its name in gamedata.json
+roomPrevious | _string_ | The prior room the user was in
+roomCurrentObjects | _array_ | Array of objects, all the scenery and trees and images in a room. Not for inventory items
+roomVisibleInventory | _array_ | Array of objects of inventory items that are visible on screen
+roomNearbyInventoryItems | _array_ | Array of strings. Inventory items that are close enough for the player to get.
+
 
 ## The engine itself handles
 

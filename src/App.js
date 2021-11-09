@@ -35,8 +35,6 @@ export default class App extends Component {
       modalTextSlot2: "",
       modalTextSlot3: "",
       modalTextSlot4: "",
-      // modalButtonText1: "",
-      // modalButtonText2: "",
       modalWidthDefault: 560,
       modalTopDefault: 200,
       modalWidth: 560,
@@ -141,9 +139,11 @@ export default class App extends Component {
       currentScore: 0,
 
       // Room stuff
+      rooms:[],
+      roomExits:[],
       roomCurrent: "",
       roomPrevious: "",
-      roomCurrentObjects: "",
+      roomCurrentObjects: [],
       roomVisibleInventory: "",
       roomNearbyInventoryItems: [],
 
