@@ -156,7 +156,7 @@ export default class App extends Component {
       textParserValue: "",
       submittedText: "",
       helpText: "Default text for the game's help",
-      flags: []
+      flags:{}
     };
   }
 

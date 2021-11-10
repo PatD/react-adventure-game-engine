@@ -19,8 +19,9 @@ This is a Create React App project, not ejected. The engine itself is in the `/s
 Most of the game's current status (player position on screen, inventory, flags) is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort. 
 
 ## What's tracked in game state
-In the root component (app.js), state drives the user interface and interactivity.
+In the root component (app.js), state drives the user interface and interactivity. Every component and custom function serves to update state, and React renders the game based on that.
 
+#### General game state
 State  | Type | Notes
 ------------ | ------------- | -------------
 title | _string_ | Game title
@@ -38,11 +39,29 @@ currentScore | _number_ | Player's current score.
 gameLogic | _string_ | Path to custom JS file for the game.
 playfieldX | _number_ | Width of the game play area.
 playfieldY | _number_ | Height of the game play area.
-textParserValue: "",
-submittedText: "",
-helpText: "Default text for the game's help",
-flags: []
+textParserValue | _string_ | whatever is currently on screen in the text parser
+submittedText | _string_ | Value of the text that is submitted when player hits 'enter'
+helpText | _string_ | Help text for the game, shown when player types 'help' or selects help from menu
+flags | _object_ | Free-form keyvalue store to mark progress in the game. 
 
+#### Hero state
+State | Type | Notes
+------------ | ------------- | -------------
+heroHeight | _number_ | Hero height in pixels
+heroWidth  | _number_ | Hero width in pixels
+heroSprite | _string_  | Base64 enocded version of hero graphic sprite. Like `"url('data:image/png;base64,iVBORwc..."` except way longer.
+heroAlive | _boolean_ | Alive (true) or dead (false)
+heroDirection | _string_ | Current direction, one of four values `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`
+heroLastDirection: | _string_ | The previous direction the hero character is facing
+heroMoving | _string_ | One of two values, either `moving` or `stopped` 
+heroPositionX | _number_ | Current position of player, relative to top edge of the play area
+heroPositionY: | _number_ | Current position of player, relative to left edge of the play area
+heroPositionCollided | _boolean_ | Has the player collided with an object?
+heroMovementDisance | _number_ | Configurable number to control how far hero moves each render
+heroMovementUpdateSpeed: | _number_ | Configurable number to control speed hero moves each render
+heroMovementSpeeds | _array_ | Array of numbers used by speed setting in main menu
+
+#### Modal dialog box state
 State  | Type | Notes
 ------------ | ------------- | -------------
 modalStatus | _boolean_ | When true, the modal is open. When false it is closed
@@ -58,6 +77,7 @@ modalTextSlot4 | _string_ | 4th line of modal text (if passed)
 modalTextScript | _array_ | An array of objects, passing mulitple lines of dialog to be shown in sequence.
 modalConfirmation | _string_ | A string of text that is used to optionally execute code after the user hits enter in a modal box. 
 
+#### Room-related state
 State  | Type | Notes
 ------------ | ------------- | -------------
 rooms | _array_ | Array of objects. All the rooms in the game. Probably the biggest object in the game.
@@ -213,6 +233,10 @@ You can find the most recent version of this guide [here](https://github.com/fac
   - [Getting started](#getting-started)
   - [How the engine works](#how-the-engine-works)
   - [What's tracked in game state](#whats-tracked-in-game-state)
+      - [General game state](#general-game-state)
+      - [Hero state](#hero-state)
+      - [Modal dialog box state](#modal-dialog-box-state)
+      - [Room-related state](#room-related-state)
   - [The engine itself handles](#the-engine-itself-handles)
       - [Built in keyboard controls](#built-in-keyboard-controls)
       - [Text command input](#text-command-input)
