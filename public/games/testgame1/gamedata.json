@@ -5,7 +5,6 @@
     "version": 0.1,
     "copyright": "2021",
     "helpText": "Use your keyboard arrow keys to move the character around the screen. See your character's inventory with the Tab key. The Escape key opens the main menu. Solve puzzles by typing commands, like 'look at the room' or 'open this chest'. ",
-    "mainMenuItemsCustom": [],
     "highScore": 245,
     "playfieldX": 640,
     "playfieldY": 420,
@@ -41,11 +40,6 @@
             "Description": "You're in the ship's cargo bay. There are a few storage crates, and two employees hard at work.",
             "Room": 2,
             "starting": "",
-            "messages": [
-                "You see a coffee maker",
-                "There is no spoon",
-                "This proves fatal"
-            ],
             "roomExits": [
                 {
                     "exit": "left",
@@ -53,6 +47,14 @@
                     "width": 5,
                     "height": 75,
                     "x": 360,
+                    "y": 0
+                },
+                {
+                    "exit": "right",
+                    "goto": 9,
+                    "width": 2,
+                    "height": 80,
+                    "x": 325,
                     "y": 0
                 },
                 {
@@ -303,6 +305,46 @@
                     "y": 0,
                     "zIndex": 2,
                     "bgcolor": "#000"
+                }
+            ]
+        },
+        {
+            "Name": "Cave",
+            "Description": "You are in a dreary, EGA-looking dithered cave. It is very damp.",
+            "Room": 9,
+            "starting": "left",
+            "roomExits": [
+                {
+                    "exit": "left",
+                    "goto": 2,
+                    "width": 2,
+                    "height": 80,
+                    "x": 325,
+                    "y": 0
+                }
+            ],
+            "displayObjects": [
+                {
+                    "id": "caveforeground",
+                    "Name": "caveforeground",
+                    "colide": false,
+                    "width": 640,
+                    "height": 420,
+                    "x": 0,
+                    "y": 0,
+                    "zIndex": 12,
+                    "bgcolor": "none"
+                },
+                {
+                    "id": "caveInvisibleWall",
+                    "Name": "caveInvisibleWall",
+                    "colide": true,
+                    "width": 640,
+                    "height": 270,
+                    "x": 0,
+                    "y": 0,
+                    "zIndex": 8,
+                    "bgcolor": "none"
                 }
             ]
         },

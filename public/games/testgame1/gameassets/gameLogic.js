@@ -37,7 +37,9 @@ function roomChange(roomNumber, state) {
 // Handles custom text input from text parser. Expects props to be passed to it.   
 // All commands are routed through here for matching
 // And either an updated state is returned, or a way to 
-// run the built-in commands like look or get
+// run the built-in commands like look or get.
+
+// Screen.js is the component that really calls customTextParser()
 function customTextParser(textForParsing, props) {
     // console.log(textForParsing)
     // console.log(props)
@@ -95,14 +97,41 @@ function roomChangetwo(roomNumber, state) {
         if((window.gameState.heroPositionY >= 320 && window.gameState.heroPositionY < 380) && 
         (window.gameState.heroPositionX >= 140 && window.gameState.heroPositionX < 200)){
             console.log('hit')
+
+            return {
+                // How long to wait before starting, in ms
+                "delay": 0, 
+                "scoreChange": 0,
+                "flagSet": {
+                    "diedByPortal": true,
+                },
+                // Remove 
+                //"removeItems":["Taco","Wallet"],
+    
+                // Halt
+                "halt": true,
+    
+                // Array of state changegs
+                "newState": [{
+                    modalClickToClose: true,
+                    modalText: "You are sucked into the portal of doom!",
+                    modalTextSlot2: "GAME OVER!",
+                    modalStatus: true,
+                    pausedgame: true,
+                    heroAlive:false
+                }],
+    
+                "custFunc": function () {
+                    console.log("GAME OVER")
+                }
+            }
+        } else{
+            requestAnimationFrame(updateFame)
         }
-        
-        requestAnimationFrame(updateFame)
 
     }
 
     requestAnimationFrame(updateFame)
-
 }
 
 

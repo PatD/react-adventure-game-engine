@@ -22,10 +22,10 @@ export default class App extends Component {
     this.state = {
 
       // Meta
-      title:"",
-      subTitle:"",
-      description:"",
-      version:0,
+      title: "",
+      subTitle: "",
+      description: "",
+      version: 0,
 
       // Modal
       modalTextScript: [],
@@ -39,81 +39,85 @@ export default class App extends Component {
       modalTopDefault: 200,
       modalWidth: 560,
       modalTop: 200,
-      modalConfirmation:"", // occurs optionally when a modal is used as a confirmation and the enter key closes it
+      modalConfirmation: "", // occurs optionally when a modal is used as a confirmation and the enter key closes it
 
       // Menu state
       menuBarActive: false,
       mainMenuItems: [
         {
           top: "Game",
-          name:"mainNavGameMenu",
-          order:1,
+          name: "mainNavGameMenu",
+          order: 1,
           items: [
             {
               name: "Help",
               active: true,
-              selected:true
+              selected: true
             }, {
               name: "About",
               active: true,
-              selected:false
+              selected: false
             }
           ]
-        },{
+        }, {
           top: "File",
-          name:"mainNavFileMenu",
-          order:2,
+          name: "mainNavFileMenu",
+          order: 2,
           items: [{
             name: "Save Game",
             active: false,
-            selected:true
+            selected: true
           }, {
             name: "Load Game",
             active: false,
-            selected:false
-          },{
+            selected: false
+          }, {
             name: "Restart",
             active: true,
-            selected:false
+            selected: false
           }, {
             name: "------",
             active: false,
-            selected:false
+            selected: false
           }, {
             name: "Swap Game",
             active: false,
-            selected:false
+            selected: false
           }]
-        }, {top:"Speed", 
-        name:"mainNavSpeedMenu",
-        order:3,items:[
-          {
-            name: "Fastest",
-            active: true,
-            selected:true
-          },
-          {
-            name: "Fast",
-            active: true,
-            selected:false
-          },
-          {
-            name: "Normal",
-            active: true,
-            selected:false
-          },
-          {
-            name: "Slow",
-            active: true,
-            selected:false
-          }
+        }, {
+          top: "Speed",
+          name: "mainNavSpeedMenu",
+          order: 3, items: [
+            {
+              name: "Fastest",
+              active: true,
+              selected: true
+            },
+            {
+              name: "Fast",
+              active: true,
+              selected: false
+            },
+            {
+              name: "Normal",
+              active: true,
+              selected: false
+            },
+            {
+              name: "Slow",
+              active: true,
+              selected: false
+            }
 
-        ]},{top:"Sound",
-        name:"mainNavSoundMenu", order:4,items:[          {
-          name: "Sound On/Off",
-          active: false,
-          selected:true
-        }]}],
+          ]
+        }, {
+          top: "Sound",
+          name: "mainNavSoundMenu", order: 4, items: [{
+            name: "Sound On/Off",
+            active: false,
+            selected: true
+          }]
+        }],
 
       // Inventory
       inventory: [],
@@ -129,7 +133,7 @@ export default class App extends Component {
       heroPositionCollided: false,
       heroMovementDisance: 5,
       heroMovementUpdateSpeed: 105,
-      heroMovementSpeeds:[100,65,30,1],
+      heroMovementSpeeds: [100, 65, 30, 1],
       heroHeight: 0,
       heroWidth: 0,
       heroSprite: "",
@@ -139,8 +143,8 @@ export default class App extends Component {
       currentScore: 0,
 
       // Room stuff
-      rooms:[],
-      roomExits:[],
+      rooms: [],
+      roomExits: [],
       roomCurrent: "",
       roomPrevious: "",
       roomCurrentObjects: [],
@@ -156,7 +160,7 @@ export default class App extends Component {
       textParserValue: "",
       submittedText: "",
       helpText: "Default text for the game's help",
-      flags:{}
+      flags: {}
     };
   }
 
@@ -205,14 +209,14 @@ export default class App extends Component {
 
 
   // No glory without sacrifice, no growth without pain
-  gameOver = (message) =>{
+  gameOver = (message) => {
 
     // Set player status
     this.setState({
-      heroAlive:false
+      heroAlive: false
     })
 
-    if(message === undefined){
+    if (message === undefined) {
       const msg = "Game Over. Thank you for playing " + this.state.title + ". You can restart or load a saved game."
       this.handleSubmittedTextModal(msg)
     }
@@ -220,11 +224,11 @@ export default class App extends Component {
   }
 
   // Accepts commands from main navigation, then routes them to helper funciton file
-  handleMainMenuAction = (action) =>{
+  handleMainMenuAction = (action) => {
 
     // Player has made a selection - close the menu!
-    this.setState({menuBarActive: false})
-    
+    this.setState({ menuBarActive: false })
+
     // Cycle through built-in functions first
     if (action === 'About') {
       this.setState({
@@ -234,42 +238,42 @@ export default class App extends Component {
       })
       return this.handleSubmittedTextModal(this.state.title)
     }
-    else if(action === 'Help'){
+    else if (action === 'Help') {
       return this.handleSubmittedTextModal(this.state.helpText)
     }
-    else if(action === 'Slow'){
+    else if (action === 'Slow') {
       return this.setState({
-        heroMovementDisance:3,
-        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[0]
+        heroMovementDisance: 3,
+        heroMovementUpdateSpeed: this.state.heroMovementSpeeds[0]
       })
     }
-    else if(action === 'Normal'){
+    else if (action === 'Normal') {
       return this.setState({
-        heroMovementDisance:4,
-        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[1]
+        heroMovementDisance: 4,
+        heroMovementUpdateSpeed: this.state.heroMovementSpeeds[1]
       })
     }
-    else if(action === 'Fast'){
+    else if (action === 'Fast') {
       return this.setState({
-        heroMovementDisance:8,
-        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[2]
+        heroMovementDisance: 8,
+        heroMovementUpdateSpeed: this.state.heroMovementSpeeds[2]
       })
     }
-    else if(action === 'Fastest'){
+    else if (action === 'Fastest') {
       return this.setState({
-        heroMovementDisance:10,
-        heroMovementUpdateSpeed:this.state.heroMovementSpeeds[3]
+        heroMovementDisance: 10,
+        heroMovementUpdateSpeed: this.state.heroMovementSpeeds[3]
       })
     }
-    else if(action === 'Toggle Sound'){
+    else if (action === 'Toggle Sound') {
       this.setState(prevState => ({
         soundOn: !prevState.soundOn
       }))
-      const soundString = this.state.soundOn ? "On":"Off";
+      const soundString = this.state.soundOn ? "On" : "Off";
       return this.handleSubmittedTextModal("Sound is now " + soundString)
-    } 
+    }
 
-    else if(action === 'Restart'){
+    else if (action === 'Restart') {
 
       // ask if player wants to restart.  If OK, window.reload, else return false
 
@@ -279,7 +283,7 @@ export default class App extends Component {
       })
       return this.handleSubmittedTextModal("Press ENTER to restart the game. All progress will be lost.")
     }
-    else if(action === 'Save Game'){
+    else if (action === 'Save Game') {
       this.setState({
         modalConfirmation: "saveGame",
         modalTextSlot2: "Press ENTER to save your current game to this computer. It will overwrite any existing save.",
@@ -288,7 +292,7 @@ export default class App extends Component {
       return this.handleSubmittedTextModal("SAVE GAME.")
     }
 
-    else if(action === 'Load Game'){
+    else if (action === 'Load Game') {
 
       // Add check for an actual saved game?
       this.setState({
@@ -306,40 +310,38 @@ export default class App extends Component {
       // Then pass off to gameLogic.js
       return false
     }
-   
-    
+
+
 
   }
 
-
   // Routes commands that run when a modal is closed.
-  confirmationCommand = (command) =>{
+  confirmationCommand = (command) => {
 
-    if(command === 'restart'){
+    if (command === 'restart') {
       // ToDo: maybe remove game switcher feature?
       // this.loadGameFile(game)
     }
 
-    else if(command === "saveGame"){
+    else if (command === "saveGame") {
       return this.saveGame()
     }
 
-    else if(command === "loadSaveGame"){
+    else if (command === "loadSaveGame") {
       return this.loadSaveGame()
     }
-    
+
 
     // Anything not in here is passed to gameLogic.js
 
   }
 
-
   // Closes an open dialog box
-  hideModal = ( event ) => {
-  
+  hideModal = (event) => {
+
     // Check first if a post-enter command has been decreed.
     // This optional command will fire when Enter is pressed
-    if(this.state.modalConfirmation !== "" && this.state.modalClickToClose === true && event.key !== 'Escape'){
+    if (this.state.modalConfirmation !== "" && this.state.modalClickToClose === true && event.key !== 'Escape') {
       return [
         this.confirmationCommand(this.state.modalConfirmation)
       ]
@@ -348,30 +350,29 @@ export default class App extends Component {
     // Now close the modal
     if (this.state.modalClickToClose === true) {
       return this.setState({
-        modalConfirmation:"",
+        modalConfirmation: "",
         modalClickToClose: true,
         modalStatus: false,
         modalTextSlot2: "",
         modalTextSlot3: "",
         modalTextSlot4: "",
-        pausedgame: false 
+        pausedgame: false
       });
-    } 
-  };
+    }
+  }
 
-  
   saveGame = () => {
     // Remove what's not needed from state before saving. 
     this.setState({
-      modalConfirmation:"",
+      modalConfirmation: "",
       modalTextSlot2: "",
       modalTextSlot3: "",
       modalTextSlot4: "",
     })
-    
+
     // Capture the current games state
     const savedState = this.state
-    
+
     // Get rid of stuff we dom't need when saving
     delete savedState.modalConfirmation
     delete savedState.modalTextSlot2
@@ -379,7 +380,7 @@ export default class App extends Component {
     delete savedState.modalTextSlot4
     delete savedState.gameLogic
 
-    
+
 
     return [
       localStorage.setItem(this.state.title, JSON.stringify(savedState)),
@@ -387,28 +388,26 @@ export default class App extends Component {
     ]
   }
 
-
   loadSaveGame = () => {
-    
-      this.setState({
-        modalConfirmation:"",
-        modalTextSlot2: "",
-        modalTextSlot3: "",
-        modalTextSlot4: "",
-      })
-      const loadedSave = JSON.parse(localStorage.getItem(this.state.title))
-      
-      if(loadedSave !== null){
-        return [
-          this.setState(loadedSave),        
-          this.handleSubmittedTextModal("Game loaded successfully. Press ENTER to continue.")
-        ]
-      }
-      else {
-        return this.handleSubmittedTextModal("No saved data found on this computer. Press ENTER to continue.")
-      }
-  }
 
+    this.setState({
+      modalConfirmation: "",
+      modalTextSlot2: "",
+      modalTextSlot3: "",
+      modalTextSlot4: "",
+    })
+    const loadedSave = JSON.parse(localStorage.getItem(this.state.title))
+
+    if (loadedSave !== null) {
+      return [
+        this.setState(loadedSave),
+        this.handleSubmittedTextModal("Game loaded successfully. Press ENTER to continue.")
+      ]
+    }
+    else {
+      return this.handleSubmittedTextModal("No saved data found on this computer. Press ENTER to continue.")
+    }
+  }
 
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (event) => {
@@ -560,12 +559,12 @@ export default class App extends Component {
     // If the player doesn't have it already, add it:
     if (newInventory[matchedItem].owned !== true) {
       console.log('add to inventory!')
-      
+
       newInventory[matchedItem].owned = true
-      
+
       // Update state (and player's inventory screen) with new item
       return this.setState({ inventory: newInventory, roomVisibleInventory: newRoomInventory })
-      
+
     }
   }
 
@@ -729,9 +728,9 @@ export default class App extends Component {
           this.toggleInventoryScreen()
         ]
       }
-      
+
       // Handle Enter key for modals where Enter is the confirmation
-      else if(event.key === 'Enter'){
+      else if (event.key === 'Enter') {
         /* 
           Maybe not a good idea? There's a submit event that uses the enter key on screen.js
         */
@@ -755,7 +754,7 @@ export default class App extends Component {
 
       // Handle Escape key to toggle main menu
       else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === false) {
-        return [ 
+        return [
           event.preventDefault(),
           this.haltHero(),
           this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
@@ -781,6 +780,7 @@ export default class App extends Component {
 
 
   // Loads a room onto the screen
+    // Also fires a roomChange() functio in gameLogic.js for custom per-room things
   loadRoom = (roomToLoad) => {
 
     function isRoom(r) {
@@ -839,7 +839,7 @@ export default class App extends Component {
 
     // Execute any custom room logic as soon as the room loads
     // This might check a flag or read inventory status and change the look of the room.
-    // It's technically a second state update.
+    // It's technically (hopefully? Oof, batching) a second React state update.
 
     // Only do this if gameLogic.js exists:
     if (typeof self.roomChange === "function") {
@@ -885,7 +885,6 @@ export default class App extends Component {
     this.loadRoom(2); // change this to be dynamic
   }
 
-
   componentDidMount = () => {
 
     // When the component mounts, start an event listener for web worker updates.
@@ -915,12 +914,12 @@ export default class App extends Component {
   }
 
   componentDidUpdate = (prevState) => {
-    
+
     // Make game state available for gameLogic.js
-    if(prevState !== this.state){
+    if (prevState !== this.state) {
       window.gameState = this.state;
-    }    
-    
+    }
+
   }
 
   render() {
@@ -941,11 +940,11 @@ export default class App extends Component {
           modalTextSlot2={this.state.modalTextSlot2}
           modalTextSlot3={this.state.modalTextSlot3}
           modalTextSlot4={this.state.modalTextSlot4}
-          // modalButtonText1={this.state.modalButtonText1}
-          // modalButtonText2={this.state.modalButtonText2}
-          // modalButtonClick1={this.modalButtonClick1}
-          // modalButtonClick2={this.modalButtonClick2} 
-          />
+        // modalButtonText1={this.state.modalButtonText1}
+        // modalButtonText2={this.state.modalButtonText2}
+        // modalButtonClick1={this.modalButtonClick1}
+        // modalButtonClick2={this.modalButtonClick2} 
+        />
 
 
         <MainMenuBar

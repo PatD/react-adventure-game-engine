@@ -42,6 +42,9 @@ export class Screen extends Component {
   }
 
   // Handles custom code returned from gamelogic.js - Expects object 
+
+/* move this to app.js to allow both custom text parser and roomchange? */
+
   handleCustomReturnedCode(returnedCode){
 
     // By default, don't delay anything...

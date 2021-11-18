@@ -88,7 +88,6 @@ roomCurrentObjects | _array_ | Array of objects, all the scenery and trees and i
 roomVisibleInventory | _array_ | Array of objects of inventory items that are visible on screen
 roomNearbyInventoryItems | _array_ | Array of strings. Inventory items that are close enough for the player to get.
 
-
 ## The engine itself handles
 
 #### Built in keyboard controls

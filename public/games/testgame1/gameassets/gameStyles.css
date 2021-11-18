@@ -8,6 +8,16 @@
 
 /* Per-game graphics and animation loaded */
 
+main.Cave{
+    background-image:url('/games/testgame1/gameassets/room_cave_background.png');
+    background-size:contain;
+}
+
+main.Cave #caveforeground{
+    background-image:url('/games/testgame1/gameassets/room_cave_foreground.png');
+    background-size:contain;
+}
+
 .ComputerCenter_backgroundbar.dither_bottom{
     background-image:url('/games/testgame1/gameassets/dither_bottom_cyan_00AAAA.gif')
 }
