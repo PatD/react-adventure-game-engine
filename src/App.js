@@ -11,7 +11,7 @@ import MainMenuBar from './MainMenuBar'
 // Movement workers 🛠 🪚 🧰
 // They live outside the src directory because
 // Create-React-App tries to merge them and they
-// need to remain seperate files
+// need to remain separate files
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
 
