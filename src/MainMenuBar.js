@@ -182,7 +182,7 @@ export default class MainMenuBar extends Component {
     })
 
 
-    // Also, enable keyboard movement of menu
+    // Enable keyboard movement of menu
     document.addEventListener('keydown', (event) => {
 
       // Handle arrow keys for movement
@@ -218,8 +218,6 @@ export default class MainMenuBar extends Component {
       else return false
     }, false);
   }
-
-
 
   componentDidUpdate(prevProps) {
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)

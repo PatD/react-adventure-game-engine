@@ -8,7 +8,8 @@ export class PreloadGameAssets extends Component {
         };
     }
 
-    // Extracts any images from CSS file and loads them into the browser for faster load times in game
+    // Extracts any images from CSS file and loads them into the 
+    // browser for faster load times in game
     preloadGameAssets = () => {
 
         let cssExtracts = [...document.styleSheets]

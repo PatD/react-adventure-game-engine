@@ -1,115 +1,68 @@
 import React, { Component } from 'react';
 
 export default class GameSelector extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-          gamesAreLoaded:false,
-          selectedGame:"",
-          games: [],
-          error:""
-        };
+  state = {
+    gamesAreLoaded: false,
+    selectedGame: "",
+    error: ""
+  };
   
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    }
-  
-    
-    // When select menu changed, store selection in state
-    handleChange(event) {
-       this.setState({selectedGame: event.target.value});
-    };
-  
-    // On submit, fetch selected game's information, and pass state up
-    handleSubmit(event) {
-        event.preventDefault();
-        this.loadSelectedGame()
-    }
-
-    loadSelectedGame(){
-        fetch(this.state.selectedGame)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.props.loadGameFile(result)
-                },
-                (error) => {
-                alert('Error loading game')
-                this.setState({
-                    error
-                });
-            }
-        )
-    }
-
-
-    // When component loads, load game list
-    // from public/games/ folder
-    componentDidMount() {
-        fetch("../games/gamelist.json")
-          .then(res => res.json())
-          .then(
-            (result) => {
-             
-               // if there's a default set in gamelist.json, load that, otherwise load the first one
-              let defaultGame = result[0].Path;
-
-              result.forEach(function(game){
-                  if(game.default === true){
-                      defaultGame = game.Path
-                  }
-              });
-
-              this.setState({
-                gamesAreLoaded: true,
-                selectedGame: defaultGame,
-                games: result
-              });
-              
-              
-              // Apply custom JS
-              if(result[0].JS){
-                const gameLogic = document.createElement('script');
-                document.head.appendChild(gameLogic);
-                gameLogic.setAttribute("src",result[0].JS)
-              }
-
-              // Apply custom styles
-              if(result[0].CSS){
-                
-                const gameStyle = document.createElement('link');
-                document.head.appendChild(gameStyle);
-                gameStyle.setAttribute("rel","stylesheet")
-                gameStyle.setAttribute("href",result[0].CSS)
-              }
-
-              // Set the game state
-              this.loadSelectedGame()
-            },
-            (error) => {
-              this.setState({
-                error
-              });
-            }
-          )
-      }
-
-    render() {
-
-    return (
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor='gameselector'>
-            Select a game:
-            <select name='gameselector' id='gameselector' onChange={this.handleChange}>
-                { this.state.games.map((game) => 
-                    <option key={game.Title} value={game.Path}>{game.Title}</option>
-                )}
-            </select>
-          </label>
-           <input type="submit" value="Load Game!" />
-        </form>
-      );
-    }
+  loadSelectedGame() {
+    fetch(this.state.selectedGame)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.props.loadGameFile(result)
+        },
+        (error) => {
+          alert('Error loading game')
+          this.setState({
+            error
+          });
+        }
+      )
   }
 
-//   export default GameSelector
+
+  // When component loads, grab the 
+  componentDidMount() {
+    fetch("../games/gamelist.json")
+      .then(res => res.json())
+      .then(
+        (result) => {
+
+          this.setState({
+            gamesAreLoaded: true,
+            selectedGame: result.Path
+          });
+
+          // Apply custom JS
+          if (result.JS) {
+            const gameLogic = document.createElement('script');
+            document.head.appendChild(gameLogic);
+            gameLogic.setAttribute("src", result.JS)
+          }
+
+          // Apply custom styles
+          if (result.CSS) {
+            const gameStyle = document.createElement('link');
+            document.head.appendChild(gameStyle);
+            gameStyle.setAttribute("rel", "stylesheet")
+            gameStyle.setAttribute("href", result.CSS)
+          }
+
+          // Now that the JS and CSS are loaded, load the game's state
+          this.loadSelectedGame()
+        },
+        (error) => {
+          this.setState({
+            error
+          });
+        }
+      )
+  }
+
+  render() {
+    return null
+  }
+}

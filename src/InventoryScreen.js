@@ -4,13 +4,13 @@ export class InventoryScreen extends Component {
   render(props) {
     
     // Create a variable to hold our inventory items
-    let inventoryListing;
+    let inventoryListing
 
 
     // Wait for props to be passed in, and only run when inventory screen is active
     if (this.props.inventoryVisable !== "display-none" && this.props.inventory !== 'undefined' && typeof this.props.inventory === 'object') {
       
-       // Only display items hero actually has
+       // Only display items hero actually has it
        inventoryListing = this.props.inventory.map(function isOwned(item,index) {
           if(item.owned === true){
             return <li key={index}>{item.Name}</li>
