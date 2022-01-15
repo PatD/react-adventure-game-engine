@@ -651,8 +651,12 @@ export default class App extends Component {
   // inputs are change type ... direction or stop
   // outputs are function like this.halthero() or setstate
   handleHeroPositioning = (change) => {
-
+    
     if (change !== "stop") {
+
+      // Check hitbox size?
+
+      // check for collision before moving
 
       this.movementInterval = setInterval(() => {
 
@@ -684,6 +688,9 @@ export default class App extends Component {
         })
 
       }, this.state.heroMovementUpdateSpeed)
+
+
+    
     } else {
 
       // This else is actually what stops the character.
@@ -889,16 +896,20 @@ export default class App extends Component {
 
     // When the component mounts, start an event listener for web worker updates.
     WorkerHandleHeroMovement.onmessage = (e) => {
-      if (typeof e.data === "number") {
-        this.loadRoom(e.data);   // If a room number is returned, that means the hero has hit an exit wall
-      } else if (e.data === "halt") {
-        this.haltHero();
-      } else if (e.data === "haltCollide") {
-        this.setState({ heroPositionCollided: true })
-        this.haltHero();
-      } else {
-        this.setState(e.data)
-      }
+
+      // Update state based on returned value
+      requestAnimationFrame(() => {
+        if (typeof e.data === "number") {
+          this.loadRoom(e.data);   // If a room number is returned, that means the hero has hit an exit wall
+        } else if (e.data === "halt") {
+          this.haltHero();
+        } else if (e.data === "haltCollide") {
+          this.setState({ heroPositionCollided: true })
+          this.haltHero();
+        } else {
+          this.setState(e.data)
+        }
+      });
     }
 
 
@@ -909,7 +920,7 @@ export default class App extends Component {
       }
     }
 
-    // Listen patiently for keyboard key presses
+    // Set event listener keyboard key presses
     this.setdefaultKeyboardListners();
   }
 
@@ -940,10 +951,6 @@ export default class App extends Component {
           modalTextSlot2={this.state.modalTextSlot2}
           modalTextSlot3={this.state.modalTextSlot3}
           modalTextSlot4={this.state.modalTextSlot4}
-        // modalButtonText1={this.state.modalButtonText1}
-        // modalButtonText2={this.state.modalButtonText2}
-        // modalButtonClick1={this.modalButtonClick1}
-        // modalButtonClick2={this.modalButtonClick2} 
         />
 
 
