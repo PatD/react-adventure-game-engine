@@ -4,6 +4,7 @@ import App from './App';
 import './index.css';
 
 ReactDOM.render(
-  <App />,
+  <React.StrictMode>
+  <App /></React.StrictMode>,
   document.getElementById('retroGame')
 );

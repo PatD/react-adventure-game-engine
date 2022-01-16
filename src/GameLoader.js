@@ -12,7 +12,7 @@ export default class GameSelector extends Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.props.loadGameFile(result)
+          this.props.loadGameFile(result) //
         },
         (error) => {
           alert('Error loading game')
@@ -24,17 +24,13 @@ export default class GameSelector extends Component {
   }
 
 
-  // When component loads, grab the 
+  // When component loads, grab the gamelist file in the /public/games folder
+  // This file contains an object with paths to the CSS, JS, and JSON data file
   componentDidMount() {
     fetch("../games/gamelist.json")
       .then(res => res.json())
       .then(
         (result) => {
-
-          this.setState({
-            gamesAreLoaded: true,
-            selectedGame: result.Path
-          });
 
           // Apply custom JS
           if (result.JS) {
@@ -50,6 +46,11 @@ export default class GameSelector extends Component {
             gameStyle.setAttribute("rel", "stylesheet")
             gameStyle.setAttribute("href", result.CSS)
           }
+
+          this.setState({
+            gamesAreLoaded: true,
+            selectedGame: result.Path
+          });
 
           // Now that the JS and CSS are loaded, load the game's state
           this.loadSelectedGame()

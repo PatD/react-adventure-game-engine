@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PreloadGameAssets from './PreloadGameAssets'
-// import MainNavFunctions from './MainNavFunctions';
 import Screen from './Screen';
 import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
-import GameSelector from './GameSelector'
+import GameLoader from './GameLoader'
 import MainMenuBar from './MainMenuBar'
 
 
@@ -274,9 +273,6 @@ export default class App extends Component {
     }
 
     else if (action === 'Restart') {
-
-      // ask if player wants to restart.  If OK, window.reload, else return false
-
       this.setState({
         modalConfirmation: "restart",
         modalTextSlot2: "Press ENTER to restart your game, all progress will be lost.",
@@ -294,8 +290,6 @@ export default class App extends Component {
     }
 
     else if (action === 'Load Game') {
-
-      // Add check for an actual saved game?
       this.setState({
         modalConfirmation: "loadSaveGame",
         modalTextSlot2: "You are about to load your saved game.",
@@ -303,12 +297,11 @@ export default class App extends Component {
         modalTextSlot4: "Press ESCAPE to cancel.",
       })
       return this.handleSubmittedTextModal("LOAD A SAVED GAME.")
-
     }
 
     else {
 
-      // Then pass off to gameLogic.js
+      // Todo: Add ability to add extra menu commands in gamelogic.js
       return false
     }
 
@@ -331,8 +324,7 @@ export default class App extends Component {
       return this.loadSaveGame()
     }
 
-
-    // Anything not in here is passed to gameLogic.js
+    else return false
 
   }
 
@@ -881,7 +873,9 @@ export default class App extends Component {
   }
 
 
-  // When a game is loaded, update React State with game data
+  // GameLoader.js relies on this funciton to populate the state object
+  // with most of the game's details and assets.
+  // The end result is that the first room is loadeded.
   loadGameFile = (game) => {
     console.info("App component loads " + game.title)
 
@@ -889,7 +883,9 @@ export default class App extends Component {
 
     this.setState(gameLoadedState)
 
-    this.loadRoom(2); // change this to be dynamic
+    return this.loadRoom(2); // change this to be dynamic
+
+    // check here to see if gameLogic.js actually loaded or not
   }
 
   componentDidMount = () => {
@@ -936,6 +932,10 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <GameLoader loadGameFile={this.loadGameFile} />
+
+        <PreloadGameAssets
+          gameLogic={this.state.gameLogic} />
 
         <InventoryScreen
           inventoryVisable={this.state.inventoryVisable}
@@ -1022,11 +1022,7 @@ export default class App extends Component {
         />
 
         <br />
-        <GameSelector loadGameFile={this.loadGameFile} />
-
-        <PreloadGameAssets
-          gameLogic={this.state.gameLogic} />
-
+        
       </React.Fragment>
     );
   }

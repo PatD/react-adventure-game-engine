@@ -6,10 +6,10 @@ console.info('Custom Game Logic File Loaded!')
     checks itself to see if there's a custom function associated
     with it, and that function fires if it does.
 
-    Expects the new room and current state to be passed to it.
+    Expects the new room number and current state to be passed to it.
 */
 function roomChange(roomNumber, state) {
-    console.log(roomNumber)
+    console.log("Gamelogic.js detects new room: " + roomNumber)
     if (roomNumber !== "undefined") { // <-- This check is here because React fires this on load, and sometimes state isn't ready yet
 
         switch (roomNumber) {
