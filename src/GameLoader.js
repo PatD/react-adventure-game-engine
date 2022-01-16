@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 
-export default class GameSelector extends Component {
-  state = {
-    gamesAreLoaded: false,
-    selectedGame: "",
-    error: ""
-  };
+export class GameLoader extends Component {
   
-  loadSelectedGame() {
-    fetch(this.state.selectedGame)
+  loadSelectedGame(selectedGame) {
+    fetch(selectedGame)
       .then(res => res.json())
       .then(
         (result) => {
           this.props.loadGameFile(result) //
         },
         (error) => {
-          alert('Error loading game')
-          this.setState({
-            error
-          });
+          alert('Error loading game - there was a problem with loading games data file.');
         }
       )
   }
@@ -47,18 +39,13 @@ export default class GameSelector extends Component {
             gameStyle.setAttribute("href", result.CSS)
           }
 
-          this.setState({
-            gamesAreLoaded: true,
-            selectedGame: result.Path
-          });
-
           // Now that the JS and CSS are loaded, load the game's state
-          this.loadSelectedGame()
+          this.loadSelectedGame(result.Path)
         },
         (error) => {
-          this.setState({
-            error
-          });
+        
+          alert('Error loading game')
+        
         }
       )
   }
@@ -67,3 +54,5 @@ export default class GameSelector extends Component {
     return null
   }
 }
+
+export default React.memo(GameLoader)

@@ -867,8 +867,7 @@ export default class App extends Component {
           }
 
         }, roomFunc[0])
-      }
-
+      } 
     }
   }
 
@@ -877,13 +876,22 @@ export default class App extends Component {
   // with most of the game's details and assets.
   // The end result is that the first room is loadeded.
   loadGameFile = (game) => {
+
+    // Add check to see if gamelogic (if it exists) is loaded
+    console.log(typeof self.roomChange === "function")
+
     console.info("App component loads " + game.title)
 
+    
+
+    // Merge engine defaults with custom game data
     const gameLoadedState = { ...this.state, ...game }
 
+    // Update app.js state with this new data
     this.setState(gameLoadedState)
 
-    return this.loadRoom(2); // change this to be dynamic
+    // Load the first room
+    this.loadRoom(2); // change this to be dynamic
 
     // check here to see if gameLogic.js actually loaded or not
   }
