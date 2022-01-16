@@ -279,9 +279,10 @@ export default class App extends Component {
 
       this.setState({
         modalConfirmation: "restart",
-        modalTextSlot2: "Press ESCAPE to continue this game.",
+        modalTextSlot2: "Press ENTER to restart your game, all progress will be lost.",
+        modalTextSlot3: "Press ESCAPE to continue this game.",
       })
-      return this.handleSubmittedTextModal("Press ENTER to restart the game. All progress will be lost.")
+      return this.handleSubmittedTextModal("RESTART GAME")
     }
     else if (action === 'Save Game') {
       this.setState({
@@ -319,8 +320,7 @@ export default class App extends Component {
   confirmationCommand = (command) => {
 
     if (command === 'restart') {
-      // ToDo: maybe remove game switcher feature?
-      // this.loadGameFile(game)
+      return window.location.reload()
     }
 
     else if (command === "saveGame") {
