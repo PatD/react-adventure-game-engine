@@ -6,7 +6,6 @@ export class InventoryScreen extends Component {
     // Create a variable to hold our inventory items
     let inventoryListing
 
-
     // Wait for props to be passed in, and only run when inventory screen is active
     if (this.props.inventoryVisable !== "display-none" && this.props.inventory !== 'undefined' && typeof this.props.inventory === 'object') {
       
@@ -23,7 +22,11 @@ export class InventoryScreen extends Component {
     }
 
     return (
+      // Render inventory only if the hero is alive!
+      // Prevents activation while in title screen.
       <React.Fragment>
+        {this.props.heroAlive ?
+        
         <aside className={this.props.inventoryVisable ? "display-block": "display-none"}>
           <fieldset>
             <div>
@@ -33,6 +36,8 @@ export class InventoryScreen extends Component {
             <h5>Press any key to continue</h5>
           </fieldset>
         </aside>
+
+        : null }
       </React.Fragment>
     )
   }

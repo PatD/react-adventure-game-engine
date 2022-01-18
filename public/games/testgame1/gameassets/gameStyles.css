@@ -8,6 +8,11 @@
 
 /* Per-game graphics and animation loaded */
 
+main.TitleScreen{
+    background-image:url('/games/testgame1/gameassets/01-testquest-opening-screen.png');
+    background-size:contain;
+}
+
 main.Cave{
     background-image:url('/games/testgame1/gameassets/room_cave_background.png');
     background-size:contain;

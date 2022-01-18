@@ -728,6 +728,25 @@ export default class App extends Component {
         ]
       }
 
+      // Handle Title Screen Enter
+        // Modal must be closed, menu bar must be closed
+      else if ((this.state.heroAlive === false && this.state.roomTitleScreen === true && this.state.modalStatus === false && this.state.menuBarActive === false) && event.key === 'Enter'){
+        console.log('User has hit enter on the title screen')
+
+        
+        if(this.state.gameStartRoomNumber !== undefined){
+          this.loadRoom(this.state.gameStartRoomNumber)
+        } else {
+          this.loadRoom(2)
+        }
+
+        return this.setState({
+          heroAlive:true
+        })
+        
+
+      }
+
       // Handle Enter key for modals where Enter is the confirmation
       else if (event.key === 'Enter') {
         /* 
@@ -786,7 +805,30 @@ export default class App extends Component {
       return r.Room === roomToLoad;
     }
 
+    // Get the details of the room we're in from state:
     const nextRoom = this.state.rooms.find(isRoom);
+
+    // loadRoom also loads the title screen, so we need to handle that first.
+    
+    if(nextRoom.titleScreen === true){
+
+      // set player to be dead, game to be paused?
+
+      // add function to move to room 2 when enter pressed
+
+      return [
+          this.setState({
+            heroAlive:false,
+            roomTitleScreen:true,
+            roomCurrent: nextRoom.Room,
+            roomCurrentName: nextRoom.Name,
+            roomCurrentDescription: nextRoom.Description,
+          })
+      ]
+    }
+
+
+
 
     // Add exit position for right and bottom room exits
     // since we don't necessarily know the dimensions of
@@ -826,6 +868,7 @@ export default class App extends Component {
 
     // Set room stage
     this.setState({
+      roomTitleScreen:false,
       roomCurrent: nextRoom.Room,
       roomCurrentObjects: nextRoom.displayObjects,
       roomCurrentName: nextRoom.Name,
@@ -872,28 +915,46 @@ export default class App extends Component {
   }
 
 
-  // GameLoader.js relies on this funciton to populate the state object
-  // with most of the game's details and assets.
-  // The end result is that the first room is loadeded.
+  /* 
+  
+  On load, child component GameLoader.js relies on this funciton to 
+  populate the state object with gameplay data. Rooms, inventory items,
+  etc. 
+ 
+  This funciton also loads the first room in the game. 
+
+  
+  */
   loadGameFile = (game) => {
+   
+    // Add check to see if gamelogic is ready for use yet.
+    const isCustomFileLoaded = typeof self.roomChange === "function"
+  
+    // recursively reload this until done
+    if(isCustomFileLoaded === true){
+      console.info("App component loads " + game.title)
+      console.log("GameLogic.js has loaded successfully: Proceed with loading the first room") // If true, first room loads right
+      
+      // Merge engine defaults with custom game data
+      const gameLoadedState = { ...this.state, ...game }
 
-    // Add check to see if gamelogic (if it exists) is loaded
-    console.log(typeof self.roomChange === "function")
+      // Update app.js state with this new data
+      this.setState(gameLoadedState)
 
-    console.info("App component loads " + game.title)
+      // Load the first room, that's the title screen
+      this.loadRoom(1)
+    } else if(isCustomFileLoaded === false){
+      console.info("App component loads " + game.title)
+      console.error("GameLogic.js not loaded successfully: Trying to load again.")
+      
+      console.log(isCustomFileLoaded)
+      window.location.reload()  // Shame, fix this later
 
-    
+    } else {
+      console.log("Else")
+    }
 
-    // Merge engine defaults with custom game data
-    const gameLoadedState = { ...this.state, ...game }
-
-    // Update app.js state with this new data
-    this.setState(gameLoadedState)
-
-    // Load the first room
-    this.loadRoom(2); // change this to be dynamic
-
-    // check here to see if gameLogic.js actually loaded or not
+  
   }
 
   componentDidMount = () => {
@@ -946,6 +1007,7 @@ export default class App extends Component {
           gameLogic={this.state.gameLogic} />
 
         <InventoryScreen
+          heroAlive={this.state.heroAlive}
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
 
@@ -990,6 +1052,7 @@ export default class App extends Component {
           // Hero details
           haltHero={this.haltHero}
           handleHeroPositioning={this.handleHeroPositioning}
+          heroAlive={this.state.heroAlive}
           heroDirection={this.state.heroDirection}
           heroMoving={this.state.heroMoving}
           heroPositionX={this.state.heroPositionX}

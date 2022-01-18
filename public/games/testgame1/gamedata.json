@@ -31,9 +31,17 @@
     },
     "rooms": [
         {
-            "Name": "Loading",
+            "Name": "TitleScreen",
+            "id": "TitleScreen",
+            "titleScreen":true,
+            "gameStartRoomNumber":2,
             "Room": 1,
-            "Description": ""
+            "Description": "",
+            "width": 640,
+            "height": 420,
+            "x": 0,
+            "y": 0,
+            "zIndex": 10
         },
         {
             "Name": "Hallway",
