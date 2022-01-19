@@ -199,7 +199,7 @@ export default class MainMenuBar extends Component {
         // Is the current menu item disabled?
         const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
 
-        if (selectedDisabled.active !== true) {
+        if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabled.titleDisabled === true )) {
           event.preventDefault()
           return false
         }
@@ -264,11 +264,15 @@ export default class MainMenuBar extends Component {
           {this.state.subNavActiveItems.map((subMenu, index) => (
             <li
               key={index}
-              onClick={this.handleMenuClick}
               
+              // ID indicates the currently selected submenu item
               id={subMenu.selected === true ? "selected" : ""}
-              data-title={subMenu.titleDisabled === true ? "disabledInTitle" : null}
-              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name} {subMenu.titleDisabled === true ? "enabled" : "disabled"}</li>
+
+              // data-table indicates if a menu item should be disabled in the Title screen
+              data-title={(subMenu.titleDisabled === true && this.props.heroAlive === false) ? "disabledInTitle" : null}
+
+              // handles if the menu item is selectable or not!
+              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name}</li>
           ))}
         </ul>
       </header>

@@ -178,8 +178,9 @@ header .subMenu li{
   padding:5px 0 5px 0;
 }
 
-
-header .subMenu li.disabled{color:#CCC}
+/* Submenu items that are disabled */
+header .subMenu li.disabled,
+header .subMenu li[data-title="disabledInTitle"] {color:#CCC}
 
 
 

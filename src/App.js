@@ -1024,6 +1024,7 @@ export default class App extends Component {
 
 
         <MainMenuBar
+          heroAlive={this.state.heroAlive}
           menuBarActive={this.state.menuBarActive}
           mainMenuItems={this.state.mainMenuItems}
           currentScore={this.state.currentScore}
