@@ -5,7 +5,7 @@ export default class MainMenuBar extends Component {
   constructor() {
     super();
 
-    // Initial state - all menu items are closed, and the score and title are displayed to the user
+    // Initial state - all menus are closed, and the score and title are displayed to the user
     this.state = {
       mainNavBar: "active", // The main menu is active, no menu options shown
       mainNavMenuVisibility: "inactive", // Shown when user hits escape and can choose menu items.
@@ -265,8 +265,10 @@ export default class MainMenuBar extends Component {
             <li
               key={index}
               onClick={this.handleMenuClick}
+              
               id={subMenu.selected === true ? "selected" : ""}
-              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name}</li>
+              data-title={subMenu.titleDisabled === true ? "disabledInTitle" : null}
+              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name} {subMenu.titleDisabled === true ? "enabled" : "disabled"}</li>
           ))}
         </ul>
       </header>

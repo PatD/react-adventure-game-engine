@@ -14,15 +14,17 @@ export class TextInputParser extends Component {
 
   render(props) {
     return (
-      <input
-        spellCheck="false"
-        autoComplete="false"
-        type="text"
-        placeholder="_"
-        ref={inputEl => (this.searchInput = inputEl)}
-        onChange={this.props.textParserChange}
-        value={this.props.textParserValue}
-      />
+      <React.Fragment>
+        <input
+          spellCheck="false"
+          autoComplete="false"
+          type="text"
+          placeholder="_"
+          ref={inputEl => (this.searchInput = inputEl)}
+          onChange={this.props.textParserChange}
+          value={this.props.textParserValue}
+        />
+      </React.Fragment>
     );
   }
 }

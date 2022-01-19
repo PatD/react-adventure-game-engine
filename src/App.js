@@ -65,7 +65,8 @@ export default class App extends Component {
           items: [{
             name: "Save Game",
             active: false,
-            selected: true
+            selected: true,
+            titleDisabled:true
           }, {
             name: "Load Game",
             active: false,
@@ -73,13 +74,10 @@ export default class App extends Component {
           }, {
             name: "Restart",
             active: true,
-            selected: false
+            selected: false,
+            titleDisabled:true
           }, {
             name: "------",
-            active: false,
-            selected: false
-          }, {
-            name: "Swap Game",
             active: false,
             selected: false
           }]
@@ -90,22 +88,26 @@ export default class App extends Component {
             {
               name: "Fastest",
               active: true,
-              selected: true
+              selected: true,
+              titleDisabled:true
             },
             {
               name: "Fast",
               active: true,
-              selected: false
+              selected: false,
+              titleDisabled:true
             },
             {
               name: "Normal",
               active: true,
-              selected: false
+              selected: false,
+              titleDisabled:true
             },
             {
               name: "Slow",
               active: true,
-              selected: false
+              selected: false,
+              titleDisabled:true
             }
 
           ]
@@ -149,6 +151,7 @@ export default class App extends Component {
       roomCurrentObjects: [],
       roomVisibleInventory: "",
       roomNearbyInventoryItems: [],
+      roomTitleScreen:false,
 
       // Game state stuff
       gameLogic: "",
@@ -271,7 +274,6 @@ export default class App extends Component {
       const soundString = this.state.soundOn ? "On" : "Off";
       return this.handleSubmittedTextModal("Sound is now " + soundString)
     }
-
     else if (action === 'Restart') {
       this.setState({
         modalConfirmation: "restart",
@@ -288,7 +290,6 @@ export default class App extends Component {
       })
       return this.handleSubmittedTextModal("SAVE GAME.")
     }
-
     else if (action === 'Load Game') {
       this.setState({
         modalConfirmation: "loadSaveGame",
@@ -300,13 +301,9 @@ export default class App extends Component {
     }
 
     else {
-
       // Todo: Add ability to add extra menu commands in gamelogic.js
       return false
     }
-
-
-
   }
 
   // Routes commands that run when a modal is closed.
@@ -733,10 +730,11 @@ export default class App extends Component {
       else if ((this.state.heroAlive === false && this.state.roomTitleScreen === true && this.state.modalStatus === false && this.state.menuBarActive === false) && event.key === 'Enter'){
         console.log('User has hit enter on the title screen')
 
-        
         if(this.state.gameStartRoomNumber !== undefined){
+          // This lets the developer specify the starting room number in gamedata.json
           this.loadRoom(this.state.gameStartRoomNumber)
         } else {
+          // But if they dont't specify, Room #2 is loaded for safety
           this.loadRoom(2)
         }
 
@@ -781,7 +779,7 @@ export default class App extends Component {
 
       // Handle arrow keys for movement
       else if (
-        (this.state.inventoryVisable === false && this.state.pausedgame === false) &&
+        (this.state.heroAlive === true && this.state.roomTitleScreen === false && this.state.inventoryVisable === false && this.state.pausedgame === false) &&
         (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
         return [
           event.preventDefault(),
@@ -819,7 +817,7 @@ export default class App extends Component {
       return [
           this.setState({
             heroAlive:false,
-            roomTitleScreen:true,
+            roomTitleScreen: true,
             roomCurrent: nextRoom.Room,
             roomCurrentName: nextRoom.Name,
             roomCurrentDescription: nextRoom.Description,
@@ -1008,6 +1006,7 @@ export default class App extends Component {
 
         <InventoryScreen
           heroAlive={this.state.heroAlive}
+          roomTitleScreen={this.state.heroAlive}
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
 
@@ -1041,6 +1040,7 @@ export default class App extends Component {
           gameLogic={this.state.gameLogic}
 
           // Room details
+          roomTitleScreen={this.state.roomTitleScreen} // Boolean - are we at the title screen?
           roomCurrent={this.state.roomCurrent}  // Room number, number
           roomCurrentName={this.state.roomCurrentName}  // This is the room's primary style class, string
           roomCurrentAltStyle={this.state.roomCurrentAltStyle} // Secondary room style class for CSS, string

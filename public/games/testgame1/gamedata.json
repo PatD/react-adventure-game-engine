@@ -604,7 +604,8 @@
                 {
                     "name": "Save Game",
                     "active": true,
-                    "selected": true
+                    "selected": true,
+                    "titleDisabled":true
                 },
                 {
                     "name": "Load Game",
@@ -619,7 +620,8 @@
                 {
                     "name": "Restart",
                     "active": true,
-                    "selected": false
+                    "selected": false,
+                    "titleDisabled":true
                 }
             ]
         },
@@ -631,27 +633,32 @@
                 {
                     "name": "LOL",
                     "active": false,
-                    "selected": true
+                    "selected": true,
+                    "titleDisabled":true
                 },
                 {
                     "name": "Fastest",
                     "active": true,
-                    "selected": false
+                    "selected": false,
+                    "titleDisabled":true
                 },
                 {
                     "name": "Fast",
                     "active": true,
-                    "selected": false
+                    "selected": false,
+                    "titleDisabled":true
                 },
                 {
                     "name": "Normal",
                     "active": true,
-                    "selected": false
+                    "selected": false,
+                    "titleDisabled":true
                 },
                 {
                     "name": "Slow",
                     "active": true,
-                    "selected": false
+                    "selected": false,
+                    "titleDisabled":true
                 }
             ]
         },

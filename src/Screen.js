@@ -379,13 +379,15 @@ export class Screen extends Component {
 
           </main>
 
-          {
-            // Render text parser only if hero is alive.
-            // Can't type when you're deceased.
-          }
+
        
             <footer>
               <form onSubmit={this.submitTextParser}>
+              {
+                // Render text parser only if hero is alive.
+                // Can't type when you're deceased.
+              }
+              
                 <TextInputParse
                   sendToChildFunct={this.sendToChildFunct}
                   customVerbs={this.props.customVerbs}
@@ -399,7 +401,10 @@ export class Screen extends Component {
                   roomCurrentDescription={this.props.roomCurrentDescription}
                   submittedText={this.props.submittedText}
                   handleSubmittedTextModal={this.props.handleSubmittedTextModal}
-                />
+                /> 
+              
+              
+
               </form>
             </footer>
             
