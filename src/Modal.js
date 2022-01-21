@@ -1,25 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Modal extends Component{
-  // Support for four seprate line-broken slots in the dialog box  
-  render(props){
-    return (
-      <div 
-        className={this.props.modalStatus ? "modal display-block": "modal display-none"}>
-        <section className="modal-main" style={{width:this.props.modalWidth, top:this.props.modalTop}}>
-          <p>{this.props.modalText}</p>
-          <p className={this.props.modalTextSlot2 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot2}</p>
-          <p className={this.props.modalTextSlot3 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot3}</p>
-          <p className={this.props.modalTextSlot4 ==="" ? "display-none" : "display-block"}><br/>{this.props.modalTextSlot4}</p>
+const Modal = (props) => {
 
-          {/* <div id="buttonWrap">
-            <button onClick={this.props.modalButtonClick1} className={this.props.modalButtonText1 ==="" ? "display-none" : "display-inlineblock"}>{this.props.modalButtonText1}</button>
-            <button onClick={this.props.modalButtonClick2} className={this.props.modalButtonText2 ==="" ? "display-none" : "display-inlineblock"}>{this.props.modalButtonText2}</button>
-          </div> */}
-        </section>
-      </div>
-    );
+  const modalStyle = {
+    width: props.modalWidth,
+    top: props.modalTop
   }
-}
+
+  return (
+    <div
+      className={props.modalStatus ? "modal display-block" : "modal display-none"}>
+      <section className="modal-main" style={modalStyle}>
+        <p>{props.modalText}</p>
+        <p className={props.modalTextSlot2 === "" ? "display-none" : "display-block"}><br />{props.modalTextSlot2}</p>
+        <p className={props.modalTextSlot3 === "" ? "display-none" : "display-block"}><br />{props.modalTextSlot3}</p>
+        <p className={props.modalTextSlot4 === "" ? "display-none" : "display-block"}><br />{props.modalTextSlot4}</p>
+      </section>
+    </div>
+  );
+};
 
 export default React.memo(Modal);
