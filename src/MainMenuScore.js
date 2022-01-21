@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class MainMenuScore extends Component {
-  render() {
-    return (
-      <span className='scoreStatus'>Score: {this.props.currentScore} of {this.props.highScore}</span>
-    )
-  }
-}
+const MainMenuScore = (props) => {
+  return (
+    <span className='scoreStatus'>Score: {props.currentScore} of {props.highScore}</span>
+  )
+};
 
-export default React.memo(MainMenuScore);
+export default React.memo(MainMenuScore)

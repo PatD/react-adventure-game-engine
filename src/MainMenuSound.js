@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export default class MainMenuSound extends Component {
-  render(props){
-    console.Console(this.props.soundOn)
-    return(
-      <span onClick={this.props.toggleSound} className='soundStatus'>Sound:{this.props.soundOn}</span>
-    )
-  } 
-}
+const MainMenuSound = (props) => {
+  return(
+    <span onClick={props.toggleSound} className='soundStatus'>Sound:{props.soundOn}</span>
+  )
+};
+
+export default React.memo(MainMenuSound)
