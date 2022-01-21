@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import KeyboardControls from './KeyboardControls'
 import PreloadGameAssets from './PreloadGameAssets'
 import Screen from './Screen';
 import Modal from './Modal'
 import InventoryScreen from './InventoryScreen'
 import GameLoader from './GameLoader'
 import MainMenuBar from './MainMenuBar'
+
 
 
 // Movement workers 🛠 🪚 🧰
@@ -715,6 +717,7 @@ export default class App extends Component {
   // Adds event listeners for key presses.
   // Game engine is scoped for arrow keys to move character, tab key for inventory, and escape key for main menu
   setdefaultKeyboardListners = () => {
+    /*
     return document.addEventListener('keydown', (event) => {
 
       // "Any key" can close the inventory screen, we start with that
@@ -747,9 +750,8 @@ export default class App extends Component {
 
       // Handle Enter key for modals where Enter is the confirmation
       else if (event.key === 'Enter') {
-        /* 
-          Maybe not a good idea? There's a submit event that uses the enter key on screen.js
-        */
+        // Maybe not a good idea? There's a submit event that uses the enter key on screen.js
+        
       }
 
       // This opens the inventory screen
@@ -792,6 +794,8 @@ export default class App extends Component {
         return false
       }
     }, false);
+
+    */
   }
 
 
@@ -806,14 +810,8 @@ export default class App extends Component {
     // Get the details of the room we're in from state:
     const nextRoom = this.state.rooms.find(isRoom);
 
-    // loadRoom also loads the title screen, so we need to handle that first.
-    
+    // Since the title screen is a room, check for first. 
     if(nextRoom.titleScreen === true){
-
-      // set player to be dead, game to be paused?
-
-      // add function to move to room 2 when enter pressed
-
       return [
           this.setState({
             heroAlive:false,
@@ -826,8 +824,6 @@ export default class App extends Component {
     }
 
 
-
-
     // Add exit position for right and bottom room exits
     // since we don't necessarily know the dimensions of
     // the game play area.
@@ -838,7 +834,6 @@ export default class App extends Component {
         roomExit.x = this.state.playfieldY - 5
       }
     }
-
 
     // Set position of hero for travel from one room to the next
     if (this.state.heroDirection === "ArrowUp") {
@@ -889,6 +884,25 @@ export default class App extends Component {
 
       // roomChange() will return an array of things!
 
+
+
+
+
+
+
+
+
+      /* Todo: Make the return the same for roomchange as customTextParser */
+
+
+
+
+
+
+
+
+
+
       /* 
         [
           00, // delay before firing
@@ -911,6 +925,8 @@ export default class App extends Component {
       } 
     }
   }
+
+
 
 
   /* 
@@ -996,9 +1012,24 @@ export default class App extends Component {
 
   }
 
+  testFunc = () => {
+    return console.log("Parent component test func")
+  }
+
   render() {
     return (
       <React.Fragment>
+        <KeyboardControls
+          heroAlive={this.state.heroAlive}
+          hideModal={this.hideModal}
+          menuBarActive={this.state.menuBarActive} 
+          modalStatus={this.state.modalStatus}
+          inventoryVisable={this.state.inventoryVisable}
+          roomTitleScreen={this.state.roomTitleScreen}
+          toggleInventoryScreen={this.toggleInventoryScreen}
+          testFunc={this.testFunc}
+
+        />
         <GameLoader loadGameFile={this.loadGameFile} />
 
         <PreloadGameAssets
@@ -1006,7 +1037,6 @@ export default class App extends Component {
 
         <InventoryScreen
           heroAlive={this.state.heroAlive}
-          roomTitleScreen={this.state.heroAlive}
           inventoryVisable={this.state.inventoryVisable}
           inventory={this.state.inventory} />
 

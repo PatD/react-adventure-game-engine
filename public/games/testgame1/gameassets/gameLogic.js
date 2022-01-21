@@ -91,7 +91,7 @@ function roomChangetwo(roomNumber, state) {
     // Check for the player's locaition periodically
 
     // If there's a match, game-over the player
-    updateFame = () =>{
+    updateDeathpit = () =>{
         // console.log(window.gameState.heroPositionY)
        
         if((window.gameState.heroPositionY >= 320 && window.gameState.heroPositionY < 380) && 
@@ -126,12 +126,12 @@ function roomChangetwo(roomNumber, state) {
                 }
             }
         } else{
-            requestAnimationFrame(updateFame)
+            requestAnimationFrame(updateDeathpit)
         }
 
     }
 
-    requestAnimationFrame(updateFame)
+    return requestAnimationFrame(updateDeathpit)
 }
 
 
@@ -178,7 +178,6 @@ function roomChangeThree(state) {
 }
 
 /* Custom text parser functions */
-
 function customParty(props) {
     return {
         "delay": 2, 
@@ -454,5 +453,3 @@ function customGetTaco(props) {
             }        
     }
 }
-// console.log('Gamelogic last line loaded')
-// console.log(window.gameState.roomCurrent)
