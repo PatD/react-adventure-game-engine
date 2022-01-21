@@ -1,17 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Hero extends Component {
-  render(props) {
-    return (
-      <div
-        style={{
-          top: this.props.heroPositionX,
-          left: this.props.heroPositionY,
-          width: this.props.heroWidth,
-          height: this.props.heroHeight
-        }}
-        className={this.props.heroDirection + " " + this.props.heroMoving}
-        id="hero"></div>)
+const Hero = (props) => {
+
+  const heroStyle = {
+    top: props.heroPositionX,
+    left: props.heroPositionY,
+    width: props.heroWidth,
+    height: props.heroHeight
   }
-}
-export default React.memo(Hero);
+
+  return (
+    <div
+      style={heroStyle}
+      className={props.heroDirection + " " + props.heroMoving}
+      id="hero"></div>
+  );
+};
+
+export default React.memo(Hero)
