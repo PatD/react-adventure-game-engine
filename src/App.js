@@ -156,6 +156,7 @@ export default class App extends Component {
       roomTitleScreen:false,
 
       // Game state stuff
+      keyPress:"",
       gameLogic: "",
       playfieldX: 0,
       playfieldY: 0,
@@ -225,6 +226,11 @@ export default class App extends Component {
       this.handleSubmittedTextModal(msg)
     }
 
+  }
+
+  toggleMainMenu = () =>{
+    this.haltHero()
+    this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
   }
 
   // Accepts commands from main navigation, then routes them to helper funciton file
@@ -604,11 +610,14 @@ export default class App extends Component {
         this.haltHero()
       ]
     } else {
-      return this.setState({
+      return [
+        this.setState({
         inventoryVisable: false,
         pausedgame: false
       })
+    ]
     }
+
   }
 
   // Add/Edit/Remove flag changes
@@ -815,6 +824,7 @@ export default class App extends Component {
       return [
           this.setState({
             heroAlive:false,
+            gameStartRoomNumber:nextRoom.gameStartRoomNumber,
             roomTitleScreen: true,
             roomCurrent: nextRoom.Room,
             roomCurrentName: nextRoom.Name,
@@ -861,6 +871,7 @@ export default class App extends Component {
 
     // Set room stage
     this.setState({
+      heroAlive:true,
       roomTitleScreen:false,
       roomCurrent: nextRoom.Room,
       roomCurrentObjects: nextRoom.displayObjects,
@@ -973,6 +984,14 @@ export default class App extends Component {
 
   componentDidMount = () => {
 
+    // Event listener for keyboard commands
+      document.addEventListener('keydown', (e) => {  
+        e.preventDefault()
+        this.setState({keyPress:e.key})
+        console.log("Add " + e.key + " to state.")
+      })
+    
+
     // When the component mounts, start an event listener for web worker updates.
     WorkerHandleHeroMovement.onmessage = (e) => {
 
@@ -1000,7 +1019,7 @@ export default class App extends Component {
     }
 
     // Set event listener keyboard key presses
-    this.setdefaultKeyboardListners();
+    this.setdefaultKeyboardListners()
   }
 
   componentDidUpdate = (prevState) => {
@@ -1013,21 +1032,26 @@ export default class App extends Component {
   }
 
   testFunc = () => {
-    return console.log("Parent component test func")
+    return console.log('Parent component test func')
   }
 
   render() {
     return (
       <React.Fragment>
         <KeyboardControls
+          keyPress={this.state.keyPress}
           heroAlive={this.state.heroAlive}
           hideModal={this.hideModal}
+          gameStartRoomNumber={this.state.gameStartRoomNumber}
           menuBarActive={this.state.menuBarActive} 
+          toggleMainMenu={this.toggleMainMenu}
           modalStatus={this.state.modalStatus}
           inventoryVisable={this.state.inventoryVisable}
           roomTitleScreen={this.state.roomTitleScreen}
+          loadRoom={this.loadRoom}
           toggleInventoryScreen={this.toggleInventoryScreen}
           testFunc={this.testFunc}
+          
 
         />
         <GameLoader loadGameFile={this.loadGameFile} />
