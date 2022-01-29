@@ -985,11 +985,21 @@ export default class App extends Component {
   componentDidMount = () => {
 
     // Event listener for keyboard commands
+    
       document.addEventListener('keydown', (e) => {  
         e.preventDefault()
-        this.setState({keyPress:e.key})
+        // if(this.state.keyPress !== e.key){
+          this.setState(
+            {keyPress:e.key,
+            keyRefresh:new Date().valueOf() // Passes a fresh date to rerender component in case the same key is pressed twice
+          }) // may have to track previous state as well?
+          // replace addEventListner with keydown synthetic react event in component???!!
+
+        // }
+        
         console.log("Add " + e.key + " to state.")
       })
+  
     
 
     // When the component mounts, start an event listener for web worker updates.
@@ -1031,28 +1041,26 @@ export default class App extends Component {
 
   }
 
-  testFunc = () => {
-    return console.log('Parent component test func')
-  }
 
   render() {
     return (
       <React.Fragment>
+        
         <KeyboardControls
-          keyPress={this.state.keyPress}
-          heroAlive={this.state.heroAlive}
-          hideModal={this.hideModal}
           gameStartRoomNumber={this.state.gameStartRoomNumber}
-          menuBarActive={this.state.menuBarActive} 
-          toggleMainMenu={this.toggleMainMenu}
-          modalStatus={this.state.modalStatus}
+          heroAlive={this.state.heroAlive}
+          handleHeroMovement={this.handleHeroMovement}
+          hideModal={this.hideModal}
           inventoryVisable={this.state.inventoryVisable}
-          roomTitleScreen={this.state.roomTitleScreen}
+          keyPress={this.state.keyPress}
+          keyRefresh={this.state.keyRefresh}
           loadRoom={this.loadRoom}
+          pausedgame={this.state.pausedgame}
+          menuBarActive={this.state.menuBarActive} 
+          modalStatus={this.state.modalStatus}
+          roomTitleScreen={this.state.roomTitleScreen}
+          toggleMainMenu={this.toggleMainMenu}
           toggleInventoryScreen={this.toggleInventoryScreen}
-          testFunc={this.testFunc}
-          
-
         />
         <GameLoader loadGameFile={this.loadGameFile} />
 

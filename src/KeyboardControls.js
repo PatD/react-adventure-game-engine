@@ -18,12 +18,10 @@ import React from 'react';
 
 const KeyboardControls = (props) => {
 
-    console.log(props.keyPress)
-
     React.useEffect(() => {
 
         // Handles user pressing any key while inventory is open
-        if (props.keyPress !== "" && props.inventoryVisable === true && props.roomTitleScreen === false) {
+        if (props.keyPress !== "" && (props.inventoryVisable === true && props.roomTitleScreen === false && props.menuBarActive === false)) {
             return props.toggleInventoryScreen()
         }
 
@@ -41,7 +39,7 @@ const KeyboardControls = (props) => {
         }
 
         // This opens the inventory screen
-        else if (props.keyPress === 'Tab' && (props.inventoryVisable === false && props.modalStatus === false && props.menuBarActive === false)) {
+        else if (props.keyPress === 'Tab' && (props.inventoryVisable === false && props.roomTitleScreen === false && props.modalStatus === false && props.menuBarActive === false)) {
             return props.toggleInventoryScreen()
         }
 
@@ -54,15 +52,25 @@ const KeyboardControls = (props) => {
         else if (props.keyPress === "Escape" && props.inventoryVisable === false && props.modalStatus === false) {
             return props.toggleMainMenu()
         }
+        
+        // Handle arrow keys for movement
+        else if (
+            (props.heroAlive === true && props.roomTitleScreen === false && props.inventoryVisable === false && props.pausedgame === false) &&
+            (props.keyPress === 'ArrowDown' || props.keyPress === 'ArrowUp' || props.keyPress === 'ArrowLeft' || props.keyPress === 'ArrowRight')) {
+                return props.handleHeroMovement(props.keyPress)
+        }
+
+
+
+        // Any other keypress is ignored here!
+        else {
+            return false
+        }
 
 
 
 
-
-
-
-
-    }, [props.keyPress])
+    }, [props.keyPress, props.keyRefresh])
 
     return null
 
@@ -171,7 +179,7 @@ const KeyboardControls = (props) => {
     useEffect(() => {
         // window.addEventListener('keydown', (event) => {
         //     // The keypress is stored in this component's state:
-        //     setKeyPressState(event.key)
+        //     setKeyPressState(keyPress)
         //     // console.log(props)
         //     keyGauntlet()
         // })
