@@ -19,6 +19,7 @@ export default class MainMenuBar extends Component {
 
 
   handleKeyboardMenu = (key) => {
+    console.log(key)
 
     // Number: Find currently active main nav in the array, as a number
     const currentNum = this.state.mainNavs.findIndex(i => i == this.state.mainNavCurrentActive)
@@ -183,49 +184,65 @@ export default class MainMenuBar extends Component {
 
 
     // Enable keyboard movement of menu
-    document.addEventListener('keydown', (event) => {
+    // document.addEventListener('keydown', (event) => {
 
-      // Handle arrow keys for movement
-      if (
-        (this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
-        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-        return this.handleKeyboardMenu(event.key)
-      }
+      // // Handle arrow keys for movement
+      // if (
+      //   (this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
+      //   (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+      //   return this.handleKeyboardMenu(event.key)
+      // }
 
-      // Handle Enter key for selection
-      else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
-        (event.key === 'Enter')) {
+      // // Handle Enter key for selection
+      // else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
+      //   (event.key === 'Enter')) {
 
-        // Is the current menu item disabled?
-        const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
+      //   // Is the current menu item disabled?
+      //   const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
 
-        if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabled.titleDisabled === true )) {
-          event.preventDefault()
-          return false
-        }
 
-        else return [
+      //   if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabledTitleScreen.titleDisabled === true )) {
+      //     event.preventDefault()
+      //     return false
+      //   }
 
-          // Prevent the default action for the enter key (in this case, sumbitting the text parser or closing the modal)
-          event.preventDefault(),
+      //   else return [
 
-          // Take whatever action is selected
-          this.props.handleMainMenuAction(this.state.subNavSelectedItem)
-        ]
-      }
+      //     // Prevent the default action for the enter key (in this case, sumbitting the text parser or closing the modal)
+      //     event.preventDefault(),
+
+      //     // Take whatever action is selected
+      //     this.props.handleMainMenuAction(this.state.subNavSelectedItem)
+      //   ]
+      // }
 
       // Any other keypress is ignored!
-      else return false
-    }, false);
+      // else return false
+    // }, false);
   }
 
   componentDidUpdate(prevProps) {
+
+    // console.log(prevProps.keyPressMenu + prevProps.keyRefresh)
+    // console.log(this.props.keyPressMenu + this.props.keyRefresh)
+
+    if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)){
+      console.log(this.props.keyPressMenu)
+      this.handleKeyboardMenu(this.props.keyPressMenu)
+    }
+
+    // console.log(this.props.keyPressMenu)
+    // this.handleKeyboardMenu(this.props.keyPressMenu)
+
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)
     if (this.props.menuBarActive !== prevProps.menuBarActive) {
 
       if (this.state.mainNavBar === "active") {
         return this.openMenu()
-      }
+      } 
+      // else if(this.state.mainNavBar !== "active"){
+      //   return this.handleKeyboardMenu(this.props.keyPressMenu)
+      // }
       else {
         return this.resetMenu()
       }

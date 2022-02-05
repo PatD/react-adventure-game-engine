@@ -43,6 +43,7 @@ export default class App extends Component {
       modalConfirmation: "", // occurs optionally when a modal is used as a confirmation and the enter key closes it
 
       // Menu state
+      keyPressMenu:"",
       menuBarActive: false,
       mainMenuItems: [
         {
@@ -760,7 +761,6 @@ export default class App extends Component {
       // Handle Enter key for modals where Enter is the confirmation
       else if (event.key === 'Enter') {
         // Maybe not a good idea? There's a submit event that uses the enter key on screen.js
-        
       }
 
       // This opens the inventory screen
@@ -997,7 +997,7 @@ export default class App extends Component {
 
         // }
         
-        console.log("Add " + e.key + " to state.")
+        // console.log("Add " + e.key + " to state.")
       })
   
     
@@ -1042,6 +1042,12 @@ export default class App extends Component {
   }
 
 
+  handleMainMenuKeyPress = (keyPressMenu) =>{
+    this.setState({keyPressMenu})
+  }
+
+
+
   render() {
     return (
       <React.Fragment>
@@ -1050,6 +1056,7 @@ export default class App extends Component {
           gameStartRoomNumber={this.state.gameStartRoomNumber}
           heroAlive={this.state.heroAlive}
           handleHeroMovement={this.handleHeroMovement}
+          handleMainMenuKeyPress={this.handleMainMenuKeyPress}
           hideModal={this.hideModal}
           inventoryVisable={this.state.inventoryVisable}
           keyPress={this.state.keyPress}
@@ -1084,9 +1091,10 @@ export default class App extends Component {
           modalTextSlot4={this.state.modalTextSlot4}
         />
 
-
         <MainMenuBar
           heroAlive={this.state.heroAlive}
+          keyPressMenu={this.state.keyPressMenu}
+          keyRefresh={this.state.keyRefresh}
           menuBarActive={this.state.menuBarActive}
           mainMenuItems={this.state.mainMenuItems}
           currentScore={this.state.currentScore}

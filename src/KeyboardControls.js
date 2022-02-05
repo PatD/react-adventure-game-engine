@@ -21,7 +21,7 @@ const KeyboardControls = (props) => {
     React.useEffect(() => {
 
         // Handles user pressing any key while inventory is open
-        if (props.keyPress !== "" && (props.inventoryVisable === true && props.roomTitleScreen === false && props.menuBarActive === false)) {
+        if (props.inventoryVisable === true && props.roomTitleScreen === false && props.menuBarActive === false){
             return props.toggleInventoryScreen()
         }
 
@@ -53,12 +53,48 @@ const KeyboardControls = (props) => {
             return props.toggleMainMenu()
         }
         
-        // Handle arrow keys for movement
+        // Hero movement - Handle arrow keys
         else if (
-            (props.heroAlive === true && props.roomTitleScreen === false && props.inventoryVisable === false && props.pausedgame === false) &&
+            (props.menuBarActive === false && props.heroAlive === true && props.roomTitleScreen === false && props.inventoryVisable === false && props.pausedgame === false) &&
             (props.keyPress === 'ArrowDown' || props.keyPress === 'ArrowUp' || props.keyPress === 'ArrowLeft' || props.keyPress === 'ArrowRight')) {
-                return props.handleHeroMovement(props.keyPress)
+            return props.handleHeroMovement(props.keyPress)
         }
+    
+        // Main menu - Handle arrow keys
+        else if (props.menuBarActive === true && props.inventoryVisable === false && (props.keyPress === 'ArrowDown' || props.keyPress === 'ArrowUp' || props.keyPress === 'ArrowLeft' || props.keyPress === 'ArrowRight')){
+            // console.log(props.keyPress + " from KeyboardControls.js")
+            return props.handleMainMenuKeyPress(props.keyPress)
+        }
+
+        /*
+        // Handle Enter key for selection
+        else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
+            (props.keyPress === 'Enter')) {
+
+            // Is the current menu item disabled?
+            const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
+
+
+            if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabledTitleScreen.titleDisabled === true )) {
+            event.preventDefault()
+            return false
+            }
+
+            else return [
+
+            // Prevent the default action for the enter key (in this case, sumbitting the text parser or closing the modal)
+            event.preventDefault(),
+
+            // Take whatever action is selected
+            this.props.handleMainMenuAction(this.state.subNavSelectedItem)
+            ]
+        }
+
+        */
+
+
+
+
 
 
 

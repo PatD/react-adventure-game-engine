@@ -403,8 +403,6 @@ export class Screen extends Component {
                   handleSubmittedTextModal={this.props.handleSubmittedTextModal}
                 /> 
               
-              
-
               </form>
             </footer>
             
