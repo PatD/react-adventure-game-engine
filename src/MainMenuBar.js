@@ -22,7 +22,7 @@ export default class MainMenuBar extends Component {
     // Number: Find currently active main nav in the array, as a number
     const currentNum = this.state.mainNavs.findIndex(i => i == this.state.mainNavCurrentActive)
 
-    // Handle key presses
+    // Handle direcitons presses
     if ((key === "ArrowRight") && (this.state.mainNavs.length !== currentNum + 1)) {
       // The the next right-arrow choice is made, open the submenu for it
       const newMenuItems = this.props.mainMenuItems.find(x => x.name === this.state.mainNavs[currentNum + 1])
@@ -109,6 +109,20 @@ export default class MainMenuBar extends Component {
         subNavSelectedItem: sel.name
       })
     }
+    else if (key === 'Enter') {
+      console.log('Enter hit while menu open')
+
+      // Is the current menu item disabled?
+      const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
+
+      if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabled.titleDisabled === true )) {
+        return false
+      }
+
+      else 
+        return this.props.handleMainMenuAction(this.state.subNavSelectedItem)
+    }
+
     else {
       return false
     }
@@ -179,71 +193,15 @@ export default class MainMenuBar extends Component {
       mainNavs: mainNavs,
       mainNavFirst: "mainNav" + _mainNavMenuItems[0] + "Menu"
     })
-
-
-    // Enable keyboard movement of menu
-    // document.addEventListener('keydown', (event) => {
-
-      // // Handle arrow keys for movement
-      // if (
-      //   (this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
-      //   (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-      //   return this.handleKeyboardMenu(event.key)
-      // }
-
-      // // Handle Enter key for selection
-      // else if ((this.props.menuBarActive === true && this.state.mainNavMenuVisibility === "active") &&
-      //   (event.key === 'Enter')) {
-
-      //   // Is the current menu item disabled?
-      //   const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
-
-
-      //   if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabledTitleScreen.titleDisabled === true )) {
-      //     event.preventDefault()
-      //     return false
-      //   }
-
-      //   else return [
-
-      //     // Prevent the default action for the enter key (in this case, sumbitting the text parser or closing the modal)
-      //     event.preventDefault(),
-
-      //     // Take whatever action is selected
-      //     this.props.handleMainMenuAction(this.state.subNavSelectedItem)
-      //   ]
-      // }
-
-      // Any other keypress is ignored!
-      // else return false
-    // }, false);
   }
 
 
 
   componentDidUpdate(prevProps) {
-    // console.log(this.props.keyPressMenu)
-
     
     if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)){
           this.handleKeyboardMenu(this.props.keyPress)
     }
-
-    // console.log(this.props.keyPressMenu)
-   // if((prevProps.keyRefresh !== this.props.keyRefresh) && (prevProps.keyPressMenu !== this.props.keyPressMenu)){
-      // this.handleKeyboardMenu(this.props.keyPressMenu)
-    // }
-
-    // console.log(prevProps.keyPressMenu + prevProps.keyRefresh)
-    // console.log(this.props.keyPressMenu + this.props.keyRefresh)
-
-    // if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh) && (prevProps.keyPressMenu === this.props.keyPressMenu)){
-    //   console.log(this.props.keyPressMenu)
-    //   this.handleKeyboardMenu(this.props.keyPressMenu)
-    // }
-
-    // console.log(this.props.keyPressMenu)
-    // this.handleKeyboardMenu(this.props.keyPressMenu)
 
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)
     if (this.props.menuBarActive !== prevProps.menuBarActive) {

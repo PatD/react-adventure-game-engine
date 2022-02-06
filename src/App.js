@@ -236,6 +236,8 @@ export default class App extends Component {
   // Accepts commands from main navigation, then routes them to helper funciton file
   handleMainMenuAction = (action) => {
 
+    console.log('handleMainMenuAction() in app.js has fired!!')
+
     // Player has made a selection - close the menu!
     this.setState({ menuBarActive: false })
 
