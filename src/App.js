@@ -43,7 +43,6 @@ export default class App extends Component {
       modalConfirmation: "", // occurs optionally when a modal is used as a confirmation and the enter key closes it
 
       // Menu state
-      keyPressMenu:"",
       menuBarActive: false,
       mainMenuItems: [
         {
@@ -992,10 +991,7 @@ export default class App extends Component {
           this.setState(
             {keyPress:e.key,
             keyRefresh:new Date().valueOf() // Passes a fresh date to rerender component in case the same key is pressed twice
-          }) // may have to track previous state as well?
-          // replace addEventListner with keydown synthetic react event in component???!!
-
-        // }
+          }) 
         
         // console.log("Add " + e.key + " to state.")
       })
@@ -1042,8 +1038,8 @@ export default class App extends Component {
   }
 
 
-  handleMainMenuKeyPress = (keyPressMenu) =>{
-    this.setState({keyPressMenu})
+  handleMainMenuKeyPress = (key) =>{
+    return this.setState({keyPress:key})
   }
 
 
@@ -1093,8 +1089,8 @@ export default class App extends Component {
 
         <MainMenuBar
           heroAlive={this.state.heroAlive}
-          keyPressMenu={this.state.keyPressMenu}
           keyRefresh={this.state.keyRefresh}
+          keyPress={this.state.keyPress}
           menuBarActive={this.state.menuBarActive}
           mainMenuItems={this.state.mainMenuItems}
           currentScore={this.state.currentScore}

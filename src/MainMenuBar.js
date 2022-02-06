@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import MainMenuScore from './MainMenuScore.js'
 
 export default class MainMenuBar extends Component {
-  constructor() {
-    super();
+
 
     // Initial state - all menus are closed, and the score and title are displayed to the user
-    this.state = {
+    state = {
       mainNavBar: "active", // The main menu is active, no menu options shown
       mainNavMenuVisibility: "inactive", // Shown when user hits escape and can choose menu items.
       mainNavs: [], // handlekeyboardMenu() uses these as reference
@@ -15,11 +14,10 @@ export default class MainMenuBar extends Component {
       subNavActiveItems: [],  // Currently open menu
       subNavSelectedItem: "" // currently highlighted item
     };
-  }
+  
 
 
   handleKeyboardMenu = (key) => {
-    console.log(key)
 
     // Number: Find currently active main nav in the array, as a number
     const currentNum = this.state.mainNavs.findIndex(i => i == this.state.mainNavCurrentActive)
@@ -221,15 +219,28 @@ export default class MainMenuBar extends Component {
     // }, false);
   }
 
+
+
   componentDidUpdate(prevProps) {
+    // console.log(this.props.keyPressMenu)
+
+    
+    if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)){
+          this.handleKeyboardMenu(this.props.keyPress)
+    }
+
+    // console.log(this.props.keyPressMenu)
+   // if((prevProps.keyRefresh !== this.props.keyRefresh) && (prevProps.keyPressMenu !== this.props.keyPressMenu)){
+      // this.handleKeyboardMenu(this.props.keyPressMenu)
+    // }
 
     // console.log(prevProps.keyPressMenu + prevProps.keyRefresh)
     // console.log(this.props.keyPressMenu + this.props.keyRefresh)
 
-    if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)){
-      console.log(this.props.keyPressMenu)
-      this.handleKeyboardMenu(this.props.keyPressMenu)
-    }
+    // if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh) && (prevProps.keyPressMenu === this.props.keyPressMenu)){
+    //   console.log(this.props.keyPressMenu)
+    //   this.handleKeyboardMenu(this.props.keyPressMenu)
+    // }
 
     // console.log(this.props.keyPressMenu)
     // this.handleKeyboardMenu(this.props.keyPressMenu)

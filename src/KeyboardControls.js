@@ -62,7 +62,6 @@ const KeyboardControls = (props) => {
     
         // Main menu - Handle arrow keys
         else if (props.menuBarActive === true && props.inventoryVisable === false && (props.keyPress === 'ArrowDown' || props.keyPress === 'ArrowUp' || props.keyPress === 'ArrowLeft' || props.keyPress === 'ArrowRight')){
-            // console.log(props.keyPress + " from KeyboardControls.js")
             return props.handleMainMenuKeyPress(props.keyPress)
         }
 
