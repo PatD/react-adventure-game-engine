@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 // Act as a relay for all keyboard presses in the game.
 
 /* Consider this needs to support:
@@ -18,6 +17,8 @@ import React from 'react';
 // That keystroke is passed here, where it's processed.
 
 const KeyboardControls = (props) => {
+
+    const keysForTypingInput = 'abcdefghijklmnopqrstuvwxyz01234567890.,-=_+`~!@#$%^&*()?'.split("")
 
     React.useEffect(() => {
 
@@ -81,7 +82,9 @@ const KeyboardControls = (props) => {
             (props.keyPress === 'Enter') &&
             (props.menuBarActive === true && props.inventoryVisable === false)) {
 
-            return console.log('keyboardControl JS Enter hit for main menu open')
+            // Not needed, handled by props.handleMainMenuAction()
+            
+            return false
         }
 
         
@@ -90,6 +93,23 @@ const KeyboardControls = (props) => {
             (props.keyPress === 'Enter') &&
             (props.modalStatus === true && props.menuBarActive === false && props.inventoryVisable === false)) {
                 return props.hideModal(props.keyPress)
+        }
+
+
+        // Handle Enter key for text submission
+        else if(
+            (props.keyPress === 'Enter') &&
+            (props.modalStatus === false && props.menuBarActive === false && props.inventoryVisable === false)){
+            return console.log('submit enter')
+        }
+
+
+        // Handle those letters
+        else if(
+            (keysForTypingInput.includes(props.keyPress) === true || props.keyPress === ' ') &&
+            (props.roomTitleScreen === false && props.modalStatus === false && props.menuBarActive === false && props.inventoryVisable === false)){
+
+            return props.textParserChange(props.keyPress)
         }
 
 

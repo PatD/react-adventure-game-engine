@@ -417,7 +417,7 @@ export default class App extends Component {
   }
 
   // Updates state as letters are typed into input field
-  textParserChange = (event) => {
+  textParserChange = (keyPress) => {
 
     // Is a value false?
     const checkFalse = (val) => val === false;
@@ -431,7 +431,10 @@ export default class App extends Component {
     ]
 
     if (toCheck.every(checkFalse) === true) {
-      return this.setState({ textParserValue: event.target.value })
+      
+      const newText =  this.state.textParserValue + keyPress
+
+      return this.setState({ textParserValue:newText })
     }
   }
 
@@ -1027,7 +1030,7 @@ export default class App extends Component {
     }
 
     // Set event listener keyboard key presses
-    this.setdefaultKeyboardListners()
+    // this.setdefaultKeyboardListners()
   }
 
   componentDidUpdate = (prevState) => {
@@ -1064,6 +1067,8 @@ export default class App extends Component {
           menuBarActive={this.state.menuBarActive} 
           modalStatus={this.state.modalStatus}
           roomTitleScreen={this.state.roomTitleScreen}
+          textParserChange={this.textParserChange}
+          textParserValue={this.state.textParserValue}
           toggleMainMenu={this.toggleMainMenu}
           toggleInventoryScreen={this.toggleInventoryScreen}
         />
@@ -1135,7 +1140,7 @@ export default class App extends Component {
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
-          setdefaultKeyboardListners={this.setdefaultKeyboardListners}
+          // setdefaultKeyboardListners={this.setdefaultKeyboardListners}
           submitTextParser={this.submitTextParser}
           textParserChange={this.textParserChange}
           handleSubmittedTextModal={this.handleSubmittedTextModal}

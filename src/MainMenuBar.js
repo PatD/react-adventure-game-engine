@@ -110,7 +110,6 @@ export default class MainMenuBar extends Component {
       })
     }
     else if (key === 'Enter') {
-      console.log('Enter hit while menu open')
 
       // Is the current menu item disabled?
       const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
@@ -195,8 +194,6 @@ export default class MainMenuBar extends Component {
     })
   }
 
-
-
   componentDidUpdate(prevProps) {
     
     if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)){
@@ -209,9 +206,6 @@ export default class MainMenuBar extends Component {
       if (this.state.mainNavBar === "active") {
         return this.openMenu()
       } 
-      // else if(this.state.mainNavBar !== "active"){
-      //   return this.handleKeyboardMenu(this.props.keyPressMenu)
-      // }
       else {
         return this.resetMenu()
       }
