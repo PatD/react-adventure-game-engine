@@ -419,22 +419,13 @@ export default class App extends Component {
   // Updates state as letters are typed into input field
   textParserChange = (keyPress) => {
 
-    // Is a value false?
-    const checkFalse = (val) => val === false;
-
-    // Only allow text input when these resolve to false
-    const toCheck = [
-      this.state.pausedgame,
-      this.state.inventoryVisable,
-      this.state.menuBarActive,
-      this.state.modalStatus
-    ]
-
-    if (toCheck.every(checkFalse) === true) {
-      
+    if (typeof keyPress === 'string' && keyPress !== 'Backspace') {
       const newText =  this.state.textParserValue + keyPress
-
       return this.setState({ textParserValue:newText })
+
+    } else if (typeof keyPress === 'string' && keyPress === 'Backspace'){
+      const backspaceText =  this.state.textParserValue.slice(0, -1)
+      return this.setState({ textParserValue:backspaceText })
     }
   }
 

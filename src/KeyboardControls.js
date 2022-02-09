@@ -104,9 +104,9 @@ const KeyboardControls = (props) => {
         }
 
 
-        // Handle those letters
+        // Handle letters, spaces, backspaces
         else if(
-            (keysForTypingInput.includes(props.keyPress) === true || props.keyPress === ' ') &&
+            (keysForTypingInput.includes(props.keyPress) === true || props.keyPress === ' ' || props.keyPress === 'Backspace') &&
             (props.roomTitleScreen === false && props.modalStatus === false && props.menuBarActive === false && props.inventoryVisable === false)){
 
             return props.textParserChange(props.keyPress)
