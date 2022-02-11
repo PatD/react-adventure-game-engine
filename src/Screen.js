@@ -9,37 +9,42 @@ export class Screen extends Component {
 
   // Fires when user hits Enter on text field
   submitTextParser = event => {
-
-    event.preventDefault();
+    // event.preventDefault();
 
     // Check if game is active, inventory isn't shown, and menu bar is closed
 
     // Only allow text input when these resolve to false
-    const checkFalse = (val) => val === false;
+    // const checkFalse = (val) => val === false;
 
-    const areWeFalse = [
-      this.props.pausedgame,
-      this.props.inventoryVisable,
-      this.props.menuBarActive,
-      this.props.modalStatus
-    ]
+    // const areWeFalse = [
+    //   this.props.pausedgame,
+    //   this.props.inventoryVisable,
+    //   this.props.menuBarActive,
+    //   this.props.modalStatus
+    // ]
 
     // If all our falses are false (yeesh), and the inut box isn't empty, submit the text for processing
-    if (areWeFalse.every(checkFalse) === true && event.target.elements[0].value !== "") {
+    if (this.props.textParserValue !== "") {
 
       return [
-        this.handleTextParsing(event),
+        this.handleTextParsing(this.props.textParserValue),
 
         // Populates the Submitted Text state for processing then clears input field
-        this.props.textPopulateStateAndClearParser(event)
+        this.props.textPopulateStateAndClearParser(this.props.textParserValue)
       ]
 
     }
     else {
       // If the enter key is pressed, while the modal is open, close the modal
-      return this.props.hideModal(event)
+      return this.props.hideModal()
     }
   }
+
+
+
+
+
+
 
   // Handles custom code returned from gamelogic.js - Expects object 
 
@@ -93,10 +98,10 @@ export class Screen extends Component {
   }
 
   // Input text parsing
-  handleTextParsing(event) {
+  handleTextParsing(textToParse) {
 
     // Lowercase everything
-    const makeLowerCase = event.target.elements[0].value.toLowerCase()
+    const makeLowerCase = textToParse.toLowerCase()
 
     // Take each word the user inputs and add to an array
     const makeWordArray = makeLowerCase.split(/\s+/);
@@ -331,6 +336,16 @@ export class Screen extends Component {
     }
   }
 
+  componentDidUpdate = (prevProps) =>{
+
+    // Check for a prop of EnterSubmit, then pass to submitTextParser()
+    if(this.props.keyPress !== prevProps.keyPress && this.props.keyPress === "EnterSubmit"){
+      this.submitTextParser()
+      // console.log('We have EnterSubmit')
+    }
+    
+  }
+
   render(props) {
 
     // Since the hero sprite is base64, add it as a style stag:
@@ -348,6 +363,7 @@ export class Screen extends Component {
         <section id="gameUI" style={{ width: this.props.gameWidth, height: this.props.gameHeight }}>
           <main className={this.props.roomCurrentName + " " + this.props.roomCurrentAltStyle} >
 
+            <h1>{this.props.keyPress}</h1>
             <RoomExits
               roomExits={this.props.roomExits}
               roomCurrentName={this.props.roomCurrentName} />
@@ -381,30 +397,26 @@ export class Screen extends Component {
 
 
        
-            <footer>
-              <form onSubmit={this.submitTextParser}>
+           
               {
                 // Render text parser only if hero is alive.
                 // Can't type when you're deceased.
               }
               
                 <TextInputParse
-                  sendToChildFunct={this.sendToChildFunct}
-                  customVerbs={this.props.customVerbs}
-                  inventory={this.props.inventory}
+                  // sendToChildFunct={this.sendToChildFunct}
+                  // customVerbs={this.props.customVerbs}
+                  // inventory={this.props.inventory}
                   textParserChange={this.props.textParserChange}
                   textParserValue={this.props.textParserValue}
-                  heroPositionX={this.props.heroPositionX}
-                  heroPositionY={this.props.heroPositionY}
-                  roomCurrentName={this.props.roomCurrentName}
-                  roomCurrentObjects={this.props.roomCurrentObjects}
-                  roomCurrentDescription={this.props.roomCurrentDescription}
-                  submittedText={this.props.submittedText}
-                  handleSubmittedTextModal={this.props.handleSubmittedTextModal}
+                  // heroPositionX={this.props.heroPositionX}
+                  // heroPositionY={this.props.heroPositionY}
+                  // roomCurrentName={this.props.roomCurrentName}
+                  // roomCurrentObjects={this.props.roomCurrentObjects}
+                  // roomCurrentDescription={this.props.roomCurrentDescription}
+                  // submittedText={this.props.submittedText}
+                  // handleSubmittedTextModal={this.props.handleSubmittedTextModal}
                 /> 
-              
-              </form>
-            </footer>
             
         </section>
       </React.Fragment>)

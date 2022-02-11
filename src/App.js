@@ -409,9 +409,9 @@ export default class App extends Component {
   }
 
   // When parser submits, text is stored in State and input field cleared
-  textPopulateStateAndClearParser = (event) => {
+  textPopulateStateAndClearParser = (textToParse) => {
     return this.setState({
-      submittedText: event.target.elements[0].value,
+      submittedText:textToParse,
       textParserValue: ""
     })
   }
@@ -983,13 +983,10 @@ export default class App extends Component {
     
       document.addEventListener('keydown', (e) => {  
         e.preventDefault()
-        // if(this.state.keyPress !== e.key){
           this.setState(
             {keyPress:e.key,
             keyRefresh:new Date().valueOf() // Passes a fresh date to rerender component in case the same key is pressed twice
           }) 
-        
-        // console.log("Add " + e.key + " to state.")
       })
   
     
@@ -1033,7 +1030,7 @@ export default class App extends Component {
 
   }
 
-
+  // Helper funciton that updates state from KeyboardControls.js
   handleMainMenuKeyPress = (key) =>{
     return this.setState({keyPress:key})
   }
@@ -1127,12 +1124,13 @@ export default class App extends Component {
           heroSprite={this.state.heroSprite}
 
           // Text parser details
+          keyPress={this.state.keyPress}
           inventory={this.state.inventory}
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
           // setdefaultKeyboardListners={this.setdefaultKeyboardListners}
-          submitTextParser={this.submitTextParser}
+          // submitTextParser={this.submitTextParser}
           textParserChange={this.textParserChange}
           handleSubmittedTextModal={this.handleSubmittedTextModal}
 

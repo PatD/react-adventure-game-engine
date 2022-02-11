@@ -18,6 +18,8 @@ import React from 'react';
 
 const KeyboardControls = (props) => {
 
+    // Create an array of valid text parser keys.
+    // Text parser ignores everything else
     const keysForTypingInput = 'abcdefghijklmnopqrstuvwxyz01234567890.,-=_+`~!@#$%^&*()?'.split("")
 
     React.useEffect(() => {
@@ -92,15 +94,15 @@ const KeyboardControls = (props) => {
         else if (
             (props.keyPress === 'Enter') &&
             (props.modalStatus === true && props.menuBarActive === false && props.inventoryVisable === false)) {
-                return props.hideModal(props.keyPress)
+            return props.hideModal(props.keyPress)
         }
 
 
         // Handle Enter key for text submission
         else if(
             (props.keyPress === 'Enter') &&
-            (props.modalStatus === false && props.menuBarActive === false && props.inventoryVisable === false)){
-            return console.log('submit enter')
+            (props.roomTitleScreen === false && props.modalStatus === false && props.menuBarActive === false && props.inventoryVisable === false)){
+            return props.handleMainMenuKeyPress('EnterSubmit');
         }
 
 
