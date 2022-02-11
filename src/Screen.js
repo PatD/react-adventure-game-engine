@@ -8,20 +8,7 @@ import RoomExits from './RoomExits'
 export class Screen extends Component {
 
   // Fires when user hits Enter on text field
-  submitTextParser = event => {
-    // event.preventDefault();
-
-    // Check if game is active, inventory isn't shown, and menu bar is closed
-
-    // Only allow text input when these resolve to false
-    // const checkFalse = (val) => val === false;
-
-    // const areWeFalse = [
-    //   this.props.pausedgame,
-    //   this.props.inventoryVisable,
-    //   this.props.menuBarActive,
-    //   this.props.modalStatus
-    // ]
+  submitTextParser = () => {
 
     // If all our falses are false (yeesh), and the inut box isn't empty, submit the text for processing
     if (this.props.textParserValue !== "") {
@@ -39,9 +26,6 @@ export class Screen extends Component {
       return this.props.hideModal()
     }
   }
-
-
-
 
 
 
@@ -336,14 +320,14 @@ export class Screen extends Component {
     }
   }
 
-  componentDidUpdate = (prevProps) =>{
+  componentDidUpdate = (prevProps) => {
 
     // Check for a prop of EnterSubmit, then pass to submitTextParser()
-    if(this.props.keyPress !== prevProps.keyPress && this.props.keyPress === "EnterSubmit"){
+    if (this.props.keyPress !== prevProps.keyPress && this.props.keyPress === "EnterSubmit") {
       this.submitTextParser()
       // console.log('We have EnterSubmit')
     }
-    
+
   }
 
   render(props) {
@@ -394,30 +378,11 @@ export class Screen extends Component {
               : null}
 
           </main>
+          <TextInputParse
+            textParserChange={this.props.textParserChange}
+            textParserValue={this.props.textParserValue}
+          />
 
-
-       
-           
-              {
-                // Render text parser only if hero is alive.
-                // Can't type when you're deceased.
-              }
-              
-                <TextInputParse
-                  // sendToChildFunct={this.sendToChildFunct}
-                  // customVerbs={this.props.customVerbs}
-                  // inventory={this.props.inventory}
-                  textParserChange={this.props.textParserChange}
-                  textParserValue={this.props.textParserValue}
-                  // heroPositionX={this.props.heroPositionX}
-                  // heroPositionY={this.props.heroPositionY}
-                  // roomCurrentName={this.props.roomCurrentName}
-                  // roomCurrentObjects={this.props.roomCurrentObjects}
-                  // roomCurrentDescription={this.props.roomCurrentDescription}
-                  // submittedText={this.props.submittedText}
-                  // handleSubmittedTextModal={this.props.handleSubmittedTextModal}
-                /> 
-            
         </section>
       </React.Fragment>)
   }

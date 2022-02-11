@@ -68,7 +68,7 @@ export default class App extends Component {
             name: "Save Game",
             active: false,
             selected: true,
-            titleDisabled:true
+            titleDisabled: true
           }, {
             name: "Load Game",
             active: false,
@@ -77,7 +77,7 @@ export default class App extends Component {
             name: "Restart",
             active: true,
             selected: false,
-            titleDisabled:true
+            titleDisabled: true
           }, {
             name: "------",
             active: false,
@@ -91,25 +91,25 @@ export default class App extends Component {
               name: "Fastest",
               active: true,
               selected: true,
-              titleDisabled:true
+              titleDisabled: true
             },
             {
               name: "Fast",
               active: true,
               selected: false,
-              titleDisabled:true
+              titleDisabled: true
             },
             {
               name: "Normal",
               active: true,
               selected: false,
-              titleDisabled:true
+              titleDisabled: true
             },
             {
               name: "Slow",
               active: true,
               selected: false,
-              titleDisabled:true
+              titleDisabled: true
             }
 
           ]
@@ -153,10 +153,10 @@ export default class App extends Component {
       roomCurrentObjects: [],
       roomVisibleInventory: "",
       roomNearbyInventoryItems: [],
-      roomTitleScreen:false,
+      roomTitleScreen: false,
 
       // Game state stuff
-      keyPress:"",
+      keyPress: "",
       gameLogic: "",
       playfieldX: 0,
       playfieldY: 0,
@@ -228,7 +228,7 @@ export default class App extends Component {
 
   }
 
-  toggleMainMenu = () =>{
+  toggleMainMenu = () => {
     this.haltHero()
     this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
   }
@@ -411,7 +411,7 @@ export default class App extends Component {
   // When parser submits, text is stored in State and input field cleared
   textPopulateStateAndClearParser = (textToParse) => {
     return this.setState({
-      submittedText:textToParse,
+      submittedText: textToParse,
       textParserValue: ""
     })
   }
@@ -420,12 +420,12 @@ export default class App extends Component {
   textParserChange = (keyPress) => {
 
     if (typeof keyPress === 'string' && keyPress !== 'Backspace') {
-      const newText =  this.state.textParserValue + keyPress
-      return this.setState({ textParserValue:newText })
+      const newText = this.state.textParserValue + keyPress
+      return this.setState({ textParserValue: newText })
 
-    } else if (typeof keyPress === 'string' && keyPress === 'Backspace'){
-      const backspaceText =  this.state.textParserValue.slice(0, -1)
-      return this.setState({ textParserValue:backspaceText })
+    } else if (typeof keyPress === 'string' && keyPress === 'Backspace') {
+      const backspaceText = this.state.textParserValue.slice(0, -1)
+      return this.setState({ textParserValue: backspaceText })
     }
   }
 
@@ -608,10 +608,10 @@ export default class App extends Component {
     } else {
       return [
         this.setState({
-        inventoryVisable: false,
-        pausedgame: false
-      })
-    ]
+          inventoryVisable: false,
+          pausedgame: false
+        })
+      ]
     }
 
   }
@@ -647,7 +647,7 @@ export default class App extends Component {
   // inputs are change type ... direction or stop
   // outputs are function like this.halthero() or setstate
   handleHeroPositioning = (change) => {
-    
+
     if (change !== "stop") {
 
       // Check hitbox size?
@@ -686,7 +686,7 @@ export default class App extends Component {
       }, this.state.heroMovementUpdateSpeed)
 
 
-    
+
     } else {
 
       // This else is actually what stops the character.
@@ -719,92 +719,9 @@ export default class App extends Component {
     }
   };
 
-  // Adds event listeners for key presses.
-  // Game engine is scoped for arrow keys to move character, tab key for inventory, and escape key for main menu
-  setdefaultKeyboardListners = () => {
-    /*
-    return document.addEventListener('keydown', (event) => {
-
-      // "Any key" can close the inventory screen, we start with that
-      if (this.state.inventoryVisable === true) {
-        return [
-          event.preventDefault(),
-          this.toggleInventoryScreen()
-        ]
-      }
-
-      // Handle Title Screen Enter
-        // Modal must be closed, menu bar must be closed
-      else if ((this.state.heroAlive === false && this.state.roomTitleScreen === true && this.state.modalStatus === false && this.state.menuBarActive === false) && event.key === 'Enter'){
-        console.log('User has hit enter on the title screen')
-
-        if(this.state.gameStartRoomNumber !== undefined){
-          // This lets the developer specify the starting room number in gamedata.json
-          this.loadRoom(this.state.gameStartRoomNumber)
-        } else {
-          // But if they dont't specify, Room #2 is loaded for safety
-          this.loadRoom(2)
-        }
-
-        return this.setState({
-          heroAlive:true
-        })
-        
-
-      }
-
-      // Handle Enter key for modals where Enter is the confirmation
-      else if (event.key === 'Enter') {
-        // Maybe not a good idea? There's a submit event that uses the enter key on screen.js
-      }
-
-      // This opens the inventory screen
-      else if (this.state.inventoryVisable === false && event.key === 'Tab') {
-        return [
-          event.preventDefault(),
-          this.toggleInventoryScreen()
-        ]
-      }
-
-      // Handle Escape key to close modal dialog box
-      else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === true) {
-        return [
-          event.preventDefault(),
-          this.hideModal(event)
-        ]
-      }
-
-      // Handle Escape key to toggle main menu
-      else if (event.key === "Escape" && this.state.inventoryVisable === false && this.state.modalStatus === false) {
-        return [
-          event.preventDefault(),
-          this.haltHero(),
-          this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
-        ]
-      }
-
-      // Handle arrow keys for movement
-      else if (
-        (this.state.heroAlive === true && this.state.roomTitleScreen === false && this.state.inventoryVisable === false && this.state.pausedgame === false) &&
-        (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-        return [
-          event.preventDefault(),
-          this.handleHeroMovement(event.key)
-        ]
-      }
-
-      // Any other keypress is ignored here!
-      else {
-        return false
-      }
-    }, false);
-
-    */
-  }
-
 
   // Loads a room onto the screen
-    // Also fires a roomChange() functio in gameLogic.js for custom per-room things
+  // Also fires a roomChange() functio in gameLogic.js for custom per-room things
   loadRoom = (roomToLoad) => {
 
     function isRoom(r) {
@@ -815,16 +732,16 @@ export default class App extends Component {
     const nextRoom = this.state.rooms.find(isRoom);
 
     // Since the title screen is a room, check for first. 
-    if(nextRoom.titleScreen === true){
+    if (nextRoom.titleScreen === true) {
       return [
-          this.setState({
-            heroAlive:false,
-            gameStartRoomNumber:nextRoom.gameStartRoomNumber,
-            roomTitleScreen: true,
-            roomCurrent: nextRoom.Room,
-            roomCurrentName: nextRoom.Name,
-            roomCurrentDescription: nextRoom.Description,
-          })
+        this.setState({
+          heroAlive: false,
+          gameStartRoomNumber: nextRoom.gameStartRoomNumber,
+          roomTitleScreen: true,
+          roomCurrent: nextRoom.Room,
+          roomCurrentName: nextRoom.Name,
+          roomCurrentDescription: nextRoom.Description,
+        })
       ]
     }
 
@@ -866,8 +783,8 @@ export default class App extends Component {
 
     // Set room stage
     this.setState({
-      heroAlive:true,
-      roomTitleScreen:false,
+      heroAlive: true,
+      roomTitleScreen: false,
       roomCurrent: nextRoom.Room,
       roomCurrentObjects: nextRoom.displayObjects,
       roomCurrentName: nextRoom.Name,
@@ -928,7 +845,7 @@ export default class App extends Component {
           }
 
         }, roomFunc[0])
-      } 
+      }
     }
   }
 
@@ -946,15 +863,15 @@ export default class App extends Component {
   
   */
   loadGameFile = (game) => {
-   
+
     // Add check to see if gamelogic is ready for use yet.
     const isCustomFileLoaded = typeof self.roomChange === "function"
-  
+
     // recursively reload this until done
-    if(isCustomFileLoaded === true){
+    if (isCustomFileLoaded === true) {
       console.info("App component loads " + game.title)
       console.log("GameLogic.js has loaded successfully: Proceed with loading the first room") // If true, first room loads right
-      
+
       // Merge engine defaults with custom game data
       const gameLoadedState = { ...this.state, ...game }
 
@@ -963,10 +880,10 @@ export default class App extends Component {
 
       // Load the first room, that's the title screen
       this.loadRoom(1)
-    } else if(isCustomFileLoaded === false){
+    } else if (isCustomFileLoaded === false) {
       console.info("App component loads " + game.title)
       console.error("GameLogic.js not loaded successfully: Trying to load again.")
-      
+
       console.log(isCustomFileLoaded)
       window.location.reload()  // Shame, fix this later
 
@@ -974,22 +891,32 @@ export default class App extends Component {
       console.log("Else")
     }
 
-  
+
+  }
+
+  // Helper funciton that updates state from KeyboardControls.js
+  handleMainMenuKeyPress = (key) => {
+    return this.setState({ keyPress: key })
   }
 
   componentDidMount = () => {
 
-    // Event listener for keyboard commands
-    
-      document.addEventListener('keydown', (e) => {  
-        e.preventDefault()
-          this.setState(
-            {keyPress:e.key,
-            keyRefresh:new Date().valueOf() // Passes a fresh date to rerender component in case the same key is pressed twice
-          }) 
-      })
-  
-    
+    // When game starts, create an event listner for keyboard input. 
+    document.addEventListener('keydown', (e) => {
+      e.preventDefault()
+      this.setState(
+        {
+          // Keypresses cause a state update
+          keyPress: e.key,
+
+          /*  Passes a fresh date to rerender component in case the same key is pressed twice.
+              Example - pressing left arrow starts the character moving, but also stops them. 
+              This second update to state of 'ArrowLeft' wouldn't re-render the component. */
+          keyRefresh: new Date().valueOf()
+        })
+    })
+
+
 
     // When the component mounts, start an event listener for web worker updates.
     WorkerHandleHeroMovement.onmessage = (e) => {
@@ -1016,9 +943,6 @@ export default class App extends Component {
         this.setState({ roomNearbyInventoryItems: e.data })
       }
     }
-
-    // Set event listener keyboard key presses
-    // this.setdefaultKeyboardListners()
   }
 
   componentDidUpdate = (prevState) => {
@@ -1030,10 +954,6 @@ export default class App extends Component {
 
   }
 
-  // Helper funciton that updates state from KeyboardControls.js
-  handleMainMenuKeyPress = (key) =>{
-    return this.setState({keyPress:key})
-  }
 
 
 
@@ -1041,6 +961,10 @@ export default class App extends Component {
     return (
       <React.Fragment>
         
+        {/* Loads game CSS and JS. No render changes */}
+        <GameLoader loadGameFile={this.loadGameFile} />
+        
+        {/* Handle all keyboard input. No render changes */}
         <KeyboardControls
           gameStartRoomNumber={this.state.gameStartRoomNumber}
           heroAlive={this.state.heroAlive}
@@ -1052,16 +976,15 @@ export default class App extends Component {
           keyRefresh={this.state.keyRefresh}
           loadRoom={this.loadRoom}
           pausedgame={this.state.pausedgame}
-          menuBarActive={this.state.menuBarActive} 
+          menuBarActive={this.state.menuBarActive}
           modalStatus={this.state.modalStatus}
           roomTitleScreen={this.state.roomTitleScreen}
           textParserChange={this.textParserChange}
-          textParserValue={this.state.textParserValue}
           toggleMainMenu={this.toggleMainMenu}
           toggleInventoryScreen={this.toggleInventoryScreen}
         />
-        <GameLoader loadGameFile={this.loadGameFile} />
 
+        {/* Loads graphic assets into browser cache. No render changes */}
         <PreloadGameAssets
           gameLogic={this.state.gameLogic} />
 
@@ -1129,8 +1052,6 @@ export default class App extends Component {
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
-          // setdefaultKeyboardListners={this.setdefaultKeyboardListners}
-          // submitTextParser={this.submitTextParser}
           textParserChange={this.textParserChange}
           handleSubmittedTextModal={this.handleSubmittedTextModal}
 
@@ -1154,9 +1075,6 @@ export default class App extends Component {
           flags={this.state.flags}
           updateAppComponentState={this.updateAppComponentState}
         />
-
-        <br />
-        
       </React.Fragment>
     );
   }
