@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export class GameLoader extends Component {
-  
+
   loadSelectedGame(selectedGame) {
     fetch(selectedGame)
       .then(res => res.json())
@@ -43,9 +43,9 @@ export class GameLoader extends Component {
           this.loadSelectedGame(result.Path)
         },
         (error) => {
-        
+
           alert('Error loading game')
-        
+
         }
       )
   }
@@ -55,4 +55,4 @@ export class GameLoader extends Component {
   }
 }
 
-export default React.memo(GameLoader)
+export default GameLoader

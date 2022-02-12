@@ -7,6 +7,8 @@ import RoomExits from './RoomExits'
 
 export class Screen extends Component {
 
+  
+
   // Fires when user hits Enter on text field
   submitTextParser = () => {
 
@@ -26,9 +28,6 @@ export class Screen extends Component {
       return this.props.hideModal()
     }
   }
-
-
-
 
   // Handles custom code returned from gamelogic.js - Expects object 
 
@@ -95,10 +94,6 @@ export class Screen extends Component {
 
     // Create an array of the essential - hopefully just a verb and a noun
     const textForParsing = makeWordArray.filter(item => !garbageWords.includes(item))
-
-    // Breaks user input into an array and puts in state
-    this.setState({ textForParsing });
-
 
 
     // Check for custom per-game commands in  gameLogic.js first.    
@@ -325,7 +320,6 @@ export class Screen extends Component {
     // Check for a prop of EnterSubmit, then pass to submitTextParser()
     if (this.props.keyPress !== prevProps.keyPress && this.props.keyPress === "EnterSubmit") {
       this.submitTextParser()
-      // console.log('We have EnterSubmit')
     }
 
   }

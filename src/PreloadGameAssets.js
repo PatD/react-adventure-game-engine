@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from "react";
 
-export class PreloadGameAssets extends Component {
-    constructor() {
-        super();
-        this.state = {
-            gameAssetURLs: []
-        };
-    }
+const PreloadGameAssets = (props) => {
+
+    const [gameAssetURLs, setURLs] = useState([]);
 
     // Extracts any images from CSS file and loads them into the 
-    // browser for faster load times in game
-    preloadGameAssets = () => {
+    // browser for faster load times in game. 
+    const preloadGameAssets = () => {
 
         let cssExtracts = [...document.styleSheets]
             .filter(sheet => {
@@ -32,24 +28,21 @@ export class PreloadGameAssets extends Component {
                 return urls;
             }, []);
 
-        this.setState({ gameAssetURLs: cssExtracts })
+        setURLs(cssExtracts)
     }
 
+    // When gamelogic.js is loaded, run the funciton that extracts URLs of images.
+    useEffect(() => {
+        preloadGameAssets()
+    }, [props.gameLogic]);
 
-    componentDidUpdate(prevProps) {
-        // Checks if a new game is loaded
-        if (this.props.gameLogic !== prevProps.gameLogic) {
-            this.preloadGameAssets();
-        }
-    }
-
-    render() {
-        return (
-            <div className="preloadimage">
-                {this.state.gameAssetURLs.map(asset => <img key={asset} src={asset} alt="" />)}
-            </div>
-        );
-    }
-}
+    return (
+        <div className="preloadimage">
+            {gameAssetURLs.map(asset => (
+                <img key={asset} src={asset} />))
+            }
+        </div>
+    );
+};
 
 export default React.memo(PreloadGameAssets);

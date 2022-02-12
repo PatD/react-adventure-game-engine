@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-export class TextInputParser extends Component {
+const TextInputParser = (props) => {
 
-  render(props) {
     return (
       <footer>
         <form>
@@ -11,13 +10,12 @@ export class TextInputParser extends Component {
             autoComplete="false"
             type="text"
             placeholder="_"
-            onChange={this.props.textParserChange}
-            value={this.props.textParserValue}
+            onChange={props.textParserChange}
+            value={props.textParserValue}
           />
         </form>
       </footer>
     );
   }
-}
 
 export default React.memo(TextInputParser);

@@ -3,18 +3,17 @@ import MainMenuScore from './MainMenuScore.js'
 
 export default class MainMenuBar extends Component {
 
+  // Initial state - all menus are closed, and the score and title are displayed to the user
+  state = {
+    mainNavBar: "active", // The main menu is active, no menu options shown
+    mainNavMenuVisibility: "inactive", // Shown when user hits escape and can choose menu items.
+    mainNavs: [], // handlekeyboardMenu() uses these as reference
+    mainNavFirst: "", // Marker for the left-most menu item. 
+    mainNavCurrentActive: "", // The submenu that is currenlty open. There can be only 1!
+    subNavActiveItems: [],  // Currently open menu
+    subNavSelectedItem: "" // currently highlighted item
+  };
 
-    // Initial state - all menus are closed, and the score and title are displayed to the user
-    state = {
-      mainNavBar: "active", // The main menu is active, no menu options shown
-      mainNavMenuVisibility: "inactive", // Shown when user hits escape and can choose menu items.
-      mainNavs: [], // handlekeyboardMenu() uses these as reference
-      mainNavFirst: "", // Marker for the left-most menu item. 
-      mainNavCurrentActive: "", // The submenu that is currenlty open. There can be only 1!
-      subNavActiveItems: [],  // Currently open menu
-      subNavSelectedItem: "" // currently highlighted item
-    };
-  
 
 
   handleKeyboardMenu = (key) => {
@@ -114,11 +113,11 @@ export default class MainMenuBar extends Component {
       // Is the current menu item disabled?
       const selectedDisabled = this.state.subNavActiveItems.find(o => o.name === this.state.subNavSelectedItem)
 
-      if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabled.titleDisabled === true )) {
+      if (this.props.heroAlive === false && (selectedDisabled.active !== true || selectedDisabled.titleDisabled === true)) {
         return false
       }
 
-      else 
+      else
         return this.props.handleMainMenuAction(this.state.subNavSelectedItem)
     }
 
@@ -195,9 +194,9 @@ export default class MainMenuBar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    
-    if((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)){
-          this.handleKeyboardMenu(this.props.keyPress)
+
+    if ((this.state.mainNavBar !== "active") && (prevProps.keyRefresh !== this.props.keyRefresh)) {
+      this.handleKeyboardMenu(this.props.keyPress)
     }
 
     // Receives the menuBarActive "active" prop from parent (since that's where the event listener is)
@@ -205,7 +204,7 @@ export default class MainMenuBar extends Component {
 
       if (this.state.mainNavBar === "active") {
         return this.openMenu()
-      } 
+      }
       else {
         return this.resetMenu()
       }
@@ -244,7 +243,7 @@ export default class MainMenuBar extends Component {
           {this.state.subNavActiveItems.map((subMenu, index) => (
             <li
               key={index}
-              
+
               // ID indicates the currently selected submenu item
               id={subMenu.selected === true ? "selected" : ""}
 
