@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from "react";
 
-export default class DisplayObjects extends Component {
-    constructor() {
-        super();
-        this.state = {
-            displayObjects: "",
-            displayInventoryDisplayObjects:"",
-        };
-    }
+// Handles display of both objects (which don't change once rendered) and
+// inventory objects, which can disapear off the screen when picked up 
+// by the hero.
 
-    renderDisplayObjects() {
+const DisplayObjects = (props) => {
 
-        if (this.props && this.props.roomCurrentObjects.length > 0) {
-            let dispObs = this.props.roomCurrentObjects.map((d) => (
+    const [displayObjects, setDisplayObjects] = useState("");
+    const [displayInventoryDisplayObjects, setDisplayInventoryDisplayObjects] = useState("");
+
+    // Render any display objects in the current room
+    const renderDisplayObjects = () => {
+
+        if (props && props.roomCurrentObjects.length > 0) {
+            let dispObs = props.roomCurrentObjects.map((d) => (
 
                 <div
                     id={d.id}
@@ -25,35 +26,29 @@ export default class DisplayObjects extends Component {
                         backgroundColor: d.bgcolor,
                         zIndex: d.zIndex,
                         display: (d.visible === false) ? "none" : "block"  // Usually display block, but is visible is set to false, then hide it.
-                    
+
                     }}
                     className={
-                        (d.class !== undefined) 
-                        ? this.props.roomCurrentName + "_" + d.id + " " + d.class
-                        : this.props.roomCurrentName + "_" + d.id
+                        (d.class !== undefined)
+                            ? props.roomCurrentName + "_" + d.id + " " + d.class
+                            : props.roomCurrentName + "_" + d.id
                     }
                     key={d.id}></div>
-
-
             ));
-
-            this.setState({ displayObjects: dispObs,
-            
-            
-            })
+            return setDisplayObjects(dispObs)
         }
     }
 
 
     // Also render any visible Inventory objects
-    renderInventoryDisplayObjects() {
+    const renderInventoryDisplayObjects = () => {
         // Create array of objects of that's any inventory item where 
         // inventory:FoundRoom = roomCurrent and Visible:true and available isn't false
-        const roomInventory = this.props.inventory.filter(inv => inv.FoundRoom === this.props.roomCurrent && inv.Visible === true && inv.owned === false && inv.available !== false );
+        const roomInventory = props.inventory.filter(inv => inv.FoundRoom === props.roomCurrent && inv.Visible === true && inv.owned === false && inv.available !== false);
 
         if (roomInventory.length > 0) {
             let invDispObs = roomInventory.map((d) => (
-                
+
                 <div
                     id={d.Name}
                     style={{
@@ -65,42 +60,41 @@ export default class DisplayObjects extends Component {
                         zIndex: d.zIndex
                     }}
                     className={
-                        (d.cssName !== undefined) 
-                        ? "inventoryItem Inventory_" + d.cssName + " " + d.Name
-                        : "inventoryItem Inventory_" + d.Name
+                        (d.cssName !== undefined)
+                            ? "inventoryItem Inventory_" + d.cssName + " " + d.Name
+                            : "inventoryItem Inventory_" + d.Name
                     }
                     key={d.Name}></div>
             ));
-                
-            this.setState({ displayInventoryDisplayObjects: invDispObs })
+
+            return setDisplayInventoryDisplayObjects(invDispObs)
         }
     }
 
 
-    componentDidUpdate(prevProps) {
 
-        // Remove the item from the screen if the user takes it
-        if (prevProps.inventory !== this.props.inventory) {
-            this.setState({ displayInventoryDisplayObjects: [] })
-            this.renderInventoryDisplayObjects()
-        }
+    // Remove the item from the screen if the user takes it
+    useEffect(() => {
+        setDisplayInventoryDisplayObjects([])
+        renderInventoryDisplayObjects()
+    }, [props.inventory]);
 
-        // When the user changes rooms, re-render display objects and invntory objects
-        if (prevProps.roomCurrent !== this.props.roomCurrent) {
-            this.setState({ displayInventoryDisplayObjects: [] })
-            this.renderDisplayObjects()
-            this.renderInventoryDisplayObjects()
-        }
 
-    }
+    // When the user changes rooms, re-render display objects and invntory objects
+    useEffect(() => {
+        setDisplayInventoryDisplayObjects([])
+        renderDisplayObjects()
+        renderInventoryDisplayObjects()
+    }, [props.roomCurrent]);
 
 
 
-    render(props) {
-        return (
-            <React.Fragment>
-                {this.state.displayObjects}
-                {this.state.displayInventoryDisplayObjects}
-            </React.Fragment>)
-    }
-}
+    return (
+        <React.Fragment>
+            {displayObjects}
+            {displayInventoryDisplayObjects}
+        </React.Fragment>)
+
+};
+
+export default React.memo(DisplayObjects);
