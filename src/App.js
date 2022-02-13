@@ -847,8 +847,8 @@ export default class App extends Component {
 
     // recursively reload this until done
     if (isCustomFileLoaded === true) {
-      console.info("App component loads " + game.title)
-      console.log("GameLogic.js has loaded successfully: Proceed with loading the first room") // If true, first room loads right
+      console.info("✓ App component loads " + game.title)
+      console.info("✓ GameLogic.js has loaded successfully: Proceed with loading the first room") // If true, first room loads right
 
       // Merge engine defaults with custom game data
       const gameLoadedState = { ...this.state, ...game }
@@ -858,15 +858,16 @@ export default class App extends Component {
 
       // Load the first room, that's the title screen
       this.loadRoom(1)
+
     } else if (isCustomFileLoaded === false) {
       console.info("App component loads " + game.title)
-      console.error("GameLogic.js not loaded successfully: Trying to load again.")
+      console.error("GameLogic.js not loaded successfully.")
 
       console.log(isCustomFileLoaded)
       window.location.reload()  // Shame, fix this later
 
     } else {
-      console.log("Else")
+      return false
     }
 
 
