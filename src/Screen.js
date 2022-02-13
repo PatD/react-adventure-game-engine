@@ -7,7 +7,6 @@ import RoomExits from './RoomExits'
 
 export class Screen extends Component {
 
-  
 
   // Fires when user hits Enter on text field
   submitTextParser = () => {
@@ -341,7 +340,6 @@ export class Screen extends Component {
         <section id="gameUI" style={{ width: this.props.gameWidth, height: this.props.gameHeight }}>
           <main className={this.props.roomCurrentName + " " + this.props.roomCurrentAltStyle} >
 
-            <h1>{this.props.keyPress}</h1>
             <RoomExits
               roomExits={this.props.roomExits}
               roomCurrentName={this.props.roomCurrentName} />
@@ -353,10 +351,7 @@ export class Screen extends Component {
               roomCurrentObjects={this.props.roomCurrentObjects} />
 
 
-            {
-              // Render hero if they're alive.
-            }
-
+            { /* Render hero if they're alive. */ }
             {this.props.heroAlive ?
               <React.Fragment>
                 <Hero
@@ -372,6 +367,7 @@ export class Screen extends Component {
               : null}
 
           </main>
+          
           <TextInputParse
             textParserChange={this.props.textParserChange}
             textParserValue={this.props.textParserValue}

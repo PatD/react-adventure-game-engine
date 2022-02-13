@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from "react";
 
-export default class RoomExits extends Component {
-    constructor() {
-        super();
-        this.state = {
-            RoomExits: ""
-        };
-    }
+// Handles on screen display of room exits.  
+// When the game is done, this component may be less necessary, as
+// this doesn't actually handle the room change hit area.
 
-    renderRoomExits() {
+const RoomExits = (props) => {
 
-        if (this.props && this.props.roomExits.length > 0) {
-            let roomExs = this.props.roomExits.map((d) => (
+    const [RoomExits, setRoomExits] = useState("");
+
+    const renderRoomExits = () => {
+
+        if (props && props.roomExits.length > 0) {
+            let roomExs = props.roomExits.map((d) => (
 
                 <div
                     id={d.exit}
@@ -21,27 +21,26 @@ export default class RoomExits extends Component {
                         top: d.x,
                         left: d.y
                     }}
-                    className={"roomExit " + this.props.roomCurrentName + "_roomExit_" + d.exit}
+                    className={"roomExit " + props.roomCurrentName + "_roomExit_" + d.exit}
                     key={d.exit}></div>
 
             ));
-
-            this.setState({ RoomExits: roomExs })
+            
+            return setRoomExits(roomExs);
         }
     }
 
 
-    componentDidUpdate(prevProps) {
-        // if the room objects have changed, re-render:
-        if (prevProps.roomExits !== this.props.roomExits) {
-            this.renderRoomExits()
-        }
-    }
+    // When gamelogic.js is loaded, run the funciton that extracts URLs of images.
+    useEffect(() => {
+        renderRoomExits()
+    }, [props.roomExits]);
 
-    render(props) {
-        return (
-            <React.Fragment>
-                {this.state.RoomExits}
-            </React.Fragment>)
-    }
-}
+    return (
+        <React.Fragment>
+            {RoomExits}
+        </React.Fragment>)
+
+};
+
+export default React.memo(RoomExits);

@@ -1,13 +1,20 @@
-import React, { Component } from 'react';
+import React, { useEffect } from "react";
 
-export class GameLoader extends Component {
+/*
+  Handles loading the game from /public/games/ 
+  Expects there to be a gamelist.json file in /public/games/
 
-  loadSelectedGame(selectedGame) {
+*/
+
+const GameLoader = (props) => {
+
+  // Updates app.js state with game data
+  const loadSelectedGame = (selectedGame) => {
     fetch(selectedGame)
       .then(res => res.json())
       .then(
         (result) => {
-          this.props.loadGameFile(result) //
+          props.loadGameFile(result) //
         },
         (error) => {
           alert('Error loading game - there was a problem with loading games data file.');
@@ -15,10 +22,8 @@ export class GameLoader extends Component {
       )
   }
 
-
-  // When component loads, grab the gamelist file in the /public/games folder
-  // This file contains an object with paths to the CSS, JS, and JSON data file
-  componentDidMount() {
+  // Fires once when the component loads
+  useEffect(() => {
     fetch("../games/gamelist.json")
       .then(res => res.json())
       .then(
@@ -40,19 +45,15 @@ export class GameLoader extends Component {
           }
 
           // Now that the JS and CSS are loaded, load the game's state
-          this.loadSelectedGame(result.Path)
+          loadSelectedGame(result.Path)
         },
         (error) => {
-
-          alert('Error loading game')
-
+          alert('Unable to load game data from gamelist.json file.')
         }
       )
-  }
+  });
 
-  render() {
-    return null
-  }
-}
+  return null
+};
 
-export default GameLoader
+export default React.memo(GameLoader);

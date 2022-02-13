@@ -236,8 +236,6 @@ export default class App extends Component {
   // Accepts commands from main navigation, then routes them to helper funciton file
   handleMainMenuAction = (action) => {
 
-    console.log('handleMainMenuAction() in app.js has fired!!')
-
     // Player has made a selection - close the menu!
     this.setState({ menuBarActive: false })
 
@@ -316,7 +314,7 @@ export default class App extends Component {
     }
   }
 
-  // Routes commands that run when a modal is closed.
+  // Fires commands after an Enter press in a modal with a "Press Enter to X, Press Escape to Cancel" prompt
   confirmationCommand = (command) => {
 
     if (command === 'restart') {
@@ -419,18 +417,20 @@ export default class App extends Component {
   // Updates state as letters are typed into input field
   textParserChange = (keyPress) => {
 
+    // Handle regular characters
     if (typeof keyPress === 'string' && keyPress !== 'Backspace') {
       const newText = this.state.textParserValue + keyPress
       return this.setState({ textParserValue: newText })
 
+    // Handle backspace.
     } else if (typeof keyPress === 'string' && keyPress === 'Backspace') {
       const backspaceText = this.state.textParserValue.slice(0, -1)
       return this.setState({ textParserValue: backspaceText })
     }
   }
 
-  // Handles text display - and usually opens a modal
-  // The type of passed data determines the results.
+  // Handles modal display, including multiple modals in sequence
+  // EXPECTS STRING OR OBJECT. JAVASCRIPT!
   handleSubmittedTextModal = (passedText) => {
 
     // Create a function scoped variable for the width and position
@@ -439,14 +439,12 @@ export default class App extends Component {
     let makeModalWidth = this.state.modalWidthDefault;
     let makeModalTop = this.state.modalTopDefault;
 
+    // Pause the character's movement when a modal is opened
     this.haltHero();
 
-    // Accepts a quick bit of text
-    // No customization of width/top
+    // Handle modal display when a string is passed to this function.
+    // No support for width/top changing
     if (typeof passedText === "string") {
-      // console.log(passedText)
-      // console.log(typeof passedText)
-      console.log('start handleSubmittedTextModal')
       return [
         this.setState({
           modalClickToClose: true,
@@ -458,6 +456,7 @@ export default class App extends Component {
         })]
     }
 
+    // Handle modal display when an object is passed to this functin.
     if (typeof passedText === "object") {
 
       // Check if custom width or distance-from-top is passed
@@ -472,7 +471,7 @@ export default class App extends Component {
         // First update the state with the passed object.
         this.setState({ modalTextScript: passedText }),
 
-        // Show the first modal immediately (otherwise you incur a delay on the timer)
+        // Show the first modal immediately.
         this.setState({
           modalClickToClose: true,
           modalText: passedText[0].modalText,
@@ -586,18 +585,7 @@ export default class App extends Component {
   // Show or hide Inventory Screen
   toggleInventoryScreen = () => {
 
-    // Is a value false?
-    const checkFalse = (val) => val === false;
-
-    // Only allow inventory toggle when these resolve to false
-    const toCheck = [
-      this.state.pausedgame,
-      this.state.inventoryVisable,
-      this.state.menuBarActive,
-      this.state.modalStatus
-    ]
-
-    if (toCheck.every(checkFalse) === true) {
+    if (this.state.inventoryVisable === false) {
       return [
         this.setState({
           inventoryVisable: true,
@@ -616,7 +604,7 @@ export default class App extends Component {
 
   }
 
-  // Add/Edit/Remove flag changes
+  // Add/Edit/Remove - EXPECTS OBJECT 
   handleFlagChange = (flagChange) => {
 
     /* EXPECTS OBJECT 
@@ -695,19 +683,17 @@ export default class App extends Component {
   };
 
 
+  // Moves hero based on keyboard input - EXPECTS STRING OF KEYPRESS ArrowUp, ArrowDown, ArrowLeft, ArrowRight
   handleHeroMovement = (keypress) => {
 
-    // Don't move the hero if the game is paused
-    if (this.state.pausedgame === false && this.state.menuBarActive === false) {
-
-      // If hero is moving and a different movement direction is picked
+      // If hero is moving... and a different movement direction is picked
       if (this.state.heroMoving === "moving" && this.state.heroDirection !== keypress) {
         // Change hero direction and keep hero moving
         this.setState({ heroLastDirection: this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
         this.handleHeroPositioning("stop") // stop first
         this.handleHeroPositioning(keypress) // then go
       }
-      // If they're moving and they hit the same direciton key, stop them
+      // If hero is moving and they hit the same arrow key, stop them
       else if (this.state.heroMoving === "moving" && this.state.heroDirection === keypress) {
         this.haltHero();
       }
@@ -716,12 +702,13 @@ export default class App extends Component {
         this.handleHeroPositioning(keypress)
         this.setState({ heroLastDirection: this.state.heroDirection, heroDirection: keypress, heroMoving: "moving" });
       }
-    }
+    
   };
 
 
   // Loads a room onto the screen
-  // Also fires a roomChange() functio in gameLogic.js for custom per-room things
+  // Also fires a roomChange() function in gameLogic.js for custom per-room things
+  // EXPECTS NUMBER
   loadRoom = (roomToLoad) => {
 
     function isRoom(r) {
@@ -778,7 +765,6 @@ export default class App extends Component {
 
     // Add any inventory items that need to be displayed.
     // Should be ownable and not in inventory already
-
     const roomInv = this.state.inventory.filter(inv => inv.FoundRoom === nextRoom.Room && inv.owned === false && inv.Visible === true);
 
     // Set room stage
@@ -811,15 +797,7 @@ export default class App extends Component {
 
 
 
-
-
-
-
       /* Todo: Make the return the same for roomchange as customTextParser */
-
-
-
-
 
 
 
@@ -1060,13 +1038,13 @@ export default class App extends Component {
 
           // Modal
           modalStatus={this.state.modalStatus}
+          hideModal={this.hideModal}
 
           // Doing stuff
           toggleInventoryScreen={this.toggleInventoryScreen}
           updateScore={this.updateScore}
           handleFlagChange={this.handleFlagChange}
           helpText={this.state.helpText}
-          hideModal={this.hideModal}
           addToInventory={this.addToInventory}
           removeFromInventory={this.removeFromInventory}
           inventoryVisable={this.state.inventoryVisable}

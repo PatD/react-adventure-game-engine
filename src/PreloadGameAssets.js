@@ -28,7 +28,7 @@ const PreloadGameAssets = (props) => {
                 return urls;
             }, []);
 
-        setURLs(cssExtracts)
+        return setURLs(cssExtracts)
     }
 
     // When gamelogic.js is loaded, run the funciton that extracts URLs of images.
@@ -39,7 +39,7 @@ const PreloadGameAssets = (props) => {
     return (
         <div className="preloadimage">
             {gameAssetURLs.map(asset => (
-                <img key={asset} src={asset} />))
+                <img key={asset} src={asset} alt="" />))
             }
         </div>
     );
