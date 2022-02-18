@@ -9,12 +9,19 @@ import MainMenuBar from './MainMenuBar'
 
 
 
-// Movement workers 🛠 🪚 🧰
-// They live outside the src directory because
-// Create-React-App tries to merge them and they
-// need to remain separate files
-const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
-const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
+// Movement Web Workers 🛠 🪚 🧰
+
+// Created as Blobs, since Create React App wants to bundle code, and doesn't know
+// that workers should be treated differently. 
+
+import movementWorker from './workers/WorkerHandleHeroMovement';
+const WorkerHandleHeroMovement = new Worker(movementWorker);
+
+import inventoryWorker from './workers/WorkerHandleInventoryLocation';
+const WorkerHandleInventoryLocation = new Worker(inventoryWorker);
+
+
+
 
 export default class App extends Component {
   constructor() {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MainMenuScore from './MainMenuScore.js'
 
-// Handles 
+// Handles main menu
 
 const MainMenuBar = (props) => {
 
@@ -167,7 +167,7 @@ const MainMenuBar = (props) => {
   }
 
 
-  // On mount
+  // Build the menu choices when the component mounts
   useEffect(() => {
 
     // Identify main menu items:
