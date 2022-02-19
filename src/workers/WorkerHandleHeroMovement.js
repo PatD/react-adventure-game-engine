@@ -1,6 +1,7 @@
 const workercode = () => {
 
     self.onmessage = function (e) {
+        
 
         // the hero's location and size, and 
         // the object's location and size, are passed as an object
@@ -9,6 +10,7 @@ const workercode = () => {
 
         // Helper function to see if we hit a thing
         hasCollided = () => {
+
 
             let checkForCollision = (dispObj) => {
                 if (workerState.heroPositionY < dispObj.y + dispObj.width &&
@@ -32,6 +34,7 @@ const workercode = () => {
             // At each step, loop through room exits and see if we're exiting
             for (const [key, roomEx] of Object.entries(workerState.roomExits)) {
                 if (checkForCollision(roomEx) === true && key) {
+
                     return roomEx.goto
                 }
             }
@@ -84,7 +87,6 @@ const workercode = () => {
             // Handle walking
             // else if (workerState.direction === "ArrowRight" && workerState.heroPositionCollided === false && workerState.heroPositionY <= workerState.playfieldY - workerState.heroWidth) { // Needs to account for hero width
             else if (workerState.direction === "ArrowRight" && workerState.heroPositionCollided === false && workerState.heroPositionY <= workerState.playfieldX - workerState.heroWidth) { // Needs to account for hero width
-
                 return { heroPositionY: workerState.heroPositionY + workerState.heroMovementDisance }
             }
             else if (workerState.direction === "ArrowLeft" && workerState.heroPositionCollided === false && workerState.heroPositionY >= 0) {
@@ -106,6 +108,7 @@ const workercode = () => {
         }
 
         // Results are sent back to the React component:
+
         postMessage(workerResult());
     }
 
