@@ -137,7 +137,7 @@ export default class App extends Component {
       heroPositionY: 75,
       heroPositionCollided: false,
       heroMovementDisance: 5,
-      heroMovementUpdateSpeed: 105,
+      heroMovementUpdateSpeed: 55,
       heroMovementSpeeds: [100, 65, 30, 1],
       heroHeight: 0,
       heroWidth: 0,
@@ -212,8 +212,6 @@ export default class App extends Component {
 
     }, statePause)
   }
-
-
 
   // No glory without sacrifice, no growth without pain
   gameOver = (message) => {
@@ -314,6 +312,11 @@ export default class App extends Component {
       // Todo: Add ability to add extra menu commands in gamelogic.js
       return false
     }
+  }
+
+  // Helper funciton that updates state from KeyboardControls.js
+  handleMainMenuKeyPress = (key) => {
+    return this.setState({ keyPress: key })
   }
 
   // Fires commands after an Enter press in a modal with a "Press Enter to X, Press Escape to Cancel" prompt
@@ -428,6 +431,8 @@ export default class App extends Component {
     } else if (typeof keyPress === 'string' && keyPress === 'Backspace') {
       const backspaceText = this.state.textParserValue.slice(0, -1)
       return this.setState({ textParserValue: backspaceText })
+    } else {
+      return false
     }
   }
 
@@ -708,6 +713,55 @@ export default class App extends Component {
   };
 
 
+  // Runs after the room change - executes any per-room change in gamelogic.js
+  // Expects NUMBER
+  handleRoomChangeCustomCode = (room) => {
+    
+    // Only do this if gameLogic.js exists:
+    if (typeof self.roomChange === "function") {
+
+      // The new room and the application state are passed to gameLogic.js
+      const roomFunc = self.roomChange(room, this.state);
+
+      // roomChange() will return an array of things!
+
+      /* Todo: Make the return the same for roomchange as customTextParser */
+
+
+      /* 
+        [
+          00, // delay before firing
+          {}, // updates for state in app.js 
+          "halt" // optional, stops the character
+        ]
+      */
+
+      if (roomFunc !== undefined && typeof roomFunc === 'object') {
+
+        setTimeout(() => {
+          this.setState(roomFunc[1]);
+
+          // roomChange() array might pass back a halt to stop the player
+          if (roomFunc.indexOf('halt') !== -1) {
+            this.haltHero()
+          }
+
+        }, roomFunc[0])
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   // Loads a room onto the screen
   // Also fires a roomChange() function in gameLogic.js for custom per-room things
   // EXPECTS NUMBER
@@ -786,47 +840,8 @@ export default class App extends Component {
     // Execute any custom room logic as soon as the room loads
     // This might check a flag or read inventory status and change the look of the room.
     // It's technically (hopefully? Oof, batching) a second React state update.
+    return this.handleRoomChangeCustomCode(nextRoom.Room)
 
-    // Only do this if gameLogic.js exists:
-    if (typeof self.roomChange === "function") {
-
-      // The new room and the application state are passed to gameLogic.js
-      const roomFunc = self.roomChange(nextRoom.Room, this.state);
-
-      // roomChange() will return an array of things!
-
-
-
-
-
-      /* Todo: Make the return the same for roomchange as customTextParser */
-
-
-
-
-
-
-      /* 
-        [
-          00, // delay before firing
-          {}, // updates for state in app.js 
-          "halt" // optional, stops the character
-        ]
-      */
-
-      if (roomFunc !== undefined && typeof roomFunc === 'object') {
-
-        setTimeout(() => {
-          this.setState(roomFunc[1]);
-
-          // roomChange() array might pass back a halt to stop the player
-          if (roomFunc.indexOf('halt') !== -1) {
-            this.haltHero()
-          }
-
-        }, roomFunc[0])
-      }
-    }
   }
 
 
@@ -834,12 +849,11 @@ export default class App extends Component {
 
   /* 
   
-  On load, child component GameLoader.js relies on this funciton to 
+  On load, child component GameLoader.js relies on this function to 
   populate the state object with gameplay data. Rooms, inventory items,
   etc. 
  
   This funciton also loads the first room in the game. 
-
   
   */
   loadGameFile = (game) => {
@@ -873,11 +887,6 @@ export default class App extends Component {
     }
 
 
-  }
-
-  // Helper funciton that updates state from KeyboardControls.js
-  handleMainMenuKeyPress = (key) => {
-    return this.setState({ keyPress: key })
   }
 
   componentDidMount = () => {
