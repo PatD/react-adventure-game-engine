@@ -213,6 +213,56 @@ export default class App extends Component {
     }, statePause)
   }
 
+
+  // Receives custom code from gameLogic.js (via textinputparser.js) and processes it!
+ handleCustomReturnedCode = (returnedCode) => {
+
+    // By default, don't delay anything...
+    let startDelay = 0
+
+    // ...but the developer can pass a delay in the object and we'll use that.
+    if (returnedCode.delay !== undefined && typeof returnedCode.delay === 'number') {
+      startDelay = returnedCode.delay
+    }
+
+    return setTimeout(() => {
+
+      // Flag changes - expects object
+      if (returnedCode.flagSet !== undefined) {
+        this.handleFlagChange(returnedCode.flagSet)
+      }
+
+      // Handle removing an existing items from inventory - expects array
+      if (returnedCode.removeItems !== undefined) {
+        this.removeFromInventory(returnedCode.removeItems)
+      }
+
+      // Score change - expects number
+      if (returnedCode.scoreChange !== undefined) {
+        this.updateScore(returnedCode.scoreChange)
+      }
+
+      // Stop walking hero - expects boolean
+      if (returnedCode.halt !== undefined && returnedCode.halt === true) {
+        this.haltHero()
+      }
+
+      // Handle state changes in app.js.  Expects array of objects
+      // This should be the default way to handle any custom game code
+      if (returnedCode.newState !== undefined) {
+        this.updateAppComponentState(returnedCode.newState);
+      }
+
+      // Code can pass some custom js code back, but this isn't a great
+      // idea. Game change should be managed through React state.
+      if (returnedCode.custFunc !== undefined) {
+        returnedCode.custFunc()
+      }
+
+    }, startDelay)
+  }
+
+
   // No glory without sacrifice, no growth without pain
   gameOver = (message) => {
 
@@ -1037,13 +1087,15 @@ export default class App extends Component {
           heroSprite={this.state.heroSprite}
 
           // Text parser details
-          keyPress={this.state.keyPress}
+          handleCustomReturnedCode={this.handleCustomReturnedCode}
+          handleSubmittedTextModal={this.handleSubmittedTextModal}
           inventory={this.state.inventory}
+          keyPress={this.state.keyPress}
           submittedText={this.state.submittedText}
           textParserValue={this.state.textParserValue}
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
           textParserChange={this.textParserChange}
-          handleSubmittedTextModal={this.handleSubmittedTextModal}
+          
 
           // Main Menu status
           menuBarActive={this.state.menuBarActive}

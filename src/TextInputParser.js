@@ -2,72 +2,17 @@ import React, { useEffect } from 'react';
 
 const TextInputParser = (props) => {
 
-  // Receives custom code from gameLogic.js and processes it.
-  // TODO: Consider moving this to app.js to share with roomChange code
-  const handleCustomReturnedCode = (returnedCode) => {
-
-    // By default, don't delay anything...
-    let startDelay = 0
-
-    // ...but the developer can pass a delay in the object and we'll use that.
-    if (returnedCode.delay !== undefined && typeof returnedCode.delay === 'number') {
-      startDelay = returnedCode.delay
-    }
-
-    return setTimeout(() => {
-
-      // Flag changes - expects object
-      if (returnedCode.flagSet !== undefined) {
-        props.handleFlagChange(returnedCode.flagSet)
-      }
-
-      // Handle removing an existing items from inventory - expects array
-      if (returnedCode.removeItems !== undefined) {
-        props.removeFromInventory(returnedCode.removeItems)
-      }
-
-      // Score change - expects number
-      if (returnedCode.scoreChange !== undefined) {
-        props.updateScore(returnedCode.scoreChange)
-      }
-
-      // Stop walking hero - expects boolean
-      if (returnedCode.halt !== undefined && returnedCode.halt === true) {
-        props.haltHero()
-      }
-
-      // Handle state changes in app.js.  Expects array of objects
-      // This should be the default way to handle any custom game code
-      if (returnedCode.newState !== undefined) {
-        props.updateAppComponentState(returnedCode.newState);
-      }
-
-      // Code can pass some custom js code back, but this isn't a great
-      // idea. Game change should be managed through React state.
-      if (returnedCode.custFunc !== undefined) {
-        returnedCode.custFunc()
-      }
-
-    }, startDelay)
-  }
-
   // Fires when user hits Enter on text field
   const submitTextParser = () => {
 
-    // If and the inut field isn't empty, submit the text for processing
     if (props.textParserValue !== "") {
-
       return [
         handleTextParsing(props.textParserValue),
 
-        // Populates the Submitted Text state for processing then clears input field
+        // Populates the Submitted Text state in app.js for processing, then clears input field
         props.textPopulateStateAndClearParser(props.textParserValue)
       ]
 
-    }
-    else {
-      // If the enter key is pressed, while the modal is open, close the modal
-      return props.hideModal()
     }
   }
 
@@ -101,7 +46,7 @@ const TextInputParser = (props) => {
 
       } else {
         // Otherwise run it through our custom-code handler which updates state
-        return handleCustomReturnedCode(customTextCheck)
+        return props.handleCustomReturnedCode(customTextCheck)
       }
     }
     else {

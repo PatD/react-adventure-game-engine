@@ -51,6 +51,7 @@ const Screen = (props) => {
           addToInventory={props.addToInventory}
           flags={props.flags}
           handleFlagChange={props.handleFlagChange}
+          handleCustomReturnedCode={props.handleCustomReturnedCode}
           handleSubmittedTextModal={props.handleSubmittedTextModal}
           haltHero={props.haltHero}
           heroHeight={props.heroHeight}
