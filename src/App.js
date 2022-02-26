@@ -8,7 +8,6 @@ import GameLoader from './GameLoader'
 import MainMenuBar from './MainMenuBar'
 
 
-
 // Movement Web Workers 🛠 🪚 🧰
 
 // They live outside the src directory because
@@ -215,7 +214,9 @@ export default class App extends Component {
 
 
   // Receives custom code from gameLogic.js (via textinputparser.js) and processes it!
- handleCustomReturnedCode = (returnedCode) => {
+  handleCustomReturnedCode = (returnedCode) => {
+
+    console.log(returnedCode)
 
     // By default, don't delay anything...
     let startDelay = 0
@@ -261,6 +262,52 @@ export default class App extends Component {
 
     }, startDelay)
   }
+
+
+
+
+
+    // Runs after the room change - executes any per-room change in gamelogic.js
+  // Expects NUMBER
+  handleRoomChangeCustomCode = (room) => {
+    
+    // Only do this if gameLogic.js exists:
+    if (typeof self.roomChange === "function") {
+
+      // The new room and the application state are passed to gameLogic.js
+      const roomFunc = self.roomChange(room, this.state);
+
+      // roomChange() will return an array of things!
+
+      /* Todo: Make the return the same for roomchange as customTextParser */
+
+
+      /* 
+        [
+          00, // delay before firing
+          {}, // updates for state in app.js 
+          "halt" // optional, stops the character
+        ]
+      */
+
+      if (roomFunc !== undefined && typeof roomFunc === 'object') {
+
+        setTimeout(() => {
+          this.setState(roomFunc[1]);
+
+          // roomChange() array might pass back a halt to stop the player
+          if (roomFunc.indexOf('halt') !== -1) {
+            this.haltHero()
+          }
+
+        }, roomFunc[0])
+      }
+    }
+  }
+
+
+
+
 
 
   // No glory without sacrifice, no growth without pain
@@ -763,49 +810,6 @@ export default class App extends Component {
   };
 
 
-  // Runs after the room change - executes any per-room change in gamelogic.js
-  // Expects NUMBER
-  handleRoomChangeCustomCode = (room) => {
-    
-    // Only do this if gameLogic.js exists:
-    if (typeof self.roomChange === "function") {
-
-      // The new room and the application state are passed to gameLogic.js
-      const roomFunc = self.roomChange(room, this.state);
-
-      // roomChange() will return an array of things!
-
-      /* Todo: Make the return the same for roomchange as customTextParser */
-
-
-      /* 
-        [
-          00, // delay before firing
-          {}, // updates for state in app.js 
-          "halt" // optional, stops the character
-        ]
-      */
-
-      if (roomFunc !== undefined && typeof roomFunc === 'object') {
-
-        setTimeout(() => {
-          this.setState(roomFunc[1]);
-
-          // roomChange() array might pass back a halt to stop the player
-          if (roomFunc.indexOf('halt') !== -1) {
-            this.haltHero()
-          }
-
-        }, roomFunc[0])
-      }
-    }
-  }
-
-
-
-
-
-
 
 
 
@@ -887,14 +891,14 @@ export default class App extends Component {
     })
 
 
-    // Execute any custom room logic as soon as the room loads
-    // This might check a flag or read inventory status and change the look of the room.
-    // It's technically (hopefully? Oof, batching) a second React state update.
-    return this.handleRoomChangeCustomCode(nextRoom.Room)
+    // Check for room custom code in gamelogic
+    const roomFunc = self.roomChange(nextRoom.Room, this.state);
 
+    if (roomFunc !== undefined && typeof roomFunc === 'object') {
+      return this.handleCustomReturnedCode(roomFunc) 
+    }
+    else return false 
   }
-
-
 
 
   /* 
@@ -993,7 +997,6 @@ export default class App extends Component {
     }
 
   }
-
 
 
 

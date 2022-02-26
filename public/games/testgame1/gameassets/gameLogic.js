@@ -1,5 +1,96 @@
 console.info('Custom Game Logic File Loaded!')
 
+/* Todo:  Use these custom code events for deaths.  Like the hit-tracking example */
+
+/* Example object to return for any custom function 
+
+ return {
+            // How long to wait before starting, in ms
+            "delay": 0, 
+
+
+            "stateChangeDelay":3000,
+            
+            
+            "scoreChange": 3,
+
+            "flagSet": {
+                "hasDanced": true,
+                "bananaPhone": true,
+            },
+
+            // Halt
+            "halt": true,
+
+            // Array of state changegs
+            "newState": [{
+                modalClickToClose: true,
+                modalText: "You have been diagnosed with a fever.",
+                modalTextSlot2: "DANCE FEVER!",
+                modalStatus: true,
+                pausedgame: true,
+                heroDirection:"ArrowDown"
+            },
+            {
+                heroPositionX: props.heroPositionX - 5,
+                heroPositionY: props.heroPositionY - 5,
+                heroDirection:"ArrowUp",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 15,
+                heroPositionY: props.heroPositionY + 15,
+                heroDirection:"ArrowRight",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 25,
+                heroPositionY: props.heroPositionY + 25,
+                heroDirection:"ArrowLeft",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX - 5,
+                heroPositionY: props.heroPositionY - 5,
+                heroDirection:"ArrowUp",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 15,
+                heroPositionY: props.heroPositionY + 15,
+                heroDirection:"ArrowRight",
+                statePause:500
+            },
+            {
+                heroPositionX: props.heroPositionX + 25,
+                heroPositionY: props.heroPositionY + 25,
+                heroDirection:"ArrowLeft",
+                statePause:500
+            },
+        ],
+
+            "custFunc": function () {
+                console.log("CUSTOM")
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
+
 /*
     Each gameLogic.js file should have a roomChange() function
     It acts as a routing tool.  Player enters a room, the room
@@ -32,7 +123,7 @@ function roomChange(roomNumber, state) {
 
 
 // Each gameLogic.js file should have a customTextParser() function
-// That accepts text input and the props from screen.js
+// That accepts text input and props
 
 // Handles custom text input from text parser. Expects props to be passed to it.   
 // All commands are routed through here for matching
@@ -82,10 +173,9 @@ function customTextParser(textForParsing, props) {
 
 
 
-/*  Custom room change functions */
+/*  These are custom room change functions, called by roomChange()  */
 
-// This is a custom function example, just for this game.  The switch statement in roomChange() summons it.
-function roomChangetwo(roomNumber, state) {
+function roomChangetwo(roomNumber) {
     console.log("We're in a new room,  " + roomNumber)
 
     // Check for the player's locaition periodically
@@ -101,7 +191,7 @@ function roomChangetwo(roomNumber, state) {
             return {
                 // How long to wait before starting, in ms
                 "delay": 0, 
-                "scoreChange": 0,
+                "scoreChange": 9,
                 "flagSet": {
                     "diedByPortal": true,
                 },
@@ -119,11 +209,7 @@ function roomChangetwo(roomNumber, state) {
                     modalStatus: true,
                     pausedgame: true,
                     heroAlive:false
-                }],
-    
-                "custFunc": function () {
-                    console.log("GAME OVER")
-                }
+                }]
             }
         } else{
             requestAnimationFrame(updateDeathpit)
@@ -153,24 +239,31 @@ function roomChangeThree(state) {
         const stateFlags = state.flags;
         stateFlags.hasTacoMessageShown = true;
 
-        // roomChange() - which calls all custom room functions -returns an array of objects
-        return [
-            // First item is a number. The delay in ms before state change.
-            2000,
+        return {
+            // How long to wait before starting, in ms
+            "delay": 2000, 
+            
+            "scoreChange": 3,
 
-            // Second item is always state updates      
-            {
-                flags: stateFlags,
+            "flagSet": {
+                "hasDanced": true,
+                "bananaPhone": true,
+                "missingTaco":true
+            },
+
+            // Halt
+            "halt": true,
+
+            // Array of state changegs
+            "newState": [{
                 modalClickToClose: true,
                 modalText: "As the player returns to the room, he finds the TACO has gone missing!",
                 modalTextSlot2: "Upon checking his own pockets, he finds the taco there, safe and sound. Of course, he now some real regret about having a pocket-taco.",
                 modalStatus: true,
                 pausedgame: true,
-            },
+            }]
+        }
 
-            // Third item is whether to stop the player or not use haltHero() [Optional]
-            "halt"
-        ]
     } else {
         return
     }
