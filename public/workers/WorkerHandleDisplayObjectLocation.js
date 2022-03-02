@@ -4,7 +4,7 @@ onmessage = function (e) {
     // the object's location and size, are passed as an object
     const workerState = e.data;
 
-    const offset = 15; // how far around object do we allow hero to grab it?
+    const offset = 5; // how far around object do we allow hero to be on it?
 
     const heroOffX = workerState.heroPositionX - offset,
         heroOffWidth = workerState.heroWidth + offset,
@@ -12,7 +12,7 @@ onmessage = function (e) {
         heroOffHeight = workerState.heroHeight + offset;
 
 
-    // Function checks if we're within the range of inventory items on the screen
+    // Function checks if we're within the range of display object on the screen
     hasCollided = () => {
 
         let checkForCollision = (dispObj) => {
@@ -31,10 +31,10 @@ onmessage = function (e) {
         let obsInRange = []
 
         // At each step, loop through objects and see if we've collided
-        for (const [key, dispObj] of Object.entries(workerState.roomVisibleInventory)) {
+        for (const [key, dispObj] of Object.entries(workerState.roomCurrentObjects)) {
 
             // If there's a collsion, add the inventory item to the array
-            if (checkForCollision(dispObj) === true && dispObj.owned === false) {
+            if (checkForCollision(dispObj) === true) {
                 obsInRange.push(dispObj.Name.toLowerCase()) // Adds it as lowercase here because the parser makes everything lowercase
 
                 // Otherwise remove it
@@ -42,11 +42,15 @@ onmessage = function (e) {
                 obsInRange = obsInRange.filter(item => item !== dispObj.Name.toLowerCase());
             }
         }
+        if(obsInRange.length > 0){
+            console.log(obsInRange)
+        }
         return obsInRange;
     };
 
+
     workerResult = () => {
-        if (hasCollided() !== undefined) {
+        if(hasCollided() !== undefined){
             return hasCollided()
         }
     };

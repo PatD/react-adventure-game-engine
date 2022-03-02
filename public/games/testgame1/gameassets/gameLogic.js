@@ -178,6 +178,8 @@ function customTextParser(textForParsing, props) {
 function roomChangetwo(roomNumber) {
     console.log("We're in a new room,  " + roomNumber)
 
+    // New worker that checks for nearby objects? 
+
     // Check for the player's locaition periodically
 
     // If there's a match, game-over the player

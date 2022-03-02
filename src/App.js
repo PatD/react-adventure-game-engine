@@ -15,7 +15,7 @@ import MainMenuBar from './MainMenuBar'
 // need to remain separate files
 const WorkerHandleHeroMovement = new Worker("../workers/WorkerHandleHeroMovement.js");
 const WorkerHandleInventoryLocation = new Worker("../workers/WorkerHandleInventoryLocation.js");
-
+const WorkerHandleDisplayObjectLocation = new Worker("../workers/WorkerHandleDisplayObjectLocation.js");
 
 export default class App extends Component {
   constructor() {
@@ -154,6 +154,7 @@ export default class App extends Component {
       roomCurrentObjects: [],
       roomVisibleInventory: "",
       roomNearbyInventoryItems: [],
+      roomNearbyDisplayObjects:[],
       roomTitleScreen: false,
 
       // Game state stuff
@@ -213,10 +214,9 @@ export default class App extends Component {
   }
 
 
-  // Receives custom code from gameLogic.js (via textinputparser.js) and processes it!
+  // Receives custom code from gameLogic.js (via textinputparser.js or 
+  // room change evnets) and processes it!
   handleCustomReturnedCode = (returnedCode) => {
-
-    console.log(returnedCode)
 
     // By default, don't delay anything...
     let startDelay = 0
@@ -775,6 +775,15 @@ export default class App extends Component {
           roomVisibleInventory: this.state.roomVisibleInventory,
         })
 
+        // Check Hero's position against on-screen display Objects
+        WorkerHandleDisplayObjectLocation.postMessage({
+          heroPositionX: this.state.heroPositionX,
+          heroPositionY: this.state.heroPositionY,
+          heroWidth: this.state.heroWidth,
+          heroHeight: this.state.heroHeight,
+          roomCurrentObjects: this.state.roomCurrentObjects,
+        })
+
       }, this.state.heroMovementUpdateSpeed)
 
 
@@ -987,6 +996,16 @@ export default class App extends Component {
         this.setState({ roomNearbyInventoryItems: e.data })
       }
     }
+
+
+    // Web worker to handle the player's proximity to on screen inventory items
+    WorkerHandleDisplayObjectLocation.onmessage = (e) => {
+      if (this.state.roomNearbyDisplayObjects !== e.data) {
+        this.setState({ roomNearbyDisplayObjects: e.data })
+      }
+    }
+
+
   }
 
   componentDidUpdate = (prevState) => {
