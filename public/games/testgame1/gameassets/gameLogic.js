@@ -1,5 +1,17 @@
 console.info('Custom Game Logic File Loaded!')
 
+/* One function reads position, and when a condition is met updates global state
+
+   A funciton in app.js listens for those global state updates and reads changes in one value
+
+   In app.js, when it reads that change, it passes that change back to a new routing funciton in gamelogic
+
+   ... and that router passes it to a custom function that returns back to app.js
+
+*/
+
+
+
 /* Todo:  Use these custom code events for deaths.  Like the hit-tracking example */
 
 /* Example object to return for any custom function 
@@ -104,7 +116,7 @@ function roomChange(roomNumber, state) {
     if (roomNumber !== "undefined") { // <-- This check is here because React fires this on load, and sometimes state isn't ready yet
 
         switch (roomNumber) {
-            case 2: {
+            case 2: {             
                 return roomChangetwo(roomNumber, state)
             }
             case 3: {
@@ -174,22 +186,109 @@ function customTextParser(textForParsing, props) {
 
 
 /*  These are custom room change functions, called by roomChange()  */
+ function roomChangetwo(roomNumber) {
+    // Use roomnumber check to clearinterval
+    checkForDoomPit = () => {
+        if(window.gameState.roomNearbyDisplayObjects.includes('doom vortex') === true){
+            console.log('Doom checker true')
+            clearInterval(doomPitInterval)
+                return window.gameLogicReturn = {
+                    // How long to wait before starting, in ms
+                    "delay": 0, 
+                    "scoreChange": 9,
+                    "flagSet": {
+                        "diedByPortal": true,
+                    },
+                    // Remove 
+                    //"removeItems":["Taco","Wallet"],
 
-function roomChangetwo(roomNumber) {
-    console.log("We're in a new room,  " + roomNumber)
+                    // Halt
+                    "halt": true,
 
-    // New worker that checks for nearby objects? 
+                    // Array of state changegs
+                    "newState": [{
+                        modalClickToClose: true,
+                        modalText: "You are sucked into the portal of doom!",
+                        modalTextSlot2: "GAME OVER!",
+                        modalStatus: true,
+                        pausedgame: true,
+                        heroAlive:false
+                    }]
+                }   
+        }    
+    }
+    let doomPitInterval = setInterval(checkForDoomPit, 100);
+    
+    
+    
+    // if(window.gameState.roomNearbyDisplayObjects.includes('doom vortex') === true){
+    //     return console.log('room')
+    // }
 
-    // Check for the player's locaition periodically
 
-    // If there's a match, game-over the player
-    updateDeathpit = () =>{
-        // console.log(window.gameState.heroPositionY)
-       
-        if((window.gameState.heroPositionY >= 320 && window.gameState.heroPositionY < 380) && 
-        (window.gameState.heroPositionX >= 140 && window.gameState.heroPositionX < 200)){
-            console.log('hit')
 
+
+    // function waitForCondition(conditionObj) {
+    //     return new Promise(resolve => {
+    //       var start_time = Date.now();
+          
+    //       function checkFlag() {
+    //         if (conditionObj.arg == conditionObj.test) {
+    //           console.log('met');
+
+    //           return {
+    //             // How long to wait before starting, in ms
+    //             "delay": 0, 
+    //             "scoreChange": 9,
+    //             "flagSet": {
+    //                 "diedByPortal": true,
+    //             },
+    //             // Remove 
+    //             //"removeItems":["Taco","Wallet"],
+    
+    //             // Halt
+    //             "halt": true,
+    
+    //             // Array of state changegs
+    //             "newState": [{
+    //                 modalClickToClose: true,
+    //                 modalText: "You are sucked into the portal of doom!",
+    //                 modalTextSlot2: "GAME OVER!",
+    //                 modalStatus: true,
+    //                 pausedgame: true,
+    //                 heroAlive:false
+    //             }]
+    //         }  
+
+    //           resolve();
+    //         } else if (Date.now() > start_time + 3000) {
+    //           console.log('not met, time out');
+    //           resolve();
+    //         } else {
+    //           return window.setTimeout(checkFlag, 1000); 
+    //         }
+    //       }
+    //       return checkFlag();
+    //     });
+    //   }
+      
+    //   async function run() {
+    //     console.log('before');
+    //     return await waitForCondition({arg: '1', test: '1'})
+    //     console.log('after');
+        
+    //   }
+    //   return run();
+
+/*
+
+    let heroHit = false;
+
+    const checkForDoomPit = () => {
+        if(window.gameState.roomNearbyDisplayObjects.includes('doom vortex') === true){
+            clearInterval(doomPitInterval)
+            heroHit = true
+            console.log('hit!')
             return {
                 // How long to wait before starting, in ms
                 "delay": 0, 
@@ -212,14 +311,132 @@ function roomChangetwo(roomNumber) {
                     pausedgame: true,
                     heroAlive:false
                 }]
-            }
-        } else{
-            requestAnimationFrame(updateDeathpit)
+            }  
         }
+    }
+    return doomPitInterval = setInterval(checkForDoomPit, 100);
 
+
+
+    const returnStateUpdate = () =>{
+        console.log('hi')
+        return {
+            // How long to wait before starting, in ms
+            "delay": 0, 
+            "scoreChange": 9,
+            "flagSet": {
+                "diedByPortal": true,
+            },
+            // Remove 
+            //"removeItems":["Taco","Wallet"],
+
+            // Halt
+            "halt": true,
+
+            // Array of state changegs
+            "newState": [{
+                modalClickToClose: true,
+                modalText: "You are sucked into the portal of doom!",
+                modalTextSlot2: "GAME OVER!",
+                modalStatus: true,
+                pausedgame: true,
+                heroAlive:false
+            }]
+        }  
     }
 
-    return requestAnimationFrame(updateDeathpit)
+
+
+    // Check for the player's proximity to an object, and take action
+
+    // const checkForDoomPit = () =>{
+    //    return new Promise((resolve, reject) => {
+    //         if(window.gameState.roomNearbyDisplayObjects.includes('doom vortex') === true){
+    //             clearInterval(doomPitInterval)
+    //             resolve('my dude') 
+    //         }
+    //     })
+    //     .then((res) => {
+    //         return returnStateUpdate()})
+    //     .catch((err) => clearInterval(doomPitInterval))
+    // }
+
+
+    // doomPitInterval = setInterval(checkForDoomPit, 100);
+    
+
+    //  checkForDoomPit = () => {
+    //     if(window.gameState.roomNearbyDisplayObjects.includes('doom vortex') === true){
+    //         console.log('Doom checker true')
+    //         clearInterval(doomPitInterval)
+    //             return {
+    //                 // How long to wait before starting, in ms
+    //                 "delay": 0, 
+    //                 "scoreChange": 9,
+    //                 "flagSet": {
+    //                     "diedByPortal": true,
+    //                 },
+    //                 // Remove 
+    //                 //"removeItems":["Taco","Wallet"],
+
+    //                 // Halt
+    //                 "halt": true,
+
+    //                 // Array of state changegs
+    //                 "newState": [{
+    //                     modalClickToClose: true,
+    //                     modalText: "You are sucked into the portal of doom!",
+    //                     modalTextSlot2: "GAME OVER!",
+    //                     modalStatus: true,
+    //                     pausedgame: true,
+    //                     heroAlive:false
+    //                 }]
+    //             }   
+    //     }    
+    // }
+    // let doomPitInterval = setInterval(checkForDoomPit, 100);
+
+
+
+    // If there's a match, game-over the player
+    // updateDeathpit = () =>{
+    //     // console.log(window.gameState.heroPositionY)
+       
+    //     if((window.gameState.heroPositionY >= 320 && window.gameState.heroPositionY < 380) && 
+    //     (window.gameState.heroPositionX >= 140 && window.gameState.heroPositionX < 200)){
+    //         console.log('hit')
+
+    //         return {
+    //             // How long to wait before starting, in ms
+    //             "delay": 0, 
+    //             "scoreChange": 9,
+    //             "flagSet": {
+    //                 "diedByPortal": true,
+    //             },
+    //             // Remove 
+    //             //"removeItems":["Taco","Wallet"],
+    
+    //             // Halt
+    //             "halt": true,
+    
+    //             // Array of state changegs
+    //             "newState": [{
+    //                 modalClickToClose: true,
+    //                 modalText: "You are sucked into the portal of doom!",
+    //                 modalTextSlot2: "GAME OVER!",
+    //                 modalStatus: true,
+    //                 pausedgame: true,
+    //                 heroAlive:false
+    //             }]
+    //         }
+    //     } else{
+    //         requestAnimationFrame(updateDeathpit)
+    //     }
+
+    // }
+
+    // return requestAnimationFrame(updateDeathpit)
+*/
 }
 
 

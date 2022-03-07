@@ -217,7 +217,7 @@ export default class App extends Component {
   // Receives custom code from gameLogic.js (via textinputparser.js or 
   // room change evnets) and processes it!
   handleCustomReturnedCode = (returnedCode) => {
-
+    console.log(returnedCode)
     // By default, don't delay anything...
     let startDelay = 0
 
@@ -998,7 +998,7 @@ export default class App extends Component {
     }
 
 
-    // Web worker to handle the player's proximity to on screen inventory items
+    // Web worker to handle the player's proximity to display objects
     WorkerHandleDisplayObjectLocation.onmessage = (e) => {
       if (this.state.roomNearbyDisplayObjects !== e.data) {
         this.setState({ roomNearbyDisplayObjects: e.data })
@@ -1013,6 +1013,13 @@ export default class App extends Component {
     // Make game state available for gameLogic.js
     if (prevState !== this.state) {
       window.gameState = this.state;
+    }
+
+
+    // Check for custom code return
+    if(window.gameLogicReturn !== undefined && window.gameLogicReturn !== null ){
+      this.handleCustomReturnedCode(window.gameLogicReturn)
+      window.gameLogicReturn = null
     }
 
   }
