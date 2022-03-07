@@ -67,18 +67,19 @@ export default class App extends Component {
           order: 2,
           items: [{
             name: "Save Game",
-            active: false,
+            active: true,
             selected: true,
             titleDisabled: true
           }, {
             name: "Load Game",
             active: false,
-            selected: false
+            selected: false,
+            titleDisabled: false
           }, {
             name: "Restart",
             active: true,
             selected: false,
-            titleDisabled: true
+            titleDisabled: false
           }, {
             name: "------",
             active: false,
@@ -264,9 +265,6 @@ export default class App extends Component {
   }
 
 
-
-
-
     // Runs after the room change - executes any per-room change in gamelogic.js
   // Expects NUMBER
   handleRoomChangeCustomCode = (room) => {
@@ -304,10 +302,6 @@ export default class App extends Component {
       }
     }
   }
-
-
-
-
 
 
   // No glory without sacrifice, no growth without pain
@@ -970,7 +964,6 @@ export default class App extends Component {
     })
 
 
-
     // When the component mounts, start an event listener for web worker updates.
     WorkerHandleHeroMovement.onmessage = (e) => {
 
@@ -1008,6 +1001,7 @@ export default class App extends Component {
 
   }
 
+  // React lifecycle handler
   componentDidUpdate = (prevState) => {
 
     // Make game state available for gameLogic.js
@@ -1016,7 +1010,7 @@ export default class App extends Component {
     }
 
 
-    // Check for custom code return
+    // Check for custom code return from gamelogic that's been sent to the global object
     if(window.gameLogicReturn !== undefined && window.gameLogicReturn !== null ){
       this.handleCustomReturnedCode(window.gameLogicReturn)
       window.gameLogicReturn = null

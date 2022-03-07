@@ -214,7 +214,7 @@ const MainMenuBar = (props) => {
   // Listens for arrow key and enter key presses when the meni is open.
   useEffect(() => {
     if (mainNavBar !== "active") {
-      console.log(props.keyPress)
+      // console.log(props.keyPress)
       handleKeyboardMenu(props.keyPress)
     }
   }, [props.keyPress, props.keyRefresh])
@@ -255,12 +255,15 @@ const MainMenuBar = (props) => {
 
               // ID indicates the currently selected submenu item
               id={subMenu.selected === true ? "selected" : ""}
-
-              // data-table indicates if a menu item should be disabled in the Title screen
+            
+              // data-title indicates if a menu item should be disabled in the Title screen
               data-title={(subMenu.titleDisabled === true && props.heroAlive === false) ? "disabledInTitle" : null}
 
+
               // handles if the menu item is selectable or not!
-              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name}</li>
+              className={subMenu.active === true ? "enabled" : "disabled"}>{subMenu.name}
+              
+            </li>
           ))}
         </ul>
       </header>

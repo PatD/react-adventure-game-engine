@@ -1,111 +1,9 @@
-console.info('Custom Game Logic File Loaded!')
-
-/* One function reads position, and when a condition is met updates global state
-
-   A funciton in app.js listens for those global state updates and reads changes in one value
-
-   In app.js, when it reads that change, it passes that change back to a new routing funciton in gamelogic
-
-   ... and that router passes it to a custom function that returns back to app.js
-
-*/
-
-
-
-/* Todo:  Use these custom code events for deaths.  Like the hit-tracking example */
-
-/* Example object to return for any custom function 
-
- return {
-            // How long to wait before starting, in ms
-            "delay": 0, 
-
-
-            "stateChangeDelay":3000,
-            
-            
-            "scoreChange": 3,
-
-            "flagSet": {
-                "hasDanced": true,
-                "bananaPhone": true,
-            },
-
-            // Halt
-            "halt": true,
-
-            // Array of state changegs
-            "newState": [{
-                modalClickToClose: true,
-                modalText: "You have been diagnosed with a fever.",
-                modalTextSlot2: "DANCE FEVER!",
-                modalStatus: true,
-                pausedgame: true,
-                heroDirection:"ArrowDown"
-            },
-            {
-                heroPositionX: props.heroPositionX - 5,
-                heroPositionY: props.heroPositionY - 5,
-                heroDirection:"ArrowUp",
-                statePause:500
-            },
-            {
-                heroPositionX: props.heroPositionX + 15,
-                heroPositionY: props.heroPositionY + 15,
-                heroDirection:"ArrowRight",
-                statePause:500
-            },
-            {
-                heroPositionX: props.heroPositionX + 25,
-                heroPositionY: props.heroPositionY + 25,
-                heroDirection:"ArrowLeft",
-                statePause:500
-            },
-            {
-                heroPositionX: props.heroPositionX - 5,
-                heroPositionY: props.heroPositionY - 5,
-                heroDirection:"ArrowUp",
-                statePause:500
-            },
-            {
-                heroPositionX: props.heroPositionX + 15,
-                heroPositionY: props.heroPositionY + 15,
-                heroDirection:"ArrowRight",
-                statePause:500
-            },
-            {
-                heroPositionX: props.heroPositionX + 25,
-                heroPositionY: props.heroPositionY + 25,
-                heroDirection:"ArrowLeft",
-                statePause:500
-            },
-        ],
-
-            "custFunc": function () {
-                console.log("CUSTOM")
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
+console.info('✓ Custom gameLogic.js file loaded!')
 
 
 /*
     Each gameLogic.js file should have a roomChange() function
-    It acts as a routing tool.  Player enters a room, the room
+    that acts as a routing tool. Player enters a room, the room
     checks itself to see if there's a custom function associated
     with it, and that function fires if it does.
 
@@ -137,16 +35,14 @@ function roomChange(roomNumber, state) {
 // Each gameLogic.js file should have a customTextParser() function
 // That accepts text input and props
 
-// Handles custom text input from text parser. Expects props to be passed to it.   
 // All commands are routed through here for matching
-// And either an updated state is returned, or a way to 
-// run the built-in commands like look or get.
+// and either an updated state is returned to app.js, or the command
+// is sent back to the app for matching with built in verbs like look or get.
 
-// Screen.js is the component that really calls customTextParser()
 function customTextParser(textForParsing, props) {
     // console.log(textForParsing)
     // console.log(props)
-    console.log('Command passing through gameLogic.js')
+    console.log('Text input passing through gameLogic.js, looking for match.')
 
     switch (textForParsing.join(' ')) {
         case 'party':{
@@ -173,7 +69,7 @@ function customTextParser(textForParsing, props) {
         // Not every text parse change needs a custom function:
         default: {
             // ... so customTextParser() returns false and the built-in text parser runs
-            console.log('No match in gamelogic.js, so passing back to run through game engine commands')
+            console.log('No match found in gamelogic.js. Passing text input back to run through game engine built-in commands')
             return false
         }
     }
@@ -192,7 +88,9 @@ function customTextParser(textForParsing, props) {
         if(window.gameState.roomNearbyDisplayObjects.includes('doom vortex') === true){
             console.log('Doom checker true')
             clearInterval(doomPitInterval)
-                return window.gameLogicReturn = {
+
+            // Global state update:
+            return window.gameLogicReturn = {
                     // How long to wait before starting, in ms
                     "delay": 0, 
                     "scoreChange": 9,
@@ -205,15 +103,27 @@ function customTextParser(textForParsing, props) {
                     // Halt
                     "halt": true,
 
+
                     // Array of state changegs
                     "newState": [{
                         modalClickToClose: true,
-                        modalText: "You are sucked into the portal of doom!",
-                        modalTextSlot2: "GAME OVER!",
+                        modalTextScript: [
+                            {
+                                modalText: "You fall into the doom portal, and unfortunatly that's a one way trip.",
+                            },
+                            {
+                                modalText: "Thank you for playing " + window.gameState.title,
+                            },
+                            {
+                                modalText: "Game over. You can RESTART or LOAD a saved game.",
+                            }
+                        ],
                         modalStatus: true,
                         pausedgame: true,
-                        heroAlive:false
-                    }]
+                        heroAlive: false
+                        
+                    }
+                    ]
                 }   
         }    
     }

@@ -51,6 +51,14 @@
             "roomExits": [
                 {
                     "exit": "left",
+                    "goto": 10,
+                    "width": 3,
+                    "height": 75,
+                    "x": 120,
+                    "y": 0
+                },
+                {
+                    "exit": "left",
                     "goto": 3,
                     "width": 5,
                     "height": 75,
@@ -485,6 +493,35 @@
                     "zIndex": 4
                 }
             ]
+        },
+        {
+            "Name": "Airlock",
+            "Description": "You've entered the ship's airlock. Please caution, as your hero has not been equipped with propper outdoor equipment.",
+            "Room": 10,
+            "starting": "right",
+            "roomExits": [ 
+            {
+                "exit": "right",
+                "goto": 2,
+                "width": 3,
+                "height": 75,
+                "x": 120,
+                "y": 0
+            }],
+            "displayObjects": [
+                {
+                    "id": "spaceChair",
+                    "Name": "Space Chair",
+                    "Description": "This is a Space Chair! They are for sitting!",
+                    "colide": true,
+                    "width": 300,
+                    "height": 55,
+                    "x": 50,
+                    "y": 80,
+                    "zIndex": 2,
+                    "bgcolor": "#999"
+                }
+            ]
         }
     ],
     "inventory": [
@@ -621,7 +658,7 @@
                     "name": "Restart",
                     "active": true,
                     "selected": false,
-                    "titleDisabled":true
+                    "titleDisabled":false
                 }
             ]
         },

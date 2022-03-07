@@ -31,7 +31,6 @@ input{
 }
 
 
-
 /* Inventory */
 aside {
   width: 100%;
@@ -108,10 +107,6 @@ header #gameTitle{
   float: right;
 }
 
-/* header{
-  cursor: url('/src/img/hand.png'),pointer;
-} */
-
 
 
 /* Main Nav before anyone presses escape */
@@ -181,8 +176,6 @@ header .subMenu li{
 /* Submenu items that are disabled */
 header .subMenu li.disabled,
 header .subMenu li[data-title="disabledInTitle"] {color:#CCC}
-
-
 
 
 /* Currently active dropdown menu, individual item selected */
