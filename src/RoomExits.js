@@ -22,7 +22,7 @@ const RoomExits = (props) => {
                         left: d.y
                     }}
                     className={"roomExit " + props.roomCurrentName + "_roomExit_" + d.exit}
-                    key={d.exit}></div>
+                    key={d.exit + d.x}></div>
 
             ));
             

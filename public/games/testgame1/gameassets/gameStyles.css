@@ -8,6 +8,18 @@
 
 /* Per-game graphics and animation loaded */
 
+main.Airlock #airlockBackground{
+    background-image:url('/games/testgame1/gameassets/airlock_room_background.png');
+    background-size: contain;
+}
+
+main.Airlock #spaceBackground{
+    background-image:url('/games/testgame1/gameassets/airlock_room_starfield_background.gif');
+    background-repeat: repeat;
+}
+
+
+
 main.TitleScreen{
     background-image:url('/games/testgame1/gameassets/01-testquest-opening-screen.png');
     background-size:contain;

@@ -54,7 +54,7 @@
                     "goto": 10,
                     "width": 3,
                     "height": 75,
-                    "x": 120,
+                    "x": 220,
                     "y": 0
                 },
                 {
@@ -505,21 +505,33 @@
                 "goto": 2,
                 "width": 3,
                 "height": 75,
-                "x": 120,
+                "x": 220,
                 "y": 0
             }],
             "displayObjects": [
                 {
-                    "id": "spaceChair",
-                    "Name": "Space Chair",
-                    "Description": "This is a Space Chair! They are for sitting!",
-                    "colide": true,
-                    "width": 300,
-                    "height": 55,
-                    "x": 50,
-                    "y": 80,
-                    "zIndex": 2,
-                    "bgcolor": "#999"
+                    "id": "airlockBackground",
+                    "Name": "airlockBackground",
+                    "Description": "Airlocks help you breath.",
+                    "colide": false,
+                    "width": 640,
+                    "height": 420,
+                    "x": 0,
+                    "y": 0,
+                    "zIndex": 1
+                    
+                },
+                {
+                    "id": "spaceBackground",
+                    "Name": "spaceBackground",
+                    "Description": "Space is too big.",
+                    "colide": false,
+                    "width": 640,
+                    "height": 210,
+                    "x": 60,
+                    "y": 0,
+                    "zIndex": 0,
+                    "bgcolor": "#000"
                 }
             ]
         }
