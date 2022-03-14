@@ -18,7 +18,10 @@ main.Airlock #spaceBackground{
     background-repeat: repeat;
 }
 
-
+main.Airlock #airlockWindows{
+    background-image:url('/games/testgame1/gameassets/airlock_room_windows.png');
+    background-size: contain;
+}
 
 main.TitleScreen{
     background-image:url('/games/testgame1/gameassets/01-testquest-opening-screen.png');
@@ -103,8 +106,6 @@ main.Cave #caveforeground{
     }
   }
 
-
-
 .partyrock{
         background: linear-gradient(341deg, #0000aa, #00aa00, #00aaaa, #5555ff, #55ffff);
         background-size: 100px 100px;
@@ -117,3 +118,16 @@ main.Cave #caveforeground{
         50%{background-position:4% 100%}
         100%{background-position:97% 0%}
     }
+
+
+
+
+.Airlock.airlockOpen #airlockDoor{
+    animation: airlockOpen 5s ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes airlockOpen { 
+    0%{transform: translateX(0)}
+    100%{transform: translateX(140px)}
+}

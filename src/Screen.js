@@ -66,6 +66,7 @@ const Screen = (props) => {
           keyPress={props.keyPress}
           removeFromInventory={props.removeFromInventory}
           roomCurrent={props.roomCurrent}
+          roomCurrentName={props.roomCurrentName}
           roomCurrentDescription={props.roomCurrentDescription}
           roomCurrentObjects={props.roomCurrentObjects}
           roomNearbyInventoryItems={props.roomNearbyInventoryItems}

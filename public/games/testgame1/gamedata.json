@@ -510,6 +510,71 @@
             }],
             "displayObjects": [
                 {
+                    "id": "invisibletopbackground",
+                    "Name": "invisibletopbackground",
+                    "colide": true,
+                    "width": 640,
+                    "height": 80,
+                    "x": 85,
+                    "y": 0,
+                    "zIndex": 5
+                },
+                {
+                    "id": "invisibleleftwall",
+                    "Name": "invisibleleftwall",
+                    "colide": true,
+                    "width": 80,
+                    "height": 230,
+                    "x": 0,
+                    "y": 0,
+                    "zIndex": 5
+                },
+                {
+                    "id": "invisiblebottombackground",
+                    "Name": "invisiblebottombackground",
+                    "colide": true,
+                    "width": 640,
+                    "height": 80,
+                    "x": 300,
+                    "y": 150,
+                    "zIndex": 5
+                },
+                {
+                    "id": "invisiblebottombackground2",
+                    "Name": "invisiblebottombackground2",
+                    "colide": true,
+                    "width": 150,
+                    "height": 60,
+                    "x": 320,
+                    "y": 0,
+                    "zIndex": 5
+                },
+                {
+                    "id": "airlockDoor",
+                    "Name": "door",
+                    "Description": "This door is stopping the air in the ship from blowing you into the vastness of space. Use only when docked.",
+                    "colide": false,
+                    "width": 110,
+                    "height": 135,
+                    "x": 92,
+                    "y": 121,
+                    "zIndex": 1,
+                    "bgcolor": "#ff22ff"
+                    
+                },
+                {
+                    "id": "airlockWindows",
+                    "Name": "window",
+                    "Description": "You gaze out into the void. Space is too big. The stars streaking by let you know that the ship is moving.",
+                    "colide": false,
+                    "width": 640,
+                    "height": 420,
+                    "x": 0,
+                    "y": 0,
+                    "zIndex": 2
+                    
+                },
+                {
                     "id": "airlockBackground",
                     "Name": "airlockBackground",
                     "Description": "Airlocks help you breath.",

@@ -38,7 +38,7 @@ const TextInputParser = (props) => {
     if (typeof self.customTextParser === "function") {
 
       // Run the text through the custom text gauntlet
-      const customTextCheck = self.customTextParser(textForParsing, props)
+      const customTextCheck = self.customTextParser(textForParsing, props) 
 
       // if false is returned, that means no match, and just run it through the built-in commands
       if (customTextCheck === false) {

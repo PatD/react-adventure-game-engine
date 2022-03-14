@@ -65,6 +65,9 @@ function customTextParser(textForParsing, props) {
         case 'talk ted': {
             return customTalkTed(props)
         }
+        case 'open airlock':{
+            return customOpenAirlock(props)
+        }
 
         // Not every text parse change needs a custom function:
         default: {
@@ -400,6 +403,65 @@ function roomChangeThree(state) {
 }
 
 /* Custom text parser functions */
+function customOpenAirlock(props) {
+    console.log(props)
+    if(props.roomCurrentName === 'Airlock'){
+        return {
+            "delay": 0, 
+            "scoreChange": 9,
+            "flagSet": {
+                "airlockOpen": true,
+            },
+    
+            // Halt
+            "halt": true,
+    
+            // Array of state changegs
+            "newState": [
+                {
+                    roomCurrentAltStyle: "airlockOpen",
+                    statePause:500
+                },
+                
+                {
+                modalClickToClose: true,
+                modalTextScript: [
+                    {
+                        modalText: "The airlock opens and you feel a slight breeze.",
+                    },
+                    {
+                        modalText: "The hum of the machines gets a lot quieter without air in the room to help transfer the sound.",
+                    },
+                ],
+                modalWidth: 500,
+                modalTop: 450,
+                modalStatus: true,
+                pausedgame: true,
+            },
+            {
+                statePause:5000
+            },
+            ]
+        }
+    } else {
+        return {
+            "newState": [
+                {
+                modalClickToClose: true,
+                modalText: "You need to be closer to an airlock to open it.",
+                modalStatus: true,
+                pausedgame: true,
+            }
+        ]
+    }
+}
+}
+
+
+
+
+
+
 function customParty(props) {
     return {
         "delay": 2, 
