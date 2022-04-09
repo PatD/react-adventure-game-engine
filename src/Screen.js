@@ -70,6 +70,7 @@ const Screen = (props) => {
           roomCurrentDescription={props.roomCurrentDescription}
           roomCurrentObjects={props.roomCurrentObjects}
           roomNearbyInventoryItems={props.roomNearbyInventoryItems}
+          roomNearbyDisplayObjects={props.roomNearbyDisplayObjects}
           textParserChange={props.textParserChange}
           textParserValue={props.textParserValue}
           textPopulateStateAndClearParser={props.textPopulateStateAndClearParser}

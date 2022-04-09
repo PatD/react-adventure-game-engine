@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import KeyboardControls from './KeyboardControls'
+import PlaySound from './PlaySound';
 import PreloadGameAssets from './PreloadGameAssets'
 import Screen from './Screen';
 import Modal from './Modal'
@@ -158,13 +159,15 @@ export default class App extends Component {
       roomNearbyDisplayObjects:[],
       roomTitleScreen: false,
 
-      // Game state stuff
+      // Other game state stuff
       keyPress: "",
+      gameAssetPath: "",
       gameLogic: "",
       playfieldX: 0,
       playfieldY: 0,
       pausedgame: false,
       soundOn: true,
+      soundClip: '',
       textParserValue: "",
       submittedText: "",
       helpText: "Default text for the game's help",
@@ -1051,6 +1054,11 @@ export default class App extends Component {
         <PreloadGameAssets
           gameLogic={this.state.gameLogic} />
 
+        <PlaySound 
+          gameAssetPath={this.state.gameAssetPath}
+          soundOn={this.state.soundOn}
+          soundClip={this.state.soundClip} />
+
         <InventoryScreen
           heroAlive={this.state.heroAlive}
           inventoryVisable={this.state.inventoryVisable}
@@ -1096,7 +1104,8 @@ export default class App extends Component {
           roomCurrentDescription={this.state.roomCurrentDescription}
           roomExits={this.state.roomExits}
           roomNearbyInventoryItems={this.state.roomNearbyInventoryItems}
-
+          roomNearbyDisplayObjects={this.state.roomNearbyDisplayObjects}
+          
           // Hero details
           haltHero={this.haltHero}
           handleHeroPositioning={this.handleHeroPositioning}

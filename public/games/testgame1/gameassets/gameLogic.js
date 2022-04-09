@@ -405,7 +405,7 @@ function roomChangeThree(state) {
 /* Custom text parser functions */
 function customOpenAirlock(props) {
     console.log(props)
-    if(props.roomCurrentName === 'Airlock'){
+    if(props.roomCurrentName === 'Airlock' && props.flags.airlockOpen !== true && props.roomNearbyDisplayObjects.includes('door')){
         return {
             "delay": 0, 
             "scoreChange": 9,
@@ -420,9 +420,13 @@ function customOpenAirlock(props) {
             "newState": [
                 {
                     roomCurrentAltStyle: "airlockOpen",
-                    statePause:500
+                    statePause:50
                 },
                 
+                {
+                    soundClip:'airlock_door_open.wav'
+                },
+
                 {
                 modalClickToClose: true,
                 modalTextScript: [
@@ -439,7 +443,11 @@ function customOpenAirlock(props) {
                 pausedgame: true,
             },
             {
-                statePause:5000
+                statePause:3000
+            },
+            {
+                heroPositionY:163,
+                heroPositionX:150
             },
             ]
         }

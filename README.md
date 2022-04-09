@@ -1,13 +1,13 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/987b18a9-7288-4088-b864-a99f1ffbaca9/deploy-status)](https://app.netlify.com/sites/react-adventure-game-engine/deploys)
 
 # A React.js game engine - a tribute to 1980s adventure games
-This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (`CGA`) or sixteen (`EGA`) color graphics, driven with arrow keys for hero movement and a text parser for execuring game commands. 
+This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (`CGA`) or sixteen (`EGA`) color graphics, driven with arrow keys for player movement and a text parser for execuring game commands. 
 
-## But why?
+## But... why?
 The primary reason was to give me a chance to learn React without making a CRUD form or TODO list. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
 
 > #### Why didn't you use...
-> There are a ton of great React libraries and tools that would have made this effort significantly easier. But learning and understanding require doing the hard part first, before you can appreciate the value of a good state management library or animation library.
+> There are a _ton_ of great React libraries and tools that would have made this effort significantly easier. But learning and understanding require doing the hard part first, before you can appreciate the value of a good state management library or animation library.
 
 ## Should I use it to make a game?
 I mean, why not? If 1980s style advernture games are the style you want to mimic, and you're already comfortable with HTML5, CSS, JavaScript (especially reactive JavaScript frameworks like React and Vue), this might be the engine for you. It doesn't promise 60FPS, nor state of the art 3d graphics. 
@@ -16,7 +16,8 @@ I mean, why not? If 1980s style advernture games are the style you want to mimic
 This is a Create React App project, not ejected. The engine itself is in the `/src` folder and the games themselves live in `/public/games`.  Keeping the game style and logic seprate from the engine was a significant challenge - Create React App doesn't really love files outside of `/src`.
 
 ## How the engine works
-Most of the game's current status (player position on screen, inventory, flags) is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort. 
+Most of the game's current status (player position on screen, inventory, flags) is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort.
+
 
 ## What's tracked in game state
 In the root component (app.js), state drives the user interface and interactivity. Every component and custom function serves to update state, and React renders the game based on that.
@@ -88,7 +89,8 @@ roomCurrentObjects | _array_ | Array of objects, all the scenery and trees and i
 roomVisibleInventory | _array_ | Array of objects of inventory items that are visible on screen
 roomNearbyInventoryItems | _array_ | Array of strings. Inventory items that are close enough for the player to get.
 
-## The engine itself handles
+
+
 
 #### Built in keyboard controls
 In the spirit of the 1980s, this engine is strictly keyboard driven. No mouse support is provided. The engine's functions are coded to suport:
