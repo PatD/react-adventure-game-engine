@@ -42,7 +42,7 @@ export default class App extends Component {
       modalTopDefault: 200,
       modalWidth: 560,
       modalTop: 200,
-      modalConfirmation: "", // occurs optionally when a modal is used as a confirmation and the enter key closes it
+      modalConfirmation: "", // text string, occurs optionally when a modal is used as a confirmation and the enter key closes it
 
       // Menu state
       menuBarActive: false,
@@ -268,7 +268,7 @@ export default class App extends Component {
   }
 
 
-    // Runs after the room change - executes any per-room change in gamelogic.js
+  // Runs after the room change - executes any per-room change in gamelogic.js
   // Expects NUMBER
   handleRoomChangeCustomCode = (room) => {
     
@@ -322,6 +322,7 @@ export default class App extends Component {
 
   }
 
+
   toggleMainMenu = () => {
     this.haltHero()
     this.setState({ menuBarActive: this.state.menuBarActive ? false : true })
@@ -373,7 +374,7 @@ export default class App extends Component {
       this.setState(prevState => ({
         soundOn: !prevState.soundOn
       }))
-      const soundString = this.state.soundOn ? "On" : "Off";
+      const soundString = this.state.soundOn ? "Off" : "On";
       return this.handleSubmittedTextModal("Sound is now " + soundString)
     }
     else if (action === 'Restart') {
@@ -818,10 +819,6 @@ export default class App extends Component {
 
 
 
-
-
-
-
   // Loads a room onto the screen
   // Also fires a roomChange() function in gameLogic.js for custom per-room things
   // EXPECTS NUMBER
@@ -1128,7 +1125,6 @@ export default class App extends Component {
           textPopulateStateAndClearParser={this.textPopulateStateAndClearParser}
           textParserChange={this.textParserChange}
           
-
           // Main Menu status
           menuBarActive={this.state.menuBarActive}
 
