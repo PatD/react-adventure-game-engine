@@ -24,7 +24,6 @@ This is a [Create React App](https://github.com/facebookincubator/create-react-a
 }
 ```
 
-
 In your new game folder, you'll find folders and files ready to edit:
 
 * `/public/games/<folder name>/gamedata.json` - A single JSON object containing metadata (title, description), room data, display objects, inventory, main menu items, and hero graphic specifications.
@@ -39,6 +38,210 @@ In the `/src` folder you'll find the game engine itself. It's set up such that n
 
 ## Building your game
 `npm run build` or the build function of Create-React-App will build the game out to the `/public` folder.  At this point you can deploy (or upload) it to your web host of choice. 
+
+
+
+## Configuration over code
+The `gamedata.json` file is a single nested object.  Here are some important parts of it:
+
+### Inventory items:
+
+```javascript
+    "inventory": [
+        {
+            // Name as it appears in game inventory
+            "Name": "Taco",   
+
+            // CSS class applied to the div that's rendered.  Use this to apply an image to it
+            "cssName": "taco",
+
+            // If the player has the item in inventory
+            "owned": false,
+
+            // If the player can pick it up yet or not.
+            "available": true,
+
+            // Text for the modal when you look at the item
+            "Description": "You see a delicous taco and want nothing more than to eat it.",
+            
+            // What room the item exists in
+            "FoundRoom": 3,
+
+            // Shown on the screen or not
+            "Visible": true,
+            "x": 290,
+            "y": 480,
+            "zIndex": 5,
+            "width": 60,
+            "height": 40
+        },
+
+```
+
+### Rooms 
+
+```javascript
+    "rooms": [
+        {
+            "Name": "TitleScreen",
+            "id": "TitleScreen",
+            "titleScreen":true,
+            "gameStartRoomNumber":2,
+            "Room": 1,
+            "Description": "",
+            "width": 640,
+            "height": 420,
+            "x": 0,
+            "y": 0,
+            "zIndex": 10
+        },
+         {
+            "Name": "Hallway",
+            "Description": "You're in the ship's cargo bay. There are a few storage crates, and two employees hard at work.",
+            "Room": 2,
+            "starting": "",
+            "roomExits": [
+                {
+                    "exit": "left",
+                    "goto": 10,
+                    "width": 3,
+                    "height": 75,
+                    "x": 220,
+                    "y": 0
+                },
+                {
+                    "exit": "left",
+                    "goto": 3,
+                    "width": 5,
+                    "height": 75,
+                    "x": 360,
+                    "y": 0
+                },
+                {
+                    "exit": "right",
+                    "goto": 9,
+                    "width": 2,
+                    "height": 80,
+                    "x": 325,
+                    "y": 0
+                },
+                {
+                    "exit": "top",
+                    "goto": 4,
+                    "width": 300,
+                    "height": 5,
+                    "x": 0,
+                    "y": 100
+                }
+            ],
+            "displayObjects": [
+                {
+                    "id": "npcSpaceMan",
+                    "NPC": true,
+                    "NPCdefaultText": "The nondescript spaceman nods at you, but doesn't look like he's in the mood for talking.",
+                    "Name": "man",
+                    "Description": "You see a guy in a space-looking jump suit",
+                    "colide": true,
+                    "width": 28,
+                    "height": 66,
+                    "x": 150,
+                    "y": 530,
+                    "zIndex": 2
+                },
+                {
+                    "id": "npcSpaceTwin",
+                    "NPC": true,
+                    "Name": "other guy",
+                    "NPCdefaultText": [
+                        {
+                            "modalText": "Well HELLO fellow space enthusiast!",
+                            "modalWidth": 500,
+                            "modalTop": 200
+                        },
+                        {
+                            "modalText": "Make no mistake, YOU have arrived at the right cargo bay for space action and adventure",
+                            "modalWidth": 300,
+                            "modalTop": 220
+                        },
+                        {
+                            "modalText": "Come back and find me when you have the keycard. That's what you'll need to go on your adventure!",
+                            "modalWidth": 450,
+                            "modalTop": 180
+                        }
+                    ],
+                    "Description": "You see a guy in a space-looking jump suit, a twin of the other gusy",
+                    "colide": true,
+                    "width": 28,
+                    "height": 66,
+                    "x": 350,
+                    "y": 230,
+                    "zIndex": 2
+                },
+                {
+                    "id": "vortex",
+                    "Name": "doom vortex",
+                    "Description": "A swirling doom vortex is here in the room",
+                    "colide": false,
+                    "width": 58,
+                    "height": 53,
+                    "x": 190,
+                    "y": 330,
+                    "zIndex": 2
+                },
+                {
+                    "id": "white",
+                    "Name": "white block",
+                    "Description": "You see a white block in this room, it's amaing",
+                    "colide": true,
+                    "width": 100,
+                    "height": 125,
+                    "x": 400,
+                    "y": 930,
+                    "zIndex": 2,
+                    "bgcolor": "#EFEFEF"
+                },
+                {
+                    "id": "redRock",
+                    "Name": "red block",
+                    "Description": "You see a RED block in this room, it's great",
+                    "colide": true,
+                    "width": 100,
+                    "height": 150,
+                    "x": 100,
+                    "y": 80,
+                    "zIndex": 1,
+                    "bgcolor": "#FF0000"
+                },
+                {
+                    "id": "grayBlock",
+                    "Name": "gray block",
+                    "Description": "This block is in 3-D!!!!",
+                    "colide": true,
+                    "width": 80,
+                    "height": 80,
+                    "x": 40,
+                    "y": 230,
+                    "zIndex": 0
+                },
+                {
+                    "id": "blueBlock",
+                    "Name": "blue block",
+                    "colide": true,
+                    "width": 80,
+                    "height": 105,
+                    "x": 300,
+                    "y": 350,
+                    "zIndex": 0,
+                    "bgcolor": "blue"
+                }
+            ]
+        },
+
+```
+
+
+
+
 
 
 
