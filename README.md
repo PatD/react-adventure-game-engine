@@ -1,22 +1,20 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/987b18a9-7288-4088-b864-a99f1ffbaca9/deploy-status)](https://app.netlify.com/sites/react-adventure-game-engine/deploys)
 
-`
 
-
-`
-
-Thanks for checking out _React Adventure Game Engine_ (<acronym title="React Adventure Game Engine">R.A.G.E.</acronym>), a browser-based, throwback game engine built on React.
+Thanks for checking out _React Adventure Game Engine_ (<acronym title="React Adventure Game Engine">R.A.G.E.</acronym>), a browser-based, retro game engine built on React.js.  Games developed in this engine will play in a modern web browser.
 
 ## A React.js game engine - and a tribute to 1980s adventure games
-This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (`CGA`) or sixteen (`EGA`) color graphics, driven with arrow keys for player movement and a text parser for executing game commands.
+This game engine is heavily derived from 1980/90's graphic adventure computer games. Games with four (`CGA`) or sixteen (`EGA`) color graphics, driven with arrow keys for player movement and a text parser for executing game commands. 
+
+⬆️⬇️⬅️➡️
 
 
 ## Creating your first game
-This is a [Create React App](https://github.com/facebookincubator/create-react-app) project, not ejected. The engine itself is in the `/src` folder and the games themselves live in `/public/games`.
+This is a [Create React App](https://github.com/facebookincubator/create-react-app) project (not ejected). The engine itself is in the `/src` folder and the games themselves live in `/public/games`.
 
 
-1. Clone the repo, and start the `Create-React-App` project. (`npm start`)
-2. Create a copy of `/public/games/gameTemplate` in the `/public/games` folder. This folder will contain code, styles, and assets specific to your game.
+1. Clone the repo, and start the `Create-React-App` project with `npm start`
+2. Create a copy of `/public/games/gameTemplate` in the `/public/games` folder. Rename the folder to something like the title of your game. This folder will contain code, styles, and assets specific to your game.
 3. Update the references to it in `/public/games/gamelist.json`. 
 
 ```JSON
@@ -30,23 +28,21 @@ This is a [Create React App](https://github.com/facebookincubator/create-react-a
 
 In your new game folder, you'll find folders and files ready to edit:
 
-* `/public/games/<folder name>/gamedata.json` - A single JSON object containing metadata (title, description), room data, display objects, inventory, main menu items, and hero graphic specifications.
-* `/public/games/<folder name>/gameassets/` - This folder will hold game-specific images, music files, code, and CSS.
-* `/public/games/<folder name>/gameassets/gameLogic.js` - All non-engine logic code can live in here. You'll find two starter functions, one that fires when a room is loaded, and another that routes custom commands not found in the engine based on text input.
+* `/public/games/<folder name>/gamedata.json` - A single JSON object containing game metadata (title, description), room data, display objects, inventory, main menu items, and hero graphic dimensions.
+* `/public/games/<folder name>/gameassets/` - This folder will hold game-specific images, music files, code, and your custom CSS.
+* `/public/games/<folder name>/gameassets/gameLogic.js` - All non-engine logic code can live in here. In here you'll find two starter functions, one that fires when a room is loaded, and another that listens for test parser input and routes it to either in-engine responses or custom responses in this file.
 
-* `/public/games/<folder name>/gameassets/gameStyles.css` - This will be mostly empty. You'll want to use this file to reference all your graphic assets. On load, the game automatically parses every image in there and loads it into the browser cache for faster loading.
+* `/public/games/<folder name>/gameassets/gameStyles.css` - You can use this file to reference all your graphic assets - backgrounds, objects, animations, etc. On load, the game automatically parses every image in there and loads it into the browser cache for faster loading.
 
-In the `/src` folder you'll find the game engine itself. It's set up such that no changes are required in this folder, but of course it's allowed because this is open source!
+In the `/src` folder you'll find the game engine itself. It's set up such that no changes are needed in this folder to make a game.
 
 >In theory, your could run a game without anything a `gameLogic.js` - the engine will build out the rooms in gamedata.json. Your hero could walk around and look at things, get things, and enjoy the scenery.
 
 ## Building your game
-`npm run build` or the build function of Create-React-App will build the game out to the `/public` folder.  At this point you can deploy (or upload) it to your web host of choice. 
+`npm run build` or the build function of Create-React-App will build the game out to the `/build` folder.  At this point you can deploy (or upload) it to your web host of choice. 
 
-
-
-## Configuration over code
-The `gamedata.json` file is a single nested object.  Here are some important parts of it:
+### Configuration over code
+The `gamedata.json` file is a single, giant nested object.  Here are some important parts of it:
 
 ### Inventory items:
 
@@ -83,6 +79,7 @@ The `gamedata.json` file is a single nested object.  Here are some important par
 ```
 
 ### Rooms 
+Each game scene is considered a room. Each room has a name, description, defined exits (top, bottom, left, right) and display objects. Display objects are the scenery in the room. A chair or a door. Display objects can also be the invisible walls the walking character bumps into.
 
 ```javascript
     "rooms": [
@@ -101,7 +98,7 @@ The `gamedata.json` file is a single nested object.  Here are some important par
         },
          {
             "Name": "Hallway",
-            "Description": "You're in the ship's cargo bay. There are a few storage crates, and two employees hard at work.",
+            "Description": "You're in the ship's cargo...",
             "Room": 2,
             "starting": "",
             "roomExits": [
@@ -244,29 +241,6 @@ The `gamedata.json` file is a single nested object.  Here are some important par
 ```
 
 
-
-
-
-
-
-## FAQ
-
-### How does the engine work?
-Most of the game's current status (player position on screen, inventory, flags) is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort.
-### But... why?
-The primary reason was to give me a chance to learn React without making a CRUD form or TODO list. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
-
-### Why didn't you use?
-There are a _ton_ of great React libraries and tools that would have made this effort significantly easier. But learning and understanding require doing the hard part first, before you can appreciate the value of a good state management library or animation library.
-
-### Should I use it to make a game?
-I mean, why not? If 1980s style advernture games are the style you want to mimic, and you're already comfortable with HTML5, CSS, JavaScript (especially reactive JavaScript frameworks like React and Vue), this might be the engine for you. It doesn't promise 60FPS, nor state of the art 3d graphics. 
-
-
-
-
-
-
 # What's tracked in game state
 In the root component (app.js), state drives the user interface and interactivity. Every component and custom function serves to update state, and React renders the game based on that.
 
@@ -370,84 +344,31 @@ There is built in support for these commands:
 There's support for custom commands as well. The engine will check 
 
 
-## What's in an individual game
-Each game can be self contained in its own folder in `/public/games`.  This repo houses a test game in a folder called `/testgame1`.
-
-In the root should be a file called gamedata.json, which houses the default state of the game, all rooms and room objects, hero details, menu choices, etc.  There should also be a subfolder called `/gameassets`.  In `/gameassets`, there should be all your graphical files, as well as the game's stylesheet (`gameStyles.css`) and custom code file (`gameLogic.js`).
 
 
 
 
+## FAQ
 
+### How does the engine work?
+Most of the game's current status (player position on screen, inventory, flags) is maintained, during play, in app.js' state. Most components and custom code work to update this root-level state.  There are probably enough things tracked in state aross multiple components to justify using some state management system, but that was overhead I didn't want in this learning effort.
 
+### But... why?
+The primary reason was to give me a chance to learn React without making a CRUD form or TODO list. I hoped a game engine would afford me a much broader awareness of _why_ people used React.js over vanilla JavaScript.
 
+### Why didn't you use?
+There are a _ton_ of great React libraries and tools that would have made this effort significantly easier. But learning and understanding require doing the hard part first, before you can appreciate the value of a good state management library or animation library.
 
-
-
-
-
-
-
-
+### Should I use it to make a game?
+I mean, why not? If 1980s style advernture games are the style you want to mimic, and you're already comfortable with HTML5, CSS, JavaScript (especially reactive JavaScript frameworks like React and Vue), this might be the engine for you. It doesn't promise 60FPS, nor state of the art 3d graphics. 
 
 
 
 
 
 
-### An example Inventory item in gamedata.json
-
-```javascript
-{
-    "Name": "Taco", // Name displayed in the inventory screen
-    "owned": false, // Does player have it
-    "available":true, // Is it available to get, or exhausted
-    "Description": "You see a delicous taco and want nothing more than to eat it.",  // shown when player types 'look taco'
-    "FoundRoom":3,
-    "Visible":true,
-    "x":290,
-    "y":480,
-    "zIndex":5,
-    "width":60,
-    "height":40
-},
 
 
-```
-
-
-
-### An example custom function from gamelogic.js
-
-```javasscript
-return {
-  // How long to wait before starting, in ms
-  "delay": 0, 
-  "scoreChange": 1,
-  "flagSet": {
-      "tacoEaten": true,
-  },
-  
-  // Remove item from inventory
-  "removeItems":["Taco","Wallet"],
-
-  // Halt
-  "halt": true,
-
-  // Array of state changes
-  "newState": [{
-      modalClickToClose: true,
-      modalText: "You decide to eat the taco",
-      modalTextSlot2: "It was DELICOUS!",
-      modalStatus: true,
-      pausedgame: true,
-  }],
-
-  "custFunc": function () {
-      console.log("CUSTOM")
-  }
-}
-```
 
 
 
