@@ -3,7 +3,7 @@
     "subTitle": "The quest to develop a React.js Game Engine!",
     "description": "This code was written by Patrick Doran and is available at github.com/patd. It is inspired by the many great computer adventure games of the 1980's.",
     "version": 0.1,
-    "copyright": "2021",
+    "copyright": "2022",
     "helpText": "Use your keyboard arrow keys to move the character around the screen. See your character's inventory with the Tab key. The Escape key opens the main menu. Solve puzzles by typing commands, like 'look at the room' or 'open this chest'. ",
     "highScore": 245,
     "playfieldX": 640,

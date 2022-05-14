@@ -1,5 +1,9 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/987b18a9-7288-4088-b864-a99f1ffbaca9/deploy-status)](https://app.netlify.com/sites/react-adventure-game-engine/deploys)
 
+`
+
+
+`
 
 Thanks for checking out _React Adventure Game Engine_ (<acronym title="React Adventure Game Engine">R.A.G.E.</acronym>), a browser-based, throwback game engine built on React.
 
