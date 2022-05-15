@@ -1,0 +1,155 @@
+{
+    "title": "TRAPPIST-1E",
+    "subTitle": "Forty light years from home.",
+    "description": "On the edge of explored space, disaster strikes your space craft as you orbit the habbitable world of TRAPPIST-1E. You must survive!",
+    "version": 0.1,
+    "copyright": "2022",
+    "helpText": "Use your keyboard arrow keys to move the character around the screen. See your character's inventory with the Tab key. The Escape key opens the main menu. Solve puzzles by typing commands, like 'look at the room' or 'open this chest'. ",
+    "highScore": 245,
+    "playfieldX": 640,
+    "playfieldY": 420,
+    "modalConfirmation": "",
+    "modalWidthDefault": 560,
+    "modalTopDefault": 200,
+    "modalWidth": 560,
+    "modalTop": 200,
+    "heroPositionX": 225,
+    "heroPositionY": 250,
+    "heroMovementDisance": 5,
+    "heroMovementUpdateSpeed": 65,
+    "heroMovementSpeeds": [
+        80,
+        35,
+        30,
+        15
+    ],
+    "heroHeight": 68,
+    "heroWidth": 32,
+    "flags": {
+        "bananaPhone": false,
+        "hasTacoMessageShown": false
+    },
+    "rooms": [
+        {
+            "Name": "TitleScreen",
+            "id": "TitleScreen",
+            "titleScreen":true,
+            "gameStartRoomNumber":2,
+            "Room": 1,
+            "Description": "",
+            "width": 640,
+            "height": 420,
+            "x": 0,
+            "y": 0,
+            "zIndex": 10
+        },
+        {
+          
+        }
+    ],
+    "inventory": [
+        {
+            "Name": "Taco",
+            "cssName": "taco",
+            "owned": false,
+            "available": true,
+            "Description": "You see a delicous ....",
+            "FoundRoom": 3,
+            "Visible": true,
+            "x": 290,
+            "y": 480,
+            "zIndex": 5,
+            "width": 60,
+            "height": 40
+        }
+    ],
+    "menuBarActive": false,
+    "mainMenuItems": [
+        {
+            "top": "Game",
+            "name": "mainNavGameMenu",
+            "order": 1,
+            "items": [
+                {
+                    "name": "Help",
+                    "active": true,
+                    "selected": true
+                },
+                {
+                    "name": "About",
+                    "active": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "top": "File",
+            "name": "mainNavFileMenu",
+            "order": 2,
+            "items": [
+                {
+                    "name": "Save Game",
+                    "active": true,
+                    "selected": true
+                },
+                {
+                    "name": "Load Game",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "------",
+                    "active": false,
+                    "selected": false
+                },
+                {
+                    "name": "Restart",
+                    "active": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "top": "Speed",
+            "name": "mainNavSpeedMenu",
+            "order": 3,
+            "items": [
+                {
+                    "name": "Fastest",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "Fast",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "Normal",
+                    "active": true,
+                    "selected": false
+                },
+                {
+                    "name": "Slow",
+                    "active": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "top": "Sound",
+            "name": "mainNavSoundMenu",
+            "order": 4,
+            "items": [
+                {
+                    "name": "Toggle Sound",
+                    "active": true,
+                    "selected": true
+                }
+            ]
+        }
+    ],
+    "gameAssetPath":"/games/TRAPPISTE1E/gameassets/",
+    "gameLogic": "/games/TRAPPISTE1E/gameassets/gameLogic.js",
+    "heroSprite": "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEQBAMAAACtirfOAAAAG1BMVEUAAABQUP8AiIhQ//+KAACIUAD/UFD//1BQUFAF8DTrAAAAAXRSTlMAQObYZgAABHJJREFUeF7tnOGNo0AMRq+FtJAWaIEWaMEt0ELKPhyUfQuOZjIgwsfKliard7bhCW51P/Lp/r2qn8rhBBYQ6H/qBJYQSAHwBBYSMDuBhQTsWSewjAD4TT5bgGKghaHWfUUB8HusIECZncBCAl1ndgIrCUx1AgsJjGPXHcFQ6P9JAejFUOhLCkCBNz9yBMbRprqKgFfgjQK+6ew/zejrC9hUsBf9FgG/CkzfO2oC1H0qBsbRGSWzWcesJDCOZQEzLYFh+C0wTAWZvdjMyfvoeM1CkM+j+/56bCgImK3/ufRXQNcZml8RfWczyIy/ZLyC2NcVqC9ERqEwLy1wmwq+36FP+HZbCvCK6IdfczEBt1oKwJ8IvPYRghGA1QQclwKtQn5ahfQFIBiB1v1rCkDtAn3/m9QF+ql8APYD8cl8bX8Ywr6wwDDVkucDOZfmZyEYYfaXwkoCIOwF80l/yz666GgK+IEQgJ327asLIBV/Qlv39QUc9gkwoS8ARiEITT7b93UFWKkXOnv3NQQyP5L5iRTwygyJGQPfYS0BexYD32EdAS8GTmAZAbCVEWjd1xDgF+MElhDIBAnfCJzAQgKZIeFrxqOYCfp/XWB5Q/6EvroAA3D7I7epxvF6AjHEsV2AwAIzzroCNlWMbLS9EgRgvsxWFyAfgI4zkYxZyWy9j3BZwExPgEAFEQ50ZvZ1lLz/PsJhRkSD6zFPxENHIIZM7/d1rIcJYj7LxMA6uOTd+ApgTQEYARZin9s3zAsK3KYCCRjUGIGYJ1gGe2KffQUBh+V4m4D3XACOQpG1BPyUuC6wTUhfAI4hlPb9awswURfo+8K+qMA6DzCfeoQj7hNfiPuqAkQyoPnUIxwIOUO1fYRVBHCqRzCY2LZPiENXIIYwoiK8Z19PAJko8E5p376qAO12AbrXEwAQQq2g2LCvKkDz00Jp676YAPG8LzElIHBCWkBVwOto1hYwY+EYVhZ4PMweDxaOYV0B+6mjWVWg71+xkqNZWWA+R7KuACPHs5TACREOZYGuI1JxHGsKEC7wzyWv+7V5JgosKeDNYfChBU9VYuZhhAosKjCfI1ldgEDBUXx1gRRIAbPfbPbpPH0zZYHhWSwQwSCM/r7PvhnsBNNXFTDrnmXGDWEvHil9+DXN/vySeML0VQXWA1HgPSME8UTXrCww5wUYiHmA2EfYrJw/oK8pwEIb14VhfYGuCwvN3HUpUGBpAf7jlpKQz9Q4Xg9WFiCyESMYCIS+n7BfYGEBLrjnBpHjvqoAA7VXsldIX6CFG/aZubYAVRCg1AVibRegri/Qunx9gXrtX9YXyAxJZkgyQ5ICKZACKZACmSll5HhWFuieVeK+38fDAOsJdD8FQ3Btvr6hJFDPD7AAb8sLOMCKApkfSIEUSIEUqEc46DNf63stWVcgRjjeBxYQgkv7PGH62gIMtDE3LLCkALUlwhG5HuFQF8gMSWZIMkOSGZJjAguwqgCRjRIjUOYoBKsK8IiOZlGBzJBkhiQzJJkhyfoPLe2r2HUzyVsAAAAASUVORK5CYII=')"
+}

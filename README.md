@@ -84,23 +84,22 @@ Each game scene is considered a room. Each room has a name, description, defined
 ```javascript
     "rooms": [
         {
-            "Name": "TitleScreen",
-            "id": "TitleScreen",
-            "titleScreen":true,
-            "gameStartRoomNumber":2,
-            "Room": 1,
-            "Description": "",
-            "width": 640,
-            "height": 420,
-            "x": 0,
-            "y": 0,
-            "zIndex": 10
-        },
-         {
-            "Name": "Hallway",
-            "Description": "You're in the ship's cargo...",
+            "Name": "Sample Room",
+            "Description": "The text displayed when character types 'look room'.",
+            
+            // Room number must be unique.
             "Room": 2,
-            "starting": "",
+
+            // These two are just for the title screen room
+            // no exists or displayObjects are needed in that room:
+            "titleScreen":true, 
+            "gameStartRoomNumber":2,
+
+            // Side of the room the character starts on
+            "starting": "left",
+
+            // Hot spots that send the character to another room. 
+            // Each hot spot is an object inside this array
             "roomExits": [
                 {
                     "exit": "left",
@@ -109,50 +108,17 @@ Each game scene is considered a room. Each room has a name, description, defined
                     "height": 75,
                     "x": 220,
                     "y": 0
-                },
-                {
-                    "exit": "left",
-                    "goto": 3,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
-                },
-                {
-                    "exit": "right",
-                    "goto": 9,
-                    "width": 2,
-                    "height": 80,
-                    "x": 325,
-                    "y": 0
-                },
-                {
-                    "exit": "top",
-                    "goto": 4,
-                    "width": 300,
-                    "height": 5,
-                    "x": 0,
-                    "y": 100
                 }
             ],
+
+            // Things shown (or are invisible) on screen
             "displayObjects": [
                 {
-                    "id": "npcSpaceMan",
-                    "NPC": true,
-                    "NPCdefaultText": "The nondescript spaceman nods at you, but doesn't look like he's in the mood for talking.",
-                    "Name": "man",
+                    "Name": "Some character",
                     "Description": "You see a guy in a space-looking jump suit",
-                    "colide": true,
-                    "width": 28,
-                    "height": 66,
-                    "x": 150,
-                    "y": 530,
-                    "zIndex": 2
-                },
-                {
-                    "id": "npcSpaceTwin",
-                    "NPC": true,
-                    "Name": "other guy",
+                    "id": "npcSpaceMan",
+                    "NPC": true, // usually false
+                    // "NPCdefaultText" can be a string for a single line, or an object for many dialog boxes.
                     "NPCdefaultText": [
                         {
                             "modalText": "Well HELLO fellow space enthusiast!",
@@ -170,73 +136,27 @@ Each game scene is considered a room. Each room has a name, description, defined
                             "modalTop": 180
                         }
                     ],
-                    "Description": "You see a guy in a space-looking jump suit, a twin of the other gusy",
+
+                    // Stops the player if they walk into the object
                     "colide": true,
+                    
                     "width": 28,
                     "height": 66,
-                    "x": 350,
-                    "y": 230,
-                    "zIndex": 2
-                },
-                {
-                    "id": "vortex",
-                    "Name": "doom vortex",
-                    "Description": "A swirling doom vortex is here in the room",
-                    "colide": false,
-                    "width": 58,
-                    "height": 53,
-                    "x": 190,
-                    "y": 330,
-                    "zIndex": 2
-                },
-                {
-                    "id": "white",
-                    "Name": "white block",
-                    "Description": "You see a white block in this room, it's amaing",
-                    "colide": true,
-                    "width": 100,
-                    "height": 125,
-                    "x": 400,
-                    "y": 930,
+                    "x": 150,
+                    "y": 530,
                     "zIndex": 2,
-                    "bgcolor": "#EFEFEF"
-                },
-                {
-                    "id": "redRock",
-                    "Name": "red block",
-                    "Description": "You see a RED block in this room, it's great",
-                    "colide": true,
-                    "width": 100,
-                    "height": 150,
-                    "x": 100,
-                    "y": 80,
-                    "zIndex": 1,
-                    "bgcolor": "#FF0000"
-                },
-                {
-                    "id": "grayBlock",
-                    "Name": "gray block",
-                    "Description": "This block is in 3-D!!!!",
-                    "colide": true,
-                    "width": 80,
-                    "height": 80,
-                    "x": 40,
-                    "y": 230,
-                    "zIndex": 0
-                },
-                {
-                    "id": "blueBlock",
-                    "Name": "blue block",
-                    "colide": true,
-                    "width": 80,
-                    "height": 105,
-                    "x": 300,
-                    "y": 350,
-                    "zIndex": 0,
-                    "bgcolor": "blue"
+
+                    // Applies color or CSS class to the object. 
+                    "bgcolor": "#EFEFEF",
+                    "class": "dither_bottom"
+
+                    // Use "bgcolor": "none" to make an invisible hit area.
+
+
                 }
             ]
-        },
+        }
+    ]
 
 ```
 
