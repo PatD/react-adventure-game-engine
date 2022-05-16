@@ -1,6 +1,6 @@
 {
-    "Title": "Test Quest ][",
-    "Path": "../games/testgame1/gamedata.json",
-    "CSS": "../games/testgame1/gameassets/gameStyles.css",
-    "JS":"../games/testgame1/gameassets/gameLogic.js"
+    "Title": "TRAPPIST-1e",
+    "Path": "../games/TRAPPIST1E/gamedata.json",
+    "CSS": "../games/TRAPPIST1E/gameassets/gameStyles.css",
+    "JS":"../games/TRAPPIST1E/gameassets/gameLogic.js"
 }
