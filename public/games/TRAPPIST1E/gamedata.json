@@ -55,7 +55,7 @@
             "roomExits": [
                 {
                     "exit": "left",
-                    "goto": 3,
+                    "goto": 4,
                     "width": 5,
                     "height": 75,
                     "x": 360,
@@ -63,7 +63,7 @@
                 },
                 {
                     "exit": "top",
-                    "goto": 4,
+                    "goto": 8,
                     "width": 300,
                     "height": 5,
                     "x": 0,
@@ -103,14 +103,6 @@
             "y": 0,
             "roomExits": [
                 {
-                    "exit": "left",
-                    "goto": 4,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
-                },
-                {
                     "exit": "top",
                     "goto": 2,
                     "width": 300,
@@ -120,7 +112,7 @@
                 },
                 {
                     "exit": "bottom",
-                    "goto": 3,
+                    "goto": 7,
                     "width": 300,
                     "height": 5,
                     "x": "",
@@ -161,11 +153,19 @@
                 },
                 {
                     "exit": "right",
-                    "goto": 3,
+                    "goto": 2,
                     "width": 5,
                     "height": 75,
                     "x": 360,
                     "y": 0
+                },
+                {
+                    "exit": "bottom",
+                    "goto": 6,
+                    "width": 300,
+                    "height": 5,
+                    "x": "",
+                    "y": 100
                 }
             ],
             "displayObjects": [
@@ -226,20 +226,12 @@
             "y": 0,
             "roomExits": [
                 {
-                    "exit": "left",
-                    "goto": 5,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
-                },
-                {
-                    "exit": "right",
-                    "goto": 3,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
+                    "exit": "top",
+                    "goto": 4,
+                    "width": 300,
+                    "height": 5,
+                    "x": 0,
+                    "y": 100
                 }
             ],
             "displayObjects": [
@@ -267,20 +259,12 @@
             "y": 0,
             "roomExits": [
                 {
-                    "exit": "left",
-                    "goto": 5,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
-                },
-                {
-                    "exit": "right",
+                    "exit": "top",
                     "goto": 3,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
+                    "width": 300,
+                    "height": 5,
+                    "x": 0,
+                    "y": 100
                 }
             ],
             "displayObjects": [
@@ -308,20 +292,20 @@
             "y": 0,
             "roomExits": [
                 {
-                    "exit": "left",
-                    "goto": 5,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
+                    "exit": "top",
+                    "goto": 9,
+                    "width": 300,
+                    "height": 5,
+                    "x": 0,
+                    "y": 100
                 },
                 {
-                    "exit": "right",
-                    "goto": 3,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
+                    "exit": "bottom",
+                    "goto": 2,
+                    "width": 300,
+                    "height": 5,
+                    "x": "",
+                    "y": 100
                 }
             ],
             "displayObjects": [
@@ -349,20 +333,12 @@
             "y": 0,
             "roomExits": [
                 {
-                    "exit": "left",
-                    "goto": 5,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
-                },
-                {
-                    "exit": "right",
-                    "goto": 3,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
-                    "y": 0
+                    "exit": "bottom",
+                    "goto": 8,
+                    "width": 300,
+                    "height": 5,
+                    "x": "",
+                    "y": 100
                 }
             ],
             "displayObjects": [

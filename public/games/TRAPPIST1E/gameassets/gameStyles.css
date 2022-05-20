@@ -33,17 +33,17 @@ main.SpaceGarden{
     background-size: cover;
 }
 
-main.SpaceGarden{
-    background-image: url('/games/TRAPPIST1E/gameassets/SandPlanet.png');
+main.SandPlanet{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomSandPlanet.png');
     background-size: cover;
 }
 
 main.Elevator{
-    background-image: url('/games/TRAPPIST1E/gameassets/Elevator.png');
+    background-image: url('/games/TRAPPIST1E/gameassets/roomElevator.png');
     background-size: cover;
 }
 
 main.Bridge{
-    background-image: url('/games/TRAPPIST1E/gameassets/Bridge.png');
+    background-image: url('/games/TRAPPIST1E/gameassets/roomBridge.png');
     background-size: cover;
 }
