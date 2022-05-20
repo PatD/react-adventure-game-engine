@@ -93,7 +93,7 @@
             ]
         },
         {
-            "Name": "Escape Pod Bay",
+            "Name": "EscapePodBay",
             "id": "roomEscapePodBay",
             "Room": 3,
             "Description": "This is the escape pod bay",
@@ -183,7 +183,7 @@
             ]
         },
         {
-            "Name": "Engine Room",
+            "Name": "EngineRoom",
             "id": "roomEngineRoom",
             "Room": 5,
             "Description": "This is the engine room",
@@ -216,7 +216,7 @@
             ]
         },
         {
-            "Name": "Space Garden",
+            "Name": "SpaceGarden",
             "id": "roomSpaceGarden",
             "Room": 6,
             "Description": "This is the space garden",
@@ -257,7 +257,7 @@
          ]
         },
         {
-            "Name": "Sand Planet",
+            "Name": "SandPlanet",
             "id": "roomSandPlanet",
             "Room": 7,
             "Description": "This is the sand planet",

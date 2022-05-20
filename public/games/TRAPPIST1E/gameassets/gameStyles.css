@@ -3,3 +3,47 @@
 #subMenumainNavFileMenu.active {margin-left:81px}
 #subMenumainNavSpeedMenu.active{margin-left:166px}
 #subMenumainNavSoundMenu.active{margin-left:267px}
+
+/* Backgrounds */
+
+main.TitleScreen{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomTitleScreen.png');
+    background-size: cover;
+}
+main.Galley{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomGalley.png');
+    background-size: cover;
+}
+main.Airlock{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomAirlock.png');
+    background-size: cover;
+}
+main.EscapePodBay{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomEscapePods.png');
+    background-size: cover;
+}
+
+main.EngineRoom{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomEngineroom.png');
+    background-size: cover;
+}
+
+main.SpaceGarden{
+    background-image: url('/games/TRAPPIST1E/gameassets/roomSpaceGarden.png');
+    background-size: cover;
+}
+
+main.SpaceGarden{
+    background-image: url('/games/TRAPPIST1E/gameassets/SandPlanet.png');
+    background-size: cover;
+}
+
+main.Elevator{
+    background-image: url('/games/TRAPPIST1E/gameassets/Elevator.png');
+    background-size: cover;
+}
+
+main.Bridge{
+    background-image: url('/games/TRAPPIST1E/gameassets/Bridge.png');
+    background-size: cover;
+}
