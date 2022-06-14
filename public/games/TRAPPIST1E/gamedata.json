@@ -56,39 +56,72 @@
                 {
                     "exit": "left",
                     "goto": 4,
-                    "width": 5,
-                    "height": 75,
-                    "x": 360,
+                    "width": 1,
+                    "height": 140,
+                    "x": 105,
                     "y": 0
                 },
                 {
                     "exit": "top",
                     "goto": 8,
-                    "width": 300,
-                    "height": 5,
-                    "x": 0,
-                    "y": 100
+                    "width": 100,
+                    "height": 1,
+                    "x": 80,
+                    "y": 440
                 },
                 {
                     "exit": "bottom",
                     "goto": 3,
-                    "width": 300,
-                    "height": 5,
+                    "width": 160,
+                    "height": 1,
                     "x": "",
-                    "y": 100
+                    "y": 410
                 }
             ],
             "displayObjects": [
                 {
-                    "id": "roomObject1",
-                    "Name": "man",
-                    "Description": "You see a guy in a space-looking jump suit",
+                    "id": "invisibleLeftOfElevator",
+                    "Name": "invisibleLeftOfElevator",
                     "colide": true,
-                    "width": 28,
-                    "height": 66,
-                    "x": 150,
-                    "y": 530,
-                    "zIndex": 2
+                    "width": 270,
+                    "height": 85,
+                    "x": 35,
+                    "y": 155,
+                    "zIndex": 10,
+                    "bgcolor": "none"
+                },
+                {
+                    "id": "invisibleRightOfElevator",
+                    "Name": "invisibleRightOfElevator",
+                    "colide": true,
+                    "width": 70,
+                    "height": 85,
+                    "x": 35,
+                    "y":560,
+                    "zIndex": 10,
+                    "bgcolor": "none"
+                },
+                {
+                    "id": "invisibleHallway",
+                    "Name": "invisibleHallway",
+                    "colide": true,
+                    "width": 150,
+                    "height": 85,
+                    "x": 50,
+                    "y": 0,
+                    "zIndex": 10,
+                    "bgcolor": "none"
+                },
+                {
+                    "id": "invisibleForeground",
+                    "Name": "invisibleForeground",
+                    "colide": true,
+                    "width": 410,
+                    "height": 30,
+                    "x": 390,
+                    "y": 0,
+                    "zIndex": 10,
+                    "bgcolor": "none"
                 }
             ]
         },
